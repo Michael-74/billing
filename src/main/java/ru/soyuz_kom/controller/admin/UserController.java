@@ -11,7 +11,7 @@ import ru.soyuz_kom.service.UserSeviceImpl;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/admin")
 public class UserController {
 
     @Autowired

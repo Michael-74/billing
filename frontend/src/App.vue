@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
-    <img src="./assets/images/logo.png">
+    <router-view></router-view>
   </div>
 </template>
 

@@ -11,9 +11,9 @@
     <h1>Добро пожаловать!</h1>
     <div id="app"></div>
     <#if isDevMode>
-        <script src="http://localhost:8000/build.js"></script>
+        <script src="http://localhost:8000/assets/build.js"></script>
     <#else>
-        <script src="/js/build.js"></script>
+        <script src="/assets/build.js"></script>
     </#if>
 </body>
 </html>
