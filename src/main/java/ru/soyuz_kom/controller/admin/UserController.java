@@ -23,13 +23,17 @@ public class UserController extends AdminController {
     public Iterable<User> index() {
         Iterable<User> users = userRepository.findAll();
 
+
+        System.out.println(123);
+
+
         return users;
     }
 
     @GetMapping({"v1/user/{id}"})
     public Optional<User> show(@PathVariable Integer id) {
-        Optional<User> users = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
-        return users;
+        return user;
     }
 }

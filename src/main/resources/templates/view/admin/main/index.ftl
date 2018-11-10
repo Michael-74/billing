@@ -8,12 +8,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Добро пожаловать!</h1>
     <div id="app"></div>
-    <#if isDevMode>
-        <script src="http://localhost:8000/assets/build.js"></script>
-    <#else>
-        <script src="/assets/build.js"></script>
-    </#if>
+        <#if isDevMode>
+            <script src="http://localhost:8000/assets/build.js"></script>
+        <#else>
+            <script src="/assets/build.js"></script>
+        </#if>
 </body>
 </html>
