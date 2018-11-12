@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import '../assets/scss/main.scss'
+
 import Main from '../components/pages/Main.vue'
-import UserIndex from '../components/pages/user/UserIndex.vue'
-import UserShow from '../components/pages/user/UserShow.vue'
+import UserIndex from '../components/pages/user/Index.vue'
+import UserShow from '../components/pages/user/Show.vue'
 import NotFound from '../components/pages/404.vue'
+
 
 Vue.use(Router)
 
