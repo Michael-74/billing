@@ -76,10 +76,14 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   devServer: {
-    historyApiFallback: true,
-    noInfo: true,
-    overlay: true,
-    port: 8000
+      headers: { "Access-Control-Allow-Origin": "*" },
+      historyApiFallback: true,
+      noInfo: true,
+      overlay: true,
+      port: 8000,
+      watchOptions: {
+          poll: true
+      }
   },
   performance: {
     hints: false
