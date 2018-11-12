@@ -3,9 +3,9 @@
         <h1>User</h1>
         <div v-for="user in users">
             <ul>
-              <li>{{user.id}}</li>
-              <li>{{user.fio}}</li>
-              <li>{{user.email}}</li>
+                <li>{{user.id}}</li>
+                <li>{{user.fio}}</li>
+                <li>{{user.email}}</li>
             </ul>
         </div>
     </div>

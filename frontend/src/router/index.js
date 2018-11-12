@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Main from '../components/pages/Main.vue'
-import User from '../components/pages/User.vue'
-import UserShow from '../components/pages/UserShow.vue'
+import UserIndex from '../components/pages/user/UserIndex.vue'
+import UserShow from '../components/pages/user/UserShow.vue'
 import NotFound from '../components/pages/404.vue'
 
 Vue.use(Router)
@@ -17,7 +17,7 @@ export default new Router({
         },
         {
             path: '/user',
-            component: User
+            component: UserIndex
         },
         {
             path: '/user/:id',
