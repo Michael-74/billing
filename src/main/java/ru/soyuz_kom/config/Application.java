@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"ru.soyuz_kom.repository"})
-@EnableAutoConfiguration
 @EntityScan("ru.soyuz_kom.entity")
 public class Application {
 
