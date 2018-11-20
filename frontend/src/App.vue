@@ -18,6 +18,9 @@ export default {
 
 <style lang="scss">
 #app {
-
+    position: relative;
+    min-width: 1600px;
+    max-width: 100%;
+    height: 100%;
 }
 </style>

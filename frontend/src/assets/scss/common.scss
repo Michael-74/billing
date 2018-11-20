@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+    outline: none;
+}
+html {
+    font-family: Lato;
+    font-size: 14px;
+}
+html, body {
+    height: 100%;
+}
+img {
+    width: 100%;
+    height: 100%;
+    font-size: 0px;
+}
+a:link{
+    color: #2b87db;
+    text-decoration: none;
+}
+.clear {
+    clear: both;
+}

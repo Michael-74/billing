@@ -39,6 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/auth/v1/login/", "/auth/v1/login").permitAll()
                 .mvcMatchers("/admin/v1/user/", "/admin/v1/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
+                .antMatchers(HttpMethod.GET, "/fonts/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/assets/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/login/").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/v1/login").permitAll()
