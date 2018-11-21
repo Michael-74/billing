@@ -41,13 +41,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/fonts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/assets/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/images/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/static/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/js/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/login/").permitAll()
+                .antMatchers(HttpMethod.GET, "/404").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/v1/login").permitAll()
                 .anyRequest().authenticated()
-            /*.and()
+                /*
+            .and()
                 .formLogin()
                     .loginPage("/login").permitAll()
+                /*
             .and()
                 .logout()
                     .logoutUrl("/admin/v1/").permitAll()*/

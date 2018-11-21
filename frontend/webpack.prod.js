@@ -67,6 +67,17 @@ module.exports = {
         options: {
           name: '/images/[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/,
+        loader: 'url-loader',
+        options: {
+            name: '/fonts/[name].[ext]',
+            //name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
+            // workaround for vuejs-templates webpack issue 1266
+            //publicPath: '/'
+            //publicPath: path.resolve(__dirname, '../src/main/resources/static/assets/fonts/')
+        }
       }
     ]
   },
@@ -75,15 +86,6 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js'
     },
     extensions: ['*', '.js', '.vue', '.json']
-  },
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true,
-    overlay: true,
-    port: 8000,
-    allowedHosts: [
-      'localhost:9000'
-    ]
   },
   performance: {
     hints: false
