@@ -52,8 +52,8 @@ import axios from "axios";
 export default {
     data () {
         return {
-            login: null,
-            password: null
+            login: 'admin',
+            password: '123'
         }
     },
     methods: {
@@ -72,6 +72,7 @@ export default {
                 .then(response => {
                     if (response.status === 200) {
                         console.log("response:", response)
+                        this.$router.push('/admin/clients');
                         response.json().then(json => {
                             console.log("token", json.token)
                         })
@@ -97,7 +98,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .background{
     height: 100%;
     width: 100%;
@@ -228,7 +229,7 @@ export default {
 }
 .modal__q1 {
     background: url('../../assets/images/login/q1.png') no-repeat center center;
-    position: absolute;
+    position: fixed;
     z-index: 1;
     width: 260px;
     height: 150px;

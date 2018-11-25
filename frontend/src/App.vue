@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <router-view></router-view>
+        <modals-container name="modal1"></modals-container>
     </div>
 </template>
 
@@ -19,7 +20,7 @@ export default {
 <style lang="scss">
 #app {
     position: relative;
-    min-width: 1600px;
+    min-width: 1240px;
     max-width: 100%;
     height: 100%;
 }

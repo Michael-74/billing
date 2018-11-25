@@ -47,7 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/login/").permitAll()
                 .antMatchers(HttpMethod.GET, "/404").permitAll()
-                .antMatchers(HttpMethod.POST, "/auth/v1/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/v1/login").permitAll();
+                /*
                 .anyRequest().authenticated()
                 /*
             .and()
@@ -56,10 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*
             .and()
                 .logout()
-                    .logoutUrl("/admin/v1/").permitAll()*/
+                    .logoutUrl("/admin/v1/").permitAll()
             .and()
                 .addFilterBefore(new JWTLoginFilter("/auth/v1/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                */
     }
 
     @Autowired

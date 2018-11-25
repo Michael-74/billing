@@ -1,0 +1,32 @@
+.modal__block {
+    border-radius: 4px;
+    width: 100%;
+    height: 400px;
+    overflow-y: scroll;
+
+    .modal__close {
+        text-align: right;
+        color: #333;
+        cursor: pointer;
+        padding: 20px 20px 0 0;
+    }
+    .modal__close:hover, .modal__close:hover .modal__icon {
+        color: #4190dd;
+    }
+    .modal__icon {
+        font-size: 14px;
+        margin-right: 5px;
+    }
+    .modal__h3 {
+        padding: 0 20px 20px;
+    }
+    .modal__package-table {
+        width: 100%;
+    }
+    .modal__th:first-child, .modal__th:last-child {
+        border-radius: 0;
+    }
+    .modal__tr {
+        cursor: pointer;
+    }
+}

@@ -3,7 +3,7 @@
     outline: none;
 }
 html {
-    font-family: Lato;
+    font-family: Lato, "Arial";
     font-size: 14px;
 }
 html, body {
@@ -14,10 +14,194 @@ img {
     height: 100%;
     font-size: 0px;
 }
-a:link{
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+a:link {
     color: #2b87db;
     text-decoration: none;
 }
 .clear {
+    zoom:1;
     clear: both;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Фильтры */
+.filters__header {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid #eaedef;
+}
+.filters__body {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 0 0 4px 4px;
+}
+/* Фильтры */
+
+/* Кнопки */
+.button {
+    border: 0;
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.button:active {
+    box-shadow: inset 1px 2px 5px rgba(0,0,0,0.3);
+}
+.button__add {
+    color: #398fdd;
+    background: #e0edfb;
+}
+.button__add:hover {
+    background: #eff7ff;
+}
+.button__less {
+    background: #ecf1f3;
+    color: #97abc3;
+}
+.button__less:hover {
+    background: #d9e4e8;
+    color: #2b87db;
+}
+
+.button__save {
+    background: #f87c18;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    color: #FFF;
+    padding: 12px 20px;
+}
+.button__save:hover {
+    background: #ff9946;
+}
+.button__dased {
+    color: #2b87db;
+    font-weight: bold;
+    border: 1px solid #2b87db;
+    background: #FFF;
+    border-radius: 4px;
+    padding: 12px 20px;
+}
+.button__dased:hover {
+    background: #2b87db;
+    border: 1px solid #2b87db;
+    color: #FFF;
+}
+.button__save-package {
+    color: #FFF;
+    background: #91a6bf;
+}
+.button__save-package:hover {
+
+}
+.button__save-user {
+    background: #2b87db;
+}
+.button__save-user:hover {
+    background: #166cba;
+}
+.button__cancel-user {
+    background: #FFF;
+    border: 1px solid #2b87db;
+    color: #2b87db;
+}
+.button__cancel-user:hover {
+    border: 1px solid #2b87db;
+    background: #2b87db;
+    color: #FFF;
+}
+/* Кнопки */
+
+h2 {
+    color: #879aaf;
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.fields__required {
+    color: #fcc358;
+}
+
+/* Переменные */
+$boxShadow: 10px 30px 70px 0px rgba(0,0,0,0.2);
+/* Переменные */
+
+/* Для тестов */
+
+/* Для тестов */
+
+.tooltip {
+    display: block !important;
+    z-index: 10000;
+
+    .tooltip-inner {
+        background: black;
+        color: white;
+        border-radius: 16px;
+        padding: 5px 10px 4px;
+    }
+
+
+    &[aria-hidden='true'] {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity .15s, visibility .15s;
+    }
+
+    &[aria-hidden='false'] {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .15s;
+    }
+    &.info {
+        $color: rgba(white, .9);
+
+        .tooltip-inner {
+            background: #FFF;
+            color: #333;
+            padding: 24px;
+            border-radius: 5px;
+            box-shadow: 1px 2px 5px rgba(0,0,0,0.3);
+            max-width: 200px;
+        }
+    }
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(215,227,239,1);
+    -webkit-border-radius: 10px;
+    margin: 0 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    background: #2b87db;
+    -webkit-box-shadow: inset 0 0 6px rgba(215,227,239,1);
+    border-radius: 10px;
+    cursor: pointer;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(215,227,239,1);
 }

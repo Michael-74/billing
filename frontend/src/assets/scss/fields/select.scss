@@ -1,0 +1,48 @@
+.select__position {
+    position: relative;
+}
+.fields__label {
+    padding: 0 0 6px 0;
+}
+.select__block-select {
+    color: #545c66;
+    box-shadow: 4px 4px 30px 0px rgba(0,0,0,0.3);
+    background: #FFF;
+    width: 150%;
+    position: absolute;
+    top: 34px;
+    left: 0;
+    z-index:1;
+    max-height: 150px;
+    overflow-y: scroll;
+    border-radius: 6px;
+}
+.select__option {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.select__title {
+    cursor: pointer;
+    color: #398fdd;
+    border: 1px solid #468ecf;
+    padding: 5px 15px;
+    border-radius: 20px;
+    text-align: center;
+}
+.select__title:hover, .select__title:hover .select__arrow {
+    background: #2b87db;
+    color: #FFF;
+}
+.select__option_active {
+    color: #398fdd;
+}
+.select__option:hover {
+    color: #398fdd;
+}
+.select__arrow {
+    position: relative;
+    top: 0px;
+    left: 10px;
+    font-size: 12px;
+    color: #398fdd;
+}
