@@ -59,7 +59,7 @@
                     <app-select :data="packages.selectInternet"></app-select>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="packages.selectTv"></app-select>
+                    <app-select-multiple :data="packages.selectTv"></app-select-multiple>
                 </div>
                 <div class="create__input create__select_width">
                     <app-select :data="packages.selectRent"></app-select>
@@ -92,6 +92,7 @@
 import Input from '../../../../semantic-blocks/forms/Input'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
 import Select from '../../../../semantic-blocks/forms/Select'
+import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Textarea from '../../../../semantic-blocks/forms/Textarea'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
@@ -101,6 +102,7 @@ export default {
         AppInput: Input,
         AppDifferenceInput: DifferenceInput,
         AppSelect: Select,
+        AppSelectMultiple: SelectMultiple,
         AppCheckbox: Checkbox,
         AppTextarea: Textarea,
         FontAwesomeIcon
@@ -125,12 +127,8 @@ export default {
                     label: 'Интернет тариф',
                     text: 'Не выбрано',
                     required: false,
-                    multiplay: false,
+                    multiple: false,
                     items: [
-                        {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
                         {
                             key: 1,
                             val: 'Тариф 1',
@@ -145,12 +143,8 @@ export default {
                     label: 'Смотрешка',
                     text: 'Не выбрано',
                     required: false,
-                    multiplay: false,
+                    multiple: true,
                     items: [
-                        {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
                         {
                             key: 1,
                             val: '40 каналов',
@@ -159,18 +153,22 @@ export default {
                             key: 2,
                             val: '50 каналов',
                         },
+                        {
+                            key: 3,
+                            val: '60 каналов',
+                        },
+                        {
+                            key: 4,
+                            val: '10 + 60 каналов',
+                        },
                     ]
                 },
                 selectRent: {
                     label: 'Аренда оборудования',
                     text: 'Не выбрано',
                     required: false,
-                    multiplay: false,
+                    multiple: false,
                     items: [
-                        {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
                         {
                             key: 1,
                             val: 'Тарелка',
@@ -237,12 +235,8 @@ export default {
                     label: 'Лояльность',
                     text: 'Не выбрано',
                     required: false,
-                    multiplay: false,
+                    multiple: false,
                     items: [
-                        {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
                         {
                             key: 1,
                             val: '1',
@@ -289,12 +283,8 @@ export default {
                     label: 'Тип скидки',
                     text: 'Не выбрано',
                     required: false,
-                    multiplay: false,
+                    multiple: false,
                     items: [
-                        {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
                         {
                             key: 1,
                             val: 'Максимальная скидка 10%',
@@ -309,12 +299,8 @@ export default {
                     label: 'Статус',
                     text: 'Не выбрано',
                     required: false,
-                    multiplay: false,
+                    multiple: false,
                     items: [
-                        {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
                         {
                             key: 1,
                             val: 'Статус 1',
@@ -497,7 +483,8 @@ export default {
         margin-bottom: 20px;
     }
     .create__package-button {
-        margin-top: 22px;
+        margin-top: 20px;
+        border: 2px solid transparent;
     }
     .create__note {
         margin: 20px 0 0;

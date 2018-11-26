@@ -165,10 +165,6 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
-                        {
                             key: 1,
                             val: '1',
                         },
@@ -224,12 +220,12 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
-                        {
                             key: 1,
                             val: 'Пресет 1',
+                        },
+                        {
+                            key: 2,
+                            val: 'Пресет 2',
                         }
                     ]
                 },
@@ -240,12 +236,12 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
-                        {
                             key: 1,
                             val: 'Пресет 1',
+                        },
+                        {
+                            key: 2,
+                            val: 'Пресет 2',
                         }
                     ]
                 },
@@ -280,10 +276,6 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
-                        },
-                        {
                             key: 1,
                             val: 'Пресет 1',
                         },
@@ -304,12 +296,16 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
+                            key: 1,
+                            val: 'Тариф 1',
                         },
                         {
-                            key: 1,
-                            val: 'Пресет 1',
+                            key: 2,
+                            val: 'Тариф 2',
+                        },
+                        {
+                            key: 3,
+                            val: 'Тариф 3',
                         }
                     ]
                 },
@@ -320,12 +316,16 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
+                            key: 1,
+                            val: 'Тариф 1',
                         },
                         {
-                            key: 1,
-                            val: 'Пресет 1',
+                            key: 2,
+                            val: 'Тариф 2',
+                        },
+                        {
+                            key: 3,
+                            val: 'Тариф 3',
                         }
                     ]
                 },
@@ -336,12 +336,16 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 0,
-                            val: 'Не выбрано',
+                            key: 1,
+                            val: 'Аренда 1',
                         },
                         {
-                            key: 1,
-                            val: 'Пресет 1',
+                            key: 2,
+                            val: 'Аренрда 2',
+                        },
+                        {
+                            key: 3,
+                            val: 'Аренрда 3',
                         }
                     ]
                 }

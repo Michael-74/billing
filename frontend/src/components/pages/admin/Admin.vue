@@ -1,6 +1,6 @@
 <template>
     <div class="container container_admin" ref="container">
-        <div class="nav_wrapper" ref="nav" :style="{height: this.h+'px'}">
+        <div class="nav_wrapper" ref="nav">
             <app-nav :pages="adminPages"></app-nav>
         </div>
         <div class="main_wrapper" ref="body">
@@ -26,11 +26,9 @@ export default {
     },
     data() {
         return {
-            h:0,
-            h2: 0,
             adminPages: [
                 {
-                    name: 'Абонент2ы',
+                    name: 'Абоненты',
                     link: '/admin/clients',
                     icon: 'user'
                 },
@@ -63,7 +61,7 @@ export default {
         }
     },
     mounted() {
-        this.h = this.$refs.container.clientHeight;
+        //this.h = this.$refs.container.clientHeight;
     },
     computed: {
 
@@ -79,7 +77,7 @@ export default {
 
 <style lang="scss">
     .container {
-        min-height: 100%;
+        height: 100%;
         background: #ecf1f3;
     }
     .nav_wrapper {

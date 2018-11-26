@@ -6,9 +6,27 @@
         <ul class="nav__ul">
             <i class="fas fa-coffee fa-xs"></i>
             <li class="nav__li" v-for="page in pages">
+                <div class="nav__two"></div>
                 <router-link :to='{path: page.link}' tag="a" class="nav__a" exact active-class="nav__a_active">
                     <font-awesome-icon class="nav__icon" :icon='page.icon'></font-awesome-icon>
                     {{page.name}}
+                    <ul class="nav__second">
+                        <li class="nav__li-second">
+                            <a class="nav__a-second">Услуги</a>
+                        </li>
+                        <li class="nav__li-second">
+                            <a class="nav__a-second">Обещанный платеж</a>
+                        </li>
+                        <li class="nav__li-second">
+                            <a class="nav__a-second">Тарифы</a>
+                        </li>
+                        <li class="nav__li-second">
+                            <a class="nav__a-second">Интернет</a>
+                        </li>
+                        <li class="nav__li-second">
+                            <a class="nav__a-second">Смотрешка</a>
+                        </li>
+                    </ul>
                 </router-link>
             </li>
         </ul>
@@ -54,10 +72,14 @@ export default {
         display: block;
         padding: 20px 0;
     }
+    .nav__li {
+        position: relative;
+    }
     .nav__li .nav__a{
         color: #FFF;
     }
     .nav__a {
+        position: relative;
         display: block;
         padding: 14px 0 14px 30px;
         border-left: 2px solid #2b87db;
@@ -70,5 +92,42 @@ export default {
         width: 15px;
         margin-right: 10px;
         opacity: 0.5;
+    }
+    .nav__li:hover .nav__second {
+        display: block;
+    }
+    .nav__second {
+        position: absolute;
+        top: 0;
+        left: 218px;
+        width: 220px;
+        background: #FFF;
+        display: none;
+    }
+    .nav__li-second {
+
+    }
+    .nav__a-second {
+        font-size: 14px;
+        padding: 14px 20px;
+        display: block;
+        color: #333;
+    }
+    .nav__a-second:hover {
+        color: #2b87db;
+    }
+
+    .nav__two {
+        position: fixed;
+        top:0;
+        left: 220px;
+        min-height: 100%;
+        width: 220px;
+        background: #FFF;
+        display: none;
+    }
+
+    .nav__li:hover .nav__two {
+        display: block;
     }
 </style>

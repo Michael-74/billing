@@ -29,7 +29,7 @@
     border-radius: 20px;
     text-align: center;
 }
-.select__title:hover, .select__title:hover .select__arrow {
+.select__title:hover, .select__title:hover .select__arrow, .select__title_active, .select__title .select__arrow_active {
     background: #2b87db;
     color: #FFF;
 }
@@ -45,4 +45,7 @@
     left: 10px;
     font-size: 12px;
     color: #398fdd;
+}
+.select__icon {
+    margin-right: 5px;
 }
