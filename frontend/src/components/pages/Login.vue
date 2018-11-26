@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import '../../assets/scss/login.scss'
 
 import axios from "axios";
 
@@ -63,7 +64,7 @@ export default {
                 'username': this.login,
                 'password': this.password
             };
-
+            this.$router.push('/admin/clients');
             const data1 = JSON.stringify(data);
             axios
                 .post('/auth/v1/login', data1, {

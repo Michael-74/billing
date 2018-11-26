@@ -29,10 +29,10 @@
                     <app-select :data="filter.selectInternet"></app-select>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="filter.selectTv"></app-select>
+                    <app-select-multiple :data="filter.selectTv"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="filter.selectRent"></app-select>
+                    <app-select-multiple :data="filter.selectRent"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-difference-input :data="filter.inputDifferenceParser"></app-difference-input>
@@ -108,6 +108,7 @@
 import Input from '../../../../semantic-blocks/forms/Input'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
 import Select from '../../../../semantic-blocks/forms/Select'
+import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
@@ -116,6 +117,7 @@ export default {
         AppInput: Input,
         AppDifferenceInput: DifferenceInput,
         AppSelect: Select,
+        AppSelectMultiple: SelectMultiple,
         AppCheckbox: Checkbox,
         FontAwesomeIcon
     },

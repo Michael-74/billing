@@ -35,7 +35,7 @@ export default {
                 {
                     name: 'Интернет тарифы',
                     link: '/admin/internet',
-                    icon: 'user'
+                    icon: 'globe'
                 },
                 {
                     name: 'Смотрешка',
@@ -44,24 +44,39 @@ export default {
                 },
                 {
                     name: 'Оборудование',
-                    link: '/admin/set',
-                    icon: 'user'
+                    link: '/admin/rent',
+                    icon: 'cog'
                 },
                 {
                     name: 'Услуги',
                     link: '/admin/service',
-                    icon: 'user'
+                    icon: 'briefcase'
                 },
                 {
                     name: 'Финансы',
-                    link: '/admin/bussines',
-                    icon: 'user'
+                    link: '/admin/wallet',
+                    icon: 'wallet'
+                },
+                {
+                    name: 'Логи',
+                    link: '/admin/logs',
+                    icon: 'clock'
+                },
+                {
+                    name: 'Рассылка',
+                    link: '/admin/mail',
+                    icon: 'envelope'
+                },
+                {
+                    name: 'Настройка',
+                    link: '/admin/settings',
+                    icon: 'toggle-on'
                 }
             ],
         }
     },
     mounted() {
-        //this.h = this.$refs.container.clientHeight;
+
     },
     computed: {
 

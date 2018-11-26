@@ -73,13 +73,13 @@ export default {
         padding: 20px 0;
     }
     .nav__li {
-        position: relative;
+        /*position: relative;*/
     }
     .nav__li .nav__a{
         color: #FFF;
     }
     .nav__a {
-        position: relative;
+        /*position: relative;*/
         display: block;
         padding: 14px 0 14px 30px;
         border-left: 2px solid #2b87db;
@@ -99,10 +99,11 @@ export default {
     .nav__second {
         position: absolute;
         top: 0;
-        left: 218px;
+        left: 220px;
         width: 220px;
         background: #FFF;
         display: none;
+        z-index: 2;
     }
     .nav__li-second {
 
@@ -125,6 +126,7 @@ export default {
         width: 220px;
         background: #FFF;
         display: none;
+        z-index: 1;
     }
 
     .nav__li:hover .nav__two {

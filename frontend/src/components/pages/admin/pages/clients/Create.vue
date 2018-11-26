@@ -62,7 +62,7 @@
                     <app-select-multiple :data="packages.selectTv"></app-select-multiple>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="packages.selectRent"></app-select>
+                    <app-select-multiple :data="packages.selectRent"></app-select-multiple>
                 </div>
                 <div class="create__input create__package-button">
                     <button class="button button__add" @click="show">Выбрать из существующих</button>
@@ -167,7 +167,7 @@ export default {
                     label: 'Аренда оборудования',
                     text: 'Не выбрано',
                     required: false,
-                    multiple: false,
+                    multiple: true,
                     items: [
                         {
                             key: 1,

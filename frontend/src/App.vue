@@ -1,7 +1,10 @@
 <template>
     <div id="app">
-        <router-view></router-view>
-        <modals-container name="modal1"></modals-container>
+        <div class="content">
+            <router-view></router-view>
+            <modals-container name="modal1"></modals-container>
+        </div>
+        <div class="footer"></div>
     </div>
 </template>
 
@@ -22,6 +25,6 @@ export default {
     position: relative;
     min-width: 1240px;
     max-width: 100%;
-    height: 100%;
+    min-height: 100%;
 }
 </style>

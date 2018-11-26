@@ -10,6 +10,16 @@ Vue.use(VModal, { dynamic: true });
 Vue.use(Notifications)
 Vue.use(VTooltip)
 
+Vue.directive('click-outside', {
+    bind(el, binding) {
+        el.addEventListener('click', e => e.stopPropagation());
+        document.body.addEventListener('click', binding.value);
+    },
+    unbind(el, binding) {
+        //document.body.removeEventListener('click', binding.value);
+    }
+});
+
 import fontawesome from '@fortawesome/fontawesome'
 import brands from '@fortawesome/fontawesome-free-brands'
 import { faSpinner } from '@fortawesome/fontawesome-free-solid'
