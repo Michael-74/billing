@@ -69,8 +69,8 @@ module.exports = {
         }
       },
       {
-        test: /\.(woff2?|eot|ttf|otf)$/,
-        loader: 'url-loader',
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        loader: 'file-loader',
         options: {
             name: '/fonts/[name].[ext]',
             //name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
@@ -90,7 +90,6 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
 }
 
 let cleanOptions = {
@@ -101,7 +100,6 @@ let cleanOptions = {
 }
 
 
-module.exports.devtool = '#source-map'
 module.exports.plugins = (module.exports.plugins || []).concat([
   new CleanWebpackPlugin(['assets'], cleanOptions),
   new webpack.DefinePlugin({
@@ -110,7 +108,7 @@ module.exports.plugins = (module.exports.plugins || []).concat([
     }
   }),
   new webpack.optimize.UglifyJsPlugin({
-    sourceMap: true,
+    sourceMap: false,
     compress: {
       warnings: false
     }

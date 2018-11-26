@@ -30,7 +30,7 @@ export default {
             h2: 0,
             adminPages: [
                 {
-                    name: 'Абоненты',
+                    name: 'Абонент2ы',
                     link: '/admin/clients',
                     icon: 'user'
                 },
@@ -85,10 +85,14 @@ export default {
     .nav_wrapper {
         height: 100%;
         width: 220px;
-        float: left;
+        //float: left;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     .main_wrapper {
-        float: left;
-        width: calc(100% - 220px);
+        //float: left;
+        //width: calc(100% - 220px);
+        margin-left: 220px;
     }
 </style>
