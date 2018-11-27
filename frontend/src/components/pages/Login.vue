@@ -64,7 +64,7 @@ export default {
                 'username': this.login,
                 'password': this.password
             };
-            this.$router.push('/admin/clients');
+            //this.$router.push('/admin/clients');
             const data1 = JSON.stringify(data);
             axios
                 .post('/auth/v1/login', data1, {
