@@ -1,7 +1,7 @@
 <template>
     <div class="fields__input">
         <div class="fields__label" v-show="data.label">
-            {{data.label}} <span class="fields__required" v-show='data.required'>*</span>
+            {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
         <div class="fields__input-difference-block">
             <input class="fields__input-difference fields__input-difference-from fields__field" type="text" :placeholder="data.textFrom" v-model="inputFrom">

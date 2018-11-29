@@ -42,8 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().and().csrf().disable()
                 .authorizeRequests()
-                //.mvcMatchers("/auth/v1/login/", "/auth/v1/login").permitAll()
-                //.mvcMatchers("/admin/v1/user/", "/admin/v1/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/assets/**", "/images/**", "/fonts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()

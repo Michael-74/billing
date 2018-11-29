@@ -8,80 +8,80 @@
         </div>
         <div class="create__body_wrapper"  v-show="isCreate">
             <div class="create__body">
-            <div class="create__input">
-                <app-input :data="client.inputIp"></app-input>
-            </div>
-            <div class="create__input">
-                <app-input :data="client.inputLogin"></app-input>
-            </div>
-            <div class="create__input">
-                <app-input :data="client.inputBalance"></app-input>
-            </div>
-            <div class="create__input">
-                <app-input :data="client.inputContract"></app-input>
-            </div>
-            <div class="create__input">
-                <app-checkbox :data="client.checkboxParser"></app-checkbox>
-            </div>
-            <div class="clear"></div>
-            <div class="create__input">
-                <app-input :data="client.inputFio"></app-input>
-            </div>
-            <div class="create__input">
-                <app-input :data="client.inputAddress"></app-input>
-            </div>
-            <div class="create__input">
-                <app-input :data="client.inputPhone"></app-input>
-            </div>
-            <div class="create__input">
-                <app-input :data="client.inputEmail"></app-input>
-            </div>
-            <div class="clear"></div>
-            <div class="create__input create__input_width-discount">
-                <app-input :data="client.inputDiscount"></app-input>
-            </div>
-            <div class="create__input create__select_width">
-                <app-select :data="client.selectTypeDiscount"></app-select>
-            </div>
-            <div class="create__input create__select_width">
-                <app-select :data="client.selectStatus"></app-select>
-            </div>
-            <div class="create__input create__select_width">
-                <app-select :data="client.selectLoy"></app-select>
-            </div>
-            <div class="clear"></div>
-            <div class="create__package">
-                <h2 class="create__package-h2">Настройка пакета услуг</h2>
                 <div class="create__input">
-                    <app-input :data="packages.inputName"></app-input>
+                    <app-input :data="client.inputIp"></app-input>
                 </div>
-                <div class="create__input create__select_width">
-                    <app-select :data="packages.selectInternet"></app-select>
+                <div class="create__input">
+                    <app-input :data="client.inputLogin"></app-input>
                 </div>
-                <div class="create__input create__select_width">
-                    <app-select-multiple :data="packages.selectTv"></app-select-multiple>
+                <div class="create__input">
+                    <app-input :data="client.inputBalance"></app-input>
                 </div>
-                <div class="create__input create__select_width">
-                    <app-select-multiple :data="packages.selectRent"></app-select-multiple>
+                <div class="create__input">
+                    <app-input :data="client.inputContract"></app-input>
                 </div>
-                <div class="create__input create__package-button">
-                    <button class="button button__add" @click="show">Выбрать из существующих</button>
-                </div>
-                <div class="create__input create__package-button">
-                    <button class="button button__save-package">Сохранить пакет</button>
+                <div class="create__input">
+                    <app-checkbox :data="client.checkboxParser"></app-checkbox>
                 </div>
                 <div class="clear"></div>
-            </div>
-            <div class="create__package create__note">
-                <h2 class="create__package-h2">Заметки об абоненте</h2>
-                <div class="create__input create__input_full-width">
-                    <app-textarea :data="note.textareaNote"></app-textarea>
+                <div class="create__input">
+                    <app-input :data="client.inputFio"></app-input>
+                </div>
+                <div class="create__input">
+                    <app-input :data="client.inputAddress"></app-input>
+                </div>
+                <div class="create__input">
+                    <app-input :data="client.inputPhone"></app-input>
+                </div>
+                <div class="create__input">
+                    <app-input :data="client.inputEmail"></app-input>
                 </div>
                 <div class="clear"></div>
+                <div class="create__input create__input_width-discount">
+                    <app-input :data="client.inputDiscount"></app-input>
+                </div>
+                <div class="create__input create__select_width">
+                    <app-select :data="client.selectTypeDiscount"></app-select>
+                </div>
+                <div class="create__input create__select_width">
+                    <app-select :data="client.selectStatus"></app-select>
+                </div>
+                <div class="create__input create__select_width">
+                    <app-select :data="client.selectLoy"></app-select>
+                </div>
+                <div class="clear"></div>
+                <div class="create__package">
+                    <h2 class="create__package-h2">Настройка пакета услуг</h2>
+                    <div class="create__input">
+                        <app-input :data="packages.inputName"></app-input>
+                    </div>
+                    <div class="create__input create__select_width">
+                        <app-select :data="packages.selectInternet"></app-select>
+                    </div>
+                    <div class="create__input create__select_width">
+                        <app-select-multiple :data="packages.selectTv"></app-select-multiple>
+                    </div>
+                    <div class="create__input create__select_width">
+                        <app-select-multiple :data="packages.selectRent"></app-select-multiple>
+                    </div>
+                    <div class="create__input create__package-button">
+                        <button class="button button__add" @click="show">Выбрать из существующих</button>
+                    </div>
+                    <div class="create__input create__package-button">
+                        <button class="button button__save-package">Сохранить пакет</button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="create__package create__note">
+                    <h2 class="create__package-h2">Заметки об абоненте</h2>
+                    <div class="create__input create__input_full-width">
+                        <app-textarea :data="note.textareaNote"></app-textarea>
+                    </div>
+                    <div class="clear"></div>
+                </div>
             </div>
-        </div>
             <div class="create__button-save">
-                <button class="button button__save button__save-user">Сохранить пользователя</button>
+                <button class="button button__save button__save-user" @click="addClient">Сохранить пользователя</button>
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
         </div>
@@ -114,19 +114,25 @@ export default {
                 textareaNote: {
                     label: 'Введите текст',
                     text: 'Введите текст',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
             },
             packages: {
                 inputName: {
                     label: 'Введите название',
                     text: 'Введите название пакета',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 selectInternet: {
                     label: 'Интернет тариф',
                     text: 'Не выбрано',
-                    required: false,
+                    isRequired: true,
+                    isError: false,
+                    val: '',
                     multiple: false,
                     items: [
                         {
@@ -142,7 +148,9 @@ export default {
                 selectTv: {
                     label: 'Смотрешка',
                     text: 'Не выбрано',
-                    required: false,
+                    isRequired: true,
+                    isError: false,
+                    val: [],
                     multiple: true,
                     items: [
                         {
@@ -166,7 +174,9 @@ export default {
                 selectRent: {
                     label: 'Аренда оборудования',
                     text: 'Не выбрано',
-                    required: false,
+                    isRequired: true,
+                    isError: false,
+                    val: [],
                     multiple: true,
                     items: [
                         {
@@ -184,58 +194,80 @@ export default {
                 inputIp: {
                     label: 'IP адрес',
                     text: 'IP адрес',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputLogin: {
                     label: 'Логин',
                     text: 'Логин',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputBalance: {
                     label: 'Баланс',
                     text: 'Баланс',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputContract: {
                     label: 'Номер договора',
                     text: 'Номер договора',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 checkboxParser: {
                     label: 'Обещанный платеж',
                     text: '',
-                    required: false
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputFio: {
                     label: 'ФИО',
                     text: 'ФИО',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputAddress: {
                     label: 'Адрес',
                     text: 'Адрес',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputPhone: {
                     label: 'Телефон',
                     text: 'Телефон',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputEmail: {
                     label: 'Email',
                     text: 'Email',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 inputDiscount: {
                     label: 'Скидка',
                     text: 'Скидка',
-                    required: true
+                    isRequired: true,
+                    isError: false,
+                    val: ''
                 },
                 selectLoy: {
                     label: 'Лояльность',
                     text: 'Не выбрано',
-                    required: false,
                     multiple: false,
+                    isRequired: true,
+                    isError: false,
+                    val: '',
                     items: [
                         {
                             key: 1,
@@ -282,7 +314,9 @@ export default {
                 selectTypeDiscount: {
                     label: 'Тип скидки',
                     text: 'Не выбрано',
-                    required: false,
+                    isRequired: true,
+                    isError: false,
+                    val: '',
                     multiple: false,
                     items: [
                         {
@@ -298,7 +332,9 @@ export default {
                 selectStatus: {
                     label: 'Статус',
                     text: 'Не выбрано',
-                    required: false,
+                    isRequired: true,
+                    isError: false,
+                    val: '',
                     multiple: false,
                     items: [
                         {
@@ -315,6 +351,9 @@ export default {
         }
     },
     methods: {
+        addClient () {
+            console.log('addClient', this.packages);
+        },
         show () {
             this.$modal.show({
                 components:{

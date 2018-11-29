@@ -1,7 +1,7 @@
 <template>
     <div class="fields__input">
         <div class="fields__label" v-show="data.label">
-            {{data.label}} <span class="fields__required" v-show='data.required'>*</span>
+            {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
         <button :class="{active: isCheckbox}" @click="isCheckbox=!isCheckbox " class="button button__add">{{this.getText}}</button>
     </div>

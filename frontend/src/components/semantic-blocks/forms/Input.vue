@@ -1,9 +1,12 @@
 <template>
-    <div class="fields__input">
+    <div class="fields__input fields_relative">
         <div class="fields__label" v-show="data.label">
-            {{data.label}} <span class="fields__required" v-show='data.required'>*</span>
+            {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
-        <input class="fields__field" type="text" :placeholder="data.text" v-model="input">
+        <input class="fields__field" :class="{fields_red: this.data.isError}" type="text" :placeholder="data.text" v-model="input">
+        <div class="fields__error" v-show='this.data.isError'>
+            Поле не заполнено
+        </div>
     </div>
 </template>
 
@@ -17,8 +20,13 @@ export default {
     },
     data () {
         return {
-            input: '',
-            requared: this.data.required,
+            input: this.data.val
+        }
+    },
+    watch: {
+        input: function () {
+            console.log('штзге');
+            this.data.val = this.input
         }
     }
 }

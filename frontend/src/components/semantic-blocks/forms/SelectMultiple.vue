@@ -1,12 +1,12 @@
 <template>
-    <div class="fields__select">
+    <div class="fields__select fields_relative">
         <div v-show="data.label">
-            <div class="fields__label">{{data.label}} <span class="fields__required" v-show='data.required'>*</span></div>
+            <div class="fields__label">{{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span></div>
         </div>
         <div class="select__position" v-click-outside="closeList">
             <div class="select__title" @click="showList" :class="{select__title_active: isSelects}">
                 <span class="select__data-first">{{getSelectsName}}</span>
-                <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{select__arrow_active: isSelects}"></font-awesome-icon>
+                <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{fields_red: this.data.isError, select__arrow_active: isSelects}"></font-awesome-icon>
             </div>
             <div class="select__block-select" v-show="isShow">
                 <div class="select__option" v-for="item in data.items" @click="selected(item.key, item.val)" :class="{select__option_active: getIndex(item.val)}">
@@ -15,6 +15,9 @@
                     {{ item.val }}
                 </div>
             </div>
+        </div>
+        <div class="fields__error" v-show='this.data.isError'>
+            Поле не заполнено
         </div>
     </div>
 </template>
@@ -30,7 +33,6 @@ export default {
     data () {
         return {
             isMultiple: this.data.multiple,
-            requared: this.data.required,
             isShow: false,
             select: '',
             selecteds: []
@@ -41,7 +43,9 @@ export default {
             if(this.selecteds.indexOf(name) != '-1'){
                 var idx = this.selecteds.indexOf(name)
                 this.selecteds.splice(idx, 1)
+                this.data.val.splice(idx, 1)
             } else {
+                this.data.val.push(key);
                 this.selecteds.push(name)
             }
         },
