@@ -18,11 +18,43 @@ import Settings from '../components/pages/admin/pages/settings/Index.vue'
 import Wallet from '../components/pages/admin/pages/wallet/Index.vue'
 import Service from '../components/pages/admin/pages/service/Index.vue'
 import Admin from '../components/pages/admin/Admin.vue'
-
+import axios from "axios";
 
 Vue.use(Router)
 
-export default new Router({
+const hasToken = (to, from, next) => {
+    console.log(123);
+    const data = {
+        'username': 'admin',
+        'password': '123'
+    };
+    //this.$router.push('/admin/clients');
+    const data1 = JSON.stringify(data);
+    axios
+        .post('/auth/v1/login', data1, {
+            headers:{ Accept: 'application/json'}
+        })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(e => {
+            console.log("error", e)
+        });
+
+    /*
+    const token = localStorage.getItem('JWT')
+    const username = localStorage.getItem('username')
+    if (token) {
+        store.commit(types.LOGIN_SUCCESS, { token, username })
+        router.push('/home')
+    } else {
+        next()
+    }
+    */
+}
+
+
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -31,7 +63,8 @@ export default new Router({
         },
         {
             path: '/login',
-            component: Login
+            component: Login,
+            meta: {loginPage: true, nonRequiresAuth: true}
         },
         {
             path: '/user',
@@ -54,7 +87,8 @@ export default new Router({
                 {
                     path: 'clients',
                     component: Clients,
-                    name: 'Clients'
+                    name: 'Clients',
+                    meta: {nonRequiresAuth: true}
                 },
                 {
                     path: 'internet',
@@ -100,4 +134,18 @@ export default new Router({
         }
     ],
     mode: 'history'
+});
+
+router.beforeEach((to, from, next) => {
+    const requiresAuth = !to.matched.some(record => record.meta.nonRequiresAuth)
+    const isLoginPage = to.matched.some(record => record.meta.loginPage)
+    const isAuthenticated = localStorage.getItem("JWT")
+    if (requiresAuth && !isAuthenticated) {
+        next('/login')
+    } else if (isLoginPage && isAuthenticated) {
+        router.push('/admin/clients')
+    }
+    next()
 })
+
+export default router;

@@ -96,6 +96,7 @@ import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Textarea from '../../../../semantic-blocks/forms/Textarea'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import axios from "axios";
 
 export default {
     components: {
@@ -110,86 +111,6 @@ export default {
     data () {
         return {
             isCreate: false,
-            note: {
-                textareaNote: {
-                    label: 'Введите текст',
-                    text: 'Введите текст',
-                    isRequired: true,
-                    isError: false,
-                    val: ''
-                },
-            },
-            packages: {
-                inputName: {
-                    label: 'Введите название',
-                    text: 'Введите название пакета',
-                    isRequired: true,
-                    isError: false,
-                    val: ''
-                },
-                selectInternet: {
-                    label: 'Интернет тариф',
-                    text: 'Не выбрано',
-                    isRequired: true,
-                    isError: false,
-                    val: '',
-                    multiple: false,
-                    items: [
-                        {
-                            key: 1,
-                            val: 'Тариф 1',
-                        },
-                        {
-                            key: 2,
-                            val: 'Тариф 2',
-                        },
-                    ]
-                },
-                selectTv: {
-                    label: 'Смотрешка',
-                    text: 'Не выбрано',
-                    isRequired: true,
-                    isError: false,
-                    val: [],
-                    multiple: true,
-                    items: [
-                        {
-                            key: 1,
-                            val: '40 каналов',
-                        },
-                        {
-                            key: 2,
-                            val: '50 каналов',
-                        },
-                        {
-                            key: 3,
-                            val: '60 каналов',
-                        },
-                        {
-                            key: 4,
-                            val: '10 + 60 каналов',
-                        },
-                    ]
-                },
-                selectRent: {
-                    label: 'Аренда оборудования',
-                    text: 'Не выбрано',
-                    isRequired: true,
-                    isError: false,
-                    val: [],
-                    multiple: true,
-                    items: [
-                        {
-                            key: 1,
-                            val: 'Тарелка',
-                        },
-                        {
-                            key: 2,
-                            val: 'Роутер',
-                        },
-                    ]
-                },
-            },
             client: {
                 inputIp: {
                     label: 'IP адрес',
@@ -348,11 +269,110 @@ export default {
                     ]
                 },
             },
+            packages: {
+                inputName: {
+                    label: 'Введите название',
+                    text: 'Введите название пакета',
+                    isRequired: true,
+                    isError: false,
+                    val: ''
+                },
+                selectInternet: {
+                    label: 'Интернет тариф',
+                    text: 'Не выбрано',
+                    isRequired: true,
+                    isError: false,
+                    val: '',
+                    multiple: false,
+                    items: [
+                        {
+                            key: 1,
+                            val: 'Тариф 1',
+                        },
+                        {
+                            key: 2,
+                            val: 'Тариф 2',
+                        },
+                    ]
+                },
+                selectTv: {
+                    label: 'Смотрешка',
+                    text: 'Не выбрано',
+                    isRequired: true,
+                    isError: false,
+                    val: [],
+                    multiple: true,
+                    items: [
+                        {
+                            key: 1,
+                            val: '40 каналов',
+                        },
+                        {
+                            key: 2,
+                            val: '50 каналов',
+                        },
+                        {
+                            key: 3,
+                            val: '60 каналов',
+                        },
+                        {
+                            key: 4,
+                            val: '10 + 60 каналов',
+                        },
+                    ]
+                },
+                selectRent: {
+                    label: 'Аренда оборудования',
+                    text: 'Не выбрано',
+                    isRequired: true,
+                    isError: false,
+                    val: [],
+                    multiple: true,
+                    items: [
+                        {
+                            key: 1,
+                            val: 'Тарелка',
+                        },
+                        {
+                            key: 2,
+                            val: 'Роутер',
+                        },
+                    ]
+                },
+            },
+            note: {
+                textareaNote: {
+                    label: 'Введите текст',
+                    text: 'Введите текст',
+                    isRequired: true,
+                    isError: false,
+                    val: ''
+                },
+            },
         }
     },
     methods: {
         addClient () {
-            console.log('addClient', this.packages);
+            console.log('addClient', this.client);
+
+            const data = {
+                'username': '111',
+                'password': '222'
+            };
+            //this.$router.push('/admin/clients');
+
+            const data1 = JSON.stringify(data);
+            axios
+                .post('/admin/v1/client/create', data1, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'authorization': 'Bearer ' + localStorage.getItem('JWT')
+                    }
+                })
+                .then(response => {
+                    console.log('create', localStorage.getItem('JWT'));
+                });
         },
         show () {
             this.$modal.show({

@@ -10,7 +10,7 @@
             </div>
             <div class="header__settings header_right">
                 <router-link to='/admin/clients' tag="a" class="header__a" exact active-class="header__a_active">
-                    <font-awesome-icon class="header__icon" icon='cog'></font-awesome-icon>
+                    <font-awesome-icon class="header__icon" icon='cog' @click="logOut"></font-awesome-icon>
                 </router-link>
             </div>
             <div class="header__lk header_right">
@@ -36,6 +36,14 @@ export default {
     data () {
         return {
 
+        }
+    },
+    methods: {
+        logOut: function(e) {
+            this.$store.commit('logOut');
+            this.$router.push('/');
+
+            e.preventDefault();
         }
     }
 }

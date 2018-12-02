@@ -48,7 +48,7 @@
 <script>
 import '../../assets/scss/login.scss'
 
-import axios from "axios";
+
 
 export default {
     data () {
@@ -59,40 +59,21 @@ export default {
     },
     methods: {
         sendForm: function (e) {
-
             const data = {
                 'username': this.login,
                 'password': this.password
             };
-            //this.$router.push('/admin/clients');
-            const data1 = JSON.stringify(data);
-            axios
-                .post('/auth/v1/login', data1, {
-                    headers:{ Accept: 'application/json'}
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        console.log("response:", response)
-                        this.$router.push('/admin/clients');
-                        response.json().then(json => {
-                            console.log("token", json.token)
-                        })
-                    } else if (response.status === 401) {
-                        this.log = 401
-                        console.log("401_1:", response)
-                        response.json().then(json => {
-                            console.log("401_2:", json)
-                        })
-                    }else {
-                        console.log("else_1:", response)
-                        response.json().then(json => {
-                            console.log("else_2:", json)
-                        })
-                    }
-                })
-                .catch(e => {
-                    console.log("error", e)
+
+            if (!this.login || !this.password) {
+                this.$notify({
+                    group: 'notify',
+                    type: 'error',
+                    text: 'Введите логин и пароль'
                 });
+            } else {
+                this.$store.dispatch('auth', data);
+            }
+
             e.preventDefault();
         }
     }

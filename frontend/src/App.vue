@@ -5,6 +5,7 @@
             <modals-container name="modal1"></modals-container>
         </div>
         <div class="footer"></div>
+        <notifications group="notify" classes="notify"/>
     </div>
 </template>
 

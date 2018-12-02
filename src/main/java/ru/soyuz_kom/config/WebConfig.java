@@ -43,7 +43,13 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/**").setViewName("forward:/");
     }
 
+
     /*
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/**").setViewName("forward:/");
+    }
+
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() {
         return container -> {

@@ -1,0 +1,17 @@
+.notify {
+    margin: 10px;
+    .notification-title {
+        color: #FFF;
+        padding: 15px;
+    }
+    .notification-content {
+        color: #FFF;
+        padding: 15px;
+    }
+    &.error {
+        background: #e54d42;
+    }
+    &.success {
+        background: #45c071;
+    }
+}

@@ -25,7 +25,6 @@ export default {
     },
     watch: {
         input: function () {
-            console.log('штзге');
             this.data.val = this.input
         }
     }
