@@ -367,7 +367,7 @@ export default {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'authorization': 'Bearer ' + localStorage.getItem('JWT')
+                        'Authorization': 'Bearer ' + localStorage.getItem('JWT')
                     }
                 })
                 .then(response => {

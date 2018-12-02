@@ -20,14 +20,15 @@ class TokenAuthenticationHelper {
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
 
-    static void addAuthentication(HttpServletRequest req, HttpServletResponse res, String username) throws IOException {
+    static void addAuthentication(HttpServletRequest req, HttpServletResponse res, Authentication auth) throws IOException {
         String JWT = Jwts.builder()
-                .setSubject(username)
+                .setSubject(auth.getName())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
-        res.getWriter().write("{\"token\":\"" + JWT + "\"}");
+        res.getWriter().write("{\"token\":\"" + JWT + "\",");
+        res.getWriter().write("\"user\":\"" + auth.getName() + "\"}");
     }
 
     static Authentication getAuthentication(HttpServletRequest request) {

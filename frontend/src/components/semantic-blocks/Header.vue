@@ -17,7 +17,7 @@
                 <router-link to='/user/lk' tag="a" class="header__user-lk" exact active-class="header__user-lk_active">
                     <font-awesome-icon class="header__user-icon" icon='user'></font-awesome-icon>
                     <div class="header__user-name">
-                        Барышников С.В.
+                        {{ name }}
                     </div>
                 </router-link>
             </div>
@@ -44,6 +44,11 @@ export default {
             this.$router.push('/');
 
             e.preventDefault();
+        }
+    },
+    computed: {
+        name () {
+            return this.$store.getters.getUser.username;
         }
     }
 }

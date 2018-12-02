@@ -17,7 +17,7 @@ export default {
             state.auth.token = payload.token;
             state.auth.username = payload.username;
 
-            //router.push('/admin/clients');
+            router.push('/admin/clients');
         },
         logOut (state, payload) {
             state.auth.isLoggedIn = false;
@@ -41,7 +41,7 @@ export default {
                     if (response.status === 200) {
 
                         console.log("token", response)
-                        commit('changeAuth', {token: response.data.token, username: 'username'})
+                        commit('changeAuth', {token: response.data.token, username: response.data.user})
                         localStorage.setItem('JWT', response.data.token)
                     } else {
                         console.log("else_1:", response)
