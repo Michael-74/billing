@@ -31,20 +31,20 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         // CORS - should be deleted!
         String origin = req.getHeader(ORIGIN);
-        res.setHeader("Access-Control-Allow-Origin", "*");//* or origin as u prefer
+        res.setHeader("Access-Control-Allow-Origin", "*"); //* or origin as u prefer
         res.setHeader("Access-Control-Allow-Credentials", "true");
         res.setHeader("Access-Control-Allow-Headers", req.getHeader("Access-Control-Request-Headers"));
         // end of CORS
 
         AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
         System.out.println("User logged in1: " + creds.getUsername());
-        log.info("User logged in2: " + creds.getUsername());
+        //log.info("User logged in2: " + creds.getUsername());
 
         return getAuthenticationManager().authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        creds.getUsername(),
-                        creds.getPassword(),
-                        Collections.emptyList()
+                    creds.getUsername(),
+                    creds.getPassword(),
+                    Collections.emptyList()
                 )
         );
     }
