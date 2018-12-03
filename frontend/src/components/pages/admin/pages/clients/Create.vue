@@ -9,45 +9,45 @@
         <div class="create__body_wrapper"  v-show="isCreate">
             <div class="create__body">
                 <div class="create__input">
-                    <app-input :data="client.inputIp"></app-input>
+                    <app-input :data="client.ip"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.inputLogin"></app-input>
+                    <app-input :data="client.login"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.inputBalance"></app-input>
+                    <app-input :data="client.balance"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.inputContract"></app-input>
+                    <app-input :data="client.contract"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-checkbox :data="client.checkboxParser"></app-checkbox>
+                    <app-checkbox :data="client.promised"></app-checkbox>
                 </div>
                 <div class="clear"></div>
                 <div class="create__input">
-                    <app-input :data="client.inputFio"></app-input>
+                    <app-input :data="client.fio"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.inputAddress"></app-input>
+                    <app-input :data="client.address"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.inputPhone"></app-input>
+                    <app-input :data="client.phone"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.inputEmail"></app-input>
+                    <app-input :data="client.email"></app-input>
                 </div>
                 <div class="clear"></div>
                 <div class="create__input create__input_width-discount">
-                    <app-input :data="client.inputDiscount"></app-input>
+                    <app-input :data="client.discount"></app-input>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.selectTypeDiscount"></app-select>
+                    <app-select :data="client.type_discount"></app-select>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.selectStatus"></app-select>
+                    <app-select :data="client.status"></app-select>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.selectLoy"></app-select>
+                    <app-select :data="client.loyalty"></app-select>
                 </div>
                 <div class="clear"></div>
                 <div class="create__package">
@@ -85,6 +85,7 @@
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
         </div>
+        {{ this.getErrors }}
     </div>
 </template>
 
@@ -112,83 +113,94 @@ export default {
         return {
             isCreate: false,
             client: {
-                inputIp: {
+                ip: {
                     label: 'IP адрес',
                     text: 'IP адрес',
+                    name: 'ip',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputLogin: {
+                login: {
                     label: 'Логин',
                     text: 'Логин',
+                    name: 'login',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputBalance: {
+                balance: {
                     label: 'Баланс',
                     text: 'Баланс',
+                    name: 'balance',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputContract: {
+                contract: {
                     label: 'Номер договора',
                     text: 'Номер договора',
+                    name: 'contract',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                checkboxParser: {
+                promised: {
                     label: 'Обещанный платеж',
                     text: '',
+                    name: 'promised',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputFio: {
+                fio: {
                     label: 'ФИО',
                     text: 'ФИО',
+                    name: 'fio',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputAddress: {
+                address: {
                     label: 'Адрес',
                     text: 'Адрес',
+                    name: 'address',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputPhone: {
+                phone: {
                     label: 'Телефон',
                     text: 'Телефон',
+                    name: 'phone',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputEmail: {
+                email: {
                     label: 'Email',
                     text: 'Email',
+                    name: 'email',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                inputDiscount: {
+                discount: {
                     label: 'Скидка',
                     text: 'Скидка',
+                    name: 'discount',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
-                selectLoy: {
+                loyalty: {
                     label: 'Лояльность',
                     text: 'Не выбрано',
+                    name: 'loyalty',
                     multiple: false,
                     isRequired: true,
                     isError: false,
-                    val: '',
+                    val: null,
                     items: [
                         {
                             key: 1,
@@ -232,12 +244,13 @@ export default {
                         }
                     ]
                 },
-                selectTypeDiscount: {
+                type_discount: {
                     label: 'Тип скидки',
                     text: 'Не выбрано',
+                    name: 'type_discount',
                     isRequired: true,
                     isError: false,
-                    val: '',
+                    val: null,
                     multiple: false,
                     items: [
                         {
@@ -250,12 +263,13 @@ export default {
                         },
                     ]
                 },
-                selectStatus: {
+                status: {
                     label: 'Статус',
                     text: 'Не выбрано',
+                    name: 'status',
                     isRequired: true,
                     isError: false,
-                    val: '',
+                    val: null,
                     multiple: false,
                     items: [
                         {
@@ -275,14 +289,14 @@ export default {
                     text: 'Введите название пакета',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
                 selectInternet: {
                     label: 'Интернет тариф',
                     text: 'Не выбрано',
                     isRequired: true,
                     isError: false,
-                    val: '',
+                    val: null,
                     multiple: false,
                     items: [
                         {
@@ -346,33 +360,80 @@ export default {
                     text: 'Введите текст',
                     isRequired: true,
                     isError: false,
-                    val: ''
+                    val: null
                 },
             },
+            errors: this.$store.state.client
         }
+    },
+    watch: {
+        errors (e) {
+            console.log("12323232323");
+            console.log(e);
+        }
+    },
+    computed: {
+        getErrors () {
+            return this.$store.getters.getClient
+        }
+    },
+    updated () {
+        // ТО что надо!!!!
+        console.log('mounted', this.$store.getters.getClient);
+    },
+    mounted () {
+        this.$store.dispatch('getClientAsync')
+        console.log('mounted', this.$store.getters.getClient);
     },
     methods: {
         addClient () {
             console.log('addClient', this.client);
 
-            const data = {
-                'username': '111',
-                'password': '222'
+            /*
+            const client = {
+                'fio': this.client.inputFio.val,
+                'login': this.client.inputLogin.val,
+                'balance': this.client.inputBalance.val,
+                'contract': this.client.inputContract.val,
+                'ip': this.client.inputIp.val,
+                'address': this.client.inputAddress.val,
+                'phone': this.client.inputPhone.val,
+                'email': this.client.inputEmail.val
             };
-            //this.$router.push('/admin/clients');
+            */
 
-            const data1 = JSON.stringify(data);
-            axios
-                .post('/admin/v1/client/create', data1, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('JWT')
+            var client = {};
+            for(let item in this.client) {
+                //console.log("item", this.client[item].val);
+                client[this.client[item].name] = this.client[item].val;
+            }
+
+            this.$store.dispatch('clientStore', client)
+                .then(response => {
+                    console.log("response", "Данный отправлены");
+                    for(let item in this.client) {
+                        this.client[item].isError = false;
+                    }
+                    console.log("Ошибки: ", this.$store.dispatch('getClientAsync').errors)
+                    for(let item in this.$store.state.client.errors) {
+                        //console.log("Ошибка: ", this.$store.getters.getClient.errors[item])
+                        this.client[item].isError = true;
                     }
                 })
-                .then(response => {
-                    console.log('create', localStorage.getItem('JWT'));
+                .catch(error => {
+                    console.log("error", "Критическая ошибка.");
                 });
+            console.log("Ошибки2: ", this.$store.dispatch('getClientAsync').errors)
+            console.log("Ошибки3: ", this.$store.getters.getClient.errors)
+            console.log("Ошибки4: ", this.$store.state.client.client.errors)
+            console.log("Ошибки5: ", this.$store.state.client)
+            for(let item in this.$store.state.client) {
+                console.log("Ошибки7: ", item)
+            }
+            console.log("Ошибки8: ", this.errors.client.errors)
+            for(let item2 in this.errors.errors) {
+                console.log("Ошибки9: ", this.errors.errors[item2])
+            }
         },
         show () {
             this.$modal.show({
@@ -406,76 +467,6 @@ export default {
                                 </tr>
                                 <tr class="modal__tr" @click="$emit('close')">
                                     <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">2</td>
                                     <td class="items__td">Kvartira_40</td>
                                     <td class="items__td">Bandl_1</td>
                                     <td class="items__td">Роутер</td>
