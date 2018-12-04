@@ -50,22 +50,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
             .and()
                 .csrf().disable()
-                /*
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            */
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/assets/**", "/images/**", "/fonts/**", "favicon.ico").permitAll()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/404").permitAll()
+                .antMatchers("/403").permitAll()
+                .antMatchers("/api/**").permitAll()
+                //.antMatchers(HttpMethod.GET, "/error").permitAll()
                 .anyRequest().authenticated()
+
             .and()
                 .addFilterBefore(new JWTLoginFilter("/auth/v1/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 
                 // Проверяет запросы на наличие токена JWT
-                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling().accessDeniedPage("/403");
 
     }
 

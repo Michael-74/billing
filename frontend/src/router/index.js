@@ -7,6 +7,7 @@ import Main from '../components/pages/Main.vue'
 import UserIndex from '../components/pages/user/Index.vue'
 import UserShow from '../components/pages/user/Show.vue'
 import NotFound from '../components/pages/404.vue'
+import AccessDenied from '../components/pages/403.vue'
 import Login from '../components/pages/Login.vue'
 import Clients from '../components/pages/admin/pages/clients/Index.vue'
 import Internet from '../components/pages/admin/pages/internet/Index.vue'
@@ -47,6 +48,10 @@ const router = new Router({
         {
             path: "*",
             component: NotFound
+        },
+        {
+            path: "/403",
+            component: AccessDenied
         },
         {
             path: "/admin",
