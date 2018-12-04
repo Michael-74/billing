@@ -21,32 +21,7 @@ export default {
         }
     },
     actions: {
-        clientStore: function ({commit, state}, payload) {
-            axios
-                .post('/admin/v1/client/create', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('JWT')
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        commit('selectSendForm', true);
-                        console.log('client-store', "save");
-                    }
-                })
-                .catch(error => {
-                    if(error.response.status === 422) {
-                        console.log("error", error.response);
-                        commit('addErrors', error.response.data);
-                        commit('selectSendForm', false);
-                    }
-                });
-        },
-        getClientAsync ({commit, state}, payload) {
-            return state.client;
-        }
+
     },
     getters: {
         getClient (state) {

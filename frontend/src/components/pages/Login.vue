@@ -47,8 +47,7 @@
 
 <script>
 import '../../assets/scss/login.scss'
-
-
+import axios from "axios";
 
 export default {
     data () {
@@ -58,21 +57,41 @@ export default {
         }
     },
     methods: {
+        auth: function(data) {
+            axios
+                .post('/auth/v1/login', data, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+
+                        console.log("status == 200", response);
+                        this.$store.commit('changeAuth', {token: response.data.token, username: response.data.user});
+                        localStorage.setItem('JWT', response.data.token);
+                        localStorage.setItem('username', response.data.user);
+                        this.$router.push('/admin')
+                    } else {
+                        console.log("status != 200:", response)
+                    }
+                })
+                .catch(e => {
+                    console.log("error", e);
+                    this.$notify({
+                        group: 'notify',
+                        type: 'error',
+                        text: 'Логин или пароль не совпадают'
+                    });
+                });
+        },
         sendForm: function (e) {
             const data = {
                 'username': this.login,
                 'password': this.password
             };
-
-            if (!this.login || !this.password) {
-                this.$notify({
-                    group: 'notify',
-                    type: 'error',
-                    text: 'Введите логин и пароль'
-                });
-            } else {
-                this.$store.dispatch('auth', data);
-            }
+            this.auth(data);
 
             e.preventDefault();
         }

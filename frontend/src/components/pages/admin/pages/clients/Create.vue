@@ -371,11 +371,44 @@ export default {
         }
     },
     updated () {
-        if(this.isCreate == true) {
-            this.checkErrors();
-        }
+
     },
     methods: {
+        clientStore: function (data) {
+            axios
+                .post('/admin/v1/client/create', data, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + this.$store.getters.getUser.token
+                        //'Authorization': 'Bearer ' + localStorage.getItem('JWT')
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        this.$store.commit('selectSendForm', true);
+                        this.$notify({
+                            group: 'notify',
+                            type: 'success ',
+                            text: 'Абонент успешно добавлен'
+                        });
+                        console.log('client-store', "save");
+                    }
+                })
+                .catch(error => {
+                    if(error.response.status === 422) {
+                        console.log("error", error.response);
+                        this.$store.commit('addErrors', error.response.data);
+                        this.$store.commit('selectSendForm', false);
+                        this.$notify({
+                            group: 'notify',
+                            type: 'error',
+                            text: 'Проверьте введенные данные'
+                        });
+                        this.checkErrors();
+                    }
+                });
+        },
         checkErrors () {
             for(let item in this.client) {
                 this.client[item].isError = false;
@@ -384,11 +417,6 @@ export default {
                 for(let item in this.$store.getters.getClient.errors) {
                     this.client[item].isError = true;
                 }
-                this.$notify({
-                    group: 'notify',
-                    type: 'error',
-                    text: 'Заполните все поля'
-                });
             }
         },
         addClient () {
@@ -397,20 +425,13 @@ export default {
             for(let item in this.client) {
                 client[this.client[item].name] = this.client[item].val;
             }
-            this.$store.dispatch('clientStore', client)
+            this.clientStore(client);
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
             for(let item in this.client) {
                 this.client[item].isError = false;
             }
-        },
-        succesSendForm () {
-            this.$notify({
-                group: 'notify',
-                type: 'error',
-                text: 'Абонент успешно добавлен'
-            });
         },
         show () {
             this.$modal.show({

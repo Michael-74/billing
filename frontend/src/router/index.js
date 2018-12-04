@@ -30,79 +30,93 @@ const router = new Router({
             path: '/',
             component: Main,
             redirect: '/login',
+            meta: {isRequiresAuth: false}
         },
         {
             path: '/login',
             component: Login,
-            meta: {loginPage: true, nonRequiresAuth: true}
+            meta: {isRequiresAuth: false}
         },
         {
             path: '/user',
-            component: UserIndex
+            component: UserIndex,
+            meta: {isRequiresAuth: true}
         },
         {
             path: '/user/:id',
             props: true,
-            component: UserShow
+            component: UserShow,
+            meta: {isRequiresAuth: false}
         },
         {
             path: "*",
-            component: NotFound
+            component: NotFound,
+            meta: {isRequiresAuth: false}
         },
         {
             path: "/403",
-            component: AccessDenied
+            component: AccessDenied,
+            meta: {isRequiresAuth: false}
         },
         {
             path: "/admin",
             component: Admin,
             redirect: '/admin/clients',
+            meta: {isRequiresAuth: true},
             children: [
                 {
                     path: 'clients',
                     component: Clients,
                     name: 'Clients',
-                    meta: {nonRequiresAuth: true}
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'internet',
                     component: Internet,
-                    name: 'Internet'
+                    name: 'Internet',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'tv',
                     component: Tv,
-                    name: 'Tv'
+                    name: 'Tv',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'rent',
                     component: Rent,
-                    name: 'Rent'
+                    name: 'Rent',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'logs',
                     component: Logs,
-                    name: 'Logs'
+                    name: 'Logs',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'mail',
                     component: Mail,
-                    name: 'Mail'
+                    name: 'Mail',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'service',
                     component: Service,
-                    name: 'Service'
+                    name: 'Service',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'settings',
                     component: Settings,
-                    name: 'Settings'
+                    name: 'Settings',
+                    meta: {isRequiresAuth: true}
                 },
                 {
                     path: 'wallet',
                     component: Wallet,
-                    name: 'Wallet'
+                    name: 'Wallet',
+                    meta: {isRequiresAuth: true}
                 }
             ]
         }
@@ -111,16 +125,19 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    const requiresAuth = !to.matched.some(record => record.meta.nonRequiresAuth)
-    const isLoginPage = to.matched.some(record => record.meta.loginPage)
+    const requiresAuth = to.matched.some(record => record.meta.isRequiresAuth)
     const isAuthenticated = localStorage.getItem("JWT")
-    if (requiresAuth && !isAuthenticated) {
-        next('/login')
-    } else if (isLoginPage && isAuthenticated) {
-        store.commit('changeAuth', {token: localStorage.getItem("JWT"), username: localStorage.getItem("username")})
-        router.push('/admin/clients')
+
+    if(!requiresAuth) {
+        next();
+    } else {
+        if(isAuthenticated) {
+            store.commit('changeAuth', {token: localStorage.getItem("JWT"), username: localStorage.getItem("username")})
+            next()
+        } else {
+            router.push('/login')
+        }
     }
-    next()
-})
+});
 
 export default router;

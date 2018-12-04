@@ -38,12 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        //web.ignoring().antMatchers("/assets/js/**");
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -56,18 +50,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/404").permitAll()
                 .antMatchers("/403").permitAll()
+                .antMatchers("/admin/**").permitAll()
                 .antMatchers("/api/**").permitAll()
-                //.antMatchers(HttpMethod.GET, "/error").permitAll()
                 .anyRequest().authenticated()
 
             .and()
                 .addFilterBefore(new JWTLoginFilter("/auth/v1/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
 
                 // Проверяет запросы на наличие токена JWT
-                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-
-                .exceptionHandling().accessDeniedPage("/403");
-
+                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Autowired
