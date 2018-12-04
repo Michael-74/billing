@@ -85,7 +85,10 @@
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
         </div>
-        {{ this.getErrors }}
+        <div class="hide">
+            {{isSendForm}}
+            {{errors}}
+        </div>
     </div>
 </template>
 
@@ -363,77 +366,51 @@ export default {
                     val: null
                 },
             },
-            errors: this.$store.state.client
-        }
-    },
-    watch: {
-        errors (e) {
-            console.log("12323232323");
-            console.log(e);
-        }
-    },
-    computed: {
-        getErrors () {
-            return this.$store.getters.getClient
+            errors: this.$store.getters.getClient,
+            isSendForm: this.$store.getters.getSendForm
         }
     },
     updated () {
-        // ТО что надо!!!!
-        console.log('mounted', this.$store.getters.getClient);
-    },
-    mounted () {
-        this.$store.dispatch('getClientAsync')
-        console.log('mounted', this.$store.getters.getClient);
+        if(this.isCreate == true) {
+            this.checkErrors();
+        }
     },
     methods: {
-        addClient () {
-            console.log('addClient', this.client);
-
-            /*
-            const client = {
-                'fio': this.client.inputFio.val,
-                'login': this.client.inputLogin.val,
-                'balance': this.client.inputBalance.val,
-                'contract': this.client.inputContract.val,
-                'ip': this.client.inputIp.val,
-                'address': this.client.inputAddress.val,
-                'phone': this.client.inputPhone.val,
-                'email': this.client.inputEmail.val
-            };
-            */
-
-            var client = {};
+        checkErrors () {
             for(let item in this.client) {
-                //console.log("item", this.client[item].val);
+                this.client[item].isError = false;
+            }
+            if(this.$store.getters.getClient.errors) {
+                for(let item in this.$store.getters.getClient.errors) {
+                    this.client[item].isError = true;
+                }
+                this.$notify({
+                    group: 'notify',
+                    type: 'error',
+                    text: 'Заполните все поля'
+                });
+            }
+        },
+        addClient () {
+            const client = {};
+            this.clearCreateForm();
+            for(let item in this.client) {
                 client[this.client[item].name] = this.client[item].val;
             }
-
             this.$store.dispatch('clientStore', client)
-                .then(response => {
-                    console.log("response", "Данный отправлены");
-                    for(let item in this.client) {
-                        this.client[item].isError = false;
-                    }
-                    console.log("Ошибки: ", this.$store.dispatch('getClientAsync').errors)
-                    for(let item in this.$store.state.client.errors) {
-                        //console.log("Ошибка: ", this.$store.getters.getClient.errors[item])
-                        this.client[item].isError = true;
-                    }
-                })
-                .catch(error => {
-                    console.log("error", "Критическая ошибка.");
-                });
-            console.log("Ошибки2: ", this.$store.dispatch('getClientAsync').errors)
-            console.log("Ошибки3: ", this.$store.getters.getClient.errors)
-            console.log("Ошибки4: ", this.$store.state.client.client.errors)
-            console.log("Ошибки5: ", this.$store.state.client)
-            for(let item in this.$store.state.client) {
-                console.log("Ошибки7: ", item)
+        },
+        clearCreateForm () {
+            this.$store.commit('clearErrors');
+            for(let item in this.client) {
+                this.client[item].isError = false;
             }
-            console.log("Ошибки8: ", this.errors.client.errors)
-            for(let item2 in this.errors.errors) {
-                console.log("Ошибки9: ", this.errors.errors[item2])
-            }
+        },
+        succesSendForm () {
+            this.$notify({
+                group: 'notify',
+                type: 'error',
+                text: 'Абонент успешно добавлен'
+            });
         },
         show () {
             this.$modal.show({
@@ -491,6 +468,7 @@ export default {
         },
         isCreateClose: function () {
             this.isCreate = false;
+            this.clearCreateForm()
         }
     }
 }

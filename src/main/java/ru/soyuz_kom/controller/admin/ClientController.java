@@ -44,8 +44,6 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/create"})
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
-        //System.out.println("CREATE2: " + client);
-        //System.out.println(errors.getFieldError().getDefaultMessage());
         HashMap error = new HashMap<>();
 
         if (errors.hasErrors()) {
@@ -53,12 +51,12 @@ public class ClientController extends AdminController {
             for (org.springframework.validation.FieldError fieldError: fieldErrors) {
                 error.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
-
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
+        clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.OK);
 
-        //clientRepository.save(client);
+
 
     }
 }

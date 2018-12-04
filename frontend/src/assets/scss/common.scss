@@ -141,10 +141,9 @@ h3 {
     font-weight: bold;
     color: #333;
 }
-.fields__required {
-    color: #fcc358;
+.hide {
+    display: none;
 }
-
 /* Переменные */
 $boxShadow: 10px 30px 70px 0px rgba(0,0,0,0.2);
 /* Переменные */

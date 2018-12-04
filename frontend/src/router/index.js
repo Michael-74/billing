@@ -19,40 +19,9 @@ import Wallet from '../components/pages/admin/pages/wallet/Index.vue'
 import Service from '../components/pages/admin/pages/service/Index.vue'
 import Admin from '../components/pages/admin/Admin.vue'
 import axios from "axios";
+import store from '../store';
 
 Vue.use(Router)
-
-const hasToken = (to, from, next) => {
-    console.log(123);
-    const data = {
-        'username': 'admin',
-        'password': '123'
-    };
-    //this.$router.push('/admin/clients');
-    const data1 = JSON.stringify(data);
-    axios
-        .post('/auth/v1/login', data1, {
-            headers:{ Accept: 'application/json'}
-        })
-        .then(response => {
-            console.log(response);
-        })
-        .catch(e => {
-            console.log("error", e)
-        });
-
-    /*
-    const token = localStorage.getItem('JWT')
-    const username = localStorage.getItem('username')
-    if (token) {
-        store.commit(types.LOGIN_SUCCESS, { token, username })
-        router.push('/home')
-    } else {
-        next()
-    }
-    */
-}
-
 
 const router = new Router({
     routes: [
@@ -143,6 +112,7 @@ router.beforeEach((to, from, next) => {
     if (requiresAuth && !isAuthenticated) {
         next('/login')
     } else if (isLoginPage && isAuthenticated) {
+        store.commit('changeAuth', {token: localStorage.getItem("JWT"), username: localStorage.getItem("username")})
         router.push('/admin/clients')
     }
     next()

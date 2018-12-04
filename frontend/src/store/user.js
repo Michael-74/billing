@@ -24,6 +24,7 @@ export default {
             state.auth.token = null;
             state.auth.username = null;
             localStorage.removeItem('JWT')
+            localStorage.removeItem('username')
         }
     },
     // асинхронный setter
@@ -43,6 +44,7 @@ export default {
                         console.log("token", response)
                         commit('changeAuth', {token: response.data.token, username: response.data.user})
                         localStorage.setItem('JWT', response.data.token)
+                        localStorage.setItem('username', response.data.user)
                     } else {
                         console.log("else_1:", response)
                         router.push('/login');

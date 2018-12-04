@@ -18,12 +18,17 @@ public class Client {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     @NotNull
+    @Size(min=1)
     private String fio;
     @NotNull
+    @Size(min=1)
     private String login;
     private String balance;
     @NotNull
+    @Size(min=1)
     private String contract;
+    @NotNull
+    @Size(min=1)
     private String ip;
     private String address;
     private String phone;
