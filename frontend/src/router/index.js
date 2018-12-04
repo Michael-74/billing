@@ -129,6 +129,9 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = localStorage.getItem("JWT")
 
     if(!requiresAuth) {
+        if(isAuthenticated) {
+            router.push('/admin')
+        }
         next();
     } else {
         if(isAuthenticated) {

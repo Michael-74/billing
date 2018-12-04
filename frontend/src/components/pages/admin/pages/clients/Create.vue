@@ -122,6 +122,7 @@ export default {
                     name: 'ip',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 login: {
@@ -130,6 +131,7 @@ export default {
                     name: 'login',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 balance: {
@@ -138,6 +140,7 @@ export default {
                     name: 'balance',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 contract: {
@@ -146,6 +149,7 @@ export default {
                     name: 'contract',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 promised: {
@@ -154,6 +158,7 @@ export default {
                     name: 'promised',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 fio: {
@@ -162,6 +167,7 @@ export default {
                     name: 'fio',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 address: {
@@ -170,6 +176,7 @@ export default {
                     name: 'address',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 phone: {
@@ -178,6 +185,7 @@ export default {
                     name: 'phone',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 email: {
@@ -186,6 +194,7 @@ export default {
                     name: 'email',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 discount: {
@@ -194,6 +203,7 @@ export default {
                     name: 'discount',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 loyalty: {
@@ -203,6 +213,7 @@ export default {
                     multiple: false,
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null,
                     items: [
                         {
@@ -253,6 +264,7 @@ export default {
                     name: 'type_discount',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null,
                     multiple: false,
                     items: [
@@ -272,6 +284,7 @@ export default {
                     name: 'status',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null,
                     multiple: false,
                     items: [
@@ -292,6 +305,7 @@ export default {
                     text: 'Введите название пакета',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
                 selectInternet: {
@@ -299,6 +313,7 @@ export default {
                     text: 'Не выбрано',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null,
                     multiple: false,
                     items: [
@@ -317,6 +332,7 @@ export default {
                     text: 'Не выбрано',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: [],
                     multiple: true,
                     items: [
@@ -343,6 +359,7 @@ export default {
                     text: 'Не выбрано',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: [],
                     multiple: true,
                     items: [
@@ -363,6 +380,7 @@ export default {
                     text: 'Введите текст',
                     isRequired: true,
                     isError: false,
+                    errorText: null,
                     val: null
                 },
             },
@@ -381,7 +399,6 @@ export default {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + this.$store.getters.getUser.token
-                        //'Authorization': 'Bearer ' + localStorage.getItem('JWT')
                     }
                 })
                 .then(response => {
@@ -416,12 +433,13 @@ export default {
             if(this.$store.getters.getClient.errors) {
                 for(let item in this.$store.getters.getClient.errors) {
                     this.client[item].isError = true;
+                    this.client[item].errorText = this.$store.getters.getClient.errors[item];
                 }
             }
         },
         addClient () {
             const client = {};
-            this.clearCreateForm();
+            //this.clearCreateForm();
             for(let item in this.client) {
                 client[this.client[item].name] = this.client[item].val;
             }
@@ -431,7 +449,9 @@ export default {
             this.$store.commit('clearErrors');
             for(let item in this.client) {
                 this.client[item].isError = false;
+                this.client[item].val = null;
             }
+            console.log('clearCreateForm');
         },
         show () {
             this.$modal.show({

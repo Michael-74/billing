@@ -3,9 +3,9 @@
         <div class="fields__label" v-show="data.label">
             {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
-        <input class="fields__field" :class="{fields_red: this.data.isError}" type="text" :placeholder="data.text" v-model="input">
+        <input class="fields__field" :class="{fields_red: this.data.isError}" type="text" :placeholder="data.text" v-model="data.val">
         <div class="fields__error" v-show='this.data.isError'>
-            Поле не заполнено
+            {{ data.errorText }}
         </div>
     </div>
 </template>
@@ -26,6 +26,7 @@ export default {
     watch: {
         input: function () {
             this.data.val = this.input
+            console.log(222);
         }
     }
 }
