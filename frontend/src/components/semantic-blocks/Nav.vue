@@ -56,6 +56,7 @@ export default {
         font-weight: bold;
         color: #FFF;
         background: #2b87db;
+        z-index: 9;
     }
     .nav__ul {
         padding: 20px 0;
@@ -103,7 +104,7 @@ export default {
         width: 220px;
         background: #FFF;
         display: none;
-        z-index: 2;
+        z-index: 3;
     }
     .nav__li-second {
 
@@ -126,7 +127,7 @@ export default {
         width: 220px;
         background: #FFF;
         display: none;
-        z-index: 1;
+        z-index: 3;
     }
 
     .nav__li:hover .nav__two {

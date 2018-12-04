@@ -3,6 +3,7 @@
         <div class="nav_wrapper" ref="nav">
             <app-nav :pages="adminPages"></app-nav>
         </div>
+        <div class="background-nav"></div>
         <div class="main_wrapper" ref="body">
             <app-header></app-header>
             <app-body></app-body>
@@ -107,5 +108,21 @@ export default {
         //float: left;
         //width: calc(100% - 220px);
         margin-left: 220px;
+    }
+    .background-nav {
+        position: fixed;
+        top: 0;
+        left: 100%;
+        background: rgba(0,0,0,0.4);
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        margin-left: 220px;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+    }
+    .nav_wrapper:hover + .background-nav {
+        left: 0;
+        opacity: 1;
     }
 </style>
