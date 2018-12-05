@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody class="items__tbody">
-                        <tr v-for="item in data">
+                        <tr v-for="(item, index) in data">
                             <td class="items__td">{{ item.id }}</td>
                             <td class="items__td">{{ item.ip }}</td>
                             <td class="items__td">{{ item.login }}</td>

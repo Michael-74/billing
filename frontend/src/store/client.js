@@ -7,6 +7,7 @@ export default {
         client: {
             errors: null
         },
+        clients: [],
         isSendForm: false
     },
     mutations: {
@@ -18,14 +19,33 @@ export default {
         },
         selectSendForm (state, payload) {
             state.isSendForm = payload;
+        },
+        setClients (state, payload) {
+            state.clients = payload;
         }
     },
     actions: {
-
+        getClientsAsync ({commit, state}, payload) {
+            axios
+                .get('/admin/v1/client/', payload, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + payload.token
+                    }
+                })
+                .then(response => {
+                    commit('setClients', response.data);
+                    console.log('client-get', response.data);
+                })
+        }
     },
     getters: {
         getClient (state) {
             return state.client;
+        },
+        getClients (state) {
+            return state.clients;
         },
         getSendForm (state) {
             return state.isSendForm;

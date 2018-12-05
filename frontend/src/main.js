@@ -7,6 +7,10 @@ import VModal from 'vue-js-modal'
 import Notifications from 'vue-notification'
 import VTooltip from 'v-tooltip'
 
+import { connect } from "./util/ws";
+
+connect();
+
 Vue.use(VModal, { dynamic: true });
 Vue.use(Notifications);
 Vue.use(VTooltip);

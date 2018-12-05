@@ -52,6 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/403").permitAll()
                 .antMatchers("/admin/**").permitAll()
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("/gs-guide-websocket/**").permitAll()
+                .antMatchers("/topic/**").permitAll()
+                .antMatchers("/app/**").permitAll()
                 .anyRequest().authenticated()
 
             .and()
