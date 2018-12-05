@@ -38,12 +38,11 @@ export default {
         this.$store.dispatch('getClientsAsync', {token: this.$store.getters.getUser.token});
 
         addClient(data => {
-            console.log("ХУЙ знает добавить", data)
+            console.log("addClient Index", data)
             this.$store.commit('pushClients', data);
         });
 
         deleteClient(data => {
-            console.log("ХУЙ знает удалить", data)
             this.$store.commit('deleteClient', data);
         });
     },

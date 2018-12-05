@@ -28,7 +28,7 @@ export default {
         },
         deleteClient (state, id) {
             state.clients.forEach((item, index, array) => {
-                if(item.id == id) {
+                if(item.id === id) {
                     state.clients.splice(index, 1);
                 }
             });
