@@ -1,1 +1,0 @@
-ALTER TABLE clients MODIFY balance VARCHAR(255) DEFAULT 0;

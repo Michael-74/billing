@@ -26,7 +26,6 @@ export default {
     watch: {
         input: function () {
             this.data.val = this.input
-            console.log(222);
         }
     }
 }
