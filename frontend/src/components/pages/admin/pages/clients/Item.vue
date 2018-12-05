@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody class="items__tbody">
-                        <tr v-for="(item, index) in data">
+                        <tr v-for="item in data" :key="item.id">
                             <td class="items__td">{{ item.id }}</td>
                             <td class="items__td">{{ item.ip }}</td>
                             <td class="items__td">{{ item.login }}</td>
@@ -50,23 +50,26 @@
                             <td class="items__td">{{ item.discount }}</td>
                             <td class="items__td">{{ item.status }}</td>
                             <td class="items__td">{{ item.loyalty }}</td>
-                            <td class="items__td"><font-awesome-icon class="items__icon" icon="comment-alt"
-                                                                     v-tooltip="{
-                                                                          content: item.note,
-                                                                          placement: 'top-center',
-                                                                          classes: ['info'],
-                                                                          targetClasses: ['it-has-a-tooltip'],
-                                                                          offset: 10,
-                                                                          delay: {
-                                                                            show: 200,
-                                                                            hide: 100,
-                                                                          }
-                                                                     }"
-                            ></font-awesome-icon></td>
+                            <td class="items__td">
+                                <font-awesome-icon class="items__icon"
+                                                     icon="comment-alt"
+                                                     v-tooltip="{
+                                                          content: item.note,
+                                                          placement: 'top-center',
+                                                          classes: ['info'],
+                                                          targetClasses: ['it-has-a-tooltip'],
+                                                          offset: 10,
+                                                          delay: {
+                                                            show: 200,
+                                                            hide: 100,
+                                                          }
+                                                     }"
+                            ></font-awesome-icon>
+                            </td>
                             <td class="items__td">{{ item.createAt }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog"></font-awesome-icon>
-                                <font-awesome-icon class="items__icon" icon="times-circle"></font-awesome-icon>
+                                <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteClient(item.id)"></font-awesome-icon>
                             </td>
                         </tr>
                     </tbody>
@@ -85,6 +88,7 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { deleteSendClient } from "../../../../../util/ws";
 
 export default {
     components: {
@@ -94,6 +98,11 @@ export default {
     data () {
         return {
 
+        }
+    },
+    methods: {
+        deleteClient: (clientId) => {
+            deleteSendClient(clientId);
         }
     }
 }

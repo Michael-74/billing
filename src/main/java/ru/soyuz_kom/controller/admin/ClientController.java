@@ -3,6 +3,8 @@ package ru.soyuz_kom.controller.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +57,21 @@ public class ClientController extends AdminController {
         }
         clientRepository.save(client);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @MessageMapping("/changeClient")
+    @SendTo("/client/changeClient")
+    public Client change(Client client) {
+        System.out.println("change");
+        return clientRepository.save(client);
+    }
 
+    @MessageMapping("/deleteClient")
+    @SendTo("/client/deleteClient")
+    public Integer delete(Integer clientId) {
+        System.out.println("delete client " + clientId);
+        clientRepository.deleteById(clientId);
 
+        return clientId;
     }
 }

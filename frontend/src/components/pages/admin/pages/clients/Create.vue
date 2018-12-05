@@ -101,6 +101,7 @@ import Textarea from '../../../../semantic-blocks/forms/Textarea'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
+import { sendClient } from "../../../../../util/ws";
 
 export default {
     components: {
@@ -393,6 +394,8 @@ export default {
     },
     methods: {
         clientStore: function (data) {
+            sendClient(data);
+            /*
             axios
                 .post('/admin/v1/client/create', data, {
                     headers:{
@@ -425,6 +428,7 @@ export default {
                         this.checkErrors();
                     }
                 });
+                */
         },
         checkErrors () {
             for(let item in this.client) {

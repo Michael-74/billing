@@ -22,6 +22,16 @@ export default {
         },
         setClients (state, payload) {
             state.clients = payload;
+        },
+        pushClients (state, payload) {
+            state.clients.push(payload);
+        },
+        deleteClient (state, id) {
+            state.clients.forEach((item, index, array) => {
+                if(item.id == id) {
+                    state.clients.splice(index, 1);
+                }
+            });
         }
     },
     actions: {

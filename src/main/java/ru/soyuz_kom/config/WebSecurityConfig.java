@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/gs-guide-websocket/**").permitAll()
-                .antMatchers("/topic/**").permitAll()
+                .antMatchers("/client/**").permitAll()
                 .antMatchers("/app/**").permitAll()
                 .anyRequest().authenticated()
 
