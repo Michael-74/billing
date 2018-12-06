@@ -394,8 +394,8 @@ export default {
     },
     methods: {
         clientStore: function (data) {
-            sendClient(data);
-            /*
+            //sendClient(data);
+
             axios
                 .post('/admin/v1/client/create', data, {
                     headers:{
@@ -428,7 +428,7 @@ export default {
                         this.checkErrors();
                     }
                 });
-                */
+
         },
         checkErrors () {
             for(let item in this.client) {
