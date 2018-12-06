@@ -8,6 +8,7 @@ export default {
             errors: null
         },
         clients: [],
+        editClient: null,
         isSendForm: false
     },
     mutations: {
@@ -20,11 +21,28 @@ export default {
         selectSendForm (state, payload) {
             state.isSendForm = payload;
         },
+        setClient (state, payload) {
+            state.editClient = payload;
+        },
         setClients (state, payload) {
             state.clients = payload;
         },
         pushClients (state, payload) {
-            state.clients.push(payload);
+            var old = state.clients;
+            var isMatches = false;
+            state.clients.forEach((item, index, array) => {
+                if(item.id === payload.id) {
+                    isMatches = true;
+                    console.log("Есть совпадения", item)
+                    old[index] = payload;
+                }
+            });
+
+            // Хак чтобы vuex увидел обновление
+            Vue.set(state, 'clients', [...old]);
+            if(!isMatches) {
+                state.clients.push(payload);
+            }
         },
         deleteClient (state, id) {
             state.clients.forEach((item, index, array) => {
@@ -46,7 +64,6 @@ export default {
                 })
                 .then(response => {
                     commit('setClients', response.data);
-                    console.log('client-get', response.data);
                 })
         }
     },
@@ -56,6 +73,9 @@ export default {
         },
         getClients (state) {
             return state.clients;
+        },
+        getEditClient (state) {
+            return state.editClient;
         },
         getSendForm (state) {
             return state.isSendForm;

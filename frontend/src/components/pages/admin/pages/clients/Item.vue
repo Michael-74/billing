@@ -68,7 +68,7 @@
                             </td>
                             <td class="items__td">{{ item.createAt }}</td>
                             <td class="items__td">
-                                <font-awesome-icon class="items__icon" icon="cog"></font-awesome-icon>
+                                <font-awesome-icon class="items__icon" icon="cog" @click="editClient(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteClient(item.id)"></font-awesome-icon>
                             </td>
                         </tr>
@@ -101,6 +101,9 @@ export default {
         }
     },
     methods: {
+        editClient: function(item) {
+            this.$store.commit("setClient", item);
+        },
         deleteClient: (clientId) => {
             deleteSendClient(clientId);
         }

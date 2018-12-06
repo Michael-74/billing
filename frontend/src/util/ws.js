@@ -6,7 +6,7 @@ const clients = [];
 const delClientId = [];
 
 export function connect() {
-    const socket = new SockJS('/gs-guide-websocket');
+    const socket = new SockJS('/websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, frame => {
         console.log('Connected: ', frame);
@@ -22,12 +22,10 @@ export function connect() {
 }
 
 export function addClient(client) {
-    console.log("ХУЙ знает");
     clients.push(client);
 }
 
 export function deleteClient(clientId) {
-    console.log("ХУЙ знает");
     delClientId.push(clientId);
 }
 
@@ -39,11 +37,9 @@ export function disconnect() {
 }
 
 export function sendClient(client) {
-    console.log('sendClient', client);
     stompClient.send("/app/changeClient", {}, JSON.stringify(client));
 }
 
 export function deleteSendClient(id) {
-    console.log('deleteClient', id);
     stompClient.send("/app/deleteClient", {}, JSON.stringify(parseInt(id)));
 }

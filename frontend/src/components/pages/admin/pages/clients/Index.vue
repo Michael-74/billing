@@ -4,7 +4,7 @@
             <app-filter-client></app-filter-client>
         </div>
         <div class="clients__create">
-            <app-create-client></app-create-client>
+            <app-create-client :editItem="selectedItem"></app-create-client>
         </div>
         <div class="clients__items">
             <app-item-client :data="getClients"></app-item-client>
@@ -28,11 +28,8 @@ export default {
     },
     data () {
         return {
-
+            editItem: null
         }
-    },
-    mounted () {
-
     },
     created() {
         this.$store.dispatch('getClientsAsync', {token: this.$store.getters.getUser.token});
@@ -44,9 +41,17 @@ export default {
 
         deleteClient(data => {
             this.$store.commit('deleteClient', data);
+            this.$notify({
+                group: 'notify',
+                type: 'success ',
+                text: 'Абонент успешно удален'
+            });
         });
     },
     computed: {
+        selectedItem: function() {
+            return this.editItem = this.$store.getters.getEditClient;
+        },
         getClients () {
             return this.$store.getters.getClients;
         }

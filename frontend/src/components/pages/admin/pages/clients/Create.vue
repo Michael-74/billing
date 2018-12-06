@@ -1,15 +1,22 @@
 <template>
     <div class="create">
         <div class="create__header">
-            <button class="button button__dased" @click="isCreateShow">
+            <button v-if="isFormCreate" class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="plus"></font-awesome-icon>
                 Добавить пользователя
+            </button>
+            <button v-else class="button button__dased" @click="isCreateShow">
+                <font-awesome-icon class="create__button-dashed" icon="cog"></font-awesome-icon>
+                Редактировать пользователя
             </button>
         </div>
         <div class="create__body_wrapper"  v-show="isCreate">
             <div class="create__body">
+                <div class="create__input create__input_hide">
+                    <app-input :data="getClient.id"></app-input>
+                </div>
                 <div class="create__input">
-                    <app-input :data="client.ip"></app-input>
+                    <app-input :data="getClient.ip"></app-input>
                 </div>
                 <div class="create__input">
                     <app-input :data="client.login"></app-input>
@@ -81,7 +88,8 @@
                 </div>
             </div>
             <div class="create__button-save">
-                <button class="button button__save button__save-user" @click="addClient">Сохранить пользователя</button>
+                <button v-if="isFormCreate" class="button button__save button__save-user" @click="addClient">Сохранить пользователя</button>
+                <button v-else class="button button__save button__save-user" @click="addClient">Редактировать пользователя</button>
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
         </div>
@@ -113,10 +121,21 @@ export default {
         AppTextarea: Textarea,
         FontAwesomeIcon
     },
+    props: ['editItem'],
     data () {
         return {
+            isFormCreate: true,
             isCreate: false,
             client: {
+                id: {
+                    label: 'ID',
+                    text: 'ID',
+                    name: 'id',
+                    isRequired: false,
+                    isError: false,
+                    errorText: null,
+                    val: null
+                },
                 ip: {
                     label: 'IP адрес',
                     text: 'IP адрес',
@@ -389,12 +408,25 @@ export default {
             isSendForm: this.$store.getters.getSendForm
         }
     },
-    updated () {
-
+    computed: {
+        getClient () {
+            var isFlagFormCreate = true;
+            if(this.editItem) {
+                isFlagFormCreate = false;
+                for (let item in this.client) {
+                    this.client[item].val = this.editItem[item];
+                }
+            }
+            this.changeForm(isFlagFormCreate);
+            return this.client
+        }
     },
     methods: {
+        changeForm: function(flag) {
+            this.isFormCreate = flag;
+        },
         clientStore: function (data) {
-            //sendClient(data);
+            //sendClient(data); // websocket
 
             axios
                 .post('/admin/v1/client/create', data, {
@@ -407,11 +439,19 @@ export default {
                 .then(response => {
                     if (response.status === 200) {
                         this.$store.commit('selectSendForm', true);
-                        this.$notify({
-                            group: 'notify',
-                            type: 'success ',
-                            text: 'Абонент успешно добавлен'
-                        });
+                        if(this.isFormCreate) {
+                            this.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Абонент успешно добавлен'
+                            });
+                        } else {
+                            this.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Абонент успешно отредактирован'
+                            });
+                        }
                         console.log('client-store', "save");
                     }
                 })
@@ -513,7 +553,9 @@ export default {
         },
         isCreateClose: function () {
             this.isCreate = false;
-            this.clearCreateForm()
+            this.changeForm(true);
+            this.clearCreateForm();
+            this.$store.commit('setClient', null);
         }
     }
 }
@@ -540,6 +582,9 @@ export default {
         margin: 0 20px 30px 0;
         width: 230px;
         float: left;
+    }
+    .create__input_hide {
+        display: none;
     }
     .create__select_width {
         max-width: 160px;
