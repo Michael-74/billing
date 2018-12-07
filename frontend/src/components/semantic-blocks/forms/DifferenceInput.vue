@@ -23,7 +23,6 @@ export default {
         return {
             inputFrom: '',
             inputTo: '',
-            requared: this.data.required,
         }
     }
 }

@@ -119,6 +119,9 @@ export default {
         margin-bottom: 40px;
         box-shadow: 1px 2px 10px 2px rgba(0,0,0,0.2);
     }
+    .items__table {
+        width: 100%;
+    }
     .items__clients-wrapper {
         padding-bottom: 40px;
         overflow-x: scroll;

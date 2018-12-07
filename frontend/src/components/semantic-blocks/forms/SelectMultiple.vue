@@ -9,8 +9,8 @@
                 <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{fields_red: this.data.isError, select__arrow_active: isSelects}"></font-awesome-icon>
             </div>
             <div class="select__block-select" v-show="isShow">
-                <div class="select__option" v-for="item in data.items" @click="selected(item.key, item.val)" :class="{select__option_active: getIndex(item.val)}">
-                    <font-awesome-icon class="select__icon" icon="check-square" v-if="selecteds.indexOf(item.val) != '-1'"></font-awesome-icon>
+                <div class="select__option" v-for="item in data.items" @click="selected(item.id, item.val)" :class="{select__option_active: getIndex(item.id)}">
+                    <font-awesome-icon class="select__icon" icon="check-square" v-if="getIndex(item.id)"></font-awesome-icon>
                     <font-awesome-icon class="select__icon" icon="square" v-else></font-awesome-icon>
                     {{ item.val }}
                 </div>
@@ -19,7 +19,6 @@
         <div class="fields__error" v-show='this.data.isError'>
             {{ data.errorText }}
         </div>
-        {{selecteds}}
     </div>
 </template>
 
@@ -33,21 +32,22 @@ export default {
     },
     data () {
         return {
-            isMultiple: this.data.multiple,
             isShow: false,
-            selectName: null,
+            selectName: [],
             selecteds: []
         }
     },
     methods: {
-        selected (key, name) {
-            if(this.selecteds.indexOf(name) != '-1'){
-                var idx = this.selecteds.indexOf(name)
+        selected (id, name) {
+            if(this.getIndex(id)) {
+                var idx = this.selecteds.indexOf(id)
                 this.selecteds.splice(idx, 1)
+                this.selectName.splice(idx, 1)
                 this.data.val.splice(idx, 1)
-            } else {
-                this.data.val.push(key);
-                this.selecteds.push(name)
+            }else {
+                this.selecteds.push(id);
+                this.selectName.push(name);
+                this.data.val.push(id);
             }
         },
         showList () {
@@ -56,46 +56,61 @@ export default {
         closeList () {
             this.isShow = false
         },
-        getIndex (name) {
-            if(this.selecteds.indexOf(name) != '-1') {
-                return true;
+        getIndex (id) {
+            var isFlag = false;
+            this.selecteds.forEach(function(item, i) {
+                if(item == id){
+                    isFlag = true;
+                }
+            });
+
+            return isFlag;
+        },
+        getArrSelected () {
+            var index = [];
+            this.data.items.forEach((item, i1, array1) => {
+                this.data.val.forEach((currentItem, i2, array2) => {
+                    if(item.id == currentItem) {
+                        index.push({'name': item.val, 'idx': i1});
+                    }
+                });
+            });
+            return index;
+        },
+        /**
+         * Доастаем названия для вывода
+         */
+        getNameSelected () {
+            if(this.selecteds.length == 1) {
+                return this.selectName[0]
             } else {
-                return false;
+                return this.selectName[0] + '...';
             }
         }
     },
     computed: {
+        /**
+         * Выводим названия и определяем что были переданы данные
+         * @returns {*}
+         */
         getSelectsName () {
             if(this.selecteds.length != 0){
-                if(this.selecteds.length == 1) {
-                    return this.selecteds[0]
-                } else {
-                    return this.selecteds[0] + '...';
-                }
+                return this.getNameSelected();
             } else {
                 if(this.data.val.length != 0) {
-                    this.selecteds = this.selecteds.concat(this.data.val);
                     var index = [];
+                    var names = [];
                     this.data.items.forEach((item, i1, array1) => {
                         this.data.val.forEach((currentItem, i2, array2) => {
-                            if(item.key == currentItem) {
-                                index.push(i1);
+                            if(item.id == currentItem) {
+                                index.push(item.id);
+                                names.push(item.val);
                             }
                         });
                     });
-                    if(index.length != 0) {
-                        console.log("-----------------------multi", index)
-                        //return this.selectName = this.data.items[index].val;
-                    } else {
-                        return 'не выбрано1';
-                    }
-                    /*
-                    if(this.selecteds.length == 1) {
-                        return this.selecteds[0]
-                    } else {
-                        return this.selecteds[0] + '...';
-                    }
-                    */
+                    this.selecteds = this.selecteds.concat(index);
+                    this.selectName = this.selectName.concat(names);
+                    return this.getNameSelected();
                 } else {
                     return 'не выбрано';
                 }

@@ -26,7 +26,7 @@
             <div class="filters__block filters__block_service filters__fix-height">
                 <h2>Услуги и баланс</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="filter.selectInternet"></app-select>
+                    <app-select-multiple :data="filter.selectInternet"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-select-multiple :data="filter.selectTv"></app-select-multiple>
@@ -163,47 +163,51 @@ export default {
                 selectLoy: {
                     label: 'Лояльность',
                     text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
+                    name: 'loyalty',
+                    multiple: false,
+                    isRequired: true,
+                    isError: false,
+                    errorText: null,
+                    val: null,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: '1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: '2',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: '3',
                         },
                         {
-                            key: 4,
+                            id: 4,
                             val: '4',
                         },
                         {
-                            key: 5,
+                            id: 5,
                             val: '5',
                         },
                         {
-                            key: 6,
+                            id: 6,
                             val: '6',
                         },
                         {
-                            key: 7,
+                            id: 7,
                             val: '7',
                         },
                         {
-                            key: 8,
+                            id: 8,
                             val: '8',
                         },
                         {
-                            key: 9,
+                            id: 9,
                             val: '9',
                         },
                         {
-                            key: 10,
+                            id: 10,
                             val: '10',
                         }
                     ]
@@ -218,15 +222,19 @@ export default {
                 selectDiscount: {
                     label: 'Скидка',
                     text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
+                    name: 'type_discount',
+                    isRequired: true,
+                    isError: false,
+                    errorText: null,
+                    val: null,
+                    multiple: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Пресет 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Пресет 2',
                         }
                     ]
@@ -238,11 +246,11 @@ export default {
                     multiplay: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Пресет 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Пресет 2',
                         }
                     ]
@@ -256,8 +264,13 @@ export default {
                 },
                 checkboxParser: {
                     label: '',
-                    text: 'Обещанный платеж',
-                    required: false
+                    textTrue: 'Обещанный платеж',
+                    textFalse: 'Обещанный платеж',
+                    name: 'promised',
+                    isRequired: false,
+                    isError: false,
+                    errorText: null,
+                    val: false
                 },
                 inputDifferenceParser: {
                     label: 'Баланс',
@@ -274,79 +287,95 @@ export default {
                 selectParser: {
                     label: '',
                     text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
+                    name: 'type_discount',
+                    isRequired: true,
+                    isError: false,
+                    errorText: null,
+                    val: null,
+                    multiple: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Пресет 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Пресет 2',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: 'Пресет 3',
                         }
                     ]
                 },
                 selectInternet: {
-                    label: 'Интернет тариф',
+                    label: 'Тип скидки',
                     text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
+                    name: 'type_discount',
+                    isRequired: true,
+                    isError: false,
+                    errorText: null,
+                    val: [],
+                    multiple: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Тариф 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Тариф 2',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: 'Тариф 3',
                         }
                     ]
                 },
                 selectTv: {
-                    label: 'Смотрешка',
+                    label: 'Тип скидки',
                     text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
+                    name: 'type_discount',
+                    isRequired: true,
+                    isError: false,
+                    errorText: null,
+                    val: [],
+                    multiple: true,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Тариф 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Тариф 2',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: 'Тариф 3',
                         }
                     ]
                 },
                 selectRent: {
-                    label: 'Аренда',
+                    label: 'Тип скидки',
                     text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
+                    name: 'type_discount',
+                    isRequired: true,
+                    isError: false,
+                    errorText: null,
+                    val: [],
+                    multiple: true,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Аренда 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Аренрда 2',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: 'Аренрда 3',
                         }
                     ]

@@ -9,7 +9,7 @@
                 <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{select__arrow_active: isSelect}"></font-awesome-icon>
             </div>
             <div class="select__block-select" v-show="isShow">
-                <div class="select__option" :class="{'select__option_active': item.key == select}" v-for="item in data.items" @click="selected(item.val, item.key)">
+                <div class="select__option" :class="{'select__option_active': item.id == select}" v-for="item in data.items" @click="selected(item.val, item.id)">
                     {{item.val}}
                 </div>
             </div>
@@ -30,22 +30,21 @@ export default {
     },
     data () {
         return {
-            isMultiple: this.data.multiple,
             isShow: false,
             select: null,
             selectName: null
         }
     },
     methods: {
-        selected (name, key) {
-            if(this.select == key) {
+        selected (name, id) {
+            if(this.select == id) {
                 this.selectName = '';
                 this.select = '';
                 this.data.val = '';
             } else {
-                this.select = key
+                this.select = id
                 this.selectName = name
-                this.data.val = key;
+                this.data.val = id;
             }
             this.isShow = false
         },
@@ -65,7 +64,7 @@ export default {
                     this.select = this.data.val;
                     var index = null;
                     this.data.items.forEach((item, i, array) => {
-                        if(item.key == this.select) {
+                        if(item.id == this.select) {
                             index = i
                         }
                     });

@@ -174,12 +174,13 @@ export default {
                 },
                 promised: {
                     label: 'Обещанный платеж',
-                    text: '',
+                    textTrue: 'Включен',
+                    textFalse: 'Выключен',
                     name: 'promised',
                     isRequired: true,
                     isError: false,
                     errorText: null,
-                    val: null
+                    val: true
                 },
                 fio: {
                     label: 'ФИО',
@@ -237,43 +238,43 @@ export default {
                     val: null,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: '1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: '2',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: '3',
                         },
                         {
-                            key: 4,
+                            id: 4,
                             val: '4',
                         },
                         {
-                            key: 5,
+                            id: 5,
                             val: '5',
                         },
                         {
-                            key: 6,
+                            id: 6,
                             val: '6',
                         },
                         {
-                            key: 7,
+                            id: 7,
                             val: '7',
                         },
                         {
-                            key: 8,
+                            id: 8,
                             val: '8',
                         },
                         {
-                            key: 9,
+                            id: 9,
                             val: '9',
                         },
                         {
-                            key: 10,
+                            id: 10,
                             val: '10',
                         }
                     ]
@@ -289,11 +290,11 @@ export default {
                     multiple: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Максимальная скидка 10%',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Максимальная скидка 20%',
                         },
                     ]
@@ -309,11 +310,11 @@ export default {
                     multiple: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Статус 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Статус 2',
                         },
                     ]
@@ -338,11 +339,11 @@ export default {
                     multiple: false,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Тариф 1',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Тариф 2',
                         },
                     ]
@@ -353,24 +354,28 @@ export default {
                     isRequired: true,
                     isError: false,
                     errorText: null,
-                    val: [2,4],
+                    val: [],
                     multiple: true,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: '40 каналов',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: '50 каналов',
                         },
                         {
-                            key: 3,
+                            id: 3,
                             val: '60 каналов',
                         },
                         {
-                            key: 4,
+                            id: 4,
                             val: '10 + 60 каналов',
+                        },
+                        {
+                            id: 5,
+                            val: '50 каналов',
                         },
                     ]
                 },
@@ -384,11 +389,11 @@ export default {
                     multiple: true,
                     items: [
                         {
-                            key: 1,
+                            id: 1,
                             val: 'Тарелка',
                         },
                         {
-                            key: 2,
+                            id: 2,
                             val: 'Роутер',
                         },
                     ]

@@ -1,9 +1,12 @@
 <template>
-    <div class="fields__input">
+    <div class="fields__input fields_relative">
         <div class="fields__label" v-show="data.label">
             {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
-        <button :class="{active: isCheckbox}" @click="isCheckbox=!isCheckbox " class="button button__add">{{this.getText}}</button>
+        <button :class="{active: data.val}" @click="data.val=!data.val" class="button button__add">{{this.getText}}</button>
+        <div class="fields__error" v-show='!data.isError'>
+            {{ data.errorText }}
+        </div>
     </div>
 </template>
 
@@ -17,21 +20,15 @@ export default {
     },
     data () {
         return {
-            d: this.data,
-            isCheckbox: false,
-            requared: this.data.required,
+
         }
     },
     computed: {
         getText: function () {
-            if(this.d.text !== '') {
-                return this.d.text
-            } else {
-                if(this.isCheckbox)
-                    return 'Включен'
-                else
-                    return 'Выключен'
-            }
+            if(this.data.val)
+                return this.data.textTrue
+            else
+                return this.data.textFalse
         }
     }
 }
