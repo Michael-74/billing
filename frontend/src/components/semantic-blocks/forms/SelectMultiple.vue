@@ -17,8 +17,9 @@
             </div>
         </div>
         <div class="fields__error" v-show='this.data.isError'>
-            Поле не заполнено
+            {{ data.errorText }}
         </div>
+        {{selecteds}}
     </div>
 </template>
 
@@ -34,7 +35,7 @@ export default {
         return {
             isMultiple: this.data.multiple,
             isShow: false,
-            select: '',
+            selectName: null,
             selecteds: []
         }
     },
@@ -72,7 +73,32 @@ export default {
                     return this.selecteds[0] + '...';
                 }
             } else {
-                return 'Не выбрано';
+                if(this.data.val.length != 0) {
+                    this.selecteds = this.selecteds.concat(this.data.val);
+                    var index = [];
+                    this.data.items.forEach((item, i1, array1) => {
+                        this.data.val.forEach((currentItem, i2, array2) => {
+                            if(item.key == currentItem) {
+                                index.push(i1);
+                            }
+                        });
+                    });
+                    if(index.length != 0) {
+                        console.log("-----------------------multi", index)
+                        //return this.selectName = this.data.items[index].val;
+                    } else {
+                        return 'не выбрано1';
+                    }
+                    /*
+                    if(this.selecteds.length == 1) {
+                        return this.selecteds[0]
+                    } else {
+                        return this.selecteds[0] + '...';
+                    }
+                    */
+                } else {
+                    return 'не выбрано';
+                }
             }
         },
         isSelects () {

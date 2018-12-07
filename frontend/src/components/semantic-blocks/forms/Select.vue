@@ -9,13 +9,13 @@
                 <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{select__arrow_active: isSelect}"></font-awesome-icon>
             </div>
             <div class="select__block-select" v-show="isShow">
-                <div class="select__option" :class="{'select__option_active': item.val == select}" v-for="item in data.items" @click="selected(item.val, item.key)">
+                <div class="select__option" :class="{'select__option_active': item.key == select}" v-for="item in data.items" @click="selected(item.val, item.key)">
                     {{item.val}}
                 </div>
             </div>
         </div>
         <div class="fields__error" v-show='this.data.isError'>
-            Поле не заполнено
+            {{ data.errorText }}
         </div>
     </div>
 </template>
@@ -32,16 +32,19 @@ export default {
         return {
             isMultiple: this.data.multiple,
             isShow: false,
-            select: ''
+            select: null,
+            selectName: null
         }
     },
     methods: {
         selected (name, key) {
-            if(this.select == name) {
-                this.select = ''
+            if(this.select == key) {
+                this.selectName = '';
+                this.select = '';
                 this.data.val = '';
             } else {
-                this.select = name
+                this.select = key
+                this.selectName = name
                 this.data.val = key;
             }
             this.isShow = false
@@ -55,14 +58,28 @@ export default {
     },
     computed: {
         getSelectName () {
-            if(this.select.length != 0){
-                return this.select
+            if(this.select){
+                return this.selectName
             } else {
-                return 'Не выбрано';
+                if(this.data.val) {
+                    this.select = this.data.val;
+                    var index = null;
+                    this.data.items.forEach((item, i, array) => {
+                        if(item.key == this.select) {
+                            index = i
+                        }
+                    });
+                    if(index)
+                        return this.selectName = this.data.items[index].val;
+                    else
+                        return 'не выбрано';
+                } else {
+                    return 'не выбрано';
+                }
             }
         },
         isSelect () {
-            if(this.select)
+            if(this.selectName)
                 return true;
             else
                 return false;

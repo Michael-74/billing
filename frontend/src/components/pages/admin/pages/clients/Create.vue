@@ -353,7 +353,7 @@ export default {
                     isRequired: true,
                     isError: false,
                     errorText: null,
-                    val: [],
+                    val: [2,4],
                     multiple: true,
                     items: [
                         {

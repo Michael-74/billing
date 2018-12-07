@@ -5,7 +5,7 @@
         </div>
         <textarea class="fields__field fields__textarea" type="text" :class="{fields_red: this.data.isError}" :placeholder="data.text" v-model="input"></textarea>
         <div class="fields__error" v-show='this.data.isError'>
-            Поле не заполнено
+            {{ data.errorText }}
         </div>
     </div>
 </template>
