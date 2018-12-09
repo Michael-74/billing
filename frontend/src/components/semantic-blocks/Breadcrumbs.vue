@@ -1,11 +1,10 @@
 <template>
     <div class="breadcrumbs">
-        <router-link to='/admin/clients' tag="a" class="breadcrumbs__a">
-            Админ панель
-        </router-link>
-        <span class="breadcrumbs__delimitr"></span>
-        <span class="breadcrumbs__a breadcrumbs__a_active">
-            Абоненты
+        <span class="breadcrumbs__items" v-for="route in this.$route.matched">
+            <router-link :to='route.path' tag="a" class="breadcrumbs__a" exact active-class="breadcrumbs__a_active">
+                {{route.meta.name}}
+            </router-link>
+            <span class="breadcrumbs__delimitr"></span>
         </span>
     </div>
 </template>
@@ -32,7 +31,7 @@ export default {
     .breadcrumbs__a {
         display: inline-block;
         font-size: 16px;
-        padding: 5px 10px;
+        padding: 5px 5px;
         color: #97abc3;
     }
     .breadcrumbs__a_active, .breadcrumbs__a:hover {
@@ -40,5 +39,9 @@ export default {
     }
     .breadcrumbs__delimitr {
         border-left: 1px solid #d7e0e7;
+        padding: 0 5px;
+    }
+    .breadcrumbs__items:last-child .breadcrumbs__delimitr {
+        display: none;
     }
 </style>

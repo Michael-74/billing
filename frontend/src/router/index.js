@@ -30,93 +30,93 @@ const router = new Router({
             path: '/',
             component: Main,
             redirect: '/login',
-            meta: {isRequiresAuth: false}
+            meta: {isRequiresAuth: false, name: "Главная"}
         },
         {
             path: '/login',
             component: Login,
-            meta: {isRequiresAuth: false}
+            meta: {isRequiresAuth: false, name: "Авторизация"}
         },
         {
             path: '/user',
             component: UserIndex,
-            meta: {isRequiresAuth: true}
+            meta: {isRequiresAuth: true, name: "Пользователи"}
         },
         {
             path: '/user/:id',
             props: true,
             component: UserShow,
-            meta: {isRequiresAuth: false}
+            meta: {isRequiresAuth: false, name: "Пользователь"}
         },
         {
             path: "*",
             component: NotFound,
-            meta: {isRequiresAuth: false}
+            meta: {isRequiresAuth: false, name: "Страница не найдена"}
         },
         {
             path: "/403",
             component: AccessDenied,
-            meta: {isRequiresAuth: false}
+            meta: {isRequiresAuth: false, name: "Доступ запрещен"}
         },
         {
             path: "/admin",
             component: Admin,
             redirect: '/admin/clients',
-            meta: {isRequiresAuth: true},
+            meta: {isRequiresAuth: true, name: "Админ панель"},
             children: [
                 {
                     path: 'clients',
                     component: Clients,
                     name: 'Clients',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Абоненты"}
                 },
                 {
                     path: 'internet',
                     component: Internet,
                     name: 'Internet',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Интернет тарифы"}
                 },
                 {
                     path: 'tv',
                     component: Tv,
                     name: 'Tv',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Смотрешка"}
                 },
                 {
                     path: 'rent',
                     component: Rent,
                     name: 'Rent',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Аренда оборудования"}
                 },
                 {
                     path: 'logs',
                     component: Logs,
                     name: 'Logs',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Логи"}
                 },
                 {
                     path: 'mail',
                     component: Mail,
                     name: 'Mail',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Рассылка"}
                 },
                 {
                     path: 'service',
                     component: Service,
                     name: 'Service',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Услуги"}
                 },
                 {
                     path: 'settings',
                     component: Settings,
                     name: 'Settings',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Настройки"}
                 },
                 {
                     path: 'wallet',
                     component: Wallet,
                     name: 'Wallet',
-                    meta: {isRequiresAuth: true}
+                    meta: {isRequiresAuth: true, name: "Финансы"}
                 }
             ]
         }
