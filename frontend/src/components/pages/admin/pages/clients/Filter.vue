@@ -57,6 +57,9 @@
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-select :data="discount.selectStatus"></app-select>
                 </div>
+                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                    <app-datepicker :data="discount.created"></app-datepicker>
+                </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__select_padding filters__discount-width">
                     <app-input :data="discount.inputDiscount"></app-input>
@@ -106,6 +109,7 @@
 <script>
 
 import Input from '../../../../semantic-blocks/forms/Input'
+import Datepicker from '../../../../semantic-blocks/forms/Datepicker'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
 import Select from '../../../../semantic-blocks/forms/Select'
 import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
@@ -115,6 +119,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 export default {
     components: {
         AppInput: Input,
+        AppDatepicker: Datepicker,
         AppDifferenceInput: DifferenceInput,
         AppSelect: Select,
         AppSelectMultiple: SelectMultiple,
@@ -123,7 +128,7 @@ export default {
     },
     data () {
         return {
-            isFilter: false,
+            isFilter: true,
             client: {
                 inputFio: {
                     label: 'ФИО',
@@ -214,6 +219,15 @@ export default {
                 },
             },
             discount: {
+                created: {
+                    label: 'Дата создания',
+                    text: 'Дата создания',
+                    name: 'created',
+                    isRequired: false,
+                    isError: false,
+                    errorText: null,
+                    val: null
+                },
                 inputDiscount: {
                     label: 'Размер скидки',
                     text: 'Скидка',
