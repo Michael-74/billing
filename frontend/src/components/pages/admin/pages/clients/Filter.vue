@@ -9,7 +9,7 @@
                     Добавить
                 </button>
                 <div class="filters__header-select filters__header-input_inline filters__select">
-                    <app-select :data="client.selectParser"></app-select>
+                    <app-select :data="preset.selectPreset"></app-select>
                 </div>
             </div>
             <div class="filters__header-right">
@@ -116,6 +116,7 @@ import Select from '../../../../semantic-blocks/forms/Select'
 import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import axios from "axios";
 
 export default {
     components: {
@@ -130,6 +131,19 @@ export default {
     data () {
         return {
             isFilter: true,
+            preset: {
+                selectPreset: {
+                    label: null,
+                    text: 'Не выбрано',
+                    name: 'preset',
+                    isRequired: false,
+                    isError: false,
+                    errorText: null,
+                    val: null,
+                    multiple: false,
+                    items: this.$store.getters.getPresets
+                },
+            },
             client: {
                 inputFio: {
                     label: 'ФИО',
@@ -296,30 +310,6 @@ export default {
                     textTo: 'до 1000',
                     required: false
                 },
-                selectParser: {
-                    label: '',
-                    text: 'Не выбрано',
-                    name: 'type_discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    multiple: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Пресет 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Пресет 2',
-                        },
-                        {
-                            id: 3,
-                            val: 'Пресет 3',
-                        }
-                    ]
-                },
                 selectInternet: {
                     label: 'Тип скидки',
                     text: 'Не выбрано',
@@ -395,10 +385,39 @@ export default {
             }
         }
     },
+    created () {
+        this.$store.dispatch('getPresetsAsync', {token: this.$store.getters.getUser.token, url: this.$route.path});
+    },
     methods: {
         isFilterShow: function (){
             this.isFilter = !this.isFilter;
             console.log('isFilterShow');
+        }
+    },
+    /**
+     * TODO:: Единый метод для всех пресетов
+     */
+    addPreset () {
+        const data = {url: "admin/clients", name: "test2", settings: "{name: Имя}"};
+        const store = JSON.stringify(data);
+
+        axios
+            .post('/admin/v1/preset/create', store, {
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.$store.getters.getUser.token
+                }
+            })
+            .then(response => {
+                console.log("preset-store", response.data)
+            })
+    },
+    computed: {
+        getPresets () {
+            return this.$store.getters.getPresets
+            //this.preset.selectPreset.items = [{id:1, val:"test"}];
+            //return [{id:1, val:"test"}];
         }
     }
 }

@@ -8,14 +8,15 @@ const delClientId = [];
 export function connect() {
     const socket = new SockJS('/websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = () => {};
     stompClient.connect({}, frame => {
-        console.log('Connected: ', frame);
+        //console.log('Connected: ', frame);
         stompClient.subscribe('/client/changeClient', function (message) {
-            console.log('subscribe-parse: ', JSON.parse(message.body));
+            //console.log('subscribe-parse: ', JSON.parse(message.body));
             clients.forEach(handler => handler(JSON.parse(message.body)));
         });
         stompClient.subscribe('/client/deleteClient', function (message) {
-            console.log('delete-parse: ', JSON.parse(message.body));
+            //console.log('delete-parse: ', JSON.parse(message.body));
             delClientId.forEach(handler => handler(JSON.parse(message.body)));
         });
     });
@@ -33,7 +34,7 @@ export function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    console.log("Disconnected");
+    //console.log("Disconnected");
 }
 
 export function sendClient(client) {
