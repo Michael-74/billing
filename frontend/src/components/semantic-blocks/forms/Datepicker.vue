@@ -5,7 +5,8 @@
             {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
         <div class="select__position">
-            <app-date-picker input-class="select__data-first select__title select__date-title" format="DD.MM.YYYY" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
+            <app-date-picker v-if="!data.isDifference" input-class="select__data-first select__title select__date-title" format="DD.MM.YYYY" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
+            <app-date-picker v-if="data.isDifference" range input-class="select__data-first select__title select__date-title" format="DD.MM.YYYY" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
         </div>
         <div class="fields__error" v-show='this.data.isError'>
             {{ data.errorText }}
@@ -92,5 +93,8 @@ export default {
     .select__position:hover .mx-input-append {
         background: #2b87db;
         color: #FFF;
+    }
+    .mx-datepicker-popup {
+        z-index: 1;
     }
 </style>

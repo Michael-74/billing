@@ -57,8 +57,8 @@
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-select :data="discount.selectStatus"></app-select>
                 </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-datepicker :data="discount.created"></app-datepicker>
+                <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
+                    <app-datepicker :data="client.createdDifference"></app-datepicker>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__select_padding filters__discount-width">
@@ -81,6 +81,10 @@
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
                     <app-input :data="client.inputEmail"></app-input>
                 </div>
+                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                    <app-datepicker :data="client.created"></app-datepicker>
+                </div>
+                <div class="clear"></div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
                     <app-input :data="client.inputIp"></app-input>
                 </div>
@@ -217,17 +221,28 @@ export default {
                         }
                     ]
                 },
-            },
-            discount: {
                 created: {
                     label: 'Дата создания',
                     text: 'Дата создания',
                     name: 'created',
+                    isDifference: false,
                     isRequired: false,
                     isError: false,
                     errorText: null,
                     val: null
                 },
+                createdDifference: {
+                    label: 'Дата создания',
+                    text: 'Дата создания',
+                    name: 'created',
+                    isDifference: true,
+                    isRequired: false,
+                    isError: false,
+                    errorText: null,
+                    val: null
+                },
+            },
+            discount: {
                 inputDiscount: {
                     label: 'Размер скидки',
                     text: 'Скидка',
@@ -433,6 +448,9 @@ export default {
     }
     .filters__select {
         width: 160px;
+    }
+    .filters__select_width260 {
+        width: 220px;
     }
     .filters__button-less-block {
         position: relative;
