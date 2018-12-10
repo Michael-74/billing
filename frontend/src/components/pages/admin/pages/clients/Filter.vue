@@ -3,13 +3,13 @@
         <div class="filters__header">
             <div class="filters__header-left">
                 <div class="filters__header-input_width filters__header-input_inline">
-                    <app-input :data="filter.inputParser"></app-input>
+                    <app-input :data="client.inputParser"></app-input>
                 </div>
                 <button class="button button__add filters__header-input_inline">
                     Добавить
                 </button>
                 <div class="filters__header-select filters__header-input_inline filters__select">
-                    <app-select :data="filter.selectParser"></app-select>
+                    <app-select :data="client.selectParser"></app-select>
                 </div>
             </div>
             <div class="filters__header-right">
@@ -26,43 +26,40 @@
             <div class="filters__block filters__block_service filters__fix-height">
                 <h2>Услуги и баланс</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="filter.selectInternet"></app-select-multiple>
+                    <app-select-multiple :data="client.selectInternet"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="filter.selectTv"></app-select-multiple>
+                    <app-select-multiple :data="client.selectTv"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="filter.selectRent"></app-select-multiple>
+                    <app-select-multiple :data="client.selectRent"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="filter.inputDifferenceParser"></app-difference-input>
+                    <app-difference-input :data="client.inputDifferenceParser"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="filter.inputDifferencePrice"></app-difference-input>
+                    <app-difference-input :data="client.inputDifferencePrice"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean">Очистить</button>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-checkbox filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-checkbox :data="filter.checkboxParser"></app-checkbox>
+                    <app-checkbox :data="client.checkboxParser"></app-checkbox>
                 </div>
                 <div class="clear"></div>
             </div >
             <div class="filters__block filters__block_discount filters__fix-height">
                 <h2>Скидка и статус</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="discount.selectDiscount"></app-select>
+                    <app-select :data="client.selectDiscount"></app-select>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="discount.selectStatus"></app-select>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
-                    <app-datepicker :data="client.createdDifference"></app-datepicker>
+                    <app-select :data="client.selectStatus"></app-select>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__select_padding filters__discount-width">
-                    <app-input :data="discount.inputDiscount"></app-input>
+                    <app-input :data="client.inputDiscount"></app-input>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -81,8 +78,8 @@
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
                     <app-input :data="client.inputEmail"></app-input>
                 </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-datepicker :data="client.created"></app-datepicker>
+                <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
+                    <app-datepicker :data="client.createdDifference"></app-datepicker>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
@@ -221,16 +218,6 @@ export default {
                         }
                     ]
                 },
-                created: {
-                    label: 'Дата создания',
-                    text: 'Дата создания',
-                    name: 'created',
-                    isDifference: false,
-                    isRequired: false,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
                 createdDifference: {
                     label: 'Дата создания',
                     text: 'Дата создания',
@@ -241,8 +228,6 @@ export default {
                     errorText: null,
                     val: null
                 },
-            },
-            discount: {
                 inputDiscount: {
                     label: 'Размер скидки',
                     text: 'Скидка',
@@ -284,8 +269,6 @@ export default {
                         }
                     ]
                 },
-            },
-            filter: {
                 inputParser: {
                     label: '',
                     text: 'Введите название парсера',
