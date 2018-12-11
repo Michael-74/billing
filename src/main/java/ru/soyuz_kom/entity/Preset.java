@@ -22,6 +22,7 @@ public class Preset {
     private String url;
     @NotNull
     @Size(min=2, max=20)
+    @Column(unique = true, name = "name")
     private String name;
     @NotNull
     @Column(columnDefinition = "TEXT")

@@ -3,9 +3,9 @@
         <div class="filters__header">
             <div class="filters__header-left">
                 <div class="filters__header-input_width filters__header-input_inline">
-                    <app-input :data="client.inputParser"></app-input>
+                    <app-input :data="preset.inputPreset"></app-input>
                 </div>
-                <button class="button button__add filters__header-input_inline">
+                <button class="button button__add filters__header-input_inline" @click="savePreset">
                     Добавить
                 </button>
                 <div class="filters__header-select filters__header-input_inline filters__select">
@@ -117,6 +117,8 @@ import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
+import { input, select, selectMultiple, checkbox, datepicker, inputDifference } from '../../../../../util/fields'
+import { parseObj } from '../../../../../util/helpers'
 
 export default {
     components: {
@@ -132,256 +134,28 @@ export default {
         return {
             isFilter: true,
             preset: {
-                selectPreset: {
-                    label: null,
-                    text: 'Не выбрано',
-                    name: 'preset',
-                    isRequired: false,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    multiple: false,
-                    items: this.$store.getters.getPresets
-                },
+                selectPreset: select(null, 'не выбрано', 'name', false, false, null, null, this.$store.getters.getPresets),
+                inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
             },
             client: {
-                inputFio: {
-                    label: 'ФИО',
-                    text: 'ФИО',
-                    required: false
-                },
-                inputAddress: {
-                    label: 'Адрес',
-                    text: 'Адрес',
-                    required: false
-                },
-                inputPhone: {
-                    label: 'Телефон',
-                    text: 'Телефон',
-                    required: false
-                },
-                inputEmail: {
-                    label: 'Email',
-                    text: 'Email',
-                    required: false
-                },
-                inputIp: {
-                    label: 'IP адрес',
-                    text: 'IP',
-                    required: false
-                },
-                inputLogin: {
-                    label: 'Логин',
-                    text: 'Логин',
-                    required: false
-                },
-                inputContract: {
-                    label: 'Номер договора',
-                    text: 'Номер договора',
-                    required: false
-                },
-                selectLoy: {
-                    label: 'Лояльность',
-                    text: 'Не выбрано',
-                    name: 'loyalty',
-                    multiple: false,
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    items: [
-                        {
-                            id: 1,
-                            val: '1',
-                        },
-                        {
-                            id: 2,
-                            val: '2',
-                        },
-                        {
-                            id: 3,
-                            val: '3',
-                        },
-                        {
-                            id: 4,
-                            val: '4',
-                        },
-                        {
-                            id: 5,
-                            val: '5',
-                        },
-                        {
-                            id: 6,
-                            val: '6',
-                        },
-                        {
-                            id: 7,
-                            val: '7',
-                        },
-                        {
-                            id: 8,
-                            val: '8',
-                        },
-                        {
-                            id: 9,
-                            val: '9',
-                        },
-                        {
-                            id: 10,
-                            val: '10',
-                        }
-                    ]
-                },
-                createdDifference: {
-                    label: 'Дата создания',
-                    text: 'Дата создания',
-                    name: 'created',
-                    isDifference: true,
-                    isRequired: false,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                inputDiscount: {
-                    label: 'Размер скидки',
-                    text: 'Скидка',
-                    required: false
-                },
-                selectDiscount: {
-                    label: 'Скидка',
-                    text: 'Не выбрано',
-                    name: 'type_discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    multiple: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Пресет 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Пресет 2',
-                        }
-                    ]
-                },
-                selectStatus: {
-                    label: 'Статус',
-                    text: 'Не выбрано',
-                    required: false,
-                    multiplay: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Пресет 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Пресет 2',
-                        }
-                    ]
-                },
-                inputParser: {
-                    label: '',
-                    text: 'Введите название парсера',
-                    required: false
-                },
-                checkboxParser: {
-                    label: '',
-                    textTrue: 'Обещанный платеж',
-                    textFalse: 'Обещанный платеж',
-                    name: 'promised',
-                    isRequired: false,
-                    isError: false,
-                    errorText: null,
-                    val: false
-                },
-                inputDifferenceParser: {
-                    label: 'Баланс',
-                    textFrom: 'от -1000',
-                    textTo: 'до 1000',
-                    required: false
-                },
-                inputDifferencePrice: {
-                    label: 'Цена до конца месяца',
-                    textFrom: 'от -1000',
-                    textTo: 'до 1000',
-                    required: false
-                },
-                selectInternet: {
-                    label: 'Тип скидки',
-                    text: 'Не выбрано',
-                    name: 'type_discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: [],
-                    multiple: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Тариф 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Тариф 2',
-                        },
-                        {
-                            id: 3,
-                            val: 'Тариф 3',
-                        }
-                    ]
-                },
-                selectTv: {
-                    label: 'Тип скидки',
-                    text: 'Не выбрано',
-                    name: 'type_discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: [],
-                    multiple: true,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Тариф 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Тариф 2',
-                        },
-                        {
-                            id: 3,
-                            val: 'Тариф 3',
-                        }
-                    ]
-                },
-                selectRent: {
-                    label: 'Тип скидки',
-                    text: 'Не выбрано',
-                    name: 'type_discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: [],
-                    multiple: true,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Аренда 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Аренрда 2',
-                        },
-                        {
-                            id: 3,
-                            val: 'Аренрда 3',
-                        }
-                    ]
-                }
+                inputFio: input('ФИО', 'ФИО', 'fio', false, false, null, null),
+                inputAddress: input('Адрес', 'Адрес', 'address', false, false, null, null),
+                inputPhone: input('Телефон', 'Телефон', 'phone', false, false, null, null),
+                inputEmail: input('Email', 'Email', 'email', false, false, null, null),
+                inputIp: input('IP адрес', 'IP', 'ip', false, false, null, null),
+                inputLogin: input('Логин', 'Логин', 'login', false, false, null, null),
+                inputContract: input('Номер договора', 'Номер договора', 'contract', false, false, null, null),
+                selectLoy: select('Лояльность', 'Не выбрано', 'loyalty', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                createdDifference: datepicker('Дата создания', 'Дата создания', 'created', true, false, false, null, null),
+                inputDiscount: input('Размер скидки', 'Скидка', 'discount', false, false, null, null),
+                selectDiscount: select('Скидка', 'Не выбрано', 'type_discount', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                checkboxParser: checkbox(null, 'Обещанный платеж', 'Обещанный платеж', 'promise', false, false, null, null),
+                inputDifferenceParser: inputDifference('Баланс', 'от -1000', 'до 1000','fio', false, false, null, null),
+                inputDifferencePrice: inputDifference('Цена до конца месяца', 'от -1000', 'до 1000','fio', false, false, null, null),
+                selectInternet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
+                selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
+                selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
             }
         }
     },
@@ -392,32 +166,16 @@ export default {
         isFilterShow: function (){
             this.isFilter = !this.isFilter;
             console.log('isFilterShow');
-        }
-    },
-    /**
-     * TODO:: Единый метод для всех пресетов
-     */
-    addPreset () {
-        const data = {url: "admin/clients", name: "test2", settings: "{name: Имя}"};
-        const store = JSON.stringify(data);
-
-        axios
-            .post('/admin/v1/preset/create', store, {
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.$store.getters.getUser.token
-                }
-            })
-            .then(response => {
-                console.log("preset-store", response.data)
-            })
+        },
+        savePreset: function () {
+            const objFields = parseObj(this.client);
+            const store = JSON.stringify(objFields);
+            this.$store.dispatch("addPresetAsync",{url: this.$route.path, name: this.preset.inputPreset.val, fields: store, token: this.$store.getters.getUser.token});
+        },
     },
     computed: {
         getPresets () {
             return this.$store.getters.getPresets
-            //this.preset.selectPreset.items = [{id:1, val:"test"}];
-            //return [{id:1, val:"test"}];
         }
     }
 }

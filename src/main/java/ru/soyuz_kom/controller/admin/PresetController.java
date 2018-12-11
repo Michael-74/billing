@@ -36,10 +36,10 @@ public class PresetController extends AdminController {
         return preset;
     }
 
-    @PostMapping({"v1/preset/create"})
+    @PostMapping({"v1/preset/store"})
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Preset preset, Errors errors) {
-        System.out.println("v1/preset/create");
+        System.out.println("v1/preset/store");
         HashMap error = new HashMap<>();
 
         if (errors.hasErrors()) {
