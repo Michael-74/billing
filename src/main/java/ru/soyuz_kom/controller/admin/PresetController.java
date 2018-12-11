@@ -51,15 +51,15 @@ public class PresetController extends AdminController {
         }
         Preset addPreset = presetRepository.save(preset);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(addPreset, HttpStatus.OK);
     }
 
-    @PostMapping({"v1/preset/delete"})
+    @DeleteMapping({"v1/preset/delete/{id}"})
     @ResponseBody
-    public Integer delete(Integer presetId) {
-        System.out.println("delete preset " + presetId);
-        presetRepository.deleteById(presetId);
+    public Boolean delete(@PathVariable Integer id) {
+        System.out.println("delete preset " + id);
+        presetRepository.deleteById(id);
 
-        return presetId;
+        return true;
     }
 }

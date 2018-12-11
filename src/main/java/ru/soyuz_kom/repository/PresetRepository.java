@@ -13,4 +13,6 @@ public interface PresetRepository extends CrudRepository<Preset, Integer> {
     Iterable<Preset> findByUrl(String url);
 
     Optional<Preset> findById(Integer id);
+
+    void deleteById(Integer id);
 }

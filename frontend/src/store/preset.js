@@ -15,6 +15,15 @@ export default {
             Vue.set(state, 'presets', [...payload]);
             state.presets.push(payload);
         },
+        deletePreset (state, payload) {
+            var idx = null;
+            state.presets.forEach((item, index) => {
+                if(item.id === payload) {
+                    idx = index;
+                }
+            });
+            state.presets.splice(idx, 1);
+        }
     },
     actions: {
         getPresetsAsync ({commit, state}, payload) {
@@ -29,10 +38,43 @@ export default {
                 .then(response => {
                     var data = [];
                     response.data.forEach((item) => {
-                        commit('pushPresets', {id: item.id, val: item.name, settings: item.settings});
+                        commit('pushPresets', item);
+                    });
+                })
+        },
+        deletePresetAsync ({commit, state}, payload) {
+            console.log("id", payload.id);
+            axios
+                .delete('/admin/v1/preset/delete/' + payload.id, {id: parseInt(payload.id)}, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + payload.token
+                    }
+                })
+                .then(response => {
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'success ',
+                        text: 'Пресет успешно удален'
+                    });
+                    console.log('delete preset', state.presets)
+                    commit('deletePreset', payload.id);
+                    /*
+                    var data = [];
+                    response.data.forEach((item) => {
+                        commit('pushPresets', item);
                         //data.push({id: item.id, val: item.name, settings: item.settings});
                     });
                     //commit('setPresets', data);
+                    */
+                })
+                .catch(error => {
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'error',
+                        text: 'Ошибка при удалении пресета'
+                    });
                 })
         },
         /**
@@ -52,12 +94,13 @@ export default {
                     }
                 })
                 .then(response => {
-                    console.log("preset-store", response.data)
+                    console.log("preset-store", response)
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'success ',
                         text: 'Пресет успешно добавлен'
                     });
+                    commit("pushPresets", response.data)
                 })
                 .catch(error => {
                     if(error.response.status === 422) {

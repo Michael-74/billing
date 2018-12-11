@@ -8,8 +8,9 @@
                 <button class="button button__add filters__header-input_inline" @click="savePreset">
                     Добавить
                 </button>
-                <div class="filters__header-select filters__header-input_inline filters__select">
-                    <app-select :data="preset.selectPreset"></app-select>
+                <div class="filters__header-input_inline">
+                    <button class="button button__add" @click="showPresets">Выбрать из существующих</button>
+                    <!--<app-select :data="preset.selectPreset"></app-select>-->
                 </div>
             </div>
             <div class="filters__header-right">
@@ -174,6 +175,55 @@ export default {
             const store = JSON.stringify(objFields);
             this.$store.dispatch("addPresetAsync",{url: this.$route.path, name: this.preset.inputPreset.val, fields: store, token: this.$store.getters.getUser.token});
         },
+        showPresets: function () {
+            this.$modal.show({
+                    components:{
+                        FontAwesomeIcon
+                    },
+                    computed: {
+                        getPresets () {
+                            return this.$store.getters.getPresets;
+                        }
+                    },
+                    methods: {
+                        deletePreset(id) {
+                            this.$store.dispatch("deletePresetAsync", {id: id, token: this.$store.getters.getUser.token});
+                        }
+                    },
+                    template: `
+                    <div class="modal__block">
+                        <div class="modal__close" @click="$emit('close')">
+                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
+                            Закрыть
+                        </div>
+                        <h3 class="modal__h3">Список пресетов</h3>
+                        <table class="modal__package-table items__table">
+                            <thead class="items__thead">
+                                <tr>
+                                    <th class="modal__th items__th">N</th>
+                                    <th class="modal__th items__th">Название</th>
+                                    <th class="modal__th items__th">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody class="items__tbody">
+                                <tr class="modal__tr" v-for="(preset, index) in getPresets">
+                                    <td class="items__td">{{preset.id}}</td>
+                                    <td class="items__td">{{preset.name}}</td>
+                                    <td class="items__td">
+                                        <font-awesome-icon class="items__icon" icon="times-circle" @click="deletePreset(preset.id)"></font-awesome-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                  `
+                },{
+                },{
+                    height: '400px',
+                    clickToClose: false
+                }
+            );
+        }
     },
     computed: {
         getPresets () {
