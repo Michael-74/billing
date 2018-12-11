@@ -32,7 +32,9 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getClientsAsync', {token: this.$store.getters.getUser.token});
+        if(!this.$store.getters.getClients.length) {
+            this.$store.dispatch('getClientsAsync', {token: this.$store.getters.getUser.token});
+        }
 
         addClient(data => {
             console.log("addClient Index", data)

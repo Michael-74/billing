@@ -110,6 +110,8 @@ import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
+import { input, select, selectMultiple, checkbox, datepicker, inputDifference, textarea } from '../../../../../util/fields'
+import { parseObj } from '../../../../../util/helpers'
 
 export default {
     components: {
@@ -127,287 +129,29 @@ export default {
             isFormCreate: true,
             isCreate: false,
             client: {
-                id: {
-                    label: 'ID',
-                    text: 'ID',
-                    name: 'id',
-                    isRequired: false,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                ip: {
-                    label: 'IP адрес',
-                    text: 'IP адрес',
-                    name: 'ip',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                login: {
-                    label: 'Логин',
-                    text: 'Логин',
-                    name: 'login',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                balance: {
-                    label: 'Баланс',
-                    text: 'Баланс',
-                    name: 'balance',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                contract: {
-                    label: 'Номер договора',
-                    text: 'Номер договора',
-                    name: 'contract',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                promised: {
-                    label: 'Обещанный платеж',
-                    textTrue: 'Включен',
-                    textFalse: 'Выключен',
-                    name: 'promised',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: true
-                },
-                fio: {
-                    label: 'ФИО',
-                    text: 'ФИО',
-                    name: 'fio',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                address: {
-                    label: 'Адрес',
-                    text: 'Адрес',
-                    name: 'address',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                phone: {
-                    label: 'Телефон',
-                    text: 'Телефон',
-                    name: 'phone',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                email: {
-                    label: 'Email',
-                    text: 'Email',
-                    name: 'email',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                discount: {
-                    label: 'Скидка',
-                    text: 'Скидка',
-                    name: 'discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                loyalty: {
-                    label: 'Лояльность',
-                    text: 'Не выбрано',
-                    name: 'loyalty',
-                    multiple: false,
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    items: [
-                        {
-                            id: 1,
-                            val: '1',
-                        },
-                        {
-                            id: 2,
-                            val: '2',
-                        },
-                        {
-                            id: 3,
-                            val: '3',
-                        },
-                        {
-                            id: 4,
-                            val: '4',
-                        },
-                        {
-                            id: 5,
-                            val: '5',
-                        },
-                        {
-                            id: 6,
-                            val: '6',
-                        },
-                        {
-                            id: 7,
-                            val: '7',
-                        },
-                        {
-                            id: 8,
-                            val: '8',
-                        },
-                        {
-                            id: 9,
-                            val: '9',
-                        },
-                        {
-                            id: 10,
-                            val: '10',
-                        }
-                    ]
-                },
-                type_discount: {
-                    label: 'Тип скидки',
-                    text: 'Не выбрано',
-                    name: 'type_discount',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    multiple: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Максимальная скидка 10%',
-                        },
-                        {
-                            id: 2,
-                            val: 'Максимальная скидка 20%',
-                        },
-                    ]
-                },
-                status: {
-                    label: 'Статус',
-                    text: 'Не выбрано',
-                    name: 'status',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    multiple: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Статус 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Статус 2',
-                        },
-                    ]
-                },
+                id: input('ID', 'ID', 'id', false, false, null, null),
+                login: input('Логин', 'Логин', 'login', true, false, null, null),
+                ip: input('IP адрес', 'IP адрес', 'ip', true, false, null, null),
+                balance: input('Баланс', 'Баланс', 'balance', true, false, null, null),
+                contract: input('Номер договора', 'Номер договора', 'contract', true, false, null, null),
+                promised: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'promised', true, false, null, true),
+                fio: input('ФИО', 'ФИО', 'fio', true, false, null, null),
+                address: input('Адрес', 'Адрес', 'address', true, false, null, null),
+                phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
+                email: input('Email', 'Email', 'email', true, false, null, null),
+                discount: input('Скидка', 'Скидка', 'discount', true, false, null, null),
+                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                type_discount: select('Тип скидки', 'Не выбрано', 'type_discount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                status: select('Статус', 'Не выбрано', 'status', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
             },
             packages: {
-                inputName: {
-                    label: 'Введите название',
-                    text: 'Введите название пакета',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
-                selectInternet: {
-                    label: 'Интернет тариф',
-                    text: 'Не выбрано',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null,
-                    multiple: false,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Тариф 1',
-                        },
-                        {
-                            id: 2,
-                            val: 'Тариф 2',
-                        },
-                    ]
-                },
-                selectTv: {
-                    label: 'Смотрешка',
-                    text: 'Не выбрано',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: [],
-                    multiple: true,
-                    items: [
-                        {
-                            id: 1,
-                            val: '40 каналов',
-                        },
-                        {
-                            id: 2,
-                            val: '50 каналов',
-                        },
-                        {
-                            id: 3,
-                            val: '60 каналов',
-                        },
-                        {
-                            id: 4,
-                            val: '10 + 60 каналов',
-                        },
-                        {
-                            id: 5,
-                            val: '50 каналов',
-                        },
-                    ]
-                },
-                selectRent: {
-                    label: 'Аренда оборудования',
-                    text: 'Не выбрано',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: [],
-                    multiple: true,
-                    items: [
-                        {
-                            id: 1,
-                            val: 'Тарелка',
-                        },
-                        {
-                            id: 2,
-                            val: 'Роутер',
-                        },
-                    ]
-                },
+                inputName: input('Введите название', 'Введите название пакета', 'package', true, false, null, null),
+                selectInternet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
+                selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
             },
-            note: {
-                textareaNote: {
-                    label: 'Введите текст',
-                    text: 'Введите текст',
-                    isRequired: true,
-                    isError: false,
-                    errorText: null,
-                    val: null
-                },
+             note: {
+                textareaNote: textarea('Введите текст', 'Введите текст', 'note', true, false, null, null)
             },
             errors: this.$store.getters.getClient,
             isSendForm: this.$store.getters.getSendForm

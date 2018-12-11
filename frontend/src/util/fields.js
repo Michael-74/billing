@@ -23,6 +23,18 @@ export function inputDifference(label, textFrom, textTo, name, isRequired, isErr
     }
 }
 
+export function textarea(label, text, name, isRequired, isError, errorText, val) {
+    return {
+        label: label,
+        text: text,
+        name: name,
+        isRequired: isRequired,
+        isError: isError,
+        errorText: errorText,
+        val: val
+    }
+}
+
 export function select(label, text, name, isRequired, isError, errorText, val, items) {
     return {
         label: label,

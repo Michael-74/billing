@@ -160,7 +160,9 @@ export default {
         }
     },
     created () {
-        this.$store.dispatch('getPresetsAsync', {token: this.$store.getters.getUser.token, url: this.$route.path});
+        if(!this.$store.getters.getPresets.length) {
+            this.$store.dispatch('getPresetsAsync', {token: this.$store.getters.getUser.token, url: this.$route.path});
+        }
     },
     methods: {
         isFilterShow: function (){

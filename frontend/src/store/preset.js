@@ -10,6 +10,11 @@ export default {
         pushPresets (state, payload) {
             state.presets.push(payload);
         },
+        setPresets (state, payload) {
+            //state.presets = payload;
+            Vue.set(state, 'presets', [...payload]);
+            state.presets.push(payload);
+        },
     },
     actions: {
         getPresetsAsync ({commit, state}, payload) {
@@ -22,9 +27,12 @@ export default {
                     }
                 })
                 .then(response => {
+                    var data = [];
                     response.data.forEach((item) => {
                         commit('pushPresets', {id: item.id, val: item.name, settings: item.settings});
+                        //data.push({id: item.id, val: item.name, settings: item.settings});
                     });
+                    //commit('setPresets', data);
                 })
         },
         /**
