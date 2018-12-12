@@ -81,7 +81,7 @@ export default {
          * Доастаем названия для вывода
          */
         getNameSelected () {
-            if(this.selecteds.length == 1) {
+            if(this.selecteds.length === 1) {
                 return this.selectName[0]
             } else {
                 return this.selectName[0] + '...';
@@ -94,30 +94,52 @@ export default {
          * @returns {*}
          */
         getSelectsName () {
-            if(this.selecteds.length != 0){
+            if((this.selecteds.length !== 0) && (this.data.val.length !== 0) && (this.isDifference.length === 0)){
                 return this.getNameSelected();
             } else {
-                if(this.data.val.length != 0) {
+                if(this.data.val.length !== 0) {
                     var index = [];
                     var names = [];
                     this.data.items.forEach((item, i1, array1) => {
                         this.data.val.forEach((currentItem, i2, array2) => {
-                            if(item.id == currentItem) {
+                            if(item.id === currentItem) {
                                 index.push(item.id);
                                 names.push(item.val);
                             }
                         });
                     });
-                    this.selecteds = this.selecteds.concat(index);
-                    this.selectName = this.selectName.concat(names);
-                    return this.getNameSelected();
+
+                    if(index.length !== 0) {
+                        this.selectName = [];
+                        this.selecteds = [];
+                        this.selecteds = this.selecteds.concat(index);
+                        this.selectName = this.selectName.concat(names);
+                        return this.getNameSelected();
+                    } else {
+                        this.selectName = [];
+                        this.selecteds = [];
+                        return 'не выбрано';
+                    }
+
                 } else {
+                    this.selectName = [];
+                    this.selecteds = [];
                     return 'не выбрано';
                 }
             }
         },
+        isDifference () {
+            // Не должно быть совпадений, выдать true
+            var difference = [];
+            if(this.selecteds.length > this.data.val.length) {
+                difference = this.selecteds.filter(n => this.data.val.indexOf(n) === -1);
+            } else {
+                difference = this.data.val.filter(n => this.selecteds.indexOf(n) === -1);
+            }
+            return difference
+        },
         isSelects () {
-            if(this.selecteds.length != 0){
+            if(this.selecteds.length !== 0){
                 return true;
             } else {
                 return false;

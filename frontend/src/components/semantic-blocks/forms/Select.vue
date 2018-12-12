@@ -9,7 +9,7 @@
                 <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{select__arrow_active: isSelect}"></font-awesome-icon>
             </div>
             <div class="select__block-select" v-show="isShow">
-                <div class="select__option" :class="{'select__option_active': item.id == select}" v-for="item in data.items" @click="selected(item.val, item.id)">
+                <div class="select__option" :class="{'select__option_active': item.id === select}" v-for="item in data.items" @click="selected(item.val, item.id)">
                     {{item.val}}
                 </div>
             </div>
@@ -36,6 +36,9 @@ export default {
         }
     },
     methods: {
+        getSelect () {
+            return this.select
+        },
         selected (name, id) {
             if(this.select === id) {
                 this.selectName = null;
@@ -57,7 +60,7 @@ export default {
     },
     computed: {
         getSelectName () {
-            if(this.select){
+            if(this.select && this.data.val != null && this.select === this.data.val){
                 return this.selectName
             } else {
                 if(this.data.val) {
@@ -68,11 +71,16 @@ export default {
                             index = i
                         }
                     });
-                    if(index != null)
+                    if(index != null) {
                         return this.selectName = this.data.items[index].val;
-                    else
+                    } else {
+                        this.selectName = null;
+                        this.select = null;
                         return 'не выбрано';
+                    }
                 } else {
+                    this.selectName = null;
+                    this.select = null;
                     return 'не выбрано';
                 }
             }
