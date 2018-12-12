@@ -51,7 +51,7 @@ public class PresetController extends AdminController {
         }
         Preset addPreset = presetRepository.save(preset);
 
-        return new ResponseEntity<>(addPreset, HttpStatus.OK);
+        return new ResponseEntity<Preset>(addPreset, HttpStatus.OK);
     }
 
     @DeleteMapping({"v1/preset/delete/{id}"})

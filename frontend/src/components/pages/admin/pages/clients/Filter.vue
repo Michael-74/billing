@@ -9,7 +9,7 @@
                     Добавить
                 </button>
                 <div class="filters__header-input_inline">
-                    <button class="button button__add" @click="showPresets">Выбрать из существующих</button>
+                    <button class="button button__add" @click="showPresets(client)">Выбрать из существующих</button>
                     <!--<app-select :data="preset.selectPreset"></app-select>-->
                 </div>
             </div>
@@ -152,8 +152,8 @@ export default {
                 selectDiscount: select('Скидка', 'Не выбрано', 'type_discount', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 checkboxParser: checkbox(null, 'Обещанный платеж', 'Обещанный платеж', 'promise', false, false, null, null),
-                inputDifferenceParser: inputDifference('Баланс', 'от -1000', 'до 1000','fio', false, false, null, null),
-                inputDifferencePrice: inputDifference('Цена до конца месяца', 'от -1000', 'до 1000','fio', false, false, null, null),
+                inputDifferenceParser: inputDifference('Баланс', 'от -1000', 'до 1000','balance', false, false, null, null),
+                inputDifferencePrice: inputDifference('Цена до конца месяца', 'от -1000', 'до 1000','price_over_month', false, false, null, null),
                 selectInternet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
                 selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
                 selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
@@ -175,7 +175,7 @@ export default {
             const store = JSON.stringify(objFields);
             this.$store.dispatch("addPresetAsync",{url: this.$route.path, name: this.preset.inputPreset.val, fields: store, token: this.$store.getters.getUser.token});
         },
-        showPresets: function () {
+        showPresets: function (clientSetting) {
             this.$modal.show({
                     components:{
                         FontAwesomeIcon
@@ -188,6 +188,18 @@ export default {
                     methods: {
                         deletePreset(id) {
                             this.$store.dispatch("deletePresetAsync", {id: id, token: this.$store.getters.getUser.token});
+                        },
+                        selectPreset(preset) {
+                            this.$emit('close')
+                            console.log("modal", clientSetting);
+                            console.log("modal-preset", preset);
+
+                            const settings = JSON.parse(preset.settings);
+
+                            for(let item in clientSetting) {
+                                let name = clientSetting[item].name;
+                                clientSetting[item].val = settings[name];
+                            }
                         }
                     },
                     template: `
@@ -208,7 +220,7 @@ export default {
                             <tbody class="items__tbody">
                                 <tr class="modal__tr" v-for="(preset, index) in getPresets">
                                     <td class="items__td">{{preset.id}}</td>
-                                    <td class="items__td">{{preset.name}}</td>
+                                    <td class="items__td" @click="selectPreset(preset)">{{preset.name}}</td>
                                     <td class="items__td">
                                         <font-awesome-icon class="items__icon" icon="times-circle" @click="deletePreset(preset.id)"></font-awesome-icon>
                                     </td>
