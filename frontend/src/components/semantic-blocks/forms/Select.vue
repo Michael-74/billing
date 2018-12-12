@@ -37,13 +37,13 @@ export default {
     },
     methods: {
         selected (name, id) {
-            if(this.select == id) {
-                this.selectName = '';
-                this.select = '';
-                this.data.val = '';
+            if(this.select === id) {
+                this.selectName = null;
+                this.select = null;
+                this.data.val = null;
             } else {
-                this.select = id
-                this.selectName = name
+                this.select = id;
+                this.selectName = name;
                 this.data.val = id;
             }
             this.isShow = false
@@ -64,11 +64,11 @@ export default {
                     this.select = this.data.val;
                     var index = null;
                     this.data.items.forEach((item, i, array) => {
-                        if(item.id == this.select) {
+                        if(item.id === this.select) {
                             index = i
                         }
                     });
-                    if(index)
+                    if(index != null)
                         return this.selectName = this.data.items[index].val;
                     else
                         return 'не выбрано';

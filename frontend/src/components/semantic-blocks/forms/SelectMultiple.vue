@@ -59,7 +59,7 @@ export default {
         getIndex (id) {
             var isFlag = false;
             this.selecteds.forEach(function(item, i) {
-                if(item == id){
+                if(item === id){
                     isFlag = true;
                 }
             });
@@ -70,7 +70,7 @@ export default {
             var index = [];
             this.data.items.forEach((item, i1, array1) => {
                 this.data.val.forEach((currentItem, i2, array2) => {
-                    if(item.id == currentItem) {
+                    if(item.id === currentItem) {
                         index.push({'name': item.val, 'idx': i1});
                     }
                 });
