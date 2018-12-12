@@ -1,12 +1,15 @@
 <template>
-    <div class="fields__input">
+    <div class="fields__input fields_relative">
         <div class="fields__label" v-show="data.label">
             {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
         <div class="fields__input-difference-block">
-            <input class="fields__input-difference fields__input-difference-from fields__field" type="text" :placeholder="data.textFrom" v-model="inputFrom">
-            <input class="fields__input-difference fields__input-difference-to fields__field" type="text" :placeholder="data.textTo" v-model="inputTo">
+            <input class="fields__input-difference fields__input-difference-from fields__field" type="text" :placeholder="data.textFrom" v-model="data.val[0]">
+            <input class="fields__input-difference fields__input-difference-to fields__field" type="text" :placeholder="data.textTo" v-model="data.val[1]">
             <div class="clear"></div>
+        </div>
+        <div class="fields__error" v-show='this.data.isError'>
+            {{ data.errorText }}
         </div>
     </div>
 </template>
@@ -21,8 +24,8 @@ export default {
     },
     data () {
         return {
-            inputFrom: '',
-            inputTo: '',
+            inputFrom: this.data.val[0],
+            inputTo: this.data.val[1],
         }
     }
 }
