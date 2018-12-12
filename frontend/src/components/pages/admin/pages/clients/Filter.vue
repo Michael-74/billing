@@ -44,7 +44,7 @@
                     <app-difference-input :data="client.inputDifferencePrice"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
-                    <button class="filters__clean">Очистить</button>
+                    <button class="filters__clean" @click="clearBlockService">Очистить</button>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-checkbox filters__header-select filters__header-input_inline filters__select filters__select_padding">
@@ -61,8 +61,11 @@
                     <app-select :data="client.selectStatus"></app-select>
                 </div>
                 <div class="clear"></div>
-                <div class="filters__header-input_width filters__select_padding filters__discount-width">
+                <div class="filters__header-input_width filters__header-input_inline filters__select_padding filters__discount-width">
                     <app-input :data="client.inputDiscount"></app-input>
+                </div>
+                <div class="filters__header-select filters__header-input_inline filters__select">
+                    <button class="filters__clean" @click="clearBlockDiscount">Очистить</button>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -98,7 +101,7 @@
                     <app-select :data="client.selectLoy"></app-select>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
-                    <button class="filters__clean">Очистить</button>
+                    <button class="filters__clean" @click="clearBlockClient">Очистить</button>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -154,10 +157,10 @@ export default {
                 selectDiscount: select('Скидка', 'Не выбрано', 'type_discount', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 checkboxParser: checkbox(null, 'Обещанный платеж', 'Обещанный платеж', 'promise', false, false, null, null),
-                inputDifferenceFrom: input('Баланс', 'от -1000', 'balance_from', false, false, null, null),
-                inputDifferenceTo: input('&nbsp;', 'от -1000', 'balance_to', false, false, null, null),
+                inputDifferenceFrom: input('Баланс', 'от', 'balance_from', false, false, null, null),
+                inputDifferenceTo: input('&nbsp;', 'до', 'balance_to', false, false, null, null),
                 //inputDifferenceParser: inputDifference('Баланс', 'от -1000', 'до 1000','balance', false, false, null, [null, null]),
-                inputDifferencePrice: inputDifference('Цена до конца месяца', 'от -1000', 'до 1000','price_over_month', false, false, null, [null, null]),
+                inputDifferencePrice: inputDifference('Цена до конца месяца', 'от', 'до','price_over_month', false, false, null, [null, null]),
                 selectInternet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
                 selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
                 selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
@@ -170,6 +173,31 @@ export default {
         }
     },
     methods: {
+        clearFields: function (objFields, checkedFields) {
+            for(var item in objFields) {
+                for(var name in checkedFields) {
+                    if(checkedFields[name] === item) {
+                        if (this.client[item].val instanceof Array) {
+                            this.client[item].val = [];
+                        } else {
+                            this.client[item].val = null;
+                        }
+                    }
+                }
+            }
+        },
+        clearBlockService: function () {
+            const checkedFields = ['selectInternet', 'selectTv', 'selectRent', 'inputDifferenceFrom', 'inputDifferenceTo', 'inputDifferencePrice', 'checkboxParser'];
+            this.clearFields(this.client, checkedFields);
+        },
+        clearBlockClient: function () {
+            const checkedFields = ['inputFio', 'inputAddress', 'inputPhone', 'inputEmail', 'inputIp', 'inputLogin', 'inputContract', 'selectLoy', 'createdDifference'];
+            this.clearFields(this.client, checkedFields);
+        },
+        clearBlockDiscount: function () {
+            const checkedFields = ['selectDiscount', 'selectStatus', 'inputDiscount'];
+            this.clearFields(this.client, checkedFields);
+        },
         isFilterShow: function (){
             this.isFilter = !this.isFilter;
             console.log('isFilterShow');
