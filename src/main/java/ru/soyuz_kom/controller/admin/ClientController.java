@@ -93,6 +93,15 @@ public class ClientController extends AdminController {
     }
     */
 
+
+    @PostMapping({"v1/client/search"})
+    @ResponseBody
+    public Iterable<Client> index(@RequestBody Object preset) {
+        Iterable<Client> clients = clientRepository.findAll();
+
+        return clients;
+    }
+
     @MessageMapping("/deleteClient")
     @SendTo("/client/deleteClient")
     public Integer delete(Integer clientId) {

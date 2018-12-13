@@ -106,7 +106,7 @@
                 <div class="clear"></div>
             </div>
             <div class="filters__button-save">
-                <button class="button button__save">Применить фильтр</button>
+                <button class="button button__save" @click="applyFilter">Применить фильтр</button>
             </div>
             <div class="clear"></div>
         </div>
@@ -173,6 +173,11 @@ export default {
         }
     },
     methods: {
+        applyFilter: function () {
+            const clients = this.$store.getters.getClients;
+            console.log('cccc', clients[0]);
+            this.$store.commit('setClients', [clients[0]]);
+        },
         clearFields: function (objFields, checkedFields) {
             for(var item in objFields) {
                 for(var name in checkedFields) {
