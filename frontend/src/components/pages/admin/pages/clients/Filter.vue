@@ -175,7 +175,7 @@ export default {
     methods: {
         applyFilter: function () {
             console.log('applyFilter');
-            const settings = {data: "123"};
+            const settings = parseObj(this.client);
 
             this.$store.dispatch('searchClientsAsync', settings)
         },
@@ -229,9 +229,6 @@ export default {
                         },
                         selectPreset(preset) {
                             this.$emit('close')
-                            console.log("modal", clientSetting);
-                            console.log("modal-preset", preset);
-
                             const settings = JSON.parse(preset.settings);
 
                             for(let item in clientSetting) {

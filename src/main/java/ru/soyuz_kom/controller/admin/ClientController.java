@@ -17,10 +17,7 @@ import ru.soyuz_kom.repository.UserRepository;
 import ru.soyuz_kom.validation.ClientStore;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class ClientController extends AdminController {
@@ -94,12 +91,11 @@ public class ClientController extends AdminController {
     */
 
 
-    @GetMapping({"v1/client/search/{data}"})
+    @PostMapping({"v1/client/search"})
     @ResponseBody
-    public Iterable<Client> index(@PathVariable("data") String preset) {
-    //public Iterable<Client> index(@RequestBody String preset) {
+    public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
 
-        System.out.println("client search: " + preset);
+        System.out.println("client search: " + preset.get("price_over_month"));
 
         Iterable<Client> clients = clientRepository.findAll();
 

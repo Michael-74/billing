@@ -55,11 +55,11 @@ export default {
     actions: {
         searchClientsAsync ({commit, state, rootGetters }, payload) {
             console.log("searchClientsAsync", payload);
-            const data = {data: payload.data};
-            const store = JSON.stringify(data);
+            //const data = {data: payload.data};
+            //const store = JSON.stringify(data);
 
             axios
-                .get('/admin/v1/client/search/' + payload.data, {
+                .post('/admin/v1/client/search', payload, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
