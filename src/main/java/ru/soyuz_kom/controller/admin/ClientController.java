@@ -94,9 +94,13 @@ public class ClientController extends AdminController {
     */
 
 
-    @PostMapping({"v1/client/search"})
+    @GetMapping({"v1/client/search/{data}"})
     @ResponseBody
-    public Iterable<Client> index(@RequestBody Object preset) {
+    public Iterable<Client> index(@PathVariable("data") String preset) {
+    //public Iterable<Client> index(@RequestBody String preset) {
+
+        System.out.println("client search: " + preset);
+
         Iterable<Client> clients = clientRepository.findAll();
 
         return clients;

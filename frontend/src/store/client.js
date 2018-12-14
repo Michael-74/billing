@@ -53,6 +53,24 @@ export default {
         }
     },
     actions: {
+        searchClientsAsync ({commit, state, rootGetters }, payload) {
+            console.log("searchClientsAsync", payload);
+            const data = {data: payload.data};
+            const store = JSON.stringify(data);
+
+            axios
+                .get('/admin/v1/client/search/' + payload.data, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
+                    }
+                })
+                .then(response => {
+                    console.log("searchClientsAsync success", response);
+                    //commit('setClients', response.data);
+                })
+        },
         getClientsAsync ({commit, state}, payload) {
             axios
                 .get('/admin/v1/client/', payload, {

@@ -174,9 +174,10 @@ export default {
     },
     methods: {
         applyFilter: function () {
-            const clients = this.$store.getters.getClients;
-            console.log('cccc', clients[0]);
-            this.$store.commit('setClients', [clients[0]]);
+            console.log('applyFilter');
+            const settings = {data: "123"};
+
+            this.$store.dispatch('searchClientsAsync', settings)
         },
         clearFields: function (objFields, checkedFields) {
             for(var item in objFields) {
