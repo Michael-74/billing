@@ -1,6 +1,9 @@
 package ru.soyuz_kom.controller.admin;
 
+import cz.jirutka.rsql.parser.RSQLParser;
+import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,6 +17,7 @@ import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.User;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.UserRepository;
+import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.validation.ClientStore;
 
 import javax.validation.Valid;
@@ -94,10 +98,16 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/search"})
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
-
         System.out.println("client search: " + preset.get("price_over_month"));
 
-        Iterable<Client> clients = clientRepository.findAll();
+        String string = "";
+
+        //preset.entrySet().stream()
+
+        Node rootNode = new RSQLParser().parse("fio!=123");
+        Specification<Client> spec = rootNode.accept(new CustomRsqlVisitor<Client>());
+
+        Iterable<Client> clients = clientRepository.findAll(spec);
 
         return clients;
     }

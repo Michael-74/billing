@@ -68,7 +68,7 @@ export default {
                 })
                 .then(response => {
                     console.log("searchClientsAsync success", response);
-                    //commit('setClients', response.data);
+                    commit('setClients', response.data);
                 })
         },
         getClientsAsync ({commit, state}, payload) {
