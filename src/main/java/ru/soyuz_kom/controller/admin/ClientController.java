@@ -3,6 +3,7 @@ package ru.soyuz_kom.controller.admin;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import ru.soyuz_kom.validation.ClientStore;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class ClientController extends AdminController {
@@ -34,7 +36,7 @@ public class ClientController extends AdminController {
 
     @GetMapping({"v1/client","v1/client/"})
     public Iterable<Client> index() {
-        Iterable<Client> clients = clientRepository.findAll();
+        Iterable<Client> clients = clientRepository.findAllByOrderByIdDesc();
 
         return clients;
     }
@@ -98,16 +100,60 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/search"})
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
-        System.out.println("client search: " + preset.get("price_over_month"));
-
         String string = "";
 
-        //preset.entrySet().stream()
+        for(Map.Entry<String, Object> entry : preset.entrySet()) {
+            if(entry.getValue() == null || entry.getValue() == "") {
+                continue;
+            }
 
-        Node rootNode = new RSQLParser().parse("fio!=123");
-        Specification<Client> spec = rootNode.accept(new CustomRsqlVisitor<Client>());
+            switch (entry.getKey()) {
+                case "price_over_month":
+                    ArrayList data = (ArrayList) entry.getValue();
+                    if(data.get(0) != null && data.get(0) != "") {
+                        //string += entry.getKey() + ">" + data.get(0) + ";";
+                    }
+                    if(data.get(1) != null && data.get(1) != "") {
+                        //string += entry.getKey() + "<" + data.get(1) + ";";
+                    }
+                    break;
+                case "internet":
+                case "tv":
+                case "rent":
+                    List arr = (List) entry.getValue();
+                    if (arr.size() != 0) {
+                        String listString = arr.toString();
+                        String result = listString.substring(1, listString.length()-1);
+                        //string += entry.getKey() + "=in=(" + result + ");";
+                    }
+                    break;
+                case "fio":
+                case "address":
+                case "phone":
+                case "email":
+                case "login":
+                case "contract":
+                case "ip":
+                    string += entry.getKey() + "==" + entry.getValue() + "*;";
+                    break;
+                default:
+                    //string += entry.getKey() + "==" + entry.getValue() + "*;";
+            }
+        }
+        Iterable<Client> clients;
+        if(string.length() != 0) {
+            String newString = string.substring(0, string.length() - 1);
+            System.out.println("string search: " + newString);
 
-        Iterable<Client> clients = clientRepository.findAll(spec);
+            //string = preset.entrySet().stream().filter(item -> !item.equals("")).toString();
+
+            Node rootNode = new RSQLParser().parse(newString);
+            Specification<Client> spec = rootNode.accept(new CustomRsqlVisitor<Client>());
+
+            clients = clientRepository.findAll(spec);
+        } else {
+            clients = clientRepository.findAllByOrderByIdDesc();
+        }
 
         return clients;
     }

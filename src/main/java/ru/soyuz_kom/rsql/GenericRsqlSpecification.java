@@ -29,6 +29,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     public Predicate toPredicate(final Root<T> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
         final List<Object> args = castArguments(root);
         final Object argument = args.get(0);
+        query.orderBy(builder.desc(root.get("id")));
         switch (RsqlSearchOperation.getSimpleOperator(operator)) {
 
             case EQUAL: {
