@@ -4,30 +4,30 @@
             <div class="items__clients">
                 <table class="items__table">
                     <thead class="items__thead">
-                        <tr>
-                            <th class="items__th">N</th>
-                            <th class="items__th">IP адресс</th>
-                            <th class="items__th">Логин</th>
-                            <th class="items__th">Баланс</th>
-                            <th class="items__th">Дата посл. платежа</th>
-                            <th class="items__th items__th_last-price">Цена до конца месяца</th>
-                            <th class="items__th">Договор</th>
-                            <th class="items__th">Интернет</th>
-                            <th class="items__th">КТВ</th>
-                            <th class="items__th">Аренда оборудования</th>
-                            <th class="items__th">Обещанный платеж</th>
-                            <th class="items__th items__th_fio">ФИО</th>
-                            <th class="items__th items__th_address">Адрес</th>
-                            <th class="items__th">Телефон</th>
-                            <th class="items__th">Email</th>
-                            <th class="items__th">Тип скидки</th>
-                            <th class="items__th">Скидка</th>
-                            <th class="items__th">Статус</th>
-                            <th class="items__th">Лояльность</th>
-                            <th class="items__th">Уведомления</th>
-                            <th class="items__th">Дата создания</th>
-                            <th class="items__th">Действие</th>
-                        </tr>
+                    <tr>
+                        <th class="items__th">N</th>
+                        <th class="items__th">IP адресс</th>
+                        <th class="items__th">Логин</th>
+                        <th class="items__th">Баланс</th>
+                        <th class="items__th">Дата посл. платежа</th>
+                        <th class="items__th items__th_last-price">Цена до конца месяца</th>
+                        <th class="items__th">Договор</th>
+                        <th class="items__th">Интернет</th>
+                        <th class="items__th">КТВ</th>
+                        <th class="items__th">Аренда оборудования</th>
+                        <th class="items__th">Обещанный платеж</th>
+                        <th class="items__th items__th_fio">ФИО</th>
+                        <th class="items__th items__th_address">Адрес</th>
+                        <th class="items__th">Телефон</th>
+                        <th class="items__th">Email</th>
+                        <th class="items__th">Тип скидки</th>
+                        <th class="items__th">Скидка</th>
+                        <th class="items__th">Статус</th>
+                        <th class="items__th">Лояльность</th>
+                        <th class="items__th">Уведомления</th>
+                        <th class="items__th">Дата создания</th>
+                        <th class="items__th">Действие</th>
+                    </tr>
                     </thead>
                     <tbody class="items__tbody">
                         <tr v-for="item in data" :key="item.id">
@@ -156,5 +156,12 @@ export default {
         border-bottom-right-radius: 20px;
     }
 
+    .items__clients-wrapper {
+
+    }
+    .items__clients {
+        max-height:500px;
+        position: relative;
+    }
 
 </style>
