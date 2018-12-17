@@ -16,10 +16,10 @@
                     <app-input :data="getClient.id"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="getClient.ip"></app-input>
+                    <app-input :data="client.login"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-input :data="client.login"></app-input>
+                    <app-input :data="client.ip"></app-input>
                 </div>
                 <div class="create__input">
                     <app-input :data="client.balance"></app-input>
@@ -28,7 +28,7 @@
                     <app-input :data="client.contract"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-checkbox :data="client.promised"></app-checkbox>
+                    <app-input :data="client.priceOverMonth"></app-input>
                 </div>
                 <div class="clear"></div>
                 <div class="create__input">
@@ -42,6 +42,9 @@
                 </div>
                 <div class="create__input">
                     <app-input :data="client.email"></app-input>
+                </div>
+                <div class="create__input">
+                    <app-checkbox :data="client.promised"></app-checkbox>
                 </div>
                 <div class="clear"></div>
                 <div class="create__input create__input_width-discount">
@@ -72,7 +75,7 @@
                         <app-select-multiple :data="packages.selectRent"></app-select-multiple>
                     </div>
                     <div class="create__input create__package-button">
-                        <button class="button button__add" @click="show">Выбрать из существующих</button>
+                        <button class="button button__add" @click="show(packages)">Выбрать из существующих</button>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__save-package">Сохранить пакет</button>
@@ -81,7 +84,10 @@
                 </div>
                 <div class="create__package create__note">
                     <h2 class="create__package-h2">Заметки об абоненте</h2>
-                    <div class="create__input create__input_full-width">
+                    <div class="create__input create__input_note">
+                        <button class="button button__add" @click="isNote = !isNote">Добавить заметку</button>
+                    </div>
+                    <div class="create__input create__input_full-width" v-show="isNote">
                         <app-textarea :data="note.textareaNote"></app-textarea>
                     </div>
                     <div class="clear"></div>
@@ -126,6 +132,7 @@ export default {
     props: ['editItem'],
     data () {
         return {
+            isNote: false,
             isFormCreate: true,
             isCreate: false,
             client: {
@@ -134,6 +141,7 @@ export default {
                 ip: input('IP адрес', 'IP адрес', 'ip', true, false, null, null),
                 balance: input('Баланс', 'Баланс', 'balance', true, false, null, null),
                 contract: input('Номер договора', 'Номер договора', 'contract', true, false, null, null),
+                priceOverMonth: input('Цена до конца месяца', 'Цена до конца месяца', 'price_over_month', true, false, null, null),
                 promised: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'promised', true, false, null, true),
                 fio: input('ФИО', 'ФИО', 'fio', true, false, null, null),
                 address: input('Адрес', 'Адрес', 'address', true, false, null, null),
@@ -151,7 +159,7 @@ export default {
                 selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
             },
              note: {
-                textareaNote: textarea('Введите текст', 'Введите текст', 'note', true, false, null, null)
+                textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
             },
             errors: this.$store.getters.getClient,
             isSendForm: this.$store.getters.getSendForm
@@ -246,10 +254,31 @@ export default {
             }
             console.log('clearCreateForm');
         },
-        show () {
+        show (packages) {
             this.$modal.show({
                 components:{
                     FontAwesomeIcon
+                },
+                methods: {
+                    selectPackage (id) {
+                        //TODO:: сделано только для тестового просмотра
+                        if(id === 1) {
+                            packages.selectInternet.val = 1;
+                            packages.selectTv.val = [1, 2]
+                            packages.selectRent.val = [1, 2]
+                        }
+                        if(id === 2) {
+                            packages.selectInternet.val = 2;
+                            packages.selectTv.val = [2]
+                            packages.selectRent.val = [2]
+                        }
+                        if(id === 3) {
+                            packages.selectInternet.val = 2;
+                            packages.selectTv.val = [1, 2]
+                            packages.selectRent.val = [1]
+                        }
+                        this.$emit('close');
+                    }
                 },
                 template: `
                     <div class="modal__block">
@@ -269,19 +298,26 @@ export default {
                                 </tr>
                             </thead>
                             <tbody class="items__tbody">
-                                <tr class="modal__tr" @click="$emit('close')">
+                                <tr class="modal__tr" @click="selectPackage(1)">
                                     <td class="items__td">1</td>
                                     <td class="items__td">Kvartira_40</td>
                                     <td class="items__td">Bandl_1</td>
                                     <td class="items__td">Роутер</td>
                                     <td class="items__td">550</td>
                                 </tr>
-                                <tr class="modal__tr" @click="$emit('close')">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
+                                <tr class="modal__tr" @click="selectPackage(2)">
+                                    <td class="items__td">2</td>
+                                    <td class="items__td">Kvartira_30</td>
+                                    <td class="items__td">Bandl_2</td>
                                     <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
+                                    <td class="items__td">520</td>
+                                </tr>
+                                <tr class="modal__tr" @click="selectPackage(3)">
+                                    <td class="items__td">3</td>
+                                    <td class="items__td">Kvartira_80</td>
+                                    <td class="items__td">Bandl_3</td>
+                                    <td class="items__td">Тарелка</td>
+                                    <td class="items__td">860</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -331,6 +367,9 @@ export default {
         margin: 0 20px 30px 0;
         width: 230px;
         float: left;
+    }
+    .create__input_note {
+        margin-bottom: 20px;
     }
     .create__input_hide {
         display: none;

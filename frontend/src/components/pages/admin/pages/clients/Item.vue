@@ -6,8 +6,8 @@
                     <thead class="items__thead">
                     <tr>
                         <th class="items__th">N</th>
-                        <th class="items__th">IP адресс</th>
                         <th class="items__th">Логин</th>
+                        <th class="items__th">IP адресс</th>
                         <th class="items__th">Баланс</th>
                         <th class="items__th">Дата посл. платежа</th>
                         <th class="items__th items__th_last-price">Цена до конца месяца</th>
@@ -32,8 +32,8 @@
                     <tbody class="items__tbody">
                         <tr v-for="item in data" :key="item.id">
                             <td class="items__td">{{ item.id }}</td>
-                            <td class="items__td">{{ item.ip }}</td>
                             <td class="items__td">{{ item.login }}</td>
+                            <td class="items__td">{{ item.ip }}</td>
                             <td class="items__td">{{ item.balance }}</td>
                             <td class="items__td">{{ item.lastPriceDate }}</td>
                             <td class="items__td">{{ item.lastPrice }}</td>

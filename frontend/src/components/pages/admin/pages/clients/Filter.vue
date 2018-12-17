@@ -73,6 +73,22 @@
             <div class="filters__block filters__block_contact">
                 <h2>Учетная запись и контактные данные</h2>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
+                    <app-input :data="client.inputLogin"></app-input>
+                </div>
+                <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
+                    <app-input :data="client.inputIp"></app-input>
+                </div>
+                <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
+                    <app-input :data="client.inputContract"></app-input>
+                </div>
+                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                    <app-select :data="client.selectLoy"></app-select>
+                </div>
+                <div class="filters__header-select filters__header-input_inline filters__select">
+                    <button class="filters__clean" @click="clearBlockClient">Очистить</button>
+                </div>
+                <div class="clear"></div>
+                <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
                     <app-input :data="client.inputFio"></app-input>
                 </div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
@@ -86,22 +102,6 @@
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
                     <app-datepicker :data="client.createdDifference"></app-datepicker>
-                </div>
-                <div class="clear"></div>
-                <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputIp"></app-input>
-                </div>
-                <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputLogin"></app-input>
-                </div>
-                <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputContract"></app-input>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.selectLoy"></app-select>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select">
-                    <button class="filters__clean" @click="clearBlockClient">Очистить</button>
                 </div>
                 <div class="clear"></div>
             </div>
