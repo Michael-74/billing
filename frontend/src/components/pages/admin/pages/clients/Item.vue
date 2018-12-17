@@ -76,6 +76,7 @@
                 </table>
             </div>
         </div>
+        <!--
         <div class="items__pagination pagination">
             <a class="pagination__link" href="#">1</a>
             <a class="pagination__link pagination__link_active" href="#">2</a>
@@ -83,6 +84,7 @@
             <a class="pagination__link" href="#">...</a>
             <a class="pagination__link" href="#">5</a>
         </div>
+        -->
     </div>
 </template>
 

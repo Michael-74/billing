@@ -41,7 +41,7 @@ export default {
             // Хак чтобы vuex увидел обновление
             Vue.set(state, 'clients', [...old]);
             if(!isMatches) {
-                state.clients.push(payload);
+                state.clients.unshift(payload);
             }
         },
         deleteClient (state, id) {

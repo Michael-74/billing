@@ -138,7 +138,7 @@ export default {
     },
     data () {
         return {
-            isFilter: true,
+            isFilter: false,
             preset: {
                 selectPreset: select(null, 'не выбрано', 'name', false, false, null, null, this.$store.getters.getPresets),
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
