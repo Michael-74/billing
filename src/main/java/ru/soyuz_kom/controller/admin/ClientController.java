@@ -15,8 +15,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Client;
+import ru.soyuz_kom.entity.Schedule;
 import ru.soyuz_kom.entity.User;
 import ru.soyuz_kom.repository.ClientRepository;
+import ru.soyuz_kom.repository.ScheduleRepository;
 import ru.soyuz_kom.repository.UserRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.validation.ClientStore;
@@ -100,6 +102,8 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/search"})
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
+
+
         String string = "";
 
         for(Map.Entry<String, Object> entry : preset.entrySet()) {
