@@ -3,6 +3,8 @@ package ru.soyuz_kom.controller.admin;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -101,6 +103,7 @@ public class ClientController extends AdminController {
 
     @PostMapping({"v1/client/search"})
     @ResponseBody
+    @CacheEvict(value="schedule", allEntries=true)
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
 
 

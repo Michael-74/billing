@@ -22,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Configuration
-@EnableScheduling
 @EnableWebMvc
 @ComponentScan({"ru.soyuz_kom.controller", "ru.soyuz_kom.config", "ru.soyuz_kom.service"})
 public class WebConfig implements WebMvcConfigurer {
@@ -74,28 +73,4 @@ public class WebConfig implements WebMvcConfigurer {
         };
     }
     */
-    @Scheduled(fixedRate = 1000)
-    public void test() throws InterruptedException {
-        LocalDateTime now = LocalDateTime.now();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = now.format(formatter);
-
-        System.out.println("Time : " + formatDateTime);
-
-
-        List<Schedule> list= scheduleRepository.findAll();
-
-        LocalDateTime dateTime = LocalDateTime.parse(list.get(0).getDateformat());
-
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime2 = dateTime.format(formatter2);
-
-
-        if(formatDateTime.equals(formatDateTime2)) {
-            System.out.println("WINNNNNNNNN");
-        }
-
-        System.out.println("Schedule: " + formatDateTime2);
-    }
 }
