@@ -71,13 +71,13 @@ export default {
                     commit('setClients', response.data);
                 })
         },
-        getClientsAsync ({commit, state}, payload) {
+        getClientsAsync ({commit, state, rootGetters}, payload) {
             axios
-                .get('/admin/v1/client/', payload, {
+                .get('/admin/v1/client/', {}, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + payload.token
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
                     }
                 })
                 .then(response => {

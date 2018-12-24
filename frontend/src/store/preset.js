@@ -26,13 +26,13 @@ export default {
         }
     },
     actions: {
-        getPresetsAsync ({commit, state}, payload) {
+        getPresetsAsync ({commit, state, rootGetters}, payload) {
             axios
                 .post('/admin/v1/preset/', payload.url, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + payload.token
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
                     }
                 })
                 .then(response => {
@@ -42,14 +42,14 @@ export default {
                     });
                 })
         },
-        deletePresetAsync ({commit, state}, payload) {
+        deletePresetAsync ({commit, state, rootGetters}, payload) {
             console.log("id", payload.id);
             axios
                 .delete('/admin/v1/preset/delete/' + payload.id, {id: parseInt(payload.id)}, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + payload.token
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
                     }
                 })
                 .then(response => {
@@ -80,17 +80,16 @@ export default {
         /**
          * TODO:: Единый метод для всех пресетов
          */
-        addPresetAsync ({commit, state}, payload) {
+        addPresetAsync ({commit, state, rootGetters}, payload) {
 
-            const data = {url: payload.url, name: payload.name, settings: payload.fields};
-            const store = JSON.stringify(data);
+            const store = JSON.stringify(payload);
             console.log("store", store);
             axios
                 .post('/admin/v1/preset/store', store, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + payload.token
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
                     }
                 })
                 .then(response => {

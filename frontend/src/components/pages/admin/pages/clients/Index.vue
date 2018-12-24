@@ -33,7 +33,7 @@ export default {
     },
     created() {
         if(!this.$store.getters.getClients.length) {
-            this.$store.dispatch('getClientsAsync', {token: this.$store.getters.getUser.token});
+            this.$store.dispatch('getClientsAsync');
         }
 
         addClient(data => {

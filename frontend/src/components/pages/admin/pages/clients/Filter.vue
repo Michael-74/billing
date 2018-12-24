@@ -124,7 +124,7 @@ import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference } from '../../../../../util/fields'
-import { parseObj } from '../../../../../util/helpers'
+import { parseObj, clearFields, showPresets } from '../../../../../util/helpers'
 
 export default {
     components: {
@@ -169,7 +169,7 @@ export default {
     },
     created () {
         if(!this.$store.getters.getPresets.length) {
-            this.$store.dispatch('getPresetsAsync', {token: this.$store.getters.getUser.token, url: this.$route.path});
+            this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
         }
     },
     methods: {
@@ -179,30 +179,17 @@ export default {
 
             this.$store.dispatch('searchClientsAsync', settings)
         },
-        clearFields: function (objFields, checkedFields) {
-            for(var item in objFields) {
-                for(var name in checkedFields) {
-                    if(checkedFields[name] === item) {
-                        if (this.client[item].val instanceof Array) {
-                            this.client[item].val = [];
-                        } else {
-                            this.client[item].val = null;
-                        }
-                    }
-                }
-            }
-        },
         clearBlockService: function () {
             const checkedFields = ['selectInternet', 'selectTv', 'selectRent', 'inputDifferenceFrom', 'inputDifferenceTo', 'inputDifferencePrice', 'checkboxParser'];
-            this.clearFields(this.client, checkedFields);
+            clearFields(this.client, checkedFields);
         },
         clearBlockClient: function () {
             const checkedFields = ['inputFio', 'inputAddress', 'inputPhone', 'inputEmail', 'inputIp', 'inputLogin', 'inputContract', 'selectLoy', 'createdDifference'];
-            this.clearFields(this.client, checkedFields);
+            clearFields(this.client, checkedFields);
         },
         clearBlockDiscount: function () {
             const checkedFields = ['selectDiscount', 'selectStatus', 'inputDiscount'];
-            this.clearFields(this.client, checkedFields);
+            clearFields(this.client, checkedFields);
         },
         isFilterShow: function (){
             this.isFilter = !this.isFilter;
@@ -211,65 +198,10 @@ export default {
         savePreset: function () {
             const objFields = parseObj(this.client);
             const store = JSON.stringify(objFields);
-            this.$store.dispatch("addPresetAsync",{url: this.$route.path, name: this.preset.inputPreset.val, fields: store, token: this.$store.getters.getUser.token});
+            this.$store.dispatch("addPresetAsync", {url: this.$route.path, name: this.preset.inputPreset.val, settings: store});
         },
-        showPresets: function (clientSetting) {
-            this.$modal.show({
-                    components:{
-                        FontAwesomeIcon
-                    },
-                    computed: {
-                        getPresets () {
-                            return this.$store.getters.getPresets;
-                        }
-                    },
-                    methods: {
-                        deletePreset(id) {
-                            this.$store.dispatch("deletePresetAsync", {id: id, token: this.$store.getters.getUser.token});
-                        },
-                        selectPreset(preset) {
-                            this.$emit('close')
-                            const settings = JSON.parse(preset.settings);
-
-                            for(let item in clientSetting) {
-                                let name = clientSetting[item].name;
-                                clientSetting[item].val = settings[name];
-                            }
-                        }
-                    },
-                    template: `
-                    <div class="modal__block">
-                        <div class="modal__close" @click="$emit('close')">
-                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
-                            Закрыть
-                        </div>
-                        <h3 class="modal__h3">Список пресетов</h3>
-                        <table class="modal__package-table items__table">
-                            <thead class="items__thead">
-                                <tr>
-                                    <th class="modal__th items__th">N</th>
-                                    <th class="modal__th items__th">Название</th>
-                                    <th class="modal__th items__th">Действия</th>
-                                </tr>
-                            </thead>
-                            <tbody class="items__tbody">
-                                <tr class="modal__tr" v-for="(preset, index) in getPresets">
-                                    <td class="items__td">{{preset.id}}</td>
-                                    <td class="items__td" @click="selectPreset(preset)">{{preset.name}}</td>
-                                    <td class="items__td">
-                                        <font-awesome-icon class="items__icon" icon="times-circle" @click="deletePreset(preset.id)"></font-awesome-icon>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                  `
-                },{
-                },{
-                    height: '400px',
-                    clickToClose: false
-                }
-            );
+        showPresets: function (items) {
+            showPresets(items);
         }
     },
     computed: {
@@ -376,7 +308,7 @@ export default {
         width: 100px;
     }
     .filters__button-save {
-        margin: 20px 0 20px;
+        margin: 20px 0 0px;
     }
     .filters__input_float {
         float: left;

@@ -48,11 +48,13 @@ export default {
                     link: '/admin/rent',
                     icon: 'cog'
                 },
+                /*
                 {
                     name: 'Услуги',
                     link: '/admin/service',
                     icon: 'briefcase'
                 },
+                */
                 {
                     name: 'Финансы',
                     link: '/admin/wallet',

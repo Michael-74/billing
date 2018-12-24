@@ -10,6 +10,7 @@
                 <router-link :to='{path: page.link}' tag="a" class="nav__a" exact active-class="nav__a_active">
                     <font-awesome-icon class="nav__icon" :icon='page.icon'></font-awesome-icon>
                     {{page.name}}
+                    <!--
                     <ul class="nav__second">
                         <li class="nav__li-second">
                             <a class="nav__a-second">Услуги</a>
@@ -27,6 +28,7 @@
                             <a class="nav__a-second">Смотрешка</a>
                         </li>
                     </ul>
+                    -->
                 </router-link>
             </li>
         </ul>
@@ -131,6 +133,6 @@ export default {
     }
 
     .nav__li:hover .nav__two {
-        display: block;
+        /*display: block;*/
     }
 </style>
