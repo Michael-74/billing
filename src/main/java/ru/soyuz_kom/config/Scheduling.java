@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import ru.soyuz_kom.entity.Tasks;
+import ru.soyuz_kom.entity.Task;
 import ru.soyuz_kom.repository.TaskRepository;
 
 import java.time.LocalDateTime;
@@ -27,7 +27,7 @@ public class Scheduling {
         //System.out.println("Time : " + formatDateTime);
 
 
-        List<Tasks> list = taskRepository.findAll();
+        List<Task> list = taskRepository.findAll();
 
         //LocalDateTime dateTime = LocalDateTime.parse(list.get(0).getDatetime());
         //System.out.println("COUNT: " + list.size());
@@ -43,6 +43,6 @@ public class Scheduling {
         }
         */
 
-        //System.out.println("Tasks: " + formatDateTime2);
+        //System.out.println("Task: " + formatDateTime2);
     }
 }
