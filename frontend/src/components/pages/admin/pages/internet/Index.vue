@@ -3,19 +3,29 @@
         <div class="clients__filters">
             <app-filter></app-filter>
         </div>
+        <div class="clients__create">
+            <app-create :editItem="selectedItem"></app-create>
+        </div>
     </div>
 </template>
 
 <script>
-import FilterClients from './Filter'
+import Filter from './Filter'
+import Create from './Create'
 
 export default {
     components: {
-        AppFilter: FilterClients,
+        AppFilter: Filter,
+        AppCreate: Create,
     },
     data () {
         return {
-
+            editItem: null
+        }
+    },
+    computed: {
+        selectedItem: function() {
+            return this.editItem = this.$store.getters.getEditClient;
         }
     }
 }
