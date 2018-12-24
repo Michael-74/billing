@@ -1,25 +1,11 @@
 package ru.soyuz_kom.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.*;
-import ru.soyuz_kom.entity.Schedule;
-import ru.soyuz_kom.repository.ScheduleRepository;
-import sun.util.resources.LocaleData;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import ru.soyuz_kom.repository.TaskRepository;
 
 @Configuration
 @EnableWebMvc
@@ -31,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private TaskRepository taskRepository;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

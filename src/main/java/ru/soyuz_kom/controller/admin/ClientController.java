@@ -4,30 +4,20 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.entity.Schedule;
-import ru.soyuz_kom.entity.User;
 import ru.soyuz_kom.repository.ClientRepository;
-import ru.soyuz_kom.repository.ScheduleRepository;
-import ru.soyuz_kom.repository.UserRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
-import ru.soyuz_kom.validation.ClientStore;
 
 import javax.validation.Valid;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 public class ClientController extends AdminController {

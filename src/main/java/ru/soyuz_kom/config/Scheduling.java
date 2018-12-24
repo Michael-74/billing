@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.servlet.config.annotation.*;
-import ru.soyuz_kom.entity.Schedule;
-import ru.soyuz_kom.repository.ScheduleRepository;
+import ru.soyuz_kom.entity.Tasks;
+import ru.soyuz_kom.repository.TaskRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +16,7 @@ import java.util.List;
 public class Scheduling {
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private TaskRepository taskRepository;
 
     @Scheduled(fixedRate = 1000)
     public void scheduler() throws InterruptedException {
@@ -28,20 +27,22 @@ public class Scheduling {
         //System.out.println("Time : " + formatDateTime);
 
 
-        List<Schedule> list= scheduleRepository.findAll();
+        List<Tasks> list = taskRepository.findAll();
 
-        LocalDateTime dateTime = LocalDateTime.parse(list.get(0).getDateformat());
+        //LocalDateTime dateTime = LocalDateTime.parse(list.get(0).getDatetime());
         //System.out.println("COUNT: " + list.size());
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime2 = dateTime.format(formatter2);
+        //DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        //String formatDateTime2 = dateTime.format(formatter2);
 
         /**
          * TODO:: проверка дат из задачи с текущем временем
          */
+        /*
         if(formatDateTime.equals(formatDateTime2)) {
             //System.out.println("WINNNNNNNNN");
         }
+        */
 
-        //System.out.println("Schedule: " + formatDateTime2);
+        //System.out.println("Tasks: " + formatDateTime2);
     }
 }
