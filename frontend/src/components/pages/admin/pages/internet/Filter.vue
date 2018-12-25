@@ -73,7 +73,7 @@ export default {
     },
     data () {
         return {
-            isFilter: true,
+            isFilter: false,
             preset: {
                 selectPreset: select(null, 'не выбрано', 'name', false, false, null, null, this.$store.getters.getPresets),
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
@@ -86,9 +86,9 @@ export default {
         }
     },
     created () {
-        if(!this.$store.getters.getPresets.length) {
+        //if(!this.$store.getters.getPresets.length) {
             this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
-        }
+        //}
     },
     methods: {
         applyFilter: function () {

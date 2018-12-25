@@ -10,10 +10,9 @@ export default {
         pushPresets (state, payload) {
             state.presets.push(payload);
         },
-        setPresets (state, payload) {
+        clearPresets (state) {
             //state.presets = payload;
-            Vue.set(state, 'presets', [...payload]);
-            state.presets.push(payload);
+            Vue.set(state, 'presets', []);
         },
         deletePreset (state, payload) {
             var idx = null;
@@ -36,7 +35,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    var data = [];
+                    commit('clearPresets');
                     response.data.forEach((item) => {
                         commit('pushPresets', item);
                     });

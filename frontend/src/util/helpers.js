@@ -1,4 +1,5 @@
 import Vue from "vue";
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 /**
  * Подготавливаем новый массив содержащий название поля и значение
@@ -33,7 +34,6 @@ export function clearFields(objFields, checkedFields) {
         }
     }
 }
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export function showPresets(items) {
     Vue.prototype.$modal.show({

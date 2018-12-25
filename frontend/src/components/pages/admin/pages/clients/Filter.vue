@@ -168,9 +168,9 @@ export default {
         }
     },
     created () {
-        if(!this.$store.getters.getPresets.length) {
+        //if(!this.$store.getters.getPresets.length) {
             this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
-        }
+        //}
     },
     methods: {
         applyFilter: function () {

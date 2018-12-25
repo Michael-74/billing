@@ -12,96 +12,46 @@
         </div>
         <div class="create__body_wrapper"  v-show="isCreate">
             <div class="create__body">
-                <div class="create__input create__input_hide">
-                    <app-input :data="getClient.id"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.login"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.ip"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.balance"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.contract"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.priceOverMonth"></app-input>
-                </div>
-                <div class="clear"></div>
-                <div class="create__input">
-                    <app-input :data="client.fio"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.address"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.phone"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.email"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-checkbox :data="client.promised"></app-checkbox>
-                </div>
-                <div class="clear"></div>
-                <div class="create__input create__input_width-discount">
-                    <app-input :data="client.discount"></app-input>
-                </div>
-                <div class="create__input create__select_width">
-                    <app-select :data="client.type_discount"></app-select>
-                </div>
-                <div class="create__input create__select_width">
-                    <app-select :data="client.status"></app-select>
-                </div>
-                <div class="create__input create__select_width">
-                    <app-select :data="client.loyalty"></app-select>
-                </div>
-                <div class="clear"></div>
                 <div class="create__package">
-                    <h2 class="create__package-h2">Настройка пакета услуг</h2>
+                    <h2 class="create__package-h2">Настройка интернет тарифа</h2>
+                    <div class="create__input create__input_hide">
+                        <app-input :data="getClient.id"></app-input>
+                    </div>
                     <div class="create__input">
-                        <app-input :data="packages.inputName"></app-input>
+                        <app-input :data="internet.name"></app-input>
+                    </div>
+                    <div class="create__input">
+                        <app-input :data="internet.speed"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select :data="packages.selectInternet"></app-select>
+                        <app-checkbox :data="internet.status"></app-checkbox>
                     </div>
-                    <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.selectTv"></app-select-multiple>
-                    </div>
-                    <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.selectRent"></app-select-multiple>
-                    </div>
+                    <!--
                     <div class="create__input create__package-button">
-                        <button class="button button__add" @click="show(packages)">Выбрать из существующих</button>
+                        <button class="button button__add" @click="show(internet)">Выбрать из существующих</button>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__save-package">Сохранить пакет</button>
                     </div>
+                    -->
                     <div class="clear"></div>
                 </div>
+                <!--
                 <div class="create__package create__note">
-                    <h2 class="create__package-h2">Заметки об абоненте</h2>
+                    <h2 class="create__package-h2">Создание задачи</h2>
+
                     <div class="create__input create__input_note">
                         <button class="button button__add" @click="isNote = !isNote">Добавить заметку</button>
                     </div>
-                    <div class="create__input create__input_full-width" v-show="isNote">
-                        <app-textarea :data="note.textareaNote"></app-textarea>
-                    </div>
                     <div class="clear"></div>
                 </div>
+                -->
             </div>
             <div class="create__button-save">
-                <button v-if="isFormCreate" class="button button__save button__save-user" @click="addClient">Сохранить пользователя</button>
-                <button v-else class="button button__save button__save-user" @click="addClient">Редактировать пользователя</button>
+                <button v-if="isFormCreate" class="button button__save button__save-user" @click="addItem">Сохранить пользователя</button>
+                <button v-else class="button button__save button__save-user" @click="addItem">Редактировать пользователя</button>
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
-        </div>
-        <div class="hide">
-            {{isSendForm}}
-            {{errors}}
         </div>
     </div>
 </template>
@@ -132,37 +82,16 @@ export default {
     props: ['editItem'],
     data () {
         return {
-            isNote: false,
             isFormCreate: true,
             isCreate: false,
-            client: {
+            internet: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
-                login: input('Логин', 'Логин', 'login', true, false, null, null),
-                ip: input('IP адрес', 'IP адрес', 'ip', true, false, null, null),
-                balance: input('Баланс', 'Баланс', 'balance', true, false, null, null),
-                contract: input('Номер договора', 'Номер договора', 'contract', true, false, null, null),
-                priceOverMonth: input('Цена до конца месяца', 'Цена до конца месяца', 'price_over_month', true, false, null, null),
-                promised: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'promised', true, false, null, true),
-                fio: input('ФИО', 'ФИО', 'fio', true, false, null, null),
-                address: input('Адрес', 'Адрес', 'address', true, false, null, null),
-                phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
-                email: input('Email', 'Email', 'email', true, false, null, null),
-                discount: input('Скидка', 'Скидка', 'discount', true, false, null, null),
-                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                type_discount: select('Тип скидки', 'Не выбрано', 'type_discount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                status: select('Статус', 'Не выбрано', 'status', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
-            },
-            packages: {
-                inputName: input('Введите название', 'Введите название пакета', 'package', true, false, null, null),
-                selectInternet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
-                selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
-            },
-             note: {
-                textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
+                name: input('Введите название', 'Введите название', 'name', true, false, null, null),
+                speed: input('Введите скорость', 'Введите скорость', 'speed', true, false, null, null),
+                status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
             },
             errors: this.$store.getters.getClient,
-            isSendForm: this.$store.getters.getSendForm
+            isSendForm: this.$store.getters.getInternetSendForm
         }
     },
     computed: {
@@ -170,23 +99,22 @@ export default {
             var isFlagFormCreate = true;
             if(this.editItem) {
                 isFlagFormCreate = false;
-                for (let item in this.client) {
-                    this.client[item].val = this.editItem[item];
+                for (let item in this.internet) {
+                    this.internet[item].val = this.editItem[item];
                 }
             }
             this.changeForm(isFlagFormCreate);
-            return this.client
+            return this.internet
         }
     },
     methods: {
         changeForm: function(flag) {
             this.isFormCreate = flag;
         },
-        clientStore: function (data) {
-            //sendClient(data); // websocket
+        itemStore: function (data) {
 
             axios
-                .post('/admin/v1/client/create', data, {
+                .post('/admin/v1/internet/store', data, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -196,23 +124,29 @@ export default {
                 .then(response => {
                     if (response.status === 200) {
                         this.$store.commit('selectSendForm', true);
+
+                        // Если форма стоит для Добавления
                         if(this.isFormCreate) {
+                            this.$store.commit("pushInternets", response.data)
                             this.$notify({
                                 group: 'notify',
                                 type: 'success ',
-                                text: 'Абонент успешно добавлен'
+                                text: 'Тариф успешно добавлен'
                             });
                         } else {
+                            //console.log("internet", this.internet)
+                            this.$store.commit("editInternet", response.data)
                             this.$notify({
                                 group: 'notify',
                                 type: 'success ',
-                                text: 'Абонент успешно отредактирован'
+                                text: 'Тариф успешно отредактирован'
                             });
                         }
                         console.log('client-store', "save");
                     }
                 })
                 .catch(error => {
+                    console.log("error", error);
                     if(error.response.status === 422) {
                         console.log("error", error.response);
                         this.$store.commit('addErrors', error.response.data);
@@ -228,29 +162,29 @@ export default {
 
         },
         checkErrors () {
-            for(let item in this.client) {
-                this.client[item].isError = false;
+            for(let item in this.internet) {
+                this.internet[item].isError = false;
             }
             if(this.$store.getters.getClient.errors) {
                 for(let item in this.$store.getters.getClient.errors) {
-                    this.client[item].isError = true;
-                    this.client[item].errorText = this.$store.getters.getClient.errors[item];
+                    this.internet[item].isError = true;
+                    this.internet[item].errorText = this.$store.getters.getClient.errors[item];
                 }
             }
         },
-        addClient () {
-            const client = {};
+        addItem () {
+            const items = {};
             //this.clearCreateForm();
-            for(let item in this.client) {
-                client[this.client[item].name] = this.client[item].val;
+            for(let item in this.internet) {
+                items[this.internet[item].name] = this.internet[item].val;
             }
-            this.clientStore(client);
+            this.itemStore(items);
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
-            for(let item in this.client) {
-                this.client[item].isError = false;
-                this.client[item].val = null;
+            for(let item in this.internet) {
+                this.internet[item].isError = false;
+                this.internet[item].val = null;
             }
             console.log('clearCreateForm');
         },
@@ -340,7 +274,7 @@ export default {
             this.isCreate = false;
             this.changeForm(true);
             this.clearCreateForm();
-            this.$store.commit('setClient', null);
+            this.$store.commit('setInternet', null);
         }
     }
 }

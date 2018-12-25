@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.soyuz_kom.entity.enums.ServiceTypeEnum;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "services")
+@Table(name = "rents")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Service {
+public class Rent {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -20,10 +19,9 @@ public class Service {
     @Column(name = "name")
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", columnDefinition="ENUM('internet','tv','rent')", nullable = false)
-    private ServiceTypeEnum serviceTypeEnum;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
     @Column(name = "status")
-    private Integer status;
+    private Boolean status;
 }

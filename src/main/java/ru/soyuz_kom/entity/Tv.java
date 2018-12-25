@@ -16,9 +16,9 @@ public class Tv {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "id_lifestream")
-    private Integer lifestreamId;
-
     @Column(name = "name")
     private String name;
+
+    @Column(name = "status")
+    private Boolean status;
 }
