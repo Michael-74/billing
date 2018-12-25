@@ -1,6 +1,7 @@
 import axios from "axios";
 import router from '../router'
 import Vue from "vue";
+import {checkErrors} from "../util/helpers";
 
 export default {
     state: {
@@ -51,6 +52,54 @@ export default {
         },
     },
     actions: {
+        addInternetAsync ({commit, state, rootGetters}, payload) {
+
+            axios
+                .post('/admin/v1/internet/store', payload.obj, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        commit('selectSendForm', true);
+
+                        // Если форма стоит для Добавления
+                        if(payload.isFormCreate) {
+                            commit("pushInternets", response.data)
+                            Vue.prototype.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Тариф успешно добавлен'
+                            });
+                        } else {
+                            //console.log("internet", this.internet)
+                            commit("editInternet", response.data)
+                            Vue.prototype.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Тариф успешно отредактирован'
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log("error", error);
+                    if(error.response.status === 422) {
+                        commit('setErrors', error.response.data);
+                        commit('selectSendForm', false);
+                        Vue.prototype.$notify({
+                            group: 'notify',
+                            type: 'error',
+                            text: 'Проверьте введенные данные'
+                        });
+                        checkErrors(payload.items, rootGetters.getErrors);
+                    }
+                });
+
+        },
         getInternetsAsync ({commit, state, rootGetters}, payload) {
             axios
                 .get('/admin/v1/internet/', {}, {
@@ -88,7 +137,25 @@ export default {
                         text: 'Ошибка при удалении интернет тарифа'
                     });
                 })
-        }
+        },
+        searchInternetsAsync ({commit, state, rootGetters }, payload) {
+            console.log("searchInternetsAsync", payload);
+            //const data = {data: payload.data};
+            //const store = JSON.stringify(data);
+
+            axios
+                .post('/admin/v1/internet/search', payload, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
+                    }
+                })
+                .then(response => {
+                    console.log("searchInternetsAsync success", response);
+                    commit('setInternets', response.data);
+                })
+        },
     },
     getters: {
         getInternets (state) {

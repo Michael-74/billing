@@ -15,6 +15,18 @@ export function parseObj(obj) {
     return data;
 }
 
+export function checkErrors(obj, errors) {
+    for(let item in obj) {
+        obj[item].isError = false;
+    }
+    if(errors) {
+        for(let item in errors) {
+            obj[item].isError = true;
+            obj[item].errorText = errors[item];
+        }
+    }
+}
+
 /**
  * Очищаем поля у объекта
  * @param objFields

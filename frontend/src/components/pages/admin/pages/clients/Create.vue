@@ -99,10 +99,6 @@
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
         </div>
-        <div class="hide">
-            {{isSendForm}}
-            {{errors}}
-        </div>
     </div>
 </template>
 
@@ -161,7 +157,6 @@ export default {
              note: {
                 textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
             },
-            errors: this.$store.getters.getClient,
             isSendForm: this.$store.getters.getSendForm
         }
     },
@@ -182,69 +177,26 @@ export default {
         changeForm: function(flag) {
             this.isFormCreate = flag;
         },
-        clientStore: function (data) {
-            //sendClient(data); // websocket
-
-            axios
-                .post('/admin/v1/client/create', data, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.$store.getters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        this.$store.commit('selectSendForm', true);
-                        if(this.isFormCreate) {
-                            this.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Абонент успешно добавлен'
-                            });
-                        } else {
-                            this.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Абонент успешно отредактирован'
-                            });
-                        }
-                        console.log('client-store', "save");
-                    }
-                })
-                .catch(error => {
-                    if(error.response.status === 422) {
-                        console.log("error", error.response);
-                        this.$store.commit('addErrors', error.response.data);
-                        this.$store.commit('selectSendForm', false);
-                        this.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-                        this.checkErrors();
-                    }
-                });
-
-        },
+        /*
         checkErrors () {
             for(let item in this.client) {
                 this.client[item].isError = false;
             }
-            if(this.$store.getters.getClient.errors) {
-                for(let item in this.$store.getters.getClient.errors) {
+            if(this.$store.getters.getErrors) {
+                for(let item in this.$store.getters.getErrors) {
                     this.client[item].isError = true;
-                    this.client[item].errorText = this.$store.getters.getClient.errors[item];
+                    this.client[item].errorText = this.$store.getters.getErrors[item];
                 }
             }
         },
+        */
         addClient () {
             const client = {};
             //this.clearCreateForm();
             for(let item in this.client) {
                 client[this.client[item].name] = this.client[item].val;
             }
-            this.clientStore(client);
+            this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isSendForm: this.isSendForm})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
@@ -252,7 +204,6 @@ export default {
                 this.client[item].isError = false;
                 this.client[item].val = null;
             }
-            console.log('clearCreateForm');
         },
         show (packages) {
             this.$modal.show({

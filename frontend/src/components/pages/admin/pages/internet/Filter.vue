@@ -27,6 +27,9 @@
             <div class="filters__block filters__fix-height">
                 <h2>Интернет тарифы</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                    <app-input :data="internet.inputName"></app-input>
+                </div>
+                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-difference-input :data="internet.inputDifferenceSpeed"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
@@ -79,6 +82,7 @@ export default {
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
             },
             internet: {
+                inputName: input('Название тарифа', 'Название тарифа', 'name', false, false, null, null),
                 inputDifferenceSpeed: inputDifference('Скорость интернета', 'от', 'до','speed', false, false, null, [null, null]),
                 inputDifferencePrice: inputDifference('Цена интернета', 'от', 'до','price', false, false, null, [null, null]),
                 selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:'Включен'}, {id:2, val:'Выключен'}]),
@@ -94,10 +98,10 @@ export default {
         applyFilter: function () {
             const settings = parseObj(this.internet);
 
-            this.$store.dispatch('searchClientsAsync', settings)
+            this.$store.dispatch('searchInternetsAsync', settings)
         },
         clearBlockInternet: function () {
-            const checkedFields = ['inputDifferenceSpeed', 'inputDifferencePrice', 'selectStatus'];
+            const checkedFields = ['inputDifferenceSpeed', 'inputDifferencePrice', 'selectStatus', 'inputName'];
             clearFields(this.internet, checkedFields);
         },
         isFilterShow: function (){

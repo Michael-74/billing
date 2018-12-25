@@ -3,7 +3,7 @@
         <div class="create__header">
             <button v-if="isFormCreate" class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="plus"></font-awesome-icon>
-                Добавить пользователя
+                Добавить интернет тариф
             </button>
             <button v-else class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="cog"></font-awesome-icon>
@@ -48,8 +48,8 @@
                 -->
             </div>
             <div class="create__button-save">
-                <button v-if="isFormCreate" class="button button__save button__save-user" @click="addItem">Сохранить пользователя</button>
-                <button v-else class="button button__save button__save-user" @click="addItem">Редактировать пользователя</button>
+                <button v-if="isFormCreate" class="button button__save button__save-user" @click="addItem">Сохранить тариф</button>
+                <button v-else class="button button__save button__save-user" @click="addItem">Редактировать тариф</button>
                 <button class="button button__save button__cancel-user button__cancel-user_margin" @click="isCreateClose">Отмена</button>
             </div>
         </div>
@@ -90,7 +90,6 @@ export default {
                 speed: input('Введите скорость', 'Введите скорость', 'speed', true, false, null, null),
                 status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
             },
-            errors: this.$store.getters.getClient,
             isSendForm: this.$store.getters.getInternetSendForm
         }
     },
@@ -111,74 +110,13 @@ export default {
         changeForm: function(flag) {
             this.isFormCreate = flag;
         },
-        itemStore: function (data) {
-
-            axios
-                .post('/admin/v1/internet/store', data, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + this.$store.getters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        this.$store.commit('selectSendForm', true);
-
-                        // Если форма стоит для Добавления
-                        if(this.isFormCreate) {
-                            this.$store.commit("pushInternets", response.data)
-                            this.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Тариф успешно добавлен'
-                            });
-                        } else {
-                            //console.log("internet", this.internet)
-                            this.$store.commit("editInternet", response.data)
-                            this.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Тариф успешно отредактирован'
-                            });
-                        }
-                        console.log('client-store', "save");
-                    }
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    if(error.response.status === 422) {
-                        console.log("error", error.response);
-                        this.$store.commit('addErrors', error.response.data);
-                        this.$store.commit('selectSendForm', false);
-                        this.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-                        this.checkErrors();
-                    }
-                });
-
-        },
-        checkErrors () {
-            for(let item in this.internet) {
-                this.internet[item].isError = false;
-            }
-            if(this.$store.getters.getClient.errors) {
-                for(let item in this.$store.getters.getClient.errors) {
-                    this.internet[item].isError = true;
-                    this.internet[item].errorText = this.$store.getters.getClient.errors[item];
-                }
-            }
-        },
         addItem () {
             const items = {};
             //this.clearCreateForm();
             for(let item in this.internet) {
                 items[this.internet[item].name] = this.internet[item].val;
             }
-            this.itemStore(items);
+            this.$store.dispatch('addInternetAsync', {items: this.internet, obj: items, isSendForm: this.isSendForm})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
@@ -187,85 +125,6 @@ export default {
                 this.internet[item].val = null;
             }
             console.log('clearCreateForm');
-        },
-        show (packages) {
-            this.$modal.show({
-                components:{
-                    FontAwesomeIcon
-                },
-                methods: {
-                    selectPackage (id) {
-                        //TODO:: сделано только для тестового просмотра
-                        if(id === 1) {
-                            packages.selectInternet.val = 1;
-                            packages.selectTv.val = [1, 2]
-                            packages.selectRent.val = [1, 2]
-                        }
-                        if(id === 2) {
-                            packages.selectInternet.val = 2;
-                            packages.selectTv.val = [2]
-                            packages.selectRent.val = [2]
-                        }
-                        if(id === 3) {
-                            packages.selectInternet.val = 2;
-                            packages.selectTv.val = [1, 2]
-                            packages.selectRent.val = [1]
-                        }
-                        this.$emit('close');
-                    }
-                },
-                template: `
-                    <div class="modal__block">
-                        <div class="modal__close" @click="$emit('close')">
-                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
-                            Закрыть
-                        </div>
-                        <h3 class="modal__h3">Список пакетов</h3>
-                        <table class="modal__package-table items__table">
-                            <thead class="items__thead">
-                                <tr>
-                                    <th class="modal__th items__th">N</th>
-                                    <th class="modal__th items__th">Интернет</th>
-                                    <th class="modal__th items__th">Смотрешка</th>
-                                    <th class="modal__th items__th">Оборудование</th>
-                                    <th class="modal__th items__th">Цена</th>
-                                </tr>
-                            </thead>
-                            <tbody class="items__tbody">
-                                <tr class="modal__tr" @click="selectPackage(1)">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="selectPackage(2)">
-                                    <td class="items__td">2</td>
-                                    <td class="items__td">Kvartira_30</td>
-                                    <td class="items__td">Bandl_2</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">520</td>
-                                </tr>
-                                <tr class="modal__tr" @click="selectPackage(3)">
-                                    <td class="items__td">3</td>
-                                    <td class="items__td">Kvartira_80</td>
-                                    <td class="items__td">Bandl_3</td>
-                                    <td class="items__td">Тарелка</td>
-                                    <td class="items__td">860</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                  `
-                },{
-                },{
-                    height: '400px',
-                    clickToClose: false
-                }
-            );
-        },
-        hide () {
-            this.$modal.hide('modal1');
         },
         isCreateShow: function () {
             this.isCreate = true;

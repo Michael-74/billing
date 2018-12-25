@@ -1,23 +1,15 @@
 import axios from "axios";
 import router from '../router'
 import Vue from "vue";
+import { parseObj, checkErrors } from '../util/helpers'
 
 export default {
     state: {
-        client: {
-            errors: null
-        },
         clients: [],
         editClient: null,
         isSendForm: false
     },
     mutations: {
-        addErrors (state, payload) {
-            state.client.errors = payload;
-        },
-        clearErrors (state, payload) {
-            state.client.errors = null;
-        },
         selectSendForm (state, payload) {
             state.isSendForm = payload;
         },
@@ -33,7 +25,6 @@ export default {
             state.clients.forEach((item, index, array) => {
                 if(item.id === payload.id) {
                     isMatches = true;
-                    console.log("Есть совпадения", item)
                     old[index] = payload;
                 }
             });
@@ -53,6 +44,49 @@ export default {
         }
     },
     actions: {
+        addClientAsync ({commit, state, rootGetters }, payload) {
+            //sendClient(data); // websocket
+
+            axios
+                .post('/admin/v1/client/create', payload.obj, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        commit('selectSendForm', true);
+                        if(payload.isFormCreate) {
+                            Vue.prototype.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Абонент успешно добавлен'
+                            });
+                        } else {
+                            Vue.prototype.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Абонент успешно отредактирован'
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    if(error.response.status === 422) {
+                        commit('setErrors', error.response.data);
+                        commit('selectSendForm', false);
+                        Vue.prototype.$notify({
+                            group: 'notify',
+                            type: 'error',
+                            text: 'Проверьте введенные данные'
+                        });
+                        checkErrors(payload.items, rootGetters.getErrors);
+                    }
+                });
+
+        },
         searchClientsAsync ({commit, state, rootGetters }, payload) {
             console.log("searchClientsAsync", payload);
             //const data = {data: payload.data};
@@ -86,9 +120,6 @@ export default {
         }
     },
     getters: {
-        getClient (state) {
-            return state.client;
-        },
         getClients (state) {
             return state.clients;
         },

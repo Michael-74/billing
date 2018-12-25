@@ -4,6 +4,7 @@ import client from './client'
 import user from './user'
 import preset from './preset'
 import internet from './internet'
+import error from './error'
 
 
 Vue.use(Vuex)
@@ -14,5 +15,6 @@ export default new Vuex.Store({
         user,
         preset,
         internet,
+        error
     }
 })
