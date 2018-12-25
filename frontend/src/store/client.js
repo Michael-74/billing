@@ -6,13 +6,9 @@ import { parseObj, checkErrors } from '../util/helpers'
 export default {
     state: {
         clients: [],
-        editClient: null,
-        isSendForm: false
+        editClient: null
     },
     mutations: {
-        selectSendForm (state, payload) {
-            state.isSendForm = payload;
-        },
         setClient (state, payload) {
             state.editClient = payload;
         },
@@ -57,7 +53,6 @@ export default {
                 })
                 .then(response => {
                     if (response.status === 200) {
-                        commit('selectSendForm', true);
                         if(payload.isFormCreate) {
                             Vue.prototype.$notify({
                                 group: 'notify',
@@ -76,7 +71,6 @@ export default {
                 .catch(error => {
                     if(error.response.status === 422) {
                         commit('setErrors', error.response.data);
-                        commit('selectSendForm', false);
                         Vue.prototype.$notify({
                             group: 'notify',
                             type: 'error',
@@ -125,9 +119,6 @@ export default {
         },
         getEditClient (state) {
             return state.editClient;
-        },
-        getSendForm (state) {
-            return state.isSendForm;
         }
     }
 }

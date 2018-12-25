@@ -156,8 +156,7 @@ export default {
             },
              note: {
                 textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
-            },
-            isSendForm: this.$store.getters.getSendForm
+            }
         }
     },
     computed: {
@@ -170,6 +169,7 @@ export default {
                 }
             }
             this.changeForm(isFlagFormCreate);
+
             return this.client
         }
     },
@@ -177,26 +177,13 @@ export default {
         changeForm: function(flag) {
             this.isFormCreate = flag;
         },
-        /*
-        checkErrors () {
-            for(let item in this.client) {
-                this.client[item].isError = false;
-            }
-            if(this.$store.getters.getErrors) {
-                for(let item in this.$store.getters.getErrors) {
-                    this.client[item].isError = true;
-                    this.client[item].errorText = this.$store.getters.getErrors[item];
-                }
-            }
-        },
-        */
         addClient () {
             const client = {};
             //this.clearCreateForm();
             for(let item in this.client) {
                 client[this.client[item].name] = this.client[item].val;
             }
-            this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isSendForm: this.isSendForm})
+            this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isFormCreate: this.isFormCreate})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');

@@ -3,32 +3,29 @@
         <div class="create__header">
             <button v-if="isFormCreate" class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="plus"></font-awesome-icon>
-                Добавить интернет тариф
+                Добавить ТВ тариф
             </button>
             <button v-else class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="cog"></font-awesome-icon>
-                Редактировать интернет тариф
+                Редактировать ТВ тариф
             </button>
         </div>
         <div class="create__body_wrapper"  v-show="isCreate">
             <div class="create__body">
                 <div class="create__package">
-                    <h2 class="create__package-h2">Настройка интернет тарифа</h2>
+                    <h2 class="create__package-h2">Настройка ТВ тарифа</h2>
                     <div class="create__input create__input_hide">
                         <app-input :data="getClient.id"></app-input>
                     </div>
                     <div class="create__input">
-                        <app-input :data="internet.name"></app-input>
-                    </div>
-                    <div class="create__input">
-                        <app-input :data="internet.speed"></app-input>
+                        <app-input :data="tv.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-checkbox :data="internet.status"></app-checkbox>
+                        <app-checkbox :data="tv.status"></app-checkbox>
                     </div>
                     <!--
                     <div class="create__input create__package-button">
-                        <button class="button button__add" @click="show(internet)">Выбрать из существующих</button>
+                        <button class="button button__add" @click="show(tv)">Выбрать из существующих</button>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__save-package">Сохранить пакет</button>
@@ -84,10 +81,9 @@ export default {
         return {
             isFormCreate: true,
             isCreate: false,
-            internet: {
+            tv: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
-                speed: input('Введите скорость', 'Введите скорость', 'speed', true, false, null, null),
                 status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
             }
         }
@@ -97,12 +93,12 @@ export default {
             var isFlagFormCreate = true;
             if(this.editItem) {
                 isFlagFormCreate = false;
-                for (let item in this.internet) {
-                    this.internet[item].val = this.editItem[item];
+                for (let item in this.tv) {
+                    this.tv[item].val = this.editItem[item];
                 }
             }
             this.changeForm(isFlagFormCreate);
-            return this.internet
+            return this.tv
         }
     },
     methods: {
@@ -112,16 +108,16 @@ export default {
         addItem () {
             const items = {};
             //this.clearCreateForm();
-            for(let item in this.internet) {
-                items[this.internet[item].name] = this.internet[item].val;
+            for(let item in this.tv) {
+                items[this.tv[item].name] = this.tv[item].val;
             }
-            this.$store.dispatch('addInternetAsync', {items: this.internet, obj: items, isFormCreate: this.isFormCreate})
+            this.$store.dispatch('addTvAsync', {items: this.tv, obj: items, isFormCreate: this.isFormCreate})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
-            for(let item in this.internet) {
-                this.internet[item].isError = false;
-                this.internet[item].val = null;
+            for(let item in this.tv) {
+                this.tv[item].isError = false;
+                this.tv[item].val = null;
             }
             console.log('clearCreateForm');
         },
@@ -132,7 +128,7 @@ export default {
             this.isCreate = false;
             this.changeForm(true);
             this.clearCreateForm();
-            this.$store.commit('setInternet', null);
+            this.$store.commit('setTv', null);
         }
     }
 }

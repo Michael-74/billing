@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tvs")
@@ -17,6 +19,8 @@ public class Tv {
     private Integer id;
 
     @Column(name = "name")
+    @Size(min=2, max=50)
+    @NotNull
     private String name;
 
     @Column(name = "status")

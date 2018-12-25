@@ -5,12 +5,12 @@ import {checkErrors} from "../util/helpers";
 
 export default {
     state: {
-        internets: [],
-        editInternet: null
+        tvs: [],
+        editTv: null
     },
     mutations: {
-        pushInternets (state, payload) {
-            state.internets.unshift(payload);
+        pushTvs (state, payload) {
+            state.tvs.unshift(payload);
             //state.internets.push(payload);
         },
         /**
@@ -18,40 +18,40 @@ export default {
          * @param state
          * @param payload
          */
-        editInternet (state, payload) {
-            state.internets.forEach((item, index) => {
+        editTv (state, payload) {
+            state.tvs.forEach((item, index) => {
                 if(item.id === payload.id) {
-                    for(let cur in state.internets[index]) {
-                        state.internets[index][cur] = payload[cur];
+                    for(let cur in state.tvs[index]) {
+                        state.tvs[index][cur] = payload[cur];
                     }
                 }
             });
         },
-        clearInternets (state) {
+        clearTvs (state) {
             //state.presets = payload;
-            Vue.set(state, 'internets', []);
+            Vue.set(state, 'tvs', []);
         },
-        setInternets (state, payload) {
-            state.internets = payload;
+        setTvs (state, payload) {
+            state.tvs = payload;
         },
-        deleteInternet (state, payload) {
+        deleteTv (state, payload) {
             var idx = null;
-            state.internets.forEach((item, index) => {
+            state.tvs.forEach((item, index) => {
                 if(item.id === payload) {
                     idx = index;
                 }
             });
-            state.internets.splice(idx, 1);
+            state.tvs.splice(idx, 1);
         },
-        setInternet (state, payload) {
-            state.editInternet = payload;
+        setTv (state, payload) {
+            state.editTv = payload;
         },
     },
     actions: {
-        addInternetAsync ({commit, state, rootGetters}, payload) {
+        addTvAsync ({commit, state, rootGetters}, payload) {
 
             axios
-                .post('/admin/v1/internet/store', payload.obj, {
+                .post('/admin/v1/tv/store', payload.obj, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export default {
 
                         // Если форма стоит для Добавления
                         if(payload.isFormCreate) {
-                            commit("pushInternets", response.data)
+                            commit("pushTvs", response.data)
                             Vue.prototype.$notify({
                                 group: 'notify',
                                 type: 'success ',
@@ -71,7 +71,7 @@ export default {
                             });
                         } else {
                             //console.log("internet", this.internet)
-                            commit("editInternet", response.data)
+                            commit("editTv", response.data)
                             Vue.prototype.$notify({
                                 group: 'notify',
                                 type: 'success ',
@@ -94,9 +94,9 @@ export default {
                 });
 
         },
-        getInternetsAsync ({commit, state, rootGetters}, payload) {
+        getTvsAsync ({commit, state, rootGetters}, payload) {
             axios
-                .get('/admin/v1/internet/', {}, {
+                .get('/admin/v1/tv/', {}, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -104,12 +104,12 @@ export default {
                     }
                 })
                 .then(response => {
-                    commit('setInternets', response.data);
+                    commit('setTvs', response.data);
                 })
         },
-        deleteInternetAsync ({commit, state, rootGetters}, payload) {
+        deleteTvAsync ({commit, state, rootGetters}, payload) {
             axios
-                .delete('/admin/v1/internet/delete/' + payload.id, {id: parseInt(payload.id)}, {
+                .delete('/admin/v1/tv/delete/' + payload.id, {id: parseInt(payload.id)}, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ export default {
                         type: 'success ',
                         text: 'Интернет тариф успешно удален'
                     });
-                    commit('deleteInternet', payload.id);
+                    commit('deleteTv', payload.id);
                 })
                 .catch(error => {
                     Vue.prototype.$notify({
@@ -132,13 +132,13 @@ export default {
                     });
                 })
         },
-        searchInternetsAsync ({commit, state, rootGetters }, payload) {
-            console.log("searchInternetsAsync", payload);
+        searchTvsAsync ({commit, state, rootGetters }, payload) {
+            console.log("searchTvAsync", payload);
             //const data = {data: payload.data};
             //const store = JSON.stringify(data);
 
             axios
-                .post('/admin/v1/internet/search', payload, {
+                .post('/admin/v1/tv/search', payload, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -146,17 +146,17 @@ export default {
                     }
                 })
                 .then(response => {
-                    console.log("searchInternetsAsync success", response);
-                    commit('setInternets', response.data);
+                    console.log("searchTvAsync success", response);
+                    commit('setTvs', response.data);
                 })
         },
     },
     getters: {
-        getInternets (state) {
-            return state.internets;
+        getTvs (state) {
+            return state.tvs;
         },
-        getEditInternet (state) {
-            return state.editInternet;
+        getEditTv (state) {
+            return state.editTv;
         }
     }
 }

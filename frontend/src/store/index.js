@@ -4,6 +4,7 @@ import client from './client'
 import user from './user'
 import preset from './preset'
 import internet from './internet'
+import tv from './tv'
 import error from './error'
 
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         user,
         preset,
         internet,
+        tv,
         error
     }
 })
