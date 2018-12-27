@@ -16,7 +16,12 @@
                 <app-action-time label="Время действия" :isRequired=true :data="task.actionTime"></app-action-time>
             </div>
             <div class="clear"></div>
+            <br>
             <h2 class="create__package-h2">Дополнительно</h2>
+            <div class="task__input">
+                <app-checkbox2 :data="task.rentWriteOff"></app-checkbox2>
+            </div>
+            <div class="clear"></div>
         </div>
     </div>
 </template>
@@ -24,16 +29,18 @@
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import Input from '../semantic-blocks/forms/Input'
+import Checkbox2 from '../semantic-blocks/forms/Checkbox2'
 import DifferenceInput from '../semantic-blocks/forms/DifferenceInput'
 import Select from '../semantic-blocks/forms/Select'
 import TypeWriteOff from '../logic-blocks/TypeWriteOff'
 import ActionTime from '../semantic-blocks/forms/ActionTime'
 
-import { input, select, selectMultiple, checkbox, datepicker, inputDifference, actionTime } from '../../util/fields'
+import { input, select, selectMultiple, checkbox, datepicker, inputDifference, actionTime, checkbox2 } from '../../util/fields'
 
 export default {
     components: {
         AppInput: Input,
+        AppCheckbox2: Checkbox2,
         AppDifferenceInput: DifferenceInput,
         AppSelect: Select,
         AppTypeWriteOff: TypeWriteOff,
@@ -46,6 +53,7 @@ export default {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
                 price: input('Введите сумму', 'Введите сумму', 'price', true, false, null, null),
+                rentWriteOff: checkbox2('Введите сумму', 'is_rent_write_off', true, false, null, true),
                 actionTime: actionTime('actionTime', false, null, {
                     day_start: null,
                     month_start: null,

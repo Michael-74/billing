@@ -70,11 +70,22 @@ export function selectMultiple(label, text, name, isRequired, isError, errorText
     }
 }
 
-export function checkbox(label, textTrue, textFalse, name, isRequired, isError, errorText, val, items) {
+export function checkbox(label, textTrue, textFalse, name, isRequired, isError, errorText, val) {
     return {
         label: label,
         textTrue: textTrue,
         textFalse: textFalse,
+        name: name,
+        isRequired: isRequired,
+        isError: isError,
+        errorText: errorText,
+        val: val
+    }
+}
+
+export function checkbox2(label, name, isRequired, isError, errorText, val) {
+    return {
+        label: label,
         name: name,
         isRequired: isRequired,
         isError: isError,
