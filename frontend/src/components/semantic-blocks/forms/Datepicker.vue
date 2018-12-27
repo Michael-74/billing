@@ -5,8 +5,8 @@
             {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
         <div class="select__position">
-            <app-date-picker v-if="!data.isDifference" input-class="select__data-first select__title select__date-title" format="DD.MM.YYYY" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
-            <app-date-picker v-if="data.isDifference" range input-class="select__data-first select__title select__date-title" format="DD.MM.YYYY" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
+            <app-date-picker v-if="!data.isDifference" input-class="select__data-first select__title select__date-title" :type='type' :format="format" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
+            <app-date-picker v-if="data.isDifference" range input-class="select__data-first select__title select__date-title" :type='type' :format="format" lang="ru" v-model="data.val" :first-day-of-week="1"></app-date-picker>
         </div>
         <div class="fields__error" v-show='this.data.isError'>
             {{ data.errorText }}
@@ -19,7 +19,7 @@ import DatePicker from 'vue2-datepicker'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export default {
-    props: ['data'],
+    props: ['data', 'type', 'format'],
     components: {
         appDatePicker: DatePicker,
         FontAwesomeIcon
@@ -47,7 +47,7 @@ export default {
         color: #2b87db;
         width: 100%;
         font-size: 14px;
-        padding: 6px 40px 4px 20px;
+        padding: 7px 40px 5px 20px;
         font-family: Lato;
     }
     .select__position:hover .select__date-title {

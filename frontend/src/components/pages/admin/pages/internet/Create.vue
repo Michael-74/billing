@@ -46,6 +46,9 @@
                     <div class="clear"></div>
                 </div>
                 -->
+                <div class="create__package task__margin-top">
+                    <app-task></app-task>
+                </div>
             </div>
             <div class="create__button-save">
                 <button v-if="isFormCreate" class="button button__save button__save-user" @click="addItem">Сохранить тариф</button>
@@ -63,6 +66,7 @@ import Select from '../../../../semantic-blocks/forms/Select'
 import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Textarea from '../../../../semantic-blocks/forms/Textarea'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
+import Task from '../../../../logic-blocks/Task'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
@@ -77,13 +81,14 @@ export default {
         AppSelectMultiple: SelectMultiple,
         AppCheckbox: Checkbox,
         AppTextarea: Textarea,
+        AppTask: Task,
         FontAwesomeIcon
     },
     props: ['editItem'],
     data () {
         return {
             isFormCreate: true,
-            isCreate: false,
+            isCreate: true, // default false
             internet: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
@@ -196,5 +201,8 @@ export default {
     }
     .button__cancel-user_margin {
         margin-left: 20px;
+    }
+    .task__margin-top {
+        margin-top: 20px;
     }
 </style>

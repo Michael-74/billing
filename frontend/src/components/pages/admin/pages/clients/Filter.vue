@@ -101,7 +101,7 @@
                     <app-input :data="client.inputEmail"></app-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
-                    <app-datepicker :data="client.createdDifference"></app-datepicker>
+                    <app-datepicker type="date" format="DD.MM.YYYY" :data="client.createdDifference"></app-datepicker>
                 </div>
                 <div class="clear"></div>
             </div>

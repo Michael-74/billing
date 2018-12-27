@@ -10,6 +10,15 @@ export function input(label, text, name, isRequired, isError, errorText, val) {
     }
 }
 
+export function actionTime(name, isError, errorText, val) {
+    return {
+        name: name,
+        isError: isError,
+        errorText: errorText,
+        val: val
+    }
+}
+
 export function inputDifference(label, textFrom, textTo, name, isRequired, isError, errorText, val) {
     return {
         label: label,
