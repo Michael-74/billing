@@ -1,0 +1,1 @@
+ALTER TABLE tasks ADD day_in_month INT(2) NOT NULL DEFAULT 0;

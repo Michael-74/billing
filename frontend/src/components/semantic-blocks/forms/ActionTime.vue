@@ -7,18 +7,18 @@
             <div class="select__title">
                 <span class="fields_blue-black">C</span>
                 <span class="fields_blue-color">
-                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.day_start">
+                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.val.day_start">
                     дня</span>
                 <span class="fields_blue-color">
-                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.month_start">
+                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.val.month_start">
                     месяца</span>
                 <span class="fields__hr"></span>
                 <span class="fields_blue-black">По</span>
                 <span class="fields_blue-color">
-                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.day_end">
+                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.val.day_end">
                     день</span>
                 <span class="fields_blue-color">
-                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.month_end">
+                    <input placeholder="__" maxlength="2" class="fields__action-time" v-model="data.val.month_end">
                     месяца</span>
             </div>
         </div>

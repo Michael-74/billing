@@ -1,15 +1,15 @@
 <template>
     <div class="items">
-        <div class="items__select items__field_float" :class="{'items_no-margin-right': items.typeWriteOff.val == null}">
+        <div class="items__select items__field_float" :class="{'items_no-margin-right': getType == null}">
             <app-select :data="items.typeWriteOff"></app-select>
         </div>
-        <div class="items__select items__field_float items__select_width200" v-if="items.typeWriteOff.val == 'onetime'">
+        <div class="items__select items__field_float items__select_width200" v-if="getType == 'onetime'">
             <app-datepicker type='datetime' format="DD.MM.YYYY HH:mm" :data="items.onetime"></app-datepicker>
         </div>
-        <div class="items__select items__field_float" v-if="items.typeWriteOff.val == 'daily'">
+        <div class="items__select items__field_float" v-if="getType == 'daily'">
             <app-datepicker type='time' format="HH:mm" :data="items.daily"></app-datepicker>
         </div>
-        <div class="items__day-time items__field_float" v-if="items.typeWriteOff.val == 'montly'">
+        <div class="items__day-time items__field_float" v-if="getType == 'montly'">
             <div class="items__select items__field_float items__select_width100">
                 <app-input :data="items.montlyDay"></app-input>
             </div>
@@ -32,6 +32,7 @@ import { input, select, selectMultiple, checkbox, datepicker } from '../../util/
 import Datepicker from '../semantic-blocks/forms/Datepicker'
 
 export default {
+    props: ['data'],
     components: {
         AppInput: Input,
         AppDifferenceInput: DifferenceInput,
@@ -48,7 +49,7 @@ export default {
                 daily: datepicker('Выберите время', 'Выберите время', 'daily', false, false, false, null, null),
                 montlyDay: input('День списания', 'День', 'name', true, false, null, null),
                 montlyTime: datepicker('Выберите время', 'Выберите время', 'timeInDay', false, false, false, null, null),
-                typeWriteOff: select('Тип списания', 'Не выбрано', 'type_writeoff', false, false, null, null, [{id:'onetime', val:'Разово'}, {id:'daily', val:'Ежедневно'}, {id:'montly', val:'Ежемесячно'}]),
+                typeWriteOff: select('Тип списания', 'Не выбрано', 'type_writeoff', false, false, null, this.data.type, [{id:'onetime', val:'Разово'}, {id:'daily', val:'Ежедневно'}, {id:'montly', val:'Ежемесячно'}]),
             }
         }
     },
@@ -56,7 +57,32 @@ export default {
 
     },
     computed: {
+        getType() {
+            switch(this.items.typeWriteOff.val) {
+                case 'onetime':
+                    this.data.type = 'onetime';
+                    this.data.day = null;
+                    this.data.date = this.items.onetime.val;
+                    break;
+                case 'daily':
+                    this.data.type = 'daily';
+                    this.data.day = null;
+                    this.data.date = this.items.daily.val;
+                    break;
+                case 'montly':
+                    this.data.type = 'montly';
+                    this.data.day = this.items.montlyDay.val;
+                    this.data.date = this.items.montlyTime.val;
+                    break;
+                default:
+                    this.data.type = null;
+                    this.data.day = null;
+                    this.data.date = null;
+                break;
+            }
 
+            return this.items.typeWriteOff.val;
+        }
     }
 }
 </script>

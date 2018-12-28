@@ -31,23 +31,23 @@ public class Task {
     @Column(name = "datetime")
     private String datetime;
 
-    @Column(name = "day_before_start")
-    private Integer dayBeforeStart;
+    @Column(name = "day_start")
+    private Integer dayStart;
 
-    @Column(name = "month_before_start")
-    private Integer monthBeforeStart;
+    @Column(name = "month_start")
+    private Integer monthStart;
 
-    @Column(name = "day_before_end")
-    private Integer dayBeforeEnd;
+    @Column(name = "day_end")
+    private Integer dayEnd;
 
-    @Column(name = "month_before_end")
-    private Integer monthBeforeEnd;
+    @Column(name = "month_end")
+    private Integer monthEnd;
 
     @Column(name = "is_write_off_rent")
-    private Integer isWriteOffRent;
+    private Boolean isWriteOffRent;
 
     @Column(name = "is_installments")
-    private Integer isInstallments;
+    private Boolean isInstallments;
 
     @Column(name = "price_installments")
     private String priceInstallments;

@@ -9,7 +9,12 @@
                 <app-input :data="task.price"></app-input>
             </div>
             <div class="task__field_float task__select_padding">
-                <app-type-write-off></app-type-write-off>
+                <app-type-write-off :data="task.typeWriteOffData"></app-type-write-off>
+            </div>
+            <div class="task__save-button">
+                <button class="button button__add filters__header-input_inline" @click="saveTask">
+                    Добавить задачу
+                </button>
             </div>
             <div class="clear"></div>
             <div class="task__field_float task__select_padding task_margin-top">
@@ -23,18 +28,18 @@
                     <button class="button button__less" @click="isExtraChange">
                         {{ this.isExtra ? 'Свернуть' : 'Развернуть' }}
                         <span class="filters__button-less-block">
-                                <font-awesome-icon class="filters__button-less" icon="signal"></font-awesome-icon>
-                            </span>
+                            <font-awesome-icon class="filters__button-less" icon="signal"></font-awesome-icon>
+                        </span>
                     </button>
                 </div>
                 <div class="clear"></div>
             </div>
             <div class="task__js-extra" v-show="isExtra">
                 <div class="task__input_block">
-                    <app-checkbox2 :data="task.rentWriteOff"></app-checkbox2>
+                    <app-checkbox2 :data="task.isRentWriteOff"></app-checkbox2>
                 </div>
                 <div class="task__input task__input_width">
-                    <app-checkbox2 :data="task.installments"></app-checkbox2>
+                    <app-checkbox2 :data="task.isInstallments"></app-checkbox2>
                 </div>
                 <div class="task__input task__input_margin-top task__input_width">
                     <app-input :data="task.priceInstallments"></app-input>
@@ -74,21 +79,29 @@ export default {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
                 price: input('Введите сумму', 'Введите сумму', 'price', true, false, null, null),
-                rentWriteOff: checkbox2('Списывать аренду при нулевом балансе', 'is_rent_write_off', true, false, null, false),
-                installments: checkbox2('Включить рассрочку', 'is_installments', true, false, null, false),
+                isRentWriteOff: checkbox2('Списывать плату при нулевом балансе', 'is_rent_write_off', true, false, null, false),
+                isInstallments: checkbox2('Включить рассрочку', 'is_installments', true, false, null, false),
                 priceInstallments: input(null, 'Сумма в рассрочку', 'price_installments', true, false, null, null),
-                actionTime: actionTime('actionTime', false, null, {
+                actionTime: actionTime('action_time', false, null, {
                     day_start: null,
                     month_start: null,
                     day_end: null,
                     month_end: null
                 }),
+                typeWriteOffData: {
+                    type: null,
+                    day: null,
+                    date: null
+                }
             }
         }
     },
     methods: {
         isExtraChange: function () {
             this.isExtra = !this.isExtra;
+        },
+        saveTask: function() {
+            console.log("saveTask:", this.task);
         }
     },
     computed: {
@@ -151,5 +164,9 @@ export default {
     }
     .task__extra_margin-top {
         margin-top: -12px;
+    }
+    .task__save-button {
+        margin-top: 20px;
+        float: left;
     }
 </style>
