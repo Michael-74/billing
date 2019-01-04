@@ -20,9 +20,16 @@ export function checkErrors(obj, errors) {
         obj[item].isError = false;
     }
     if(errors) {
+        console.log("errors", errors.indexOf('datetime'));
+
         for(let item in errors) {
-            obj[item].isError = true;
-            obj[item].errorText = errors[item];
+            if(item === 'datetime'){
+                obj.type_write_off_rent.isError = true;
+                obj.type_write_off_rent.errorText = errors[item];
+            } else {
+                obj[item].isError = true;
+                obj[item].errorText = errors[item];
+            }
         }
     }
 }

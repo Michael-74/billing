@@ -7,6 +7,8 @@ import lombok.Setter;
 import ru.soyuz_kom.entity.enums.TypeWriteOffEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -19,6 +21,8 @@ public class Task {
     private Integer id;
 
     @Column(name = "name")
+    @Size(min=2, max=50)
+    @NotNull
     private String name;
 
     @Column(name = "price")
@@ -29,6 +33,8 @@ public class Task {
     private TypeWriteOffEnum typeWriteOff;
 
     @Column(name = "datetime")
+    @Size(min=2, max=50)
+    @NotNull
     private String datetime;
 
     @Column(name = "day_start")

@@ -18,6 +18,9 @@
             </div>
             <div class="clear"></div>
         </div>
+        <div class="fields__error" v-show='this.data.isError'>
+            {{ data.errorText }}
+        </div>
         <div class="clear"></div>
     </div>
 </template>
@@ -49,7 +52,7 @@ export default {
                 daily: datepicker('Выберите время', 'Выберите время', 'daily', false, false, false, null, null),
                 montlyDay: input('День списания', 'День', 'name', true, false, null, null),
                 montlyTime: datepicker('Выберите время', 'Выберите время', 'timeInDay', false, false, false, null, null),
-                typeWriteOff: select('Тип списания', 'Не выбрано', 'type_writeoff', false, false, null, this.data.type, [{id:'onetime', val:'Разово'}, {id:'daily', val:'Ежедневно'}, {id:'montly', val:'Ежемесячно'}]),
+                typeWriteOff: select('Тип списания', 'Не выбрано', 'type_writeoff', false, false, null, this.data.val.type_write_off, [{id:'onetime', val:'Разово'}, {id:'daily', val:'Ежедневно'}, {id:'montly', val:'Ежемесячно'}]),
             }
         }
     },
@@ -60,24 +63,24 @@ export default {
         getType() {
             switch(this.items.typeWriteOff.val) {
                 case 'onetime':
-                    this.data.type = 'onetime';
-                    this.data.day = null;
-                    this.data.date = this.items.onetime.val;
+                    this.data.val.type_write_off = 'onetime';
+                    this.data.val.day = null;
+                    this.data.val.datetime = this.items.onetime.val;
                     break;
                 case 'daily':
-                    this.data.type = 'daily';
-                    this.data.day = null;
-                    this.data.date = this.items.daily.val;
+                    this.data.val.type_write_off = 'daily';
+                    this.data.val.day = null;
+                    this.data.val.datetime = this.items.daily.val;
                     break;
                 case 'montly':
-                    this.data.type = 'montly';
-                    this.data.day = this.items.montlyDay.val;
-                    this.data.date = this.items.montlyTime.val;
+                    this.data.val.type_write_off = 'montly';
+                    this.data.val.day = this.items.montlyDay.val;
+                    this.data.val.datetime = this.items.montlyTime.val;
                     break;
                 default:
-                    this.data.type = null;
-                    this.data.day = null;
-                    this.data.date = null;
+                    this.data.val.type_write_off = null;
+                    this.data.val.day = null;
+                    this.data.val.datetime = null;
                 break;
             }
 

@@ -9,7 +9,7 @@
                 <app-input :data="task.price"></app-input>
             </div>
             <div class="task__field_float task__select_padding">
-                <app-type-write-off :data="task.typeWriteOffData"></app-type-write-off>
+                <app-type-write-off :data="task.type_write_off_rent"></app-type-write-off>
             </div>
             <div class="task__save-button">
                 <button class="button button__add filters__header-input_inline" @click="saveTask">
@@ -18,7 +18,7 @@
             </div>
             <div class="clear"></div>
             <div class="task__field_float task__select_padding task_margin-top">
-                <app-action-time label="Время действия" :isRequired=true :data="task.actionTime"></app-action-time>
+                <app-action-time label="Время действия" :isRequired=true :data="task.action_time"></app-action-time>
             </div>
             <div class="clear"></div>
             <br>
@@ -36,13 +36,13 @@
             </div>
             <div class="task__js-extra" v-show="isExtra">
                 <div class="task__input_block">
-                    <app-checkbox2 :data="task.isRentWriteOff"></app-checkbox2>
+                    <app-checkbox2 :data="task.is_rent_write_off"></app-checkbox2>
                 </div>
                 <div class="task__input task__input_width">
-                    <app-checkbox2 :data="task.isInstallments"></app-checkbox2>
+                    <app-checkbox2 :data="task.is_installments"></app-checkbox2>
                 </div>
                 <div class="task__input task__input_margin-top task__input_width">
-                    <app-input :data="task.priceInstallments"></app-input>
+                    <app-input :data="task.price_installments"></app-input>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -79,20 +79,20 @@ export default {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
                 price: input('Введите сумму', 'Введите сумму', 'price', true, false, null, null),
-                isRentWriteOff: checkbox2('Списывать плату при нулевом балансе', 'is_rent_write_off', true, false, null, false),
-                isInstallments: checkbox2('Включить рассрочку', 'is_installments', true, false, null, false),
-                priceInstallments: input(null, 'Сумма в рассрочку', 'price_installments', true, false, null, null),
-                actionTime: actionTime('action_time', false, null, {
+                is_rent_write_off: checkbox2('Списывать плату при нулевом балансе', 'is_rent_write_off', true, false, null, false),
+                is_installments: checkbox2('Включить рассрочку', 'is_installments', true, false, null, false),
+                price_installments: input(null, 'Сумма в рассрочку', 'price_installments', true, false, null, null),
+                action_time: actionTime('action_time', false, null, {
                     day_start: null,
                     month_start: null,
                     day_end: null,
                     month_end: null
                 }),
-                typeWriteOffData: {
-                    type: null,
+                type_write_off_rent: actionTime('type_write_off_rent', false, null, {
+                    type_write_off: null,
                     day: null,
-                    date: null
-                }
+                    datetime: null
+                })
             }
         }
     },
@@ -102,6 +102,29 @@ export default {
         },
         saveTask: function() {
             console.log("saveTask:", this.task);
+
+            const items = {};
+            //this.clearCreateForm();
+            for(let item in this.task) {
+
+                switch(item){
+                    case 'action_time':
+                        for(let name in this.task[item].val) {
+                            items[name] = this.task[item].val[name];
+                        }
+                        break;
+                    case 'type_write_off_rent':
+                        for(let name in this.task[item].val) {
+                            items[name] = this.task[item].val[name];
+                        }
+                        break;
+                    default:
+                        items[this.task[item].name] = this.task[item].val;
+                        break;
+                }
+            }
+            console.log("saveTask items:", items);
+            this.$store.dispatch('addTaskAsync', {items: this.task, obj: items})
         }
     },
     computed: {
