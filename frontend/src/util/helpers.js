@@ -139,15 +139,10 @@ export function showTasks() {
                 },
                 deleteTask(id) {
                     this.$store.dispatch("deleteTaskAsync", {id: id});
+                    this.$store.commit("deleteSelectedTask", {id: id});
                 },
                 selectTask(taskId) {
-                    //this.$emit('close')
                     this.$store.commit('pushSelectedTasks', taskId);
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'success ',
-                        text: 'Задача успешно выбрана'
-                    });
                 }
             },
             template: `

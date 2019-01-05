@@ -27,8 +27,20 @@ export default {
                 }
             });
 
-            if(!isEmpty)
+            if(!isEmpty) {
                 state.selectedTasks.push(payload);
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success ',
+                    text: 'Задача успешно выбрана'
+                });
+            } else {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'error ',
+                    text: 'Задача уже выбрана'
+                });
+            }
         },
         /**
          * Меняем значения в стейте на измененные данные из формы
@@ -68,6 +80,12 @@ export default {
                 }
             });
             state.selectedTasks.splice(idx, 1);
+
+            Vue.prototype.$notify({
+                group: 'notify',
+                type: 'success ',
+                text: 'Задача успешно убрана'
+            });
         },
         setTask (state, payload) {
             state.editTask = payload;
