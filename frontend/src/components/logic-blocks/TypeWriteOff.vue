@@ -9,12 +9,12 @@
         <div class="items__select items__field_float" v-if="getType == 'daily'">
             <app-datepicker type='time' format="HH:mm" :data="items.daily"></app-datepicker>
         </div>
-        <div class="items__day-time items__field_float" v-if="getType == 'montly'">
+        <div class="items__day-time items__field_float" v-if="getType == 'monthly'">
             <div class="items__select items__field_float items__select_width100">
-                <app-input :data="items.montlyDay"></app-input>
+                <app-input :data="items.monthlyDay"></app-input>
             </div>
             <div class="items__select items__field_float">
-                <app-datepicker type='time' format="HH:mm" :data="items.montlyTime"></app-datepicker>
+                <app-datepicker type='time' format="HH:mm" :data="items.monthlyTime"></app-datepicker>
             </div>
             <div class="clear"></div>
         </div>
@@ -46,13 +46,11 @@ export default {
     data () {
         return {
             items: {
-                id: input('ID', 'ID', 'id', false, false, null, null),
-                name: input('Введите название', 'Введите название', 'name', true, false, null, null),
-                onetime: datepicker('Выберите дату', 'Выберите дату', 'onetime', false, false, false, null, null),
-                daily: datepicker('Выберите время', 'Выберите время', 'daily', false, false, false, null, null),
-                montlyDay: input('День списания', 'День', 'name', true, false, null, null),
-                montlyTime: datepicker('Выберите время', 'Выберите время', 'timeInDay', false, false, false, null, null),
-                typeWriteOff: select('Тип списания', 'Не выбрано', 'type_writeoff', false, false, null, this.data.val.type_write_off, [{id:'onetime', val:'Разово'}, {id:'daily', val:'Ежедневно'}, {id:'montly', val:'Ежемесячно'}]),
+                onetime: datepicker('Выберите дату', 'Выберите дату', 'onetime', false, false, false, null, this.data.val.datetime),
+                daily: datepicker('Выберите время', 'Выберите время', 'daily', false, false, false, null, this.data.val.datetime),
+                monthlyDay: input('День списания', 'День', 'name', true, false, null, this.data.val.dayInMonth),
+                monthlyTime: datepicker('Выберите время', 'Выберите время', 'timeInDay', false, false, false, null, this.data.val.datetime),
+                typeWriteOff: select('Тип списания', 'Не выбрано', 'type_writeoff', false, false, null, this.data.val.typeWriteOff, [{id:'onetime', val:'Разово'}, {id:'daily', val:'Ежедневно'}, {id:'monthly', val:'Ежемесячно'}]),
             }
         }
     },
@@ -63,23 +61,23 @@ export default {
         getType() {
             switch(this.items.typeWriteOff.val) {
                 case 'onetime':
-                    this.data.val.type_write_off = 'onetime';
-                    this.data.val.day = null;
+                    this.data.val.typeWriteOff = 'onetime';
+                    this.data.val.dayInMonth = null;
                     this.data.val.datetime = this.items.onetime.val;
                     break;
                 case 'daily':
-                    this.data.val.type_write_off = 'daily';
-                    this.data.val.day = null;
+                    this.data.val.typeWriteOff = 'daily';
+                    this.data.val.dayInMonth = null;
                     this.data.val.datetime = this.items.daily.val;
                     break;
-                case 'montly':
-                    this.data.val.type_write_off = 'montly';
-                    this.data.val.day = this.items.montlyDay.val;
-                    this.data.val.datetime = this.items.montlyTime.val;
+                case 'monthly':
+                    this.data.val.typeWriteOff = 'monthly';
+                    this.data.val.dayInMonth = this.items.monthlyDay.val;
+                    this.data.val.datetime = this.items.monthlyTime.val;
                     break;
                 default:
-                    this.data.val.type_write_off = null;
-                    this.data.val.day = null;
+                    this.data.val.typeWriteOff = null;
+                    this.data.val.dayInMonth = null;
                     this.data.val.datetime = null;
                 break;
             }

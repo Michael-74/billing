@@ -123,8 +123,10 @@ export default {
         transition: opacity 0.3s ease;
         opacity: 0;
     }
+    /* TODO:: затемнение экрана
     .nav_wrapper:hover + .background-nav {
         left: 0;
         opacity: 1;
     }
+    */
 </style>

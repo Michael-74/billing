@@ -9,16 +9,19 @@
                 <app-input :data="task.price"></app-input>
             </div>
             <div class="task__field_float task__select_padding">
-                <app-type-write-off :data="task.type_write_off_rent"></app-type-write-off>
+                <app-type-write-off :data="task.typeWriteOffRent"></app-type-write-off>
             </div>
-            <div class="task__save-button">
+            <div class="task__save-button task__field_float">
                 <button class="button button__add filters__header-input_inline" @click="saveTask">
                     Добавить задачу
                 </button>
             </div>
+            <div class="task__save-button">
+                <button class="button button__add" @click="showTasks(task)">Выбрать из существующих</button>
+            </div>
             <div class="clear"></div>
             <div class="task__field_float task__select_padding task_margin-top">
-                <app-action-time label="Время действия" :isRequired=true :data="task.action_time"></app-action-time>
+                <app-action-time label="Время действия" :isRequired=true :data="task.actionTime"></app-action-time>
             </div>
             <div class="clear"></div>
             <br>
@@ -36,13 +39,13 @@
             </div>
             <div class="task__js-extra" v-show="isExtra">
                 <div class="task__input_block">
-                    <app-checkbox2 :data="task.is_rent_write_off"></app-checkbox2>
+                    <app-checkbox2 :data="task.isRentWriteOff"></app-checkbox2>
                 </div>
                 <div class="task__input task__input_width">
-                    <app-checkbox2 :data="task.is_installments"></app-checkbox2>
+                    <app-checkbox2 :data="task.isInstallments"></app-checkbox2>
                 </div>
                 <div class="task__input task__input_margin-top task__input_width">
-                    <app-input :data="task.price_installments"></app-input>
+                    <app-input :data="task.priceInstallments"></app-input>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -60,6 +63,7 @@ import Select from '../semantic-blocks/forms/Select'
 import TypeWriteOff from '../logic-blocks/TypeWriteOff'
 import ActionTime from '../semantic-blocks/forms/ActionTime'
 
+import { parseObj, clearFields, showTasks } from '../../util/helpers'
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference, actionTime, checkbox2 } from '../../util/fields'
 
 export default {
@@ -74,23 +78,23 @@ export default {
     },
     data () {
         return {
-            isExtra: false,
+            isExtra: true,
             task: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
                 price: input('Введите сумму', 'Введите сумму', 'price', true, false, null, null),
-                is_rent_write_off: checkbox2('Списывать плату при нулевом балансе', 'is_rent_write_off', true, false, null, false),
-                is_installments: checkbox2('Включить рассрочку', 'is_installments', true, false, null, false),
-                price_installments: input(null, 'Сумма в рассрочку', 'price_installments', true, false, null, null),
-                action_time: actionTime('action_time', false, null, {
-                    day_start: null,
-                    month_start: null,
-                    day_end: null,
-                    month_end: null
+                isRentWriteOff: checkbox2('Списывать плату при нулевом балансе', 'isWriteOffRent', true, false, null, false),
+                isInstallments: checkbox2('Включить рассрочку', 'isInstallments', true, false, null, false),
+                priceInstallments: input(null, 'Сумма в рассрочку', 'priceInstallments', true, false, null, null),
+                actionTime: actionTime('actionTime', false, null, {
+                    dayStart: null,
+                    monthStart: null,
+                    dayEnd: null,
+                    monthEnd: null
                 }),
-                type_write_off_rent: actionTime('type_write_off_rent', false, null, {
-                    type_write_off: null,
-                    day: null,
+                typeWriteOffRent: actionTime('typeWriteOffRent', false, null, {
+                    typeWriteOff: null,
+                    dayInMonth: null,
                     datetime: null
                 })
             }
@@ -108,12 +112,12 @@ export default {
             for(let item in this.task) {
 
                 switch(item){
-                    case 'action_time':
+                    case 'actionTime':
                         for(let name in this.task[item].val) {
                             items[name] = this.task[item].val[name];
                         }
                         break;
-                    case 'type_write_off_rent':
+                    case 'typeWriteOffRent':
                         for(let name in this.task[item].val) {
                             items[name] = this.task[item].val[name];
                         }
@@ -123,8 +127,21 @@ export default {
                         break;
                 }
             }
-            console.log("saveTask items:", items);
-            this.$store.dispatch('addTaskAsync', {items: this.task, obj: items})
+
+            const options = {
+                datetime: 'typeWriteOffRent',
+                dayInMonth: 'typeWriteOffRent',
+                typeWriteOff: 'typeWriteOffRent',
+                dayStart: 'actionTime',
+                monthStart: 'actionTime',
+                dayEnd: 'actionTime',
+                monthEnd: 'actionTime',
+            };
+            this.$store.dispatch('addTaskAsync', {items: this.task, obj: items, options: options})
+        },
+        showTasks: function(items) {
+            this.$store.dispatch('getTasksAsync');
+            showTasks(items);
         }
     },
     computed: {

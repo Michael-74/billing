@@ -1,9 +1,11 @@
 package ru.soyuz_kom.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import ru.soyuz_kom.entity.enums.TypeWriteOffEnum;
 
 import javax.persistence.*;
@@ -29,13 +31,17 @@ public class Task {
     private String price;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type_write_off", columnDefinition="ENUM('onetime','daily','monthly')" ,nullable = false)
+    @Column(name = "type_write_off", columnDefinition="ENUM('onetime','daily','monthly')", nullable = false)
     private TypeWriteOffEnum typeWriteOff;
 
     @Column(name = "datetime")
-    @Size(min=2, max=50)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    //@Size(min=2, max=50)
     @NotNull
-    private String datetime;
+    private Date datetime;
+
+    @Column(name = "day_in_month")
+    private Integer dayInMonth;
 
     @Column(name = "day_start")
     private Integer dayStart;
@@ -50,10 +56,10 @@ public class Task {
     private Integer monthEnd;
 
     @Column(name = "is_write_off_rent")
-    private Boolean isWriteOffRent;
+    private Boolean isWriteOffRent = false;
 
     @Column(name = "is_installments")
-    private Boolean isInstallments;
+    private Boolean isInstallments = false;
 
     @Column(name = "price_installments")
     private String priceInstallments;
@@ -64,11 +70,17 @@ public class Task {
     private Date createdAt;
 
     @Basic(optional = false)
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    public String getDatetime() {
-        return datetime;
+    @PrePersist
+    void preInsert() {
+        if (this.price == null)
+            this.price = "0";
+        if (this.priceInstallments == null)
+            this.priceInstallments = "0";
+        if (this.dayInMonth == null)
+            this.dayInMonth = 0;
     }
 }

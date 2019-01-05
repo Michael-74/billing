@@ -1,0 +1,1 @@
+ALTER TABLE tasks MODIFY datetime DATETIME NOT NULL;

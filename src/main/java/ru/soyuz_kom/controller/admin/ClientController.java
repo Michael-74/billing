@@ -93,7 +93,6 @@ public class ClientController extends AdminController {
 
     @PostMapping({"v1/client/search"})
     @ResponseBody
-    @CacheEvict(value="schedule", allEntries=true)
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
 
 

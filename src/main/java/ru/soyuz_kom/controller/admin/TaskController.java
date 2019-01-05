@@ -1,6 +1,7 @@
 package ru.soyuz_kom.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -19,7 +20,7 @@ public class TaskController extends AdminController {
     @Autowired
     private TaskRepository taskRepository;
 
-    @PostMapping({"v1/task/"})
+    @GetMapping({"v1/task/"})
     @ResponseBody
     public Iterable<Task> index() {
         Iterable<Task> task = taskRepository.findAll();
@@ -35,9 +36,10 @@ public class TaskController extends AdminController {
     }
 
     @PostMapping({"v1/task/store"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Task task, Errors errors) {
-        System.out.println("v1/task/store");
+        System.out.println("v1/task/store: " + task);
         HashMap error = new HashMap<>();
 
         if (errors.hasErrors()) {
@@ -53,6 +55,7 @@ public class TaskController extends AdminController {
     }
 
     @DeleteMapping({"v1/task/delete/{id}"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     public Boolean delete(@PathVariable Integer id) {
         System.out.println("delete task " + id);

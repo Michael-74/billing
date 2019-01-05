@@ -65,7 +65,7 @@ export default {
                         Vue.prototype.$notify({
                             group: 'notify',
                             type: 'success ',
-                            text: 'Задача успешно добавлен'
+                            text: 'Задача успешно добавлена'
                         });
                     }
                 })
@@ -78,8 +78,8 @@ export default {
                             type: 'error',
                             text: 'Проверьте введенные данные'
                         });
-                        console.log("2", payload.items);
-                        checkErrors(payload.items, rootGetters.getErrors);
+
+                        checkErrors(payload.items, rootGetters.getErrors, payload.options);
                     }
                 });
 
