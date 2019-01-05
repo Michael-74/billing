@@ -1,5 +1,6 @@
 import Vue from "vue";
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import {getActionTime, getDatetimeFormat, getTypeWriteOffDatetime, getTypeWriteOffName} from './helpersTask'
 
 /**
  * Подготавливаем новый массив содержащий название поля и значение
@@ -113,7 +114,7 @@ export function showPresets(items) {
     );
 }
 
-export function showTasks(items) {
+export function showTasks() {
     Vue.prototype.$modal.show({
             components:{
                 FontAwesomeIcon
@@ -124,78 +125,29 @@ export function showTasks(items) {
                 }
             },
             methods: {
-                getDatetimeFormat (date, format) {
-                    var date = new Date(date);
-                    date.setHours(date.getHours() + 5);// 5 - раззница часового пояса
-
-                    var dateString;
-                    switch (format) {
-                        case 'datetime':
-                            dateString =
-                                ("0" + date.getDate()).slice(-2) + "." +
-                                ("0" + (date.getMonth() + 1)).slice(-2) + "." +
-                                date.getFullYear() + " " +
-                                ("0" + date.getHours()).slice(-2) + ":" +
-                                ("0" + date.getMinutes()).slice(-2)
-                            break;
-                        case 'time':
-                            dateString =
-                                ("0" + date.getHours()).slice(-2) + ":" +
-                                ("0" + date.getMinutes()).slice(-2)
-                            break;
-
-                    }
-                    return dateString;
+                getActionTime(task) {
+                    return getActionTime(task);
                 },
-                getTypeWriteOffName(type) {
-                    var name;
-                    switch (type) {
-                        case 'onetime':
-                            name = "Разово";
-                            break;
-                        case 'daily':
-                            name = "Ежедневно";
-                            break;
-                        case 'monthly':
-                            name = "Ежемесячно";
-                            break;
-                        default:
-                            name = "Неизветный тип";
-                            break;
-                    }
-
-                    return name;
+                getDatetimeFormat (date, format) {
+                    return getDatetimeFormat (date, format);
+                },
+                getTypeWriteOffName (type) {
+                    return getTypeWriteOffName(type);
                 },
                 getTypeWriteOffDatetime(task) {
-                    var name;
-                    switch (task.typeWriteOff) {
-                        case 'onetime':
-                            name = this.getDatetimeFormat(task.datetime, "datetime");
-                            break;
-                        case 'daily':
-                            name = this.getDatetimeFormat(task.datetime, "time");
-                            break;
-                        case 'monthly':
-                            name = task.dayInMonth + " числа в " + this.getDatetimeFormat(task.datetime, "time");
-                            break;
-                        default:
-                            name = "Неизветный тип";
-                            break;
-                    }
-
-                    return name;
+                    return getTypeWriteOffDatetime(task);
                 },
                 deleteTask(id) {
                     this.$store.dispatch("deleteTaskAsync", {id: id});
                 },
-                selectTask(task) {
-                    this.$emit('close')
-                    const settings = JSON.parse(task.settings);
-
-                    for(let item in items) {
-                        let name = items[item].name;
-                        //items[item].val = settings[name];
-                    }
+                selectTask(taskId) {
+                    //this.$emit('close')
+                    this.$store.commit('pushSelectedTasks', taskId);
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'success ',
+                        text: 'Задача успешно выбрана'
+                    });
                 }
             },
             template: `
@@ -213,6 +165,10 @@ export function showTasks(items) {
                                     <th class="modal__th items__th">Сумма списания</th>
                                     <th class="modal__th items__th">Тип списания</th>
                                     <th class="modal__th items__th">Время списания</th>
+                                    <th class="modal__th items__th">Время действия</th>
+                                    <th class="modal__th items__th">Списывать аб/плату при нулевом балансе</th>
+                                    <th class="modal__th items__th items__th_width110">Рассрочка</th>
+                                    <th class="modal__th items__th">Сумма в рассрочку</th>
                                     <th class="modal__th items__th">Действия</th>
                                 </tr>
                             </thead>
@@ -227,7 +183,34 @@ export function showTasks(items) {
                                     <td class="items__td" @click="selectTask(task)">
                                         {{getTypeWriteOffDatetime(task)}}
                                     </td>
+                                    <td class="items__td" @click="selectTask(task)">
+                                        {{getActionTime(task)}}
+                                    </td>
+                                    <td class="items__td" @click="selectTask(task)">
+                                        <span v-show="task.isWriteOffRent">
+                                            <span class="items__signal"></span>
+                                            <span class="items__status-text">Включен</span>
+                                        </span>
+                                        <span v-show="!task.isWriteOffRent">
+                                            <span class="items__signal items__signal_off"></span>
+                                            <span class="items__status-text">Выключен</span>
+                                        </span>                                        
+                                    </td>                                    
+                                    <td class="items__td" @click="selectTask(task)">
+                                        <span v-show="task.isInstallments">
+                                            <span class="items__signal"></span>
+                                            <span class="items__status-text">Включена</span>
+                                        </span>
+                                        <span v-show="!task.isInstallments">
+                                            <span class="items__signal items__signal_off"></span>
+                                            <span class="items__status-text">Выключена</span>
+                                        </span>
+                                    </td>                                   
+                                    <td class="items__td" @click="selectTask(task)">
+                                        {{task.priceInstallments}}
+                                    </td>
                                     <td class="items__td">
+                                        <font-awesome-icon class="items__icon" icon="cog" @click="selectTask(task)"></font-awesome-icon>
                                         <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteTask(task.id)"></font-awesome-icon>
                                     </td>
                                 </tr>
@@ -238,6 +221,111 @@ export function showTasks(items) {
         },{
         },{
             height: '400px',
+            width: '1000px',
+            clickToClose: false
+        }
+    );
+}
+
+export function showSelectedTasks() {
+    Vue.prototype.$modal.show({
+            components:{
+                FontAwesomeIcon
+            },
+            computed: {
+                getSelectedTasks () {
+                    return this.$store.getters.getSelectedTasks;
+                }
+            },
+            methods: {
+                getActionTime(task) {
+                    return getActionTime(task);
+                },
+                getDatetimeFormat (date, format) {
+                    return getDatetimeFormat (date, format);
+                },
+                getTypeWriteOffName (type) {
+                    return getTypeWriteOffName(type);
+                },
+                getTypeWriteOffDatetime(task) {
+                    return getTypeWriteOffDatetime(task);
+                },
+                deleteSelectedTask(id) {
+                    console.log('deleteSelectedTask', id);
+                    this.$store.commit('deleteSelectedTask', {id: id});
+                }
+            },
+            template: `
+                    <div class="modal__block">
+                        <div class="modal__close" @click="$emit('close')">
+                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
+                            Закрыть
+                        </div>
+                        <h3 class="modal__h3">Список задач</h3>
+                        <table class="modal__package-table items__table">
+                            <thead class="items__thead">
+                                <tr>
+                                    <th class="modal__th items__th">N</th>
+                                    <th class="modal__th items__th">Название</th>
+                                    <th class="modal__th items__th">Сумма списания</th>
+                                    <th class="modal__th items__th">Тип списания</th>
+                                    <th class="modal__th items__th">Время списания</th>
+                                    <th class="modal__th items__th">Время действия</th>
+                                    <th class="modal__th items__th">Списывать аб/плату при нулевом балансе</th>
+                                    <th class="modal__th items__th items__th_width110">Рассрочка</th>
+                                    <th class="modal__th items__th">Сумма в рассрочку</th>
+                                    <th class="modal__th items__th">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody class="items__tbody">
+                                <tr class="modal__tr" v-for="(task, index) in getSelectedTasks">
+                                    <td class="items__td">{{task.id}}</td>
+                                    <td class="items__td">{{task.name}}</td>
+                                    <td class="items__td">{{task.price}}</td>
+                                    <td class="items__td">
+                                        {{getTypeWriteOffName(task.typeWriteOff)}}
+                                    </td>
+                                    <td class="items__td">
+                                        {{getTypeWriteOffDatetime(task)}}
+                                    </td>
+                                    <td class="items__td">
+                                        {{getActionTime(task)}}
+                                    </td>
+                                    <td class="items__td">
+                                        <span v-show="task.isWriteOffRent">
+                                            <span class="items__signal"></span>
+                                            <span class="items__status-text">Включен</span>
+                                        </span>
+                                        <span v-show="!task.isWriteOffRent">
+                                            <span class="items__signal items__signal_off"></span>
+                                            <span class="items__status-text">Выключен</span>
+                                        </span>                                        
+                                    </td>                                    
+                                    <td class="items__td">
+                                        <span v-show="task.isInstallments">
+                                            <span class="items__signal"></span>
+                                            <span class="items__status-text">Включена</span>
+                                        </span>
+                                        <span v-show="!task.isInstallments">
+                                            <span class="items__signal items__signal_off"></span>
+                                            <span class="items__status-text">Выключена</span>
+                                        </span>
+                                    </td>                                   
+                                    <td class="items__td">
+                                        {{task.priceInstallments}}
+                                    </td>
+                                    <td class="items__td">
+                                        <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteSelectedTask(task.id)"></font-awesome-icon>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                  `
+        },{
+        },{
+            height: '400px',
+            width: '1000px',
             clickToClose: false
         }
     );

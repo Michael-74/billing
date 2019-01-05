@@ -125,22 +125,4 @@ export default {
         max-height:500px;
         position: relative;
     }
-    .items__signal {
-        height: 5px;
-        width: 5px;
-        border-radius: 50%;
-        background: #67d071;
-        display: inline-block;
-        position: relative;
-        top: -2px;
-        left: -6px;
-    }
-    .items__signal_off {
-        background: red;
-    }
-    .items__status-text {
-        display: inline-block;
-        width: 60px;
-        margin-left: 5px;
-    }
 </style>

@@ -16,8 +16,11 @@
                     Добавить задачу
                 </button>
             </div>
+            <div class="task__save-button task__field_float">
+                <button class="button button__add" @click="showSelectedTasks">Выбранные задачи</button>
+            </div>
             <div class="task__save-button">
-                <button class="button button__add" @click="showTasks(task)">Выбрать из существующих</button>
+                <button class="button button__add" @click="showTasks(task)">Все задачи</button>
             </div>
             <div class="clear"></div>
             <div class="task__field_float task__select_padding task_margin-top">
@@ -63,7 +66,7 @@ import Select from '../semantic-blocks/forms/Select'
 import TypeWriteOff from '../logic-blocks/TypeWriteOff'
 import ActionTime from '../semantic-blocks/forms/ActionTime'
 
-import { parseObj, clearFields, showTasks } from '../../util/helpers'
+import { parseObj, clearFields, showTasks, showSelectedTasks } from '../../util/helpers'
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference, actionTime, checkbox2 } from '../../util/fields'
 
 export default {
@@ -139,9 +142,12 @@ export default {
             };
             this.$store.dispatch('addTaskAsync', {items: this.task, obj: items, options: options})
         },
-        showTasks: function(items) {
+        showTasks: function() {
             this.$store.dispatch('getTasksAsync');
-            showTasks(items);
+            showTasks();
+        },
+        showSelectedTasks: function() {
+            showSelectedTasks();
         }
     },
     computed: {

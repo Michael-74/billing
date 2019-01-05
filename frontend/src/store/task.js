@@ -6,12 +6,29 @@ import {checkErrors} from "../util/helpers";
 export default {
     state: {
         tasks: [],
-        editTask: null
+        editTask: null,
+        selectedTasks: [],
     },
     mutations: {
         pushTasks (state, payload) {
             state.tasks.unshift(payload);
             //state.tasks.push(payload);
+        },
+        /**
+         * Добавляем выбранные задачи
+         * И проверяем, что не добавили повторно
+         * @param state - список задач
+         * @param payload - id задачи
+         */
+        pushSelectedTasks (state, payload) {
+            const isEmpty = state.selectedTasks.find(function(item, index){
+                if(item.id === payload.id){
+                    return true;
+                }
+            });
+
+            if(!isEmpty)
+                state.selectedTasks.push(payload);
         },
         /**
          * Меняем значения в стейте на измененные данные из формы
@@ -42,6 +59,15 @@ export default {
                 }
             });
             state.tasks.splice(idx, 1);
+        },
+        deleteSelectedTask (state, payload) {
+            var idx = null;
+            state.selectedTasks.forEach((item, index) => {
+                if(item.id === payload.id) {
+                    idx = index;
+                }
+            });
+            state.selectedTasks.splice(idx, 1);
         },
         setTask (state, payload) {
             state.editTask = payload;
@@ -147,6 +173,9 @@ export default {
         },
         getEditTask (state) {
             return state.editTask;
+        },
+        getSelectedTasks (state) {
+            return state.selectedTasks;
         }
     }
 }
