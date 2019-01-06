@@ -14,7 +14,7 @@
             <div class="create__body">
                 <div class="create__package">
                     <h2 class="create__package-h2">Настройка интернет тарифа</h2>
-                    <div class="create__input create__input_hide">
+                    <div class="create__input hide">
                         <app-input :data="getClient.id"></app-input>
                     </div>
                     <div class="create__input">

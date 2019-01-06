@@ -65,7 +65,6 @@ export default {
             this.$store.commit("setInternet", item);
         },
         deleteInternet: function(clientId){
-            console.log("ddd", clientId);
             this.$store.dispatch("deleteInternetAsync", {id: clientId});
             //deleteSendClient(clientId);
         }

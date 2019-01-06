@@ -2,6 +2,9 @@
     <div class="wrapper__task">
         <div class="task">
             <h2 class="create__package-h2">Создание задачи</h2>
+            <div class="task__input hide">
+                <app-input :data="getEditTask.id"></app-input>
+            </div>
             <div class="task__input">
                 <app-input :data="task.name"></app-input>
             </div>
@@ -13,7 +16,7 @@
             </div>
             <div class="task__save-button task__field_float">
                 <button class="button button__add filters__header-input_inline" @click="saveTask">
-                    Добавить задачу
+                    {{ isFormCreate ? 'Добавить задачу' : 'Редактировать задачу'}}
                 </button>
             </div>
             <div class="task__save-button task__field_float">
@@ -81,6 +84,7 @@ export default {
     },
     data () {
         return {
+            isFormCreate: true,
             isExtra: true,
             task: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
@@ -97,13 +101,22 @@ export default {
                 }),
                 typeWriteOffRent: actionTime('typeWriteOffRent', false, null, {
                     typeWriteOff: null,
-                    dayInMonth: null,
+                    dayInMonth: 0,
                     datetime: null
                 })
             }
         }
     },
     methods: {
+        setDate: function(date) {
+            var date = new Date(date);
+            date.setHours(date.getHours() + 5);
+
+            return date;
+        },
+        changeForm: function(flag) {
+            this.isFormCreate = flag;
+        },
         isExtraChange: function () {
             this.isExtra = !this.isExtra;
         },
@@ -116,10 +129,6 @@ export default {
 
                 switch(item){
                     case 'actionTime':
-                        for(let name in this.task[item].val) {
-                            items[name] = this.task[item].val[name];
-                        }
-                        break;
                     case 'typeWriteOffRent':
                         for(let name in this.task[item].val) {
                             items[name] = this.task[item].val[name];
@@ -151,7 +160,33 @@ export default {
         }
     },
     computed: {
+        getEditTask () {
+            var isFlagFormCreate = true;
+            if(this.$store.getters.getEditTask) {
+                isFlagFormCreate = false;
+                for (let item in this.task) {
+                    switch(item) {
+                        case 'actionTime':
+                        case 'typeWriteOffRent':
+                            for(let name in this.task[item].val) {
+                                if(name === 'datetime'){
+                                    this.task[item].val[name] = this.setDate(this.$store.getters.getEditTask[name]);
+                                } else {
+                                    this.task[item].val[name] = this.$store.getters.getEditTask[name];
+                                }
+                            }
+                            break;
+                        default:
+                            this.task[item].val = this.$store.getters.getEditTask[item];
+                            break;
+                    }
+                }
+                console.log("task", this.task);
+            }
+            this.changeForm(isFlagFormCreate);
 
+            return this.task
+        }
     }
 }
 </script>

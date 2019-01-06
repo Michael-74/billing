@@ -3,6 +3,7 @@
         <div class="items__select items__field_float" :class="{'items_no-margin-right': getType == null}">
             <app-select :data="items.typeWriteOff"></app-select>
         </div>
+        {{getData}}
         <div class="items__select items__field_float items__select_width200" v-if="getType == 'onetime'">
             <app-datepicker type='datetime' format="DD.MM.YYYY HH:mm" :data="items.onetime"></app-datepicker>
         </div>
@@ -58,16 +59,48 @@ export default {
 
     },
     computed: {
+        getData() {
+            switch(this.data.val.typeWriteOff) {
+                case 'onetime':
+                    this.items.typeWriteOff.val = 'onetime';
+                    this.items.monthlyDay.val = this.data.val.dayInMonth;
+                    this.items.onetime.val = this.data.val.datetime;
+                    this.items.monthlyTime.val = this.data.val.datetime;
+                    this.items.daily.val = this.data.val.datetime;
+                    break;
+                case 'daily':
+                    this.items.typeWriteOff.val = 'daily';
+                    this.items.monthlyDay.val = this.data.val.dayInMonth;
+                    this.items.daily.val = this.data.val.datetime;
+                    this.items.onetime.val = this.data.val.datetime;
+                    this.items.monthlyTime.val = this.data.val.datetime;
+                    break;
+                case 'monthly':
+                    this.items.typeWriteOff.val = 'monthly';
+                    this.items.monthlyDay.val = this.data.val.dayInMonth;
+                    this.items.monthlyTime.val = this.data.val.datetime;
+                    this.items.daily.val = this.data.val.datetime;
+                    this.items.onetime.val = this.data.val.datetime;
+                    break;
+                default:
+                    this.items.typeWriteOff.val = null;
+                    this.items.monthlyDay.val = null;
+                    this.items.monthlyTime.val = null;
+                    this.items.daily.val = null;
+                    this.items.onetime.val = null;
+                    break;
+            }
+        },
         getType() {
             switch(this.items.typeWriteOff.val) {
                 case 'onetime':
                     this.data.val.typeWriteOff = 'onetime';
-                    this.data.val.dayInMonth = null;
+                    this.data.val.dayInMonth = 0;
                     this.data.val.datetime = this.items.onetime.val;
                     break;
                 case 'daily':
                     this.data.val.typeWriteOff = 'daily';
-                    this.data.val.dayInMonth = null;
+                    this.data.val.dayInMonth = 0;
                     this.data.val.datetime = this.items.daily.val;
                     break;
                 case 'monthly':
@@ -77,7 +110,7 @@ export default {
                     break;
                 default:
                     this.data.val.typeWriteOff = null;
-                    this.data.val.dayInMonth = null;
+                    this.data.val.dayInMonth = 0;
                     this.data.val.datetime = null;
                 break;
             }

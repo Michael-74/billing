@@ -137,6 +137,9 @@ export function showTasks() {
                 getTypeWriteOffDatetime(task) {
                     return getTypeWriteOffDatetime(task);
                 },
+                selectEditTask(task) {
+                    this.$store.commit('setEditTask', task);
+                },
                 deleteTask(id) {
                     this.$store.dispatch("deleteTaskAsync", {id: id});
                     this.$store.commit("deleteSelectedTask", {id: id});
@@ -205,7 +208,7 @@ export function showTasks() {
                                         {{task.priceInstallments}}
                                     </td>
                                     <td class="items__td">
-                                        <font-awesome-icon class="items__icon" icon="cog" @click="selectTask(task)"></font-awesome-icon>
+                                        <font-awesome-icon class="items__icon" icon="cog" @click="selectEditTask(task)"></font-awesome-icon>
                                         <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteTask(task.id)"></font-awesome-icon>
                                     </td>
                                 </tr>
@@ -215,7 +218,7 @@ export function showTasks() {
                   `
         },{
         },{
-            height: '400px',
+            height: '600px',
             width: '1000px',
             clickToClose: false
         }

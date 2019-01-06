@@ -87,7 +87,7 @@ export default {
                 text: 'Задача успешно убрана'
             });
         },
-        setTask (state, payload) {
+        setEditTask (state, payload) {
             state.editTask = payload;
         },
     },

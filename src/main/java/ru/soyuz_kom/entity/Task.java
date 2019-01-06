@@ -41,7 +41,7 @@ public class Task {
     private Date datetime;
 
     @Column(name = "day_in_month")
-    private Integer dayInMonth;
+    private Integer dayInMonth = 0;
 
     @Column(name = "day_start")
     private Integer dayStart;
@@ -80,7 +80,7 @@ public class Task {
             this.price = "0";
         if (this.priceInstallments == null)
             this.priceInstallments = "0";
-        if (this.dayInMonth == null)
+        if (this.dayInMonth == null || this.dayInMonth == 0)
             this.dayInMonth = 0;
     }
 }
