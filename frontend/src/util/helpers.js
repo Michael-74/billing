@@ -139,6 +139,7 @@ export function showTasks() {
                 },
                 selectEditTask(task) {
                     this.$store.commit('setEditTask', task);
+                    this.$emit('close');
                 },
                 deleteTask(id) {
                     this.$store.dispatch("deleteTaskAsync", {id: id});

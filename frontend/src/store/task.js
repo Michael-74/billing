@@ -106,11 +106,19 @@ export default {
                     if (response.status === 200) {
 
                         commit("pushTasks", response.data)
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'success ',
-                            text: 'Задача успешно добавлена'
-                        });
+                        if(payload.isFormCreate) {
+                            Vue.prototype.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Задача успешно добавлена'
+                            });
+                        } else {
+                            Vue.prototype.$notify({
+                                group: 'notify',
+                                type: 'success ',
+                                text: 'Задача успешно отредактирована'
+                            });
+                        }
                     }
                 })
                 .catch(error => {

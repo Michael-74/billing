@@ -25,6 +25,9 @@
             <div class="task__save-button">
                 <button class="button button__add" @click="showTasks(task)">Все задачи</button>
             </div>
+            <div class="task__save-button">
+                <button class="filters__clean" @click="clearBlockTask">Очистить</button>
+            </div>
             <div class="clear"></div>
             <div class="task__field_float task__select_padding task_margin-top">
                 <app-action-time label="Время действия" :isRequired=true :data="task.actionTime"></app-action-time>
@@ -108,6 +111,26 @@ export default {
         }
     },
     methods: {
+        clearBlockTask: function () {
+            for(let item in this.task) {
+                switch(item){
+                    case 'actionTime':
+                    case 'typeWriteOffRent':
+                        for(let name in this.task[item].val) {
+                            this.task[item].val[name] = null;
+                        }
+                        this.task[item].isError = null;
+                        this.task[item].errorText = null;
+                        break;
+                    default:
+                        this.task[item].val = null;
+                        this.task[item].isError = null;
+                        this.task[item].errorText = null;
+                        break;
+                }
+            }
+            this.changeForm(true);
+        },
         setDate: function(date) {
             var date = new Date(date);
             date.setHours(date.getHours() + 5);
@@ -121,10 +144,9 @@ export default {
             this.isExtra = !this.isExtra;
         },
         saveTask: function() {
-            console.log("saveTask:", this.task);
 
             const items = {};
-            //this.clearCreateForm();
+            //this.clearBlockTask();
             for(let item in this.task) {
 
                 switch(item){
@@ -149,7 +171,7 @@ export default {
                 dayEnd: 'actionTime',
                 monthEnd: 'actionTime',
             };
-            this.$store.dispatch('addTaskAsync', {items: this.task, obj: items, options: options})
+            this.$store.dispatch('addTaskAsync', {items: this.task, obj: items, options: options, isFormCreate: this.isFormCreate})
         },
         showTasks: function() {
             this.$store.dispatch('getTasksAsync');
@@ -249,5 +271,13 @@ export default {
     .task__save-button {
         margin-top: 20px;
         float: left;
+    }
+    .filters__clean {
+        color: #333333;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        padding: 12px 0 0 20px;
+        text-decoration: underline;
     }
 </style>
