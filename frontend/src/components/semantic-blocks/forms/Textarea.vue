@@ -3,7 +3,7 @@
         <div class="fields__label" v-show="data.label">
             {{data.label}} <span class="fields__required" v-show='data.isRequired'>*</span>
         </div>
-        <textarea class="fields__field fields__textarea" type="text" :class="{fields_red: this.data.isError}" :placeholder="data.text" v-model="input"></textarea>
+        <textarea class="fields__field fields__textarea" type="text" :class="{fields_red: this.data.isError}" :placeholder="data.text" v-model="data.val"></textarea>
         <div class="fields__error" v-show='this.data.isError'>
             {{ data.errorText }}
         </div>

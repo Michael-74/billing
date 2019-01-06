@@ -3,30 +3,30 @@
         <div class="create__header">
             <button v-if="isFormCreate" class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="plus"></font-awesome-icon>
-                Добавить интернет тариф
+                Добавить тариф оборудование
             </button>
             <button v-else class="button button__dased" @click="isCreateShow">
                 <font-awesome-icon class="create__button-dashed" icon="cog"></font-awesome-icon>
-                Редактировать интернет тариф
+                Редактировать тариф оборудования
             </button>
         </div>
         <div class="create__body_wrapper"  v-show="isCreate">
             <div class="create__body">
                 <div class="create__package">
-                    <h2 class="create__package-h2">Настройка интернет тарифа</h2>
-                    <div class="create__input hide">
+                    <h2 class="create__package-h2">Настройка тарифа оборудования</h2>
+                    <div class="create__input create__input_hide">
                         <app-input :data="getClient.id"></app-input>
                     </div>
                     <div class="create__input">
-                        <app-input :data="internet.name"></app-input>
-                    </div>
-                    <div class="create__input">
-                        <app-input :data="internet.speed"></app-input>
+                        <app-input :data="rent.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-checkbox :data="internet.status"></app-checkbox>
+                        <app-checkbox :data="rent.status"></app-checkbox>
                     </div>
                     <div class="clear"></div>
+                    <div class="create__note">
+                        <app-textarea :data="rent.description"></app-textarea>
+                    </div>
                 </div>
                 <div class="create__package task__margin-top">
                     <app-task></app-task>
@@ -70,12 +70,12 @@ export default {
     data () {
         return {
             isFormCreate: true,
-            isCreate: false, // default false
-            internet: {
+            isCreate: false,
+            rent: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
-                speed: input('Введите скорость', 'Введите скорость', 'speed', true, false, null, null),
                 status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
+                description: textarea('Описание', 'Описание арендованного оборудования', 'description', true, false, null, ""),
             }
         }
     },
@@ -84,12 +84,12 @@ export default {
             var isFlagFormCreate = true;
             if(this.editItem) {
                 isFlagFormCreate = false;
-                for (let item in this.internet) {
-                    this.internet[item].val = this.editItem[item];
+                for (let item in this.rent) {
+                    this.rent[item].val = this.editItem[item];
                 }
             }
             this.changeForm(isFlagFormCreate);
-            return this.internet
+            return this.rent
         }
     },
     methods: {
@@ -99,16 +99,17 @@ export default {
         addItem () {
             const items = {};
             //this.clearCreateForm();
-            for(let item in this.internet) {
-                items[this.internet[item].name] = this.internet[item].val;
+            for(let item in this.rent) {
+                items[this.rent[item].name] = this.rent[item].val;
             }
-            this.$store.dispatch('addInternetAsync', {items: this.internet, obj: items, isFormCreate: this.isFormCreate})
+            console.log('rent', this.rent);
+            this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
-            for(let item in this.internet) {
-                this.internet[item].isError = false;
-                this.internet[item].val = null;
+            for(let item in this.rent) {
+                this.rent[item].isError = false;
+                this.rent[item].val = null;
             }
             console.log('clearCreateForm');
         },
@@ -119,7 +120,7 @@ export default {
             this.isCreate = false;
             this.changeForm(true);
             this.clearCreateForm();
-            this.$store.commit('setInternet', null);
+            this.$store.commit('setRent', null);
         }
     }
 }
@@ -172,8 +173,7 @@ export default {
         border: 2px solid transparent;
     }
     .create__note {
-        margin: 20px 0 0;
-        padding: 20px 20px 0 20px;
+        padding-bottom: 20px;
     }
     .create__input_full-width {
         width: 100%;
@@ -184,6 +184,7 @@ export default {
     .button__cancel-user_margin {
         margin-left: 20px;
     }
+
     .task__margin-top {
         margin-top: 20px;
     }

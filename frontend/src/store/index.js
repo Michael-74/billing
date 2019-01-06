@@ -6,6 +6,7 @@ import preset from './preset'
 import internet from './internet'
 import tv from './tv'
 import task from './task'
+import rent from './rent'
 import error from './error'
 
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         preset,
         internet,
         tv,
+        rent,
         task,
         error
     }

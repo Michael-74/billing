@@ -92,6 +92,9 @@
                     </div>
                     <div class="clear"></div>
                 </div>
+                <div class="create__package task__margin-top">
+                    <app-task></app-task>
+                </div>
             </div>
             <div class="create__button-save">
                 <button v-if="isFormCreate" class="button button__save button__save-user" @click="addClient">Сохранить пользователя</button>
@@ -109,6 +112,7 @@ import Select from '../../../../semantic-blocks/forms/Select'
 import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Textarea from '../../../../semantic-blocks/forms/Textarea'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
+import Task from '../../../../logic-blocks/Task'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
@@ -123,6 +127,7 @@ export default {
         AppSelectMultiple: SelectMultiple,
         AppCheckbox: Checkbox,
         AppTextarea: Textarea,
+        AppTask: Task,
         FontAwesomeIcon
     },
     props: ['editItem'],
@@ -331,7 +336,7 @@ export default {
         border: 2px solid transparent;
     }
     .create__note {
-        margin: 20px 0 0;
+        margin: 20px 0 20px;
         padding: 20px 20px 0 20px;
     }
     .create__input_full-width {
