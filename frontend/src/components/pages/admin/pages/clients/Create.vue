@@ -106,6 +106,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Input from '../../../../semantic-blocks/forms/Input'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
 import Select from '../../../../semantic-blocks/forms/Select'
@@ -155,7 +156,7 @@ export default {
             },
             packages: {
                 inputName: input('Введите название', 'Введите название пакета', 'package', true, false, null, null),
-                selectInternet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                selectInternet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
                 selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
                 selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
             },
@@ -164,7 +165,18 @@ export default {
             }
         }
     },
+    mounted () {
+        this.packages.selectInternet.items = this.getListInternets;
+    },
+    watch: {
+        getListInternets() {
+            this.packages.selectInternet.items = this.getListInternets;
+        }
+    },
     computed: {
+        ...mapGetters([
+            'getListInternets'
+        ]),
         getClient () {
             var isFlagFormCreate = true;
             if(this.editItem) {

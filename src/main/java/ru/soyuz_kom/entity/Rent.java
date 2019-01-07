@@ -1,9 +1,11 @@
 package ru.soyuz_kom.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.soyuz_kom.entity.view.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,7 @@ public class Rent {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonView(Views.ClientsAndServicesIdName.class)
     private Integer id;
 
     @Column(name = "name")
@@ -28,4 +31,9 @@ public class Rent {
 
     @Column(name = "status")
     private Boolean status;
+
+    @JsonView(Views.ClientsAndServicesIdName.class)
+    public String getVal () {
+        return this.name;
+    }
 }

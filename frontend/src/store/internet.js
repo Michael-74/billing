@@ -6,6 +6,7 @@ import {checkErrors} from "../util/helpers";
 export default {
     state: {
         internets: [],
+        listInternets: [],
         editInternet: null
     },
     mutations: {
@@ -32,7 +33,13 @@ export default {
             Vue.set(state, 'internets', []);
         },
         setInternets (state, payload) {
-            state.internets = payload;
+            Vue.set(state, 'internets', [...payload]);
+            //state.internets = { ...state.internets, payload };
+        },
+        setListInternets (state, payload) {
+            Vue.set(state, 'listInternets', [...payload]);
+            //state.internets = payload;
+            //state.listInternets = { ...state.listInternets, payload };
         },
         deleteInternet (state, payload) {
             var idx = null;
@@ -152,8 +159,11 @@ export default {
         },
     },
     getters: {
-        getInternets (state) {
+        getInternets: state => {
             return state.internets;
+        },
+        getListInternets: state => {
+            return state.listInternets;
         },
         getEditInternet (state) {
             return state.editInternet;

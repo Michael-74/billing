@@ -109,7 +109,9 @@ export default {
                     }
                 })
                 .then(response => {
-                    commit('setClients', response.data);
+                    console.log("getClientsAsync", response);
+                    commit('setClients', response.data.clients);
+                    commit('setListInternets', response.data.internets);
                 })
         }
     },

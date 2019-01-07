@@ -1,5 +1,6 @@
 package ru.soyuz_kom.controller.admin;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,10 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Client;
+import ru.soyuz_kom.entity.Internet;
+import ru.soyuz_kom.entity.view.Views;
 import ru.soyuz_kom.repository.ClientRepository;
+import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 
 import javax.validation.Valid;
@@ -28,11 +32,27 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientRepository clientRepository;
 
-    @GetMapping({"v1/client","v1/client/"})
-    public Iterable<Client> index() {
+    @Autowired
+    private InternetRepository internetRepository;
+
+    @JsonView(Views.ClientsAndServicesIdName.class)
+    @GetMapping(value = {"v1/client","v1/client/"}, produces ={"application/json"})
+    public @ResponseBody Map index() {
         Iterable<Client> clients = clientRepository.findAllByOrderByIdDesc();
 
-        return clients;
+
+        Iterable<Internet> internets = internetRepository.findAll();
+
+
+
+        Map<String, Iterable> map = new HashMap<String, Iterable>();
+
+        map.put("clients", clients);
+        map.put("internets", internets);
+
+        System.out.println("Map: " + map);
+
+        return map;
     }
 
     @GetMapping({"v1/client/{id}"})

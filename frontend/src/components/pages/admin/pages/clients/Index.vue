@@ -4,7 +4,7 @@
             <app-filter-client></app-filter-client>
         </div>
         <div class="clients__create">
-            <app-create-client :editItem="selectedItem"></app-create-client>
+            <app-create-client :editItem="selectedItem" :getInternets="getInternets"></app-create-client>
         </div>
         <div class="clients__items">
             <app-item-client :data="getClients"></app-item-client>
@@ -56,7 +56,12 @@ export default {
         },
         getClients () {
             return this.$store.getters.getClients;
-        }
+        },
+        getInternets(){
+            console.log("---", this.$store.getters.getInternets);
+            //return this.$store.getters.getInternets;
+            return this.$store.getters.getInternets;
+        },
     }
 }
 </script>
