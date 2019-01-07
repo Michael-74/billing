@@ -63,16 +63,16 @@
                 <div class="create__package">
                     <h2 class="create__package-h2">Настройка пакета услуг</h2>
                     <div class="create__input">
-                        <app-input :data="packages.inputName"></app-input>
+                        <app-input :data="packages.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select :data="packages.selectInternet"></app-select>
+                        <app-select :data="packages.internet"></app-select>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.selectTv"></app-select-multiple>
+                        <app-select-multiple :data="packages.tv"></app-select-multiple>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.selectRent"></app-select-multiple>
+                        <app-select-multiple :data="packages.rent"></app-select-multiple>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__add" @click="show(packages)">Выбрать из существующих</button>
@@ -155,10 +155,10 @@ export default {
                 status: select('Статус', 'Не выбрано', 'status', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
             },
             packages: {
-                inputName: input('Введите название', 'Введите название пакета', 'package', true, false, null, null),
-                selectInternet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
-                selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
-                selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], [{id:1, val:1}, {id:2, val:2}]),
+                name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),
+                internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
+                tv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], []),
+                rent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], []),
             },
              note: {
                 textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
@@ -166,16 +166,24 @@ export default {
         }
     },
     mounted () {
-        this.packages.selectInternet.items = this.getListInternets;
+        this.packages.internet.items = this.getListInternets;
+        this.packages.rent.items = this.getListRents;
+        this.packages.tv.items = this.getListTvs;
     },
     watch: {
         getListInternets() {
-            this.packages.selectInternet.items = this.getListInternets;
+            this.packages.internet.items = this.getListInternets;
+        },
+        getListRents() {
+            this.packages.rent.items = this.getListRents;
+        },
+        getListTvs() {
+            this.packages.tv.items = this.getListTvs;
         }
     },
     computed: {
         ...mapGetters([
-            'getListInternets'
+            'getListInternets', 'getListRents', 'getListTvs'
         ]),
         getClient () {
             var isFlagFormCreate = true;

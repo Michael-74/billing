@@ -29,12 +29,10 @@ export default {
             });
         },
         clearInternets (state) {
-            //state.presets = payload;
             Vue.set(state, 'internets', []);
         },
         setInternets (state, payload) {
             Vue.set(state, 'internets', [...payload]);
-            //state.internets = { ...state.internets, payload };
         },
         setListInternets (state, payload) {
             Vue.set(state, 'listInternets', [...payload]);

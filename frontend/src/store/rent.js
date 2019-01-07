@@ -6,6 +6,7 @@ import {checkErrors} from "../util/helpers";
 export default {
     state: {
         rents: [],
+        listRents: [],
         editRent: null
     },
     mutations: {
@@ -33,6 +34,9 @@ export default {
         },
         setRents (state, payload) {
             state.rents = payload;
+        },
+        setListRents (state, payload) {
+            Vue.set(state, 'listRents', [...payload]);
         },
         deleteRent (state, payload) {
             var idx = null;
@@ -151,6 +155,9 @@ export default {
     getters: {
         getRents (state) {
             return state.rents;
+        },
+        getListRents (state) {
+            return state.listRents;
         },
         getEditRent (state) {
             return state.editRent;

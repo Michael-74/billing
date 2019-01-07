@@ -19,6 +19,7 @@ import ru.soyuz_kom.entity.view.Views;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
+import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -33,26 +34,12 @@ public class ClientController extends AdminController {
     private ClientRepository clientRepository;
 
     @Autowired
-    private InternetRepository internetRepository;
+    private ClientServiceImpl clientService;
 
     @JsonView(Views.ClientsAndServicesIdName.class)
     @GetMapping(value = {"v1/client","v1/client/"}, produces ={"application/json"})
     public @ResponseBody Map index() {
-        Iterable<Client> clients = clientRepository.findAllByOrderByIdDesc();
-
-
-        Iterable<Internet> internets = internetRepository.findAll();
-
-
-
-        Map<String, Iterable> map = new HashMap<String, Iterable>();
-
-        map.put("clients", clients);
-        map.put("internets", internets);
-
-        System.out.println("Map: " + map);
-
-        return map;
+        return clientService.getClientsAndListsAllServices();
     }
 
     @GetMapping({"v1/client/{id}"})

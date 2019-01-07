@@ -6,6 +6,7 @@ import {checkErrors} from "../util/helpers";
 export default {
     state: {
         tvs: [],
+        listTvs: [],
         editTv: null
     },
     mutations: {
@@ -30,6 +31,10 @@ export default {
         clearTvs (state) {
             //state.presets = payload;
             Vue.set(state, 'tvs', []);
+        },
+        setListTvs (state, payload) {
+            //state.presets = payload;
+            Vue.set(state, 'listTvs', [...payload]);
         },
         setTvs (state, payload) {
             state.tvs = payload;
@@ -154,6 +159,9 @@ export default {
     getters: {
         getTvs (state) {
             return state.tvs;
+        },
+        getListTvs (state) {
+            return state.listTvs;
         },
         getEditTv (state) {
             return state.editTv;

@@ -112,7 +112,15 @@ export default {
                     console.log("getClientsAsync", response);
                     commit('setClients', response.data.clients);
                     commit('setListInternets', response.data.internets);
-                })
+                    commit('setListRents', response.data.rents);
+                    commit('setListTvs', response.data.tvs);
+                }).catch(error => {
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'error',
+                        text: 'Проверьте введенные данные'
+                    });
+            });
         }
     },
     getters: {
