@@ -1,0 +1,5 @@
+ALTER TABLE packages
+    ADD COLUMN internet VARCHAR(255) NULL,
+    ADD COLUMN tv VARCHAR(255) NULL,
+    ADD COLUMN rent VARCHAR(255) NULL,
+    DROP COLUMN services;
