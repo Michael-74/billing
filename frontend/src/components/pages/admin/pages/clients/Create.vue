@@ -245,7 +245,7 @@ export default {
                         var data = [];
 
                         for(let index in this.getPacks) {
-                            let service = {id:null, name:null, internet:null, tv:null, rent:null};
+                            let service = {id:null, name:null, internet:{name:null, val:null}, tv:{name:[], val:[]}, rent:{name:[], val:[]}};
 
                             service.id = this.getPacks[index].id;
                             service.name = this.getPacks[index].name;
@@ -253,71 +253,43 @@ export default {
                             this.getListInternets.filter(item => {
 
                                 if(item.id === Number(this.getPacks[index].internet)) {
-                                    data[index].internet = item.val;
+                                    data[index].internet.name = item.val;
+                                    data[index].internet.val = Number(this.getPacks[index].internet);
                                 }
                             });
+
                             var tv = this.getPacks[index].tv.split(',');
                             this.getListTvs.filter(item => {
                                 for(let nameTv in tv){
-                                    console.log("nameTv", nameTv);
                                     if(item.id === Number(tv[nameTv])) {
-                                        data[index].tv += "<p>" + item.val + "</p>";
+                                        data[index].tv.name.push(item.val);
+                                        data[index].tv.val.push(Number(tv[nameTv]));
                                     }
                                 }
                             });
-                            //TODO:: добавить проверку на null и 0
+
                             var rent = this.getPacks[index].rent.split(',');
                             this.getListRents.filter(item => {
                                 for(let nameRent in rent){
                                     if(item.id === Number(rent[nameRent])) {
-                                        data[index].rent += "<p>" + item.val + "</p>";
+                                        data[index].rent.name.push(item.val);
+                                        data[index].rent.val.push(Number(rent[nameRent]));
                                     }
                                 }
                             });
-
                         }
-
                         return data;
-                    },
-                    getInternet() {
-                        console.log('getListInternets', this.getListInternets);
-                        console.log('getPacks', this.getPacks);
-                        return this.getListInternets.filter(function(item){
-                            for(let pack in this.getPacks) {
-                                console.log('pack', pack);
-                                if(item.id === Number(pack.internet)) {
-                                    console.log('item - pack', item);
-                                    return true;
-                                }
-                            }
-                        });
                     }
                 },
                 methods: {
                     deletePackage (packageId) {
                         this.$store.dispatch('deletePackAsync', {id: packageId})
                     },
-                    // Проверяем чтобы в данных не было пустых значений
-                    checkItemArray(item) {
-                        if(item === "0" || item === "")
-                            return [];
-                        else
-                            return item.split(',').map(el => {return Number(el)});
-                    },
-                    // Проверяем чтобы в данных не было пустых значений
-                    checkItem(item) {
-                        if(item === 0 || item === null)
-                            return null;
-                        else
-                            return Number(item);
-                    },
                     selectPackage (item) {
                         packages.name.val = item.name;
-                        packages.internet.val = this.checkItem(item.internet);
-                        packages.tv.val = this.checkItemArray(item.tv);
-                        packages.rent.val = this.checkItemArray(item.rent);
-
-                        console.log("data", this.$store.getters.getListInternets);
+                        packages.internet.val = item.internet.val;
+                        packages.tv.val = item.tv.val;
+                        packages.rent.val = item.rent.val;
 
                         this.$emit('close');
                     }
@@ -344,9 +316,21 @@ export default {
                                 <tr class="modal__tr" v-for="item in getPackage">
                                     <td class="items__td" @click="selectPackage(item)">{{ item.id }}</td>
                                     <td class="items__td" @click="selectPackage(item)">{{ item.name }}</td>
-                                    <td class="items__td" @click="selectPackage(item)">{{ item.internet }}</td>
-                                    <td class="items__td" @click="selectPackage(item)" v-html="item.tv"></td>
-                                    <td class="items__td" @click="selectPackage(item)"v-html="item.rent"></td>
+                                    <td class="items__td" @click="selectPackage(item)">
+                                        <div class="">
+                                            <span class="items__pack" v-if="item.internet.name">{{ item.internet.name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="items__td" @click="selectPackage(item)">
+                                        <div class="" v-for="tv in item.tv.name">
+                                            <span class="items__pack">{{ tv }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="items__td" @click="selectPackage(item)">
+                                        <div class="" v-for="internet in item.rent.name">
+                                            <span class="items__pack">{{ internet }}</span>
+                                        </div>
+                                    </td>
                                     <td class="items__td">
                                         <!--<font-awesome-icon class="items__icon" icon="cog" @click="editClient(item)"></font-awesome-icon>-->
                                         <font-awesome-icon class="items__icon" icon="times-circle" @click="deletePackage(item.id)"></font-awesome-icon>
