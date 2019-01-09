@@ -75,10 +75,10 @@
                         <app-select-multiple :data="packages.rent"></app-select-multiple>
                     </div>
                     <div class="create__input create__package-button">
-                        <button class="button button__add" @click="show(packages)">Выбрать из существующих</button>
+                        <button class="button button__add" @click="showPackage(packages)">Выбрать из существующих</button>
                     </div>
                     <div class="create__input create__package-button">
-                        <button class="button button__save-package">Сохранить пакет</button>
+                        <button class="button button__save-package" @click="savePackage">Сохранить пакет</button>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -199,6 +199,19 @@ export default {
         }
     },
     methods: {
+        savePackage: function () {
+            console.log("savePackage", this.packages);
+            var pack = {};
+            for(let item in this.packages) {
+                if(Array.isArray(this.packages[item].val)){
+                    pack[this.packages[item].name] = this.packages[item].val.join()
+                } else {
+                    pack[this.packages[item].name] = this.packages[item].val;
+                }
+            }
+            console.log("savePackage2", pack);
+            this.$store.dispatch('addPackAsync', {obj: pack, items: this.packages, isFormCreate: true})
+        },
         changeForm: function(flag) {
             this.isFormCreate = flag;
         },
@@ -217,34 +230,100 @@ export default {
                 this.client[item].val = null;
             }
         },
-        show (packages) {
+        showPackage (packages) {
+            this.$store.dispatch('getPacksAsync');
+
             this.$modal.show({
                 components:{
                     FontAwesomeIcon
                 },
+                computed: {
+                    ...mapGetters([
+                        'getListInternets', 'getListRents', 'getListTvs', 'getPacks'
+                    ]),
+                    getPackage() {
+                        var data = [];
+
+                        for(let index in this.getPacks) {
+                            let service = {id:null, name:null, internet:null, tv:null, rent:null};
+
+                            service.id = this.getPacks[index].id;
+                            service.name = this.getPacks[index].name;
+                            data[index] = service;
+                            this.getListInternets.filter(item => {
+
+                                if(item.id === Number(this.getPacks[index].internet)) {
+                                    data[index].internet = item.val;
+                                }
+                            });
+                            var tv = this.getPacks[index].tv.split(',');
+                            this.getListTvs.filter(item => {
+                                for(let nameTv in tv){
+                                    console.log("nameTv", nameTv);
+                                    if(item.id === Number(tv[nameTv])) {
+                                        data[index].tv += "<p>" + item.val + "</p>";
+                                    }
+                                }
+                            });
+                            //TODO:: добавить проверку на null и 0
+                            var rent = this.getPacks[index].rent.split(',');
+                            this.getListRents.filter(item => {
+                                for(let nameRent in rent){
+                                    if(item.id === Number(rent[nameRent])) {
+                                        data[index].rent += "<p>" + item.val + "</p>";
+                                    }
+                                }
+                            });
+
+                        }
+
+                        return data;
+                    },
+                    getInternet() {
+                        console.log('getListInternets', this.getListInternets);
+                        console.log('getPacks', this.getPacks);
+                        return this.getListInternets.filter(function(item){
+                            for(let pack in this.getPacks) {
+                                console.log('pack', pack);
+                                if(item.id === Number(pack.internet)) {
+                                    console.log('item - pack', item);
+                                    return true;
+                                }
+                            }
+                        });
+                    }
+                },
                 methods: {
-                    selectPackage (id) {
-                        //TODO:: сделано только для тестового просмотра
-                        if(id === 1) {
-                            packages.selectInternet.val = 1;
-                            packages.selectTv.val = [1, 2]
-                            packages.selectRent.val = [1, 2]
-                        }
-                        if(id === 2) {
-                            packages.selectInternet.val = 2;
-                            packages.selectTv.val = [2]
-                            packages.selectRent.val = [2]
-                        }
-                        if(id === 3) {
-                            packages.selectInternet.val = 2;
-                            packages.selectTv.val = [1, 2]
-                            packages.selectRent.val = [1]
-                        }
+                    deletePackage (packageId) {
+                        this.$store.dispatch('deletePackAsync', {id: packageId})
+                    },
+                    // Проверяем чтобы в данных не было пустых значений
+                    checkItemArray(item) {
+                        if(item === "0" || item === "")
+                            return [];
+                        else
+                            return item.split(',').map(el => {return Number(el)});
+                    },
+                    // Проверяем чтобы в данных не было пустых значений
+                    checkItem(item) {
+                        if(item === 0 || item === null)
+                            return null;
+                        else
+                            return Number(item);
+                    },
+                    selectPackage (item) {
+                        packages.name.val = item.name;
+                        packages.internet.val = this.checkItem(item.internet);
+                        packages.tv.val = this.checkItemArray(item.tv);
+                        packages.rent.val = this.checkItemArray(item.rent);
+
+                        console.log("data", this.$store.getters.getListInternets);
+
                         this.$emit('close');
                     }
                 },
                 template: `
-                    <div class="modal__block">
+                    <div class="modal__block modal__block_width400">
                         <div class="modal__close" @click="$emit('close')">
                             <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
                             Закрыть
@@ -254,33 +333,24 @@ export default {
                             <thead class="items__thead">
                                 <tr>
                                     <th class="modal__th items__th">N</th>
+                                    <th class="modal__th items__th">Название</th>
                                     <th class="modal__th items__th">Интернет</th>
                                     <th class="modal__th items__th">Смотрешка</th>
                                     <th class="modal__th items__th">Оборудование</th>
-                                    <th class="modal__th items__th">Цена</th>
+                                    <th class="modal__th items__th">Действие</th>
                                 </tr>
                             </thead>
                             <tbody class="items__tbody">
-                                <tr class="modal__tr" @click="selectPackage(1)">
-                                    <td class="items__td">1</td>
-                                    <td class="items__td">Kvartira_40</td>
-                                    <td class="items__td">Bandl_1</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">550</td>
-                                </tr>
-                                <tr class="modal__tr" @click="selectPackage(2)">
-                                    <td class="items__td">2</td>
-                                    <td class="items__td">Kvartira_30</td>
-                                    <td class="items__td">Bandl_2</td>
-                                    <td class="items__td">Роутер</td>
-                                    <td class="items__td">520</td>
-                                </tr>
-                                <tr class="modal__tr" @click="selectPackage(3)">
-                                    <td class="items__td">3</td>
-                                    <td class="items__td">Kvartira_80</td>
-                                    <td class="items__td">Bandl_3</td>
-                                    <td class="items__td">Тарелка</td>
-                                    <td class="items__td">860</td>
+                                <tr class="modal__tr" v-for="item in getPackage">
+                                    <td class="items__td" @click="selectPackage(item)">{{ item.id }}</td>
+                                    <td class="items__td" @click="selectPackage(item)">{{ item.name }}</td>
+                                    <td class="items__td" @click="selectPackage(item)">{{ item.internet }}</td>
+                                    <td class="items__td" @click="selectPackage(item)" v-html="item.tv"></td>
+                                    <td class="items__td" @click="selectPackage(item)"v-html="item.rent"></td>
+                                    <td class="items__td">
+                                        <!--<font-awesome-icon class="items__icon" icon="cog" @click="editClient(item)"></font-awesome-icon>-->
+                                        <font-awesome-icon class="items__icon" icon="times-circle" @click="deletePackage(item.id)"></font-awesome-icon>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
