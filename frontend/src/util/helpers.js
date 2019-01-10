@@ -55,6 +55,15 @@ export function clearFields(objFields, checkedFields) {
     }
 }
 
+export function selectIds(obj) {
+
+    let ids = obj.map(function(item, i, arr){
+        return item.id;
+    });
+    console.log("ids", ids);
+    return ids;
+}
+
 export function showPresets(items) {
     Vue.prototype.$modal.show({
             components:{

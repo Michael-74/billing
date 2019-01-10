@@ -107,6 +107,7 @@ export default {
             this.$store.commit("setClient", item);
         },
         deleteClient: (clientId) => {
+            console.log("deleteClient", clientId);
             deleteSendClient(clientId);
         }
     }

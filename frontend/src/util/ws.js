@@ -42,5 +42,6 @@ export function sendClient(client) {
 }
 
 export function deleteSendClient(id) {
+    console.log("deleteSendClient", id);
     stompClient.send("/app/deleteClient", {}, JSON.stringify(parseInt(id)));
 }

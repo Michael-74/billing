@@ -1,6 +1,7 @@
 package ru.soyuz_kom.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,14 @@ import ru.soyuz_kom.entity.enums.TypeWriteOffEnum;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Task {
+public class Task implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -82,5 +85,17 @@ public class Task {
             this.priceInstallments = "0";
         if (this.dayInMonth == null || this.dayInMonth == 0)
             this.dayInMonth = 0;
+    }
+
+    @ManyToMany(mappedBy = "tasks")
+    @JsonIgnore
+    private Set<Rent> rents;
+
+    public Set<Rent> getRents() {
+        return rents;
+    }
+
+    public void setRents(Set<Rent> rents) {
+        this.rents = rents;
     }
 }

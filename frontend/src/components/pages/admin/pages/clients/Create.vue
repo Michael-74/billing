@@ -209,7 +209,7 @@ export default {
                     pack[this.packages[item].name] = this.packages[item].val;
                 }
             }
-            console.log("savePackage2", pack);
+
             this.$store.dispatch('addPackAsync', {obj: pack, items: this.packages, isFormCreate: true})
         },
         changeForm: function(flag) {

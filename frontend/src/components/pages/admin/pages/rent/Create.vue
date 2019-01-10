@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Input from '../../../../semantic-blocks/forms/Input'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
 import Select from '../../../../semantic-blocks/forms/Select'
@@ -53,7 +54,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference, textarea } from '../../../../../util/fields'
-import { parseObj } from '../../../../../util/helpers'
+import { parseObj, selectIds } from '../../../../../util/helpers'
 
 export default {
     components: {
@@ -80,6 +81,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters([
+            'getSelectedTasks'
+        ]),
         getClient () {
             var isFlagFormCreate = true;
             if(this.editItem) {
@@ -102,8 +106,12 @@ export default {
             for(let item in this.rent) {
                 items[this.rent[item].name] = this.rent[item].val;
             }
-            console.log('rent', this.rent);
-            this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate})
+            //console.log('task', selectIds(this.getSelectedTasks));
+            //items['tasks'] = JSON.stringify(selectIds(this.getSelectedTasks));
+            const tasks = JSON.stringify(selectIds(this.getSelectedTasks));
+            console.log('rent', items);
+
+            this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate, tasks: tasks})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');

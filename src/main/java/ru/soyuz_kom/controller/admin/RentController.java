@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +40,9 @@ public class RentController extends AdminController {
         return rent;
     }
 
-    @PostMapping(value = {"v1/rent/store"})
+    @PostMapping(value = {"v1/rent/store"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity store(@Valid @RequestBody Rent rent, Errors errors) {
+    public ResponseEntity store(@Valid @RequestBody("rent") Rent rent, @RequestParam("tasks") String tasks, Errors errors) {
         System.out.println("v1/rent/store");
         HashMap error = new HashMap<>();
 
@@ -54,6 +55,7 @@ public class RentController extends AdminController {
         }
 
         Rent addRent = rentRepository.save(rent);
+        System.out.println("tasks data: " + tasks);
         return new ResponseEntity<>(addRent, HttpStatus.OK);
     }
 
