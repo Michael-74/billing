@@ -108,7 +108,8 @@ export default {
             }
             //console.log('task', selectIds(this.getSelectedTasks));
             //items['tasks'] = JSON.stringify(selectIds(this.getSelectedTasks));
-            const tasks = JSON.stringify(selectIds(this.getSelectedTasks));
+            //const tasks = JSON.stringify(selectIds(this.getSelectedTasks));
+            const tasks = (selectIds(this.getSelectedTasks)).join(',');
             console.log('rent', items);
 
             this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate, tasks: tasks})

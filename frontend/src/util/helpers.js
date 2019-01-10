@@ -55,6 +55,11 @@ export function clearFields(objFields, checkedFields) {
     }
 }
 
+/**
+ *
+ * @param obj
+ * @returns {*}
+ */
 export function selectIds(obj) {
 
     let ids = obj.map(function(item, i, arr){

@@ -1,5 +1,6 @@
 package ru.soyuz_kom.controller.admin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,8 @@ import ru.soyuz_kom.entity.Rent;
 import ru.soyuz_kom.repository.RentRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 
-import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.validation.*;
+import java.util.*;
 
 @RestController
 public class RentController extends AdminController {
@@ -42,20 +40,34 @@ public class RentController extends AdminController {
 
     @PostMapping(value = {"v1/rent/store"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity store(@Valid @RequestBody("rent") Rent rent, @RequestParam("tasks") String tasks, Errors errors) {
-        System.out.println("v1/rent/store");
+    public ResponseEntity store(@RequestBody HashMap<String, Object> map) {
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        ObjectMapper mapper = new ObjectMapper();
+        Rent rent = mapper.convertValue(map.get("rent"), Rent.class);
+        //String tasks = (String) map.get("tasks");
+
+        List tasks = (List) Arrays.asList(map.get("tasks"));
+        //Set s = mapper.convertValue(map.get("tasks"), Set.class);
+
+        System.out.println("ss: " + tasks);
+
+        Set<ConstraintViolation<Object>> violations = validator.validate(rent);
         HashMap error = new HashMap<>();
 
-        if (errors.hasErrors()) {
-            List<org.springframework.validation.FieldError> fieldErrors = errors.getFieldErrors();
-            for (org.springframework.validation.FieldError fieldError: fieldErrors) {
-                error.put(fieldError.getField(), fieldError.getDefaultMessage());
+        if (!violations.isEmpty()) {
+            for (ConstraintViolation<Object> violation : violations) {
+                error.put(violation.getPropertyPath(), violation.getMessage());
             }
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         Rent addRent = rentRepository.save(rent);
-        System.out.println("tasks data: " + tasks);
+        //addRent.setTasks(tasks);
+        //addRent.getTasks().add(tasks);
+
         return new ResponseEntity<>(addRent, HttpStatus.OK);
     }
 

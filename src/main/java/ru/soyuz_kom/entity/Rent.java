@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -45,13 +46,13 @@ public class Rent {
     @JoinTable(name = "rents_tasks",
             joinColumns = @JoinColumn(name = "id_rent"),
             inverseJoinColumns = @JoinColumn(name = "id_task") )
-    private Set<Task> tasks;
+    private List<Task> tasks;
 
-    public Set<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 }
