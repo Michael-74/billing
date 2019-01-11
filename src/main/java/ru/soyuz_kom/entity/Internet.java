@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @ToString(of = {"id", "name"})
 @EqualsAndHashCode(of = {"id"})
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Internet {
+public class Internet extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

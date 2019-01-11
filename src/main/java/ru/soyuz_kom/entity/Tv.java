@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "tvs")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Tv {
+public class Tv extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

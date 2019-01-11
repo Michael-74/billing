@@ -34,7 +34,7 @@
                                     <span class="items__status-text">Выключен</span>
                                 </span>
                             </td>
-                            <td class="items__td">{{ item.createAt }}</td>
+                            <td class="items__td">{{ item.createdAt }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editRent(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteRent(item.id)"></font-awesome-icon>

@@ -45,39 +45,18 @@ public class RentController extends AdminController {
 
     @PostMapping(value = {"v1/rent/store"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity store(@RequestBody Rent rent) {
+    public ResponseEntity store(@Valid @RequestBody Rent rent, Errors errors) {
 
         System.out.println("rent: " + rent.getTasks());
-        /*
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-
-        ObjectMapper mapper = new ObjectMapper();
-        Rent rent = mapper.convertValue(map.get("rent"), Rent.class);
-
-        List tasks = (List) Arrays.asList(map.get("tasks"));
-
-        //Optional<Task> task = taskRepository.findById(2);
-        //Set s = mapper.convertValue(map.get("tasks"), Set.class);
-
-        Set<Task> taskList = new HashSet<Task>();
-        for(Object item: tasks) {
-            taskList.add(taskRepository.findById(addUserForm.getRoleId()));
-        }
-
-        Set<ConstraintViolation<Object>> violations = validator.validate(rent);
         HashMap error = new HashMap<>();
-
-        if (!violations.isEmpty()) {
-            for (ConstraintViolation<Object> violation : violations) {
-                error.put(violation.getPropertyPath(), violation.getMessage());
+        if (errors.hasErrors()) {
+            List<org.springframework.validation.FieldError> fieldErrors = errors.getFieldErrors();
+            for (org.springframework.validation.FieldError fieldError: fieldErrors) {
+                error.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        */
         Rent addRent = rentRepository.save(rent);
-        //addRent.setTasks(tasks);
-        //addRent.getTasks().add();
 
         return new ResponseEntity<>(addRent, HttpStatus.OK);
     }

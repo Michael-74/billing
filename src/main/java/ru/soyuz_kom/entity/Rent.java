@@ -18,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "rents")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Rent {
+public class Rent extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
