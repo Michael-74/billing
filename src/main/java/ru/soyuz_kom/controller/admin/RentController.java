@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Rent;
+import ru.soyuz_kom.entity.Task;
 import ru.soyuz_kom.repository.RentRepository;
+import ru.soyuz_kom.repository.TaskRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 
 import javax.validation.*;
@@ -23,6 +25,9 @@ public class RentController extends AdminController {
 
     @Autowired
     private RentRepository rentRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @GetMapping({"v1/rent","v1/rent/"})
     public Iterable<Rent> index() {
@@ -40,19 +45,25 @@ public class RentController extends AdminController {
 
     @PostMapping(value = {"v1/rent/store"}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity store(@RequestBody HashMap<String, Object> map) {
+    public ResponseEntity store(@RequestBody Rent rent) {
 
+        System.out.println("rent: " + rent.getTasks());
+        /*
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
         ObjectMapper mapper = new ObjectMapper();
         Rent rent = mapper.convertValue(map.get("rent"), Rent.class);
-        //String tasks = (String) map.get("tasks");
 
         List tasks = (List) Arrays.asList(map.get("tasks"));
+
+        //Optional<Task> task = taskRepository.findById(2);
         //Set s = mapper.convertValue(map.get("tasks"), Set.class);
 
-        System.out.println("ss: " + tasks);
+        Set<Task> taskList = new HashSet<Task>();
+        for(Object item: tasks) {
+            taskList.add(taskRepository.findById(addUserForm.getRoleId()));
+        }
 
         Set<ConstraintViolation<Object>> violations = validator.validate(rent);
         HashMap error = new HashMap<>();
@@ -63,10 +74,10 @@ public class RentController extends AdminController {
             }
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
-
+        */
         Rent addRent = rentRepository.save(rent);
         //addRent.setTasks(tasks);
-        //addRent.getTasks().add(tasks);
+        //addRent.getTasks().add();
 
         return new ResponseEntity<>(addRent, HttpStatus.OK);
     }

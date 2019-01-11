@@ -55,7 +55,7 @@ export default {
         addRentAsync ({commit, state, rootGetters}, payload) {
 
             axios
-                .post('/admin/v1/rent/store', {rent:payload.obj, tasks:payload.tasks}, {
+                .post('/admin/v1/rent/store', payload.obj, {
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
