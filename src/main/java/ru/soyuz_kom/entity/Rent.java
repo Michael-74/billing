@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.view.Views;
 
 import javax.persistence.*;
@@ -42,6 +43,7 @@ public class Rent extends Datetime {
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @BatchSize(size=25)
     @JoinTable(name = "rents_tasks",
             joinColumns = @JoinColumn(name = "id_rent"),
             inverseJoinColumns = @JoinColumn(name = "id_task") )

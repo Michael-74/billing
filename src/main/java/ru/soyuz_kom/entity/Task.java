@@ -19,7 +19,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tasks")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Task implements Serializable {
+public class Task extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -66,16 +66,6 @@ public class Task implements Serializable {
 
     @Column(name = "price_installments")
     private String priceInstallments;
-
-    @Basic(optional = false)
-    @Column(name = "created_at", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @Basic(optional = false)
-    @Column(name = "updated_at", insertable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
 
     @PrePersist
     void preInsert() {

@@ -42,6 +42,9 @@ export default {
                 });
             }
         },
+        setSelectedTasks (state, payload) {
+            Vue.set(state, 'selectedTasks', [...payload]);
+        },
         /**
          * Меняем значения в стейте на измененные данные из формы
          * @param state

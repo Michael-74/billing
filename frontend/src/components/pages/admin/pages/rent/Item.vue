@@ -9,6 +9,7 @@
                         <th class="items__th">Название</th>
                         <th class="items__th">Описание</th>
                         <th class="items__th">Статус</th>
+                        <th class="items__th">Задачи</th>
                         <!--
                         <th class="items__th">Цена</th>
                         <th class="items__th">Тип списания</th>
@@ -34,7 +35,12 @@
                                     <span class="items__status-text">Выключен</span>
                                 </span>
                             </td>
-                            <td class="items__td">{{ item.createdAt }}</td>
+                            <td class="items__td">
+                                <div class="" v-for="task in item.tasks">
+                                    <span class="items__pack">{{ task.name }}</span>
+                                </div>
+                            </td>
+                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Только что создан" }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editRent(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteRent(item.id)"></font-awesome-icon>
@@ -63,6 +69,7 @@ export default {
     methods: {
         editRent: function(item) {
             this.$store.commit("setRent", item);
+            this.$store.commit("setSelectedTasks", item.tasks);
         },
         deleteRent: function(clientId){
             this.$store.dispatch("deleteRentAsync", {id: clientId});
