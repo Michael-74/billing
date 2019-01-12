@@ -134,6 +134,7 @@ export default {
             this.changeForm(true);
             this.clearCreateForm();
             this.$store.commit('setRent', null);
+            this.$store.commit('setSelectedTasks', []);
         }
     }
 }

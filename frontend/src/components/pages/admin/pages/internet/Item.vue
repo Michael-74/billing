@@ -9,12 +9,7 @@
                         <th class="items__th">Название</th>
                         <th class="items__th">Скорость</th>
                         <th class="items__th">Статус</th>
-                        <!--
-                        <th class="items__th">Цена</th>
-                        <th class="items__th">Тип списания</th>
-                        <th class="items__th">Статус</th>
-                        <th class="items__th">Время работы</th>
-                        -->
+                        <th class="items__th">Задачи</th>
                         <th class="items__th">Дата создания</th>
                         <th class="items__th">Действие</th>
                     </tr>
@@ -33,6 +28,11 @@
                                     <span class="items__signal items__signal_off"></span>
                                     <span class="items__status-text">Выключен</span>
                                 </span>
+                            </td>
+                            <td class="items__td">
+                                <div class="" v-for="task in item.tasks">
+                                    <span class="items__pack">{{ task.name }}</span>
+                                </div>
                             </td>
                             <td class="items__td">{{ item.createdAt }}</td>
                             <td class="items__td">
@@ -63,6 +63,7 @@ export default {
     methods: {
         editInternet: function(item) {
             this.$store.commit("setInternet", item);
+            this.$store.commit("setSelectedTasks", item.tasks);
         },
         deleteInternet: function(clientId){
             this.$store.dispatch("deleteInternetAsync", {id: clientId});

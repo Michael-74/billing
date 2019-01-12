@@ -14,6 +14,7 @@
                         <th class="items__th">Статус</th>
                         <th class="items__th">Время работы</th>
                         -->
+                        <th class="items__th">Задачи</th>
                         <th class="items__th">Дата создания</th>
                         <th class="items__th">Действие</th>
                     </tr>
@@ -32,9 +33,14 @@
                                     <span class="items__status-text">Выключен</span>
                                 </span>
                             </td>
+                            <td class="items__td">
+                                <div class="" v-for="task in item.tasks">
+                                    <span class="items__pack">{{ task.name }}</span>
+                                </div>
+                            </td>
                             <td class="items__td">{{ item.createdAt }}</td>
                             <td class="items__td">
-                                <font-awesome-icon class="items__icon" icon="cog" @click="editInternet(item)"></font-awesome-icon>
+                                <font-awesome-icon class="items__icon" icon="cog" @click="editTv(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteInternet(item.id)"></font-awesome-icon>
                             </td>
                         </tr>
@@ -59,8 +65,9 @@ export default {
         }
     },
     methods: {
-        editInternet: function(item) {
+        editTv: function(item) {
             this.$store.commit("setTv", item);
+            this.$store.commit("setSelectedTasks", item.tasks);
         },
         deleteInternet: function(clientId){
             this.$store.dispatch("deleteTvAsync", {id: clientId});
