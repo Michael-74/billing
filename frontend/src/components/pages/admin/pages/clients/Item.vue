@@ -41,14 +41,32 @@
                             <td class="items__td">{{ item.internet }}</td>
                             <td class="items__td">{{ item.tv }}</td>
                             <td class="items__td">{{ item.rent }}</td>
-                            <td class="items__td">{{ item.promisePayment }}</td>
+                            <td class="items__td">
+                                <span v-show="item.isPromisedPay">
+                                    <span class="items__signal"></span>
+                                    <span class="items__status-text">Включен</span>
+                                </span>
+                                <span v-show="!item.isPromisedPay">
+                                    <span class="items__signal items__signal_off"></span>
+                                    <span class="items__status-text">Выключен</span>
+                                </span>
+                            </td>
                             <td class="items__td">{{ item.fio }}</td>
                             <td class="items__td">{{ item.address }}</td>
                             <td class="items__td">{{ item.phone }}</td>
                             <td class="items__td">{{ item.email }}</td>
                             <td class="items__td">{{ item.typeDiscount }}</td>
                             <td class="items__td">{{ item.discount }}</td>
-                            <td class="items__td">{{ item.status }}</td>
+                            <td class="items__td">
+                                <span v-show="item.isStatus">
+                                    <span class="items__signal"></span>
+                                    <span class="items__status-text">Включен</span>
+                                </span>
+                                <span v-show="!item.isStatus">
+                                    <span class="items__signal items__signal_off"></span>
+                                    <span class="items__status-text">Выключен</span>
+                                </span>
+                            </td>
                             <td class="items__td">{{ item.loyalty }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon"
@@ -66,7 +84,7 @@
                                                      }"
                             ></font-awesome-icon>
                             </td>
-                            <td class="items__td">{{ item.createAt }}</td>
+                            <td class="items__td">{{ item.createdAt }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editClient(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteClient(item.id)"></font-awesome-icon>

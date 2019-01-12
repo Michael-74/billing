@@ -1,8 +1,10 @@
 package ru.soyuz_kom.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
+import ru.soyuz_kom.entity.view.Views;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +20,7 @@ abstract class Datetime {
     @Basic(optional = false)
     @Column(name = "created_at", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(Views.ClientsAndServicesIdName.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = FORMAT_DATETIME, timezone = TIME_ZONE)
     private Date createdAt;
 

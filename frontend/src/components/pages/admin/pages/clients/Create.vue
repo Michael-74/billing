@@ -44,17 +44,17 @@
                     <app-input :data="client.email"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-checkbox :data="client.promised"></app-checkbox>
+                    <app-checkbox :data="client.isPromisedPay"></app-checkbox>
                 </div>
                 <div class="clear"></div>
                 <div class="create__input create__input_width-discount">
                     <app-input :data="client.discount"></app-input>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.type_discount"></app-select>
+                    <app-select :data="client.typeDiscount"></app-select>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.status"></app-select>
+                    <app-select :data="client.isStatus"></app-select>
                 </div>
                 <div class="create__input create__select_width">
                     <app-select :data="client.loyalty"></app-select>
@@ -144,15 +144,15 @@ export default {
                 balance: input('Баланс', 'Баланс', 'balance', true, false, null, null),
                 contract: input('Номер договора', 'Номер договора', 'contract', true, false, null, null),
                 priceOverMonth: input('Цена до конца месяца', 'Цена до конца месяца', 'price_over_month', true, false, null, null),
-                promised: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'promised', true, false, null, true),
+                isPromisedPay: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'isPromisedPay', true, false, null, true),
                 fio: input('ФИО', 'ФИО', 'fio', true, false, null, null),
                 address: input('Адрес', 'Адрес', 'address', true, false, null, null),
                 phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
                 email: input('Email', 'Email', 'email', true, false, null, null),
                 discount: input('Скидка', 'Скидка', 'discount', true, false, null, null),
                 loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                type_discount: select('Тип скидки', 'Не выбрано', 'type_discount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                status: select('Статус', 'Не выбрано', 'status', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
+                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                isStatus: select('Статус', 'Не выбрано', 'isStatus', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
             },
             packages: {
                 name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),
@@ -297,7 +297,7 @@ export default {
                 template: `
                     <div class="modal__block modal__block_width400">
                         <div class="modal__close" @click="$emit('close')">
-                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
+                            <font-awesome-icon class="modal__icon modal__icon_red" icon="times-circle"></font-awesome-icon>
                             Закрыть
                         </div>
                         <h3 class="modal__h3">Список пакетов</h3>

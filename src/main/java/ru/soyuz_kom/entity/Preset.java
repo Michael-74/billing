@@ -25,7 +25,7 @@ public class Preset {
     @Column(unique = true, name = "name")
     private String name;
     @NotNull
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "settings", columnDefinition = "TEXT")
     private String settings;
 
 }
