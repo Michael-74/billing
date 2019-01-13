@@ -40,7 +40,7 @@
                                     <span class="items__pack">{{ task.name }}</span>
                                 </div>
                             </td>
-                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Только что создан" }}</td>
+                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editRent(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteRent(item.id)"></font-awesome-icon>

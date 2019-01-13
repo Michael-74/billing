@@ -70,6 +70,7 @@
                             <td class="items__td">{{ item.loyalty }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon"
+                                                   :class="{'items__icon_orange': item.note}"
                                                      icon="comment-alt"
                                                      v-tooltip="{
                                                           content: item.note,
@@ -84,7 +85,7 @@
                                                      }"
                             ></font-awesome-icon>
                             </td>
-                            <td class="items__td">{{ item.createdAt }}</td>
+                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editClient(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteClient(item.id)"></font-awesome-icon>

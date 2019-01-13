@@ -88,7 +88,7 @@
                         <button class="button button__add" @click="isNote = !isNote">Добавить заметку</button>
                     </div>
                     <div class="create__input create__input_full-width" v-show="isNote">
-                        <app-textarea :data="note.textareaNote"></app-textarea>
+                        <app-textarea :data="client.note"></app-textarea>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -152,16 +152,14 @@ export default {
                 discount: input('Скидка', 'Скидка', 'discount', true, false, null, null),
                 loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                isStatus: select('Статус', 'Не выбрано', 'isStatus', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
+                isStatus: select('Статус', 'Не выбрано', 'isStatus', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                note: textarea(null, 'Введите текст', 'note', true, false, null, null)
             },
             packages: {
                 name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),
                 internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
                 tv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], []),
                 rent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], []),
-            },
-             note: {
-                textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
             }
         }
     },

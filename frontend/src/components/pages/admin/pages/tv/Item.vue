@@ -38,7 +38,7 @@
                                     <span class="items__pack">{{ task.name }}</span>
                                 </div>
                             </td>
-                            <td class="items__td">{{ item.createdAt }}</td>
+                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editTv(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteInternet(item.id)"></font-awesome-icon>
