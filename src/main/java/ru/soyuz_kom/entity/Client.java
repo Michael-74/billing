@@ -93,4 +93,36 @@ public class Client extends Datetime {
     @JsonView(Views.ClientsAndServicesIdName.class)
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
+
+    @JsonView(Views.ClientsAndServicesIdName.class)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @BatchSize(size=25)
+    @JoinTable(name = "clients_tvs",
+            joinColumns = @JoinColumn(name = "id_client"),
+            inverseJoinColumns = @JoinColumn(name = "id_tv") )
+    private Set<Tv> tvs;
+
+    public Set<Tv> getTvs() {
+        return tvs;
+    }
+
+    public void setTvs(Set<Tv> tvs) {
+        this.tvs = tvs;
+    }
+
+    @JsonView(Views.ClientsAndServicesIdName.class)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @BatchSize(size=25)
+    @JoinTable(name = "clients_rents",
+            joinColumns = @JoinColumn(name = "id_client"),
+            inverseJoinColumns = @JoinColumn(name = "id_rent") )
+    private Set<Rent> rents;
+
+    public Set<Rent> getRents() {
+        return rents;
+    }
+
+    public void setRents(Set<Rent> rents) {
+        this.rents = rents;
+    }
 }

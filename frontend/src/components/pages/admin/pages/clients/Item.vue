@@ -39,7 +39,7 @@
                             <td class="items__td">{{ item.lastPrice }}</td>
                             <td class="items__td">{{ item.contract }}</td>
                             <td class="items__td">{{ item.internet }}</td>
-                            <td class="items__td">{{ item.tv }}</td>
+                            <td class="items__td">{{ item.tvs }}</td>
                             <td class="items__td">{{ item.rent }}</td>
                             <td class="items__td">
                                 <span v-show="item.isPromisedPay">
