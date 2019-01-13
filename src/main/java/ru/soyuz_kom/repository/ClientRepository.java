@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ClientRepository extends CrudRepository<Client, Integer>, JpaSpecificationExecutor<Client> {
-    Iterable<Client> findAll();
+    List<Client> findAll();
 
     Iterable<Client> findAllByOrderByIdDesc();
 

@@ -1,10 +1,7 @@
 package ru.soyuz_kom.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 import ru.soyuz_kom.entity.view.Views;
@@ -16,7 +13,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "clients")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client extends Datetime {
 
     @Id
@@ -28,7 +28,7 @@ public class Client extends Datetime {
     @NotNull
     @Size(min=2, max=50)
     @JsonView(Views.ClientsAndServicesIdName.class)
-    private String fio;
+    @Getter @Setter(AccessLevel.PROTECTED) private String fio;
 
     @Column(name = "login")
     @NotNull
@@ -65,7 +65,7 @@ public class Client extends Datetime {
     private String email;
 
     @JsonView(Views.ClientsAndServicesIdName.class)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_internet", referencedColumnName = "id")
     private Internet internet;
 
