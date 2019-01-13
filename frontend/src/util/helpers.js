@@ -62,11 +62,29 @@ export function clearFields(objFields, checkedFields) {
  */
 export function selectIds(obj) {
 
-    let ids = obj.map(function(item, i, arr){
+    return obj.map(function(item, i, arr){
         return item.id;
     });
-    console.log("ids", ids);
-    return ids;
+}
+
+/**
+ * Разбираем выбранный объект и конкретно для услуг парсим данные
+ * Достаем только id
+ * @param obj
+ * @param item
+ * @returns {*}
+ */
+export function parseServicesForId(obj, item) {
+
+    switch(item){
+        case "internet":
+            return obj[item] !== null ? obj[item].id : null;
+        case "tvs":
+        case "rents":
+            return selectIds(obj[item]);
+        default:
+            return obj[item];
+    }
 }
 
 export function showPresets(items) {

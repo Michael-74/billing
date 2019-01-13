@@ -54,10 +54,10 @@
                     <app-select :data="client.typeDiscount"></app-select>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.isStatus"></app-select>
+                    <app-select :data="client.loyalty"></app-select>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.loyalty"></app-select>
+                    <app-checkbox :data="client.isStatus"></app-checkbox>
                 </div>
                 <div class="clear"></div>
                 <div class="create__package">
@@ -66,13 +66,13 @@
                         <app-input :data="packages.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select :data="packages.internet"></app-select>
+                        <app-select :data="client.internet"></app-select>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.tv"></app-select-multiple>
+                        <app-select-multiple :data="client.tvs"></app-select-multiple>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.rent"></app-select-multiple>
+                        <app-select-multiple :data="client.rents"></app-select-multiple>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__add" @click="showPackage(packages)">Выбрать из существующих</button>
@@ -118,7 +118,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference, textarea } from '../../../../../util/fields'
-import { parseObj } from '../../../../../util/helpers'
+import { parseObj, parseServicesForId } from '../../../../../util/helpers'
 
 export default {
     components: {
@@ -150,33 +150,33 @@ export default {
                 phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
                 email: input('Email', 'Email', 'email', true, false, null, null),
                 discount: input('Скидка', 'Скидка', 'discount', true, false, null, 0),
-                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}, {id:3, val:3}, {id:4, val:4}, {id:5, val:5}, {id:6, val:6}, {id:7, val:7}, {id:8, val:8}, {id:9, val:9}, {id:10, val:10}]),
                 typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:"discount10", val:"Скидка 10%"}, {id:"discount20", val:"Скидка 20%"}]),
-                isStatus: select('Статус', 'Не выбрано', 'isStatus', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                note: textarea(null, 'Введите текст', 'note', true, false, null, null)
+                isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isPromisedPay', true, false, null, true),
+                note: textarea(null, 'Введите текст', 'note', true, false, null, null),
+                internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
+                tvs: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], []),
+                rents: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], []),
             },
             packages: {
                 name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),
-                internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
-                tv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], []),
-                rent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], []),
             }
         }
     },
     mounted () {
-        this.packages.internet.items = this.getListInternets;
-        this.packages.rent.items = this.getListRents;
-        this.packages.tv.items = this.getListTvs;
+        this.client.internet.items = this.getListInternets;
+        this.client.rents.items = this.getListRents;
+        this.client.tvs.items = this.getListTvs;
     },
     watch: {
         getListInternets() {
-            this.packages.internet.items = this.getListInternets;
+            this.client.internet.items = this.getListInternets;
         },
         getListRents() {
-            this.packages.rent.items = this.getListRents;
+            this.client.rents.items = this.getListRents;
         },
         getListTvs() {
-            this.packages.tv.items = this.getListTvs;
+            this.client.tvs.items = this.getListTvs;
         }
     },
     computed: {
@@ -188,7 +188,9 @@ export default {
             if(this.editItem) {
                 isFlagFormCreate = false;
                 for (let item in this.client) {
-                    this.client[item].val = this.editItem[item];
+                    console.log(item, this.editItem[item]);
+
+                    this.client[item].val = parseServicesForId(this.editItem, item);
                 }
             }
             this.changeForm(isFlagFormCreate);

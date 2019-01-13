@@ -58,6 +58,7 @@ public class Internet extends Datetime {
     }
 
 
+    /*
     @OneToMany(mappedBy = "internet")
     private Set<Client> clients;
 
@@ -68,6 +69,7 @@ public class Internet extends Datetime {
     public void setClient(Set<Client> clients) {
         this.clients = clients;
     }
+    */
 /*
     Задает дефолтные данные
     @PrePersist
