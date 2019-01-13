@@ -55,7 +55,14 @@
                             <td class="items__td">{{ item.address }}</td>
                             <td class="items__td">{{ item.phone }}</td>
                             <td class="items__td">{{ item.email }}</td>
-                            <td class="items__td">{{ item.typeDiscount }}</td>
+                            <td class="items__td">
+                                {{
+                                item.typeDiscount === "discount10" ? "Скидка до 10%" : ""
+                                }}
+                                {{
+                                item.typeDiscount === "discount20" ? "Скидка до 20%" : ""
+                                }}
+                            </td>
                             <td class="items__td">{{ item.discount }}</td>
                             <td class="items__td">
                                 <span v-show="item.isStatus">

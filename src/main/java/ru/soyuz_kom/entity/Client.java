@@ -64,8 +64,10 @@ public class Client extends Datetime {
     @JsonView(Views.ClientsAndServicesIdName.class)
     private String email;
 
-    @Column(name = "id_internet")
-    private Integer internet;
+    @JsonView(Views.ClientsAndServicesIdName.class)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_internet", referencedColumnName = "id")
+    private Internet internet;
 
     @Column(name = "loyalty")
     @JsonView(Views.ClientsAndServicesIdName.class)

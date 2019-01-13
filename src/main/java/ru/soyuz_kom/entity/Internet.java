@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
 import java.util.Set;
 
 @Entity
@@ -55,7 +56,19 @@ public class Internet extends Datetime {
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
-    /*
+
+
+    @OneToMany(mappedBy = "internet")
+    private Set<Client> clients;
+
+    public Set<Client> getClient() {
+        return clients;
+    }
+
+    public void setClient(Set<Client> clients) {
+        this.clients = clients;
+    }
+/*
     Задает дефолтные данные
     @PrePersist
     public void prePersist() {

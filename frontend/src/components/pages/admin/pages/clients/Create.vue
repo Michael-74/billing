@@ -149,9 +149,9 @@ export default {
                 address: input('Адрес', 'Адрес', 'address', true, false, null, null),
                 phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
                 email: input('Email', 'Email', 'email', true, false, null, null),
-                discount: input('Скидка', 'Скидка', 'discount', true, false, null, null),
+                discount: input('Скидка', 'Скидка', 'discount', true, false, null, 0),
                 loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:"discount10", val:"Скидка 10%"}, {id:"discount20", val:"Скидка 20%"}]),
                 isStatus: select('Статус', 'Не выбрано', 'isStatus', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 note: textarea(null, 'Введите текст', 'note', true, false, null, null)
             },
