@@ -155,8 +155,8 @@ export default {
                 isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isPromisedPay', true, false, null, true),
                 note: textarea(null, 'Введите текст', 'note', true, false, null, null),
                 internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
-                tvs: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], []),
-                rents: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], []),
+                tvs: selectMultiple('Смотрешка', 'Не выбрано', 'tvs', true, false, null, [], []),
+                rents: selectMultiple('Аренда оборудования', 'Не выбрано', 'rents', true, false, null, [], []),
             },
             packages: {
                 name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),

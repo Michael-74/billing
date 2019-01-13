@@ -38,9 +38,25 @@
                             <td class="items__td">{{ item.lastPriceDate }}</td>
                             <td class="items__td">{{ item.lastPrice }}</td>
                             <td class="items__td">{{ item.contract }}</td>
-                            <td class="items__td">{{ item.internet }}</td>
-                            <td class="items__td">{{ item.tvs }}</td>
-                            <td class="items__td">{{ item.rent }}</td>
+                            <td class="items__td">
+                                <div v-if="item.internet !== null">
+                                    <span class="items__pack">{{ item.internet.val }}</span>
+                                </div>
+                            </td>
+                            <td class="items__td">
+                                <div v-if="item.tvs.length !== 0">
+                                    <div v-for="tv in item.tvs">
+                                        <span class="items__pack">{{ tv.val }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="items__td">
+                                <div v-if="item.rents.length !== 0">
+                                    <div v-for="rent in item.rents">
+                                        <span class="items__pack">{{ rent.val }}</span>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="items__td">
                                 <span v-show="item.isPromisedPay">
                                     <span class="items__signal"></span>

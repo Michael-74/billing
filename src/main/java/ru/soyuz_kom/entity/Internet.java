@@ -1,5 +1,6 @@
 package ru.soyuz_kom.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
@@ -57,8 +58,8 @@ public class Internet extends Datetime {
         this.tasks = tasks;
     }
 
-
     /*
+    @JsonIgnore
     @OneToMany(mappedBy = "internet")
     private Set<Client> clients;
 
@@ -69,7 +70,7 @@ public class Internet extends Datetime {
     public void setClient(Set<Client> clients) {
         this.clients = clients;
     }
-    */
+*/
 /*
     Задает дефолтные данные
     @PrePersist
