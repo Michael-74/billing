@@ -11,7 +11,7 @@ export default {
     },
     mutations: {
         pushRents (state, payload) {
-            state.rents.unshift(payload);
+            state.rents.push(payload);
             //state.internets.push(payload);
         },
         /**

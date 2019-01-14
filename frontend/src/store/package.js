@@ -11,7 +11,7 @@ export default {
     },
     mutations: {
         pushPacks (state, payload) {
-            state.packs.unshift(payload);
+            state.packs.push(payload);
             //state.tasks.push(payload);
         },
         /**
