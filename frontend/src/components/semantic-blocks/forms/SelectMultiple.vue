@@ -8,12 +8,11 @@
                 <span class="select__data-first">{{getSelectsName}}</span>
                 <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{fields_red: this.data.isError, select__arrow_active: isSelects}"></font-awesome-icon>
             </div>
-            {{ this.selecteds }} --
-            {{ this.data.val }}
             <div class="select__block-select" v-show="isShow">
                 <div class="select__option" v-for="item in data.items" @click="selected(item.id, item.val)" :class="{select__option_active: getIndex(item.id)}">
                     <font-awesome-icon class="select__icon" icon="check-square" v-if="getIndex(item.id)"></font-awesome-icon>
                     <font-awesome-icon class="select__icon" icon="square" v-else></font-awesome-icon>
+                    {{ item.val }}
                 </div>
             </div>
         </div>
@@ -118,8 +117,9 @@ export default {
                         this.selectName = this.selectName.concat(names);
                         return this.getNameSelected();
                     } else {
+                        Vue.set(this.selecteds, 'selecteds', [])
                         this.selectName = [];
-                        this.selecteds = [];
+                        //this.selecteds = [];
                         return 'не выбрано';
                     }
 
