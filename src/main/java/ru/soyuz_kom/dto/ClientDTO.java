@@ -9,9 +9,7 @@ import ru.soyuz_kom.entity.Tv;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 import ru.soyuz_kom.entity.view.Views;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -32,8 +30,8 @@ public class ClientDTO {
     public Boolean isStatus;
     public Boolean isPromisedPay;
     public String note;
-    public List<Tv> tvs = new ArrayList();
-    public List<Rent> rents = new ArrayList();
+    public Set<Tv> tvs = new HashSet<>();
+    public Set<Rent> rents = new HashSet<>();
     public Date createdAt;
     public Date updatedAt;
 
@@ -51,6 +49,9 @@ public class ClientDTO {
             clientDTO.setPhone(client.getPhone());
             clientDTO.setEmail(client.getEmail());
             clientDTO.setInternet(client.getInternet());
+            clientDTO.setTvs(client.getTvs());
+            clientDTO.setRents(client.getRents());
+
             clientDTO.setLoyalty(client.getLoyalty());
             clientDTO.setDiscount(client.getDiscount());
             clientDTO.setTypeDiscount(client.getTypeDiscount());

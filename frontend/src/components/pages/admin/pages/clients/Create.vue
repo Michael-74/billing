@@ -75,7 +75,7 @@
                         <app-select-multiple :data="client.rents"></app-select-multiple>
                     </div>
                     <div class="create__input create__package-button">
-                        <button class="button button__add" @click="showPackage(packages)">Выбрать из существующих</button>
+                        <button class="button button__add" @click="showPackage(packages, client)">Выбрать из существующих</button>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__save-package" @click="savePackage">Сохранить пакет</button>
@@ -159,7 +159,7 @@ export default {
                 rents: selectMultiple('Аренда оборудования', 'Не выбрано', 'rents', true, false, null, [], []),
             },
             packages: {
-                name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),
+                name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null)
             }
         }
     },
@@ -188,7 +188,7 @@ export default {
             if(this.editItem) {
                 isFlagFormCreate = false;
                 for (let item in this.client) {
-                    console.log(item, this.editItem[item]);
+                    console.log("getClient", this.editItem[item]);
 
                     this.client[item].val = parseServicesForId(this.editItem, item);
                 }
@@ -201,16 +201,27 @@ export default {
     methods: {
         savePackage: function () {
             console.log("savePackage", this.packages);
+
+            //const unionPack = [this.packages.name, this.client.internet, this.client.tvs, this.client.rents]
+            const unionPack = {
+                name: this.packages.name,
+                internet: this.client.internet,
+                tvs: this.client.tvs,
+                rents: this.client.rents,
+            };
+            console.log("unionPack", unionPack);
             var pack = {};
-            for(let item in this.packages) {
-                if(Array.isArray(this.packages[item].val)){
-                    pack[this.packages[item].name] = this.packages[item].val.join()
+            for(let item in unionPack) {
+                if(Array.isArray(unionPack[item].val)){
+                    pack[unionPack[item].name] = unionPack[item].val.join()
                 } else {
-                    pack[this.packages[item].name] = this.packages[item].val;
+                    pack[unionPack[item].name] = unionPack[item].val;
                 }
             }
 
-            this.$store.dispatch('addPackAsync', {obj: pack, items: this.packages, isFormCreate: true})
+            console.log("pack", pack);
+            console.log("unionPack", unionPack);
+            this.$store.dispatch('addPackAsync', {obj: pack, items: unionPack, isFormCreate: true})
         },
         changeForm: function(flag) {
             this.isFormCreate = flag;
@@ -227,10 +238,13 @@ export default {
             this.$store.commit('clearErrors');
             for(let item in this.client) {
                 this.client[item].isError = false;
-                this.client[item].val = null;
+                if(Array.isArray(this.client[item].val))
+                    this.client[item].val = [];
+                else
+                    this.client[item].val = null;
             }
         },
-        showPackage (packages) {
+        showPackage (packages, client) {
             this.$store.dispatch('getPacksAsync');
 
             this.$modal.show({
@@ -250,6 +264,7 @@ export default {
                             service.id = this.getPacks[index].id;
                             service.name = this.getPacks[index].name;
                             data[index] = service;
+
                             this.getListInternets.filter(item => {
 
                                 if(item.id === Number(this.getPacks[index].internet)) {
@@ -258,25 +273,31 @@ export default {
                                 }
                             });
 
-                            var tv = this.getPacks[index].tv.split(',');
-                            this.getListTvs.filter(item => {
-                                for(let nameTv in tv){
-                                    if(item.id === Number(tv[nameTv])) {
-                                        data[index].tv.name.push(item.val);
-                                        data[index].tv.val.push(Number(tv[nameTv]));
+                            var tvList = this.getPacks[index].tvs;
+                            if(tvList !== null) {
+                                let tv = tvList.split(',');
+                                this.getListTvs.filter(item => {
+                                    for (let nameTv in tv) {
+                                        if (item.id === Number(tv[nameTv])) {
+                                            data[index].tv.name.push(item.val);
+                                            data[index].tv.val.push(Number(tv[nameTv]));
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
 
-                            var rent = this.getPacks[index].rent.split(',');
-                            this.getListRents.filter(item => {
-                                for(let nameRent in rent){
-                                    if(item.id === Number(rent[nameRent])) {
-                                        data[index].rent.name.push(item.val);
-                                        data[index].rent.val.push(Number(rent[nameRent]));
+                            var rentList = this.getPacks[index].rents;
+                            if(rentList !== null) {
+                                let rent = rentList.split(',');
+                                this.getListRents.filter(item => {
+                                    for (let nameRent in rent) {
+                                        if (item.id === Number(rent[nameRent])) {
+                                            data[index].rent.name.push(item.val);
+                                            data[index].rent.val.push(Number(rent[nameRent]));
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                         return data;
                     }
@@ -285,11 +306,12 @@ export default {
                     deletePackage (packageId) {
                         this.$store.dispatch('deletePackAsync', {id: packageId})
                     },
+                    // Указываем выбранный пакет
                     selectPackage (item) {
                         packages.name.val = item.name;
-                        packages.internet.val = item.internet.val;
-                        packages.tv.val = item.tv.val;
-                        packages.rent.val = item.rent.val;
+                        client.internet.val = item.internet.val;
+                        client.tvs.val = item.tv.val;
+                        client.rents.val = item.rent.val;
 
                         this.$emit('close');
                     }

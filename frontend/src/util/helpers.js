@@ -28,6 +28,8 @@ export function checkErrors(obj, errors, options = {}) {
                 obj[options[item]].isError = true;
                 obj[options[item]].errorText = errors[item];
             } else {
+                console.log("obj[item]", obj);
+                console.log("obj[item]", item);
                 obj[item].isError = true;
                 obj[item].errorText = errors[item];
             }
