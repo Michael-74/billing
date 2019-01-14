@@ -8,11 +8,12 @@
                 <span class="select__data-first">{{getSelectsName}}</span>
                 <font-awesome-icon class="select__arrow" :icon="getIcon" :class="{fields_red: this.data.isError, select__arrow_active: isSelects}"></font-awesome-icon>
             </div>
+            {{ this.selecteds }} --
+            {{ this.data.val }}
             <div class="select__block-select" v-show="isShow">
                 <div class="select__option" v-for="item in data.items" @click="selected(item.id, item.val)" :class="{select__option_active: getIndex(item.id)}">
                     <font-awesome-icon class="select__icon" icon="check-square" v-if="getIndex(item.id)"></font-awesome-icon>
                     <font-awesome-icon class="select__icon" icon="square" v-else></font-awesome-icon>
-                    {{ item.val }}
                 </div>
             </div>
         </div>
@@ -40,10 +41,10 @@ export default {
     methods: {
         selected (id, name) {
             if(this.getIndex(id)) {
-                var idx = this.selecteds.indexOf(id)
-                this.selecteds.splice(idx, 1)
-                this.selectName.splice(idx, 1)
-                this.data.val.splice(idx, 1)
+                var idx = this.selecteds.indexOf(id);
+                this.selecteds.splice(idx, 1);
+                this.selectName.splice(idx, 1);
+                this.data.val.splice(idx, 1);
             }else {
                 this.selecteds.push(id);
                 this.selectName.push(name);
@@ -58,8 +59,8 @@ export default {
         },
         getIndex (id) {
             var isFlag = false;
-            this.selecteds.forEach(function(item, i) {
-                if(item === id){
+            this.selecteds.forEach((itemId, i) => {
+                if(itemId === id){
                     isFlag = true;
                 }
             });
@@ -100,6 +101,7 @@ export default {
                 if(this.data.val.length !== 0) {
                     var index = [];
                     var names = [];
+                    this.data.val.sort();// Сортируем чтобы значения id были одинаково расположены в selecteds и data.val
                     this.data.items.forEach((item, i1, array1) => {
                         this.data.val.forEach((currentItem, i2, array2) => {
                             if(item.id === currentItem) {
