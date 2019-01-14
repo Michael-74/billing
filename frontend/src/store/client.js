@@ -10,10 +10,11 @@ export default {
     },
     mutations: {
         setClient (state, payload) {
-            state.editClient = payload;
+            Vue.set(state, 'editClient', payload);
         },
         setClients (state, payload) {
-            state.clients = payload;
+            Vue.set(state, 'clients', payload);
+            //state.clients = payload;
         },
         pushClients (state, payload) {
             var old = state.clients;
