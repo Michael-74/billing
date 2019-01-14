@@ -33,7 +33,8 @@ export default {
             Vue.set(state, 'rents', []);
         },
         setRents (state, payload) {
-            state.rents = payload;
+            Vue.set(state, 'rents', payload);
+            //state.rents = payload;
         },
         setListRents (state, payload) {
             Vue.set(state, 'listRents', [...payload]);

@@ -95,39 +95,6 @@ export default {
         overflow-x: scroll;
     }
     .items__clients {
-
-    }
-    .pagination {
-        overflow: hidden;
-        margin: 40px auto 20px;
-        width: 158px;
-    }
-    .pagination__link {
-        border: 1px solid #468ecf;
-        padding: 5px 10px;
-        float: left;
-        margin: 0;
-        color: #468ecf;
-    }
-    .pagination__link:hover, .pagination__link_active  {
-        color: #FFF;
-        background: #468ecf;
-    }
-    .pagination__link:first-child {
-        padding-left: 12px;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-    }
-    .pagination__link:last-child {
-        padding-right: 12px;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-    }
-
-    .items__clients-wrapper {
-
-    }
-    .items__clients {
         max-height:500px;
         position: relative;
     }

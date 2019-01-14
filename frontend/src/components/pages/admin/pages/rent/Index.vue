@@ -38,7 +38,7 @@
                 return this.editItem = this.$store.getters.getEditRent;
             },
             getRents () {
-                return this.$store.getters.getRents;
+                return this.$store.getters.getRents.slice().reverse();
             }
         }
     }
