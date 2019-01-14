@@ -10,10 +10,11 @@ export default {
     },
     mutations: {
         setClient (state, payload) {
-            state.editClient = payload;
+            Vue.set(state, 'editClient', payload);
         },
         setClients (state, payload) {
-            state.clients = payload;
+            Vue.set(state, 'clients', payload);
+            //state.clients = payload;
         },
         pushClients (state, payload) {
             var old = state.clients;
@@ -28,7 +29,7 @@ export default {
             // Хак чтобы vuex увидел обновление
             Vue.set(state, 'clients', [...old]);
             if(!isMatches) {
-                state.clients.unshift(payload);
+                state.clients.push(payload);
             }
         },
         deleteClient (state, id) {

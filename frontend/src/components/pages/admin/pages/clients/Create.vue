@@ -44,20 +44,20 @@
                     <app-input :data="client.email"></app-input>
                 </div>
                 <div class="create__input">
-                    <app-checkbox :data="client.promised"></app-checkbox>
+                    <app-checkbox :data="client.isPromisedPay"></app-checkbox>
                 </div>
                 <div class="clear"></div>
                 <div class="create__input create__input_width-discount">
                     <app-input :data="client.discount"></app-input>
                 </div>
                 <div class="create__input create__select_width">
-                    <app-select :data="client.type_discount"></app-select>
-                </div>
-                <div class="create__input create__select_width">
-                    <app-select :data="client.status"></app-select>
+                    <app-select :data="client.typeDiscount"></app-select>
                 </div>
                 <div class="create__input create__select_width">
                     <app-select :data="client.loyalty"></app-select>
+                </div>
+                <div class="create__input create__select_width">
+                    <app-checkbox :data="client.isStatus"></app-checkbox>
                 </div>
                 <div class="clear"></div>
                 <div class="create__package">
@@ -66,16 +66,16 @@
                         <app-input :data="packages.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select :data="packages.internet"></app-select>
+                        <app-select :data="client.internet"></app-select>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.tv"></app-select-multiple>
+                        <app-select-multiple :data="client.tvs"></app-select-multiple>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-select-multiple :data="packages.rent"></app-select-multiple>
+                        <app-select-multiple :data="client.rents"></app-select-multiple>
                     </div>
                     <div class="create__input create__package-button">
-                        <button class="button button__add" @click="showPackage(packages)">Выбрать из существующих</button>
+                        <button class="button button__add" @click="showPackage(packages, client)">Выбрать из существующих</button>
                     </div>
                     <div class="create__input create__package-button">
                         <button class="button button__save-package" @click="savePackage">Сохранить пакет</button>
@@ -88,7 +88,7 @@
                         <button class="button button__add" @click="isNote = !isNote">Добавить заметку</button>
                     </div>
                     <div class="create__input create__input_full-width" v-show="isNote">
-                        <app-textarea :data="note.textareaNote"></app-textarea>
+                        <app-textarea :data="client.note"></app-textarea>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -118,7 +118,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference, textarea } from '../../../../../util/fields'
-import { parseObj } from '../../../../../util/helpers'
+import { parseObj, parseServicesForId } from '../../../../../util/helpers'
 
 export default {
     components: {
@@ -144,41 +144,39 @@ export default {
                 balance: input('Баланс', 'Баланс', 'balance', true, false, null, null),
                 contract: input('Номер договора', 'Номер договора', 'contract', true, false, null, null),
                 priceOverMonth: input('Цена до конца месяца', 'Цена до конца месяца', 'price_over_month', true, false, null, null),
-                promised: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'promised', true, false, null, true),
+                isPromisedPay: checkbox('Обещанный платеж', 'Включен', 'Выключен', 'isPromisedPay', true, false, null, true),
                 fio: input('ФИО', 'ФИО', 'fio', true, false, null, null),
                 address: input('Адрес', 'Адрес', 'address', true, false, null, null),
                 phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
                 email: input('Email', 'Email', 'email', true, false, null, null),
-                discount: input('Скидка', 'Скидка', 'discount', true, false, null, null),
-                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                type_discount: select('Тип скидки', 'Не выбрано', 'type_discount', true, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                status: select('Статус', 'Не выбрано', 'status', true, false, null, null, [{id:1, val:1}, {id:2, val:2}])
+                discount: input('Скидка', 'Скидка', 'discount', true, false, null, 0),
+                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}, {id:3, val:3}, {id:4, val:4}, {id:5, val:5}, {id:6, val:6}, {id:7, val:7}, {id:8, val:8}, {id:9, val:9}, {id:10, val:10}]),
+                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:"discount10", val:"Скидка 10%"}, {id:"discount20", val:"Скидка 20%"}]),
+                isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
+                note: textarea(null, 'Введите текст', 'note', true, false, null, null),
+                internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
+                tvs: selectMultiple('Смотрешка', 'Не выбрано', 'tvs', true, false, null, [], []),
+                rents: selectMultiple('Аренда оборудования', 'Не выбрано', 'rents', true, false, null, [], []),
             },
             packages: {
-                name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null),
-                internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),
-                tv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', true, false, null, [], []),
-                rent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', true, false, null, [], []),
-            },
-             note: {
-                textareaNote: textarea(null, 'Введите текст', 'note', true, false, null, null)
+                name: input('Введите название', 'Введите название пакета', 'name', true, false, null, null)
             }
         }
     },
     mounted () {
-        this.packages.internet.items = this.getListInternets;
-        this.packages.rent.items = this.getListRents;
-        this.packages.tv.items = this.getListTvs;
+        this.client.internet.items = this.getListInternets;
+        this.client.rents.items = this.getListRents;
+        this.client.tvs.items = this.getListTvs;
     },
     watch: {
         getListInternets() {
-            this.packages.internet.items = this.getListInternets;
+            this.client.internet.items = this.getListInternets;
         },
         getListRents() {
-            this.packages.rent.items = this.getListRents;
+            this.client.rents.items = this.getListRents;
         },
         getListTvs() {
-            this.packages.tv.items = this.getListTvs;
+            this.client.tvs.items = this.getListTvs;
         }
     },
     computed: {
@@ -190,7 +188,7 @@ export default {
             if(this.editItem) {
                 isFlagFormCreate = false;
                 for (let item in this.client) {
-                    this.client[item].val = this.editItem[item];
+                    this.client[item].val = parseServicesForId(this.editItem, item);
                 }
             }
             this.changeForm(isFlagFormCreate);
@@ -200,17 +198,22 @@ export default {
     },
     methods: {
         savePackage: function () {
-            console.log("savePackage", this.packages);
+            const unionPack = {
+                name: this.packages.name,
+                internet: this.client.internet,
+                tvs: this.client.tvs,
+                rents: this.client.rents,
+            };
             var pack = {};
-            for(let item in this.packages) {
-                if(Array.isArray(this.packages[item].val)){
-                    pack[this.packages[item].name] = this.packages[item].val.join()
+            for(let item in unionPack) {
+                if(Array.isArray(unionPack[item].val)){
+                    pack[unionPack[item].name] = unionPack[item].val.join()
                 } else {
-                    pack[this.packages[item].name] = this.packages[item].val;
+                    pack[unionPack[item].name] = unionPack[item].val;
                 }
             }
 
-            this.$store.dispatch('addPackAsync', {obj: pack, items: this.packages, isFormCreate: true})
+            this.$store.dispatch('addPackAsync', {obj: pack, items: unionPack, isFormCreate: true})
         },
         changeForm: function(flag) {
             this.isFormCreate = flag;
@@ -219,7 +222,45 @@ export default {
             const client = {};
             //this.clearCreateForm();
             for(let item in this.client) {
-                client[this.client[item].name] = this.client[item].val;
+                switch(item) {
+                    case 'internet':
+                        const internetArray = this.getListInternets.filter((obj, i) => {
+                            if(obj.id === Number(this.client[item].val)){
+                                return true;
+                            }
+                        });
+                        let newObj = internetArray.length !== 0 ? internetArray[0] : null;
+                        client[this.client[item].name] = newObj;
+                        break;
+                    case 'tvs':
+                        const tvArray = this.getListTvs.filter((obj, i) => {
+                            let isMatches = false;
+                            this.client[item].val.map((obj2) => {
+                                if(obj.id === Number(obj2)){
+                                    isMatches = true;
+                                }
+                            });
+                            return isMatches;
+                        });
+                        client[this.client[item].name] = tvArray;
+                        break;
+                    case 'rents':
+                        const rentArray = this.getListRents.filter((obj, i) => {
+                            let isMatches = false;
+                            this.client[item].val.map((obj2) => {
+                                if(obj.id === Number(obj2)){
+                                    isMatches = true;
+                                }
+                            });
+                            return isMatches;
+                        });
+                        client[this.client[item].name] = rentArray;
+                        break;
+                    default:
+                        client[this.client[item].name] = this.client[item].val;
+                        break;
+                }
+
             }
             this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isFormCreate: this.isFormCreate})
         },
@@ -227,10 +268,13 @@ export default {
             this.$store.commit('clearErrors');
             for(let item in this.client) {
                 this.client[item].isError = false;
-                this.client[item].val = null;
+                if(Array.isArray(this.client[item].val))
+                    this.client[item].val = [];
+                else
+                    this.client[item].val = null;
             }
         },
-        showPackage (packages) {
+        showPackage (packages, client) {
             this.$store.dispatch('getPacksAsync');
 
             this.$modal.show({
@@ -250,6 +294,7 @@ export default {
                             service.id = this.getPacks[index].id;
                             service.name = this.getPacks[index].name;
                             data[index] = service;
+
                             this.getListInternets.filter(item => {
 
                                 if(item.id === Number(this.getPacks[index].internet)) {
@@ -258,25 +303,31 @@ export default {
                                 }
                             });
 
-                            var tv = this.getPacks[index].tv.split(',');
-                            this.getListTvs.filter(item => {
-                                for(let nameTv in tv){
-                                    if(item.id === Number(tv[nameTv])) {
-                                        data[index].tv.name.push(item.val);
-                                        data[index].tv.val.push(Number(tv[nameTv]));
+                            var tvList = this.getPacks[index].tvs;
+                            if(tvList !== null) {
+                                let tv = tvList.split(',');
+                                this.getListTvs.filter(item => {
+                                    for (let nameTv in tv) {
+                                        if (item.id === Number(tv[nameTv])) {
+                                            data[index].tv.name.push(item.val);
+                                            data[index].tv.val.push(Number(tv[nameTv]));
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
 
-                            var rent = this.getPacks[index].rent.split(',');
-                            this.getListRents.filter(item => {
-                                for(let nameRent in rent){
-                                    if(item.id === Number(rent[nameRent])) {
-                                        data[index].rent.name.push(item.val);
-                                        data[index].rent.val.push(Number(rent[nameRent]));
+                            var rentList = this.getPacks[index].rents;
+                            if(rentList !== null) {
+                                let rent = rentList.split(',');
+                                this.getListRents.filter(item => {
+                                    for (let nameRent in rent) {
+                                        if (item.id === Number(rent[nameRent])) {
+                                            data[index].rent.name.push(item.val);
+                                            data[index].rent.val.push(Number(rent[nameRent]));
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                         return data;
                     }
@@ -285,11 +336,12 @@ export default {
                     deletePackage (packageId) {
                         this.$store.dispatch('deletePackAsync', {id: packageId})
                     },
+                    // Указываем выбранный пакет
                     selectPackage (item) {
                         packages.name.val = item.name;
-                        packages.internet.val = item.internet.val;
-                        packages.tv.val = item.tv.val;
-                        packages.rent.val = item.rent.val;
+                        client.internet.val = item.internet.val;
+                        client.tvs.val = item.tv.val;
+                        client.rents.val = item.rent.val;
 
                         this.$emit('close');
                     }
@@ -297,7 +349,7 @@ export default {
                 template: `
                     <div class="modal__block modal__block_width400">
                         <div class="modal__close" @click="$emit('close')">
-                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
+                            <font-awesome-icon class="modal__icon modal__icon_red" icon="times-circle"></font-awesome-icon>
                             Закрыть
                         </div>
                         <h3 class="modal__h3">Список пакетов</h3>

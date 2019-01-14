@@ -37,7 +37,6 @@ export default {
         }
 
         addClient(data => {
-            console.log("addClient Index", data)
             this.$store.commit('pushClients', data);
         });
 
@@ -55,7 +54,7 @@ export default {
             return this.editItem = this.$store.getters.getEditClient;
         },
         getClients () {
-            return this.$store.getters.getClients;
+            return this.$store.getters.getClients.slice().reverse();
         },
     }
 }

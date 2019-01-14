@@ -24,7 +24,7 @@ public class TvController extends AdminController {
 
     @GetMapping({"v1/tv","v1/tv/"})
     public Iterable<Tv> index() {
-        Iterable<Tv> tvs = tvRepository.findAllByOrderByIdDesc();
+        Iterable<Tv> tvs = tvRepository.findAll();
 
         return tvs;
     }

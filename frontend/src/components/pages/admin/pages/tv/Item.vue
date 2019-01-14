@@ -14,6 +14,7 @@
                         <th class="items__th">Статус</th>
                         <th class="items__th">Время работы</th>
                         -->
+                        <th class="items__th">Задачи</th>
                         <th class="items__th">Дата создания</th>
                         <th class="items__th">Действие</th>
                     </tr>
@@ -32,9 +33,14 @@
                                     <span class="items__status-text">Выключен</span>
                                 </span>
                             </td>
-                            <td class="items__td">{{ item.createdAt }}</td>
                             <td class="items__td">
-                                <font-awesome-icon class="items__icon" icon="cog" @click="editInternet(item)"></font-awesome-icon>
+                                <div class="" v-for="task in item.tasks">
+                                    <span class="items__pack">{{ task.name }}</span>
+                                </div>
+                            </td>
+                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>
+                            <td class="items__td">
+                                <font-awesome-icon class="items__icon" icon="cog" @click="editTv(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteInternet(item.id)"></font-awesome-icon>
                             </td>
                         </tr>
@@ -59,8 +65,9 @@ export default {
         }
     },
     methods: {
-        editInternet: function(item) {
+        editTv: function(item) {
             this.$store.commit("setTv", item);
+            this.$store.commit("setSelectedTasks", item.tasks);
         },
         deleteInternet: function(clientId){
             this.$store.dispatch("deleteTvAsync", {id: clientId});
@@ -84,39 +91,6 @@ export default {
     .items__clients-wrapper {
         padding-bottom: 40px;
         overflow-x: scroll;
-    }
-    .items__clients {
-
-    }
-    .pagination {
-        overflow: hidden;
-        margin: 40px auto 20px;
-        width: 158px;
-    }
-    .pagination__link {
-        border: 1px solid #468ecf;
-        padding: 5px 10px;
-        float: left;
-        margin: 0;
-        color: #468ecf;
-    }
-    .pagination__link:hover, .pagination__link_active  {
-        color: #FFF;
-        background: #468ecf;
-    }
-    .pagination__link:first-child {
-        padding-left: 12px;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-    }
-    .pagination__link:last-child {
-        padding-right: 12px;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-    }
-
-    .items__clients-wrapper {
-
     }
     .items__clients {
         max-height:500px;

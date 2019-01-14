@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface TvRepository extends CrudRepository<Tv, Integer>, JpaSpecificationExecutor<Tv> {
-    Iterable<Tv> findAll();
+    List<Tv> findAll();
 
     Iterable<Tv> findAllByOrderByIdDesc();
 

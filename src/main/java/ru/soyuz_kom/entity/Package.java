@@ -15,7 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name = "packages")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Package {
+public class Package extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -29,19 +29,9 @@ public class Package {
     @Column(name = "internet")
     private String internet;
 
-    @Column(name = "tv")
-    private String tv;
+    @Column(name = "tvs")
+    private String tvs;
 
-    @Column(name = "rent")
-    private String rent;
-
-    @Basic(optional = false)
-    @Column(name = "created_at", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @Basic(optional = false)
-    @Column(name = "updated_at", insertable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    @Column(name = "rents")
+    private String rents;
 }

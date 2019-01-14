@@ -2,6 +2,10 @@ package ru.soyuz_kom.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.soyuz_kom.dto.ClientDTO;
+import ru.soyuz_kom.dto.InternetDTO;
+import ru.soyuz_kom.dto.RentDTO;
+import ru.soyuz_kom.dto.TvDTO;
 import ru.soyuz_kom.entity.*;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.InternetRepository;
@@ -10,6 +14,7 @@ import ru.soyuz_kom.repository.TvRepository;
 import ru.soyuz_kom.service.ClientService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,17 +36,24 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Map getClientsAndListsAllServices() {
 
-        Iterable<Client> clients = clientRepository.findAllByOrderByIdDesc();
-        Iterable<Internet> internets = internetRepository.findAll();
-        Iterable<Tv> tvs = tvRepository.findAll();
-        Iterable<Rent> rents = rentRepository.findAll();
+        //Iterable<ClientDTO> clients = clientRepository.findAllByOrderByIdDesc();
 
-        Map<String, Iterable> map = new HashMap<String, Iterable>();
+        ClientDTO clientDTO = new ClientDTO();
+        InternetDTO internetDTO = new InternetDTO();
+        TvDTO tvDTO = new TvDTO();
+        RentDTO rentDTO = new RentDTO();
 
-        map.put("clients", clients);
-        map.put("internets", internets);
-        map.put("tvs", tvs);
-        map.put("rents", rents);
+        List<ClientDTO> getAllClients = clientDTO.setClientDTOList(clientRepository.findAll());
+        List<InternetDTO> getAllInternetDTOList = internetDTO.setIternetDTOList(internetRepository.findAll());
+        List<TvDTO> getAllTvDTOList = tvDTO.setTvDTOList(tvRepository.findAll());
+        List<RentDTO> getAllRentDTOList = rentDTO.setRentDTOList(rentRepository.findAll());
+
+        Map<String, List> map = new HashMap<String, List>();
+
+        map.put("clients", getAllClients);
+        map.put("internets", getAllInternetDTOList);
+        map.put("tvs", getAllTvDTOList);
+        map.put("rents", getAllRentDTOList);
 
         System.out.println("Map: " + map);
 

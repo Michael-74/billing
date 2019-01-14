@@ -11,7 +11,7 @@ export default {
     },
     mutations: {
         pushRents (state, payload) {
-            state.rents.unshift(payload);
+            state.rents.push(payload);
             //state.internets.push(payload);
         },
         /**
@@ -33,7 +33,8 @@ export default {
             Vue.set(state, 'rents', []);
         },
         setRents (state, payload) {
-            state.rents = payload;
+            Vue.set(state, 'rents', payload);
+            //state.rents = payload;
         },
         setListRents (state, payload) {
             Vue.set(state, 'listRents', [...payload]);

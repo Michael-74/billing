@@ -31,7 +31,7 @@ public class RentController extends AdminController {
 
     @GetMapping({"v1/rent","v1/rent/"})
     public Iterable<Rent> index() {
-        Iterable<Rent> rents = rentRepository.findAllByOrderByIdDesc();
+        Iterable<Rent> rents = rentRepository.findAll();
 
         return rents;
     }

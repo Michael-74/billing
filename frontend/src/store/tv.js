@@ -11,7 +11,7 @@ export default {
     },
     mutations: {
         pushTvs (state, payload) {
-            state.tvs.unshift(payload);
+            state.tvs.push(payload);
             //state.internets.push(payload);
         },
         /**

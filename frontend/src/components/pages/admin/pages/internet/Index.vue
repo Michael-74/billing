@@ -38,7 +38,7 @@ export default {
             return this.editItem = this.$store.getters.getEditInternet;
         },
         getInternets () {
-            return this.$store.getters.getInternets;
+            return this.$store.getters.getInternets.slice().reverse();
         }
     }
 }

@@ -24,7 +24,7 @@ public class InternetController extends AdminController {
 
     @GetMapping({"v1/internet","v1/internet/"})
     public Iterable<Internet> index() {
-        Iterable<Internet> internets = internetRepository.findAllByOrderByIdDesc();
+        Iterable<Internet> internets = internetRepository.findAll();
 
         return internets;
     }

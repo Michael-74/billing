@@ -10,12 +10,15 @@
         cursor: pointer;
         padding: 20px 20px 0 0;
     }
-    .modal__close:hover, .modal__close:hover .modal__icon {
+    .modal__close:hover {
         color: #4190dd;
     }
     .modal__icon {
         font-size: 14px;
         margin-right: 5px;
+    }
+    .modal__close:hover .modal__icon_red {
+        color: red
     }
     .modal__h3 {
         padding: 0 20px 20px;

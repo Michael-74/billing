@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Input from '../../../../semantic-blocks/forms/Input'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
 import Select from '../../../../semantic-blocks/forms/Select'
@@ -94,6 +95,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters([
+            'getSelectedTasks'
+        ]),
         getClient () {
             var isFlagFormCreate = true;
             if(this.editItem) {
@@ -116,6 +120,8 @@ export default {
             for(let item in this.tv) {
                 items[this.tv[item].name] = this.tv[item].val;
             }
+            items['tasks'] = this.getSelectedTasks;
+
             this.$store.dispatch('addTvAsync', {items: this.tv, obj: items, isFormCreate: this.isFormCreate})
         },
         clearCreateForm () {
@@ -134,6 +140,7 @@ export default {
             this.changeForm(true);
             this.clearCreateForm();
             this.$store.commit('setTv', null);
+            this.$store.commit('setSelectedTasks', []);
         }
     }
 }

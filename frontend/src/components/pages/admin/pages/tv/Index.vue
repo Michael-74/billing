@@ -38,7 +38,7 @@
                 return this.editItem = this.$store.getters.getEditTv;
             },
             getTvs () {
-                return this.$store.getters.getTvs;
+                return this.$store.getters.getTvs.slice().reverse();
             }
         }
     }

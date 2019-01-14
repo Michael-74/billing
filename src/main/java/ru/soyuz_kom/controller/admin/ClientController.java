@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -36,8 +37,8 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientServiceImpl clientService;
 
-    @JsonView(Views.ClientsAndServicesIdName.class)
-    @GetMapping(value = {"v1/client","v1/client/"}, produces ={"application/json"})
+    //@JsonView(Views.ClientsAndServicesIdName.class)
+    @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
         return clientService.getClientsAndListsAllServices();
     }
@@ -66,7 +67,7 @@ public class ClientController extends AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     */
-    @PostMapping({"v1/client/create"})
+    @PostMapping(value = {"v1/client/create"})
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
         System.out.println("v1/client/create");
