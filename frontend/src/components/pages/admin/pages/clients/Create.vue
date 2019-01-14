@@ -188,8 +188,6 @@ export default {
             if(this.editItem) {
                 isFlagFormCreate = false;
                 for (let item in this.client) {
-                    console.log("getClient", this.editItem[item]);
-
                     this.client[item].val = parseServicesForId(this.editItem, item);
                 }
             }
@@ -200,16 +198,12 @@ export default {
     },
     methods: {
         savePackage: function () {
-            console.log("savePackage", this.packages);
-
-            //const unionPack = [this.packages.name, this.client.internet, this.client.tvs, this.client.rents]
             const unionPack = {
                 name: this.packages.name,
                 internet: this.client.internet,
                 tvs: this.client.tvs,
                 rents: this.client.rents,
             };
-            console.log("unionPack", unionPack);
             var pack = {};
             for(let item in unionPack) {
                 if(Array.isArray(unionPack[item].val)){
@@ -219,8 +213,6 @@ export default {
                 }
             }
 
-            console.log("pack", pack);
-            console.log("unionPack", unionPack);
             this.$store.dispatch('addPackAsync', {obj: pack, items: unionPack, isFormCreate: true})
         },
         changeForm: function(flag) {
@@ -230,7 +222,45 @@ export default {
             const client = {};
             //this.clearCreateForm();
             for(let item in this.client) {
-                client[this.client[item].name] = this.client[item].val;
+                switch(item) {
+                    case 'internet':
+                        const internetArray = this.getListInternets.filter((obj, i) => {
+                            if(obj.id === Number(this.client[item].val)){
+                                return true;
+                            }
+                        });
+                        let newObj = internetArray.length !== 0 ? internetArray[0] : null;
+                        client[this.client[item].name] = newObj;
+                        break;
+                    case 'tvs':
+                        const tvArray = this.getListTvs.filter((obj, i) => {
+                            let isMatches = false;
+                            this.client[item].val.map((obj2) => {
+                                if(obj.id === Number(obj2)){
+                                    isMatches = true;
+                                }
+                            });
+                            return isMatches;
+                        });
+                        client[this.client[item].name] = tvArray;
+                        break;
+                    case 'rents':
+                        const rentArray = this.getListRents.filter((obj, i) => {
+                            let isMatches = false;
+                            this.client[item].val.map((obj2) => {
+                                if(obj.id === Number(obj2)){
+                                    isMatches = true;
+                                }
+                            });
+                            return isMatches;
+                        });
+                        client[this.client[item].name] = rentArray;
+                        break;
+                    default:
+                        client[this.client[item].name] = this.client[item].val;
+                        break;
+                }
+
             }
             this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isFormCreate: this.isFormCreate})
         },

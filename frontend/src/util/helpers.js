@@ -16,6 +16,12 @@ export function parseObj(obj) {
     return data;
 }
 
+/**
+ * Проверка на ошибки при заполнений полей
+ * @param obj - объект с полями, фронт
+ * @param errors - описание ошибки с сервера
+ * @param options - сложно состваные/вложенные объекты
+ */
 export function checkErrors(obj, errors, options = {}) {
     for(let item in obj) {
         obj[item].isError = false;
