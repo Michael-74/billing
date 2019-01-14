@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface RentRepository extends CrudRepository<Rent, Integer>, JpaSpecificationExecutor<Rent> {
-    Iterable<Rent> findAll();
+    List<Rent> findAll();
 
     Iterable<Rent> findAllByOrderByIdDesc();
 

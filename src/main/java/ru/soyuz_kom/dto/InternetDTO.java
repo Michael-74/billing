@@ -15,8 +15,9 @@ public class InternetDTO {
     private String name;
     private String speed;
     private Boolean status;
+    private String val;
 
-    public List<InternetDTO> getAllInternetDTOList(List<Internet> internetList){
+    public List<InternetDTO> setIternetDTOList(List<Internet> internetList){
         List<InternetDTO> internetDTOList = new ArrayList();
         for(Internet internet: internetList) {
             InternetDTO internetDTO = new InternetDTO();
@@ -24,6 +25,7 @@ public class InternetDTO {
             internetDTO.setName(internet.getName());
             internetDTO.setSpeed(internet.getSpeed());
             internetDTO.setStatus(internet.getStatus());
+            internetDTO.setVal(internet.getName());
             internetDTOList.add(internetDTO);
         }
 

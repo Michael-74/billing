@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.dto.ClientDTO;
 import ru.soyuz_kom.dto.InternetDTO;
+import ru.soyuz_kom.dto.RentDTO;
+import ru.soyuz_kom.dto.TvDTO;
 import ru.soyuz_kom.entity.*;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.InternetRepository;
@@ -38,20 +40,20 @@ public class ClientServiceImpl implements ClientService {
 
         ClientDTO clientDTO = new ClientDTO();
         InternetDTO internetDTO = new InternetDTO();
-        List<ClientDTO> getAllClients = clientDTO.getAllDTOList(clientRepository.findAll());
+        TvDTO tvDTO = new TvDTO();
+        RentDTO rentDTO = new RentDTO();
 
-        List<InternetDTO> getAllInternetDTOList = internetDTO.getAllInternetDTOList(internetRepository.findAll());
-
-        //List<Internet> internets = internetRepository.findAll();
-        //Iterable<Tv> tvs = tvRepository.findAll();
-        //Iterable<Rent> rents = rentRepository.findAll();
+        List<ClientDTO> getAllClients = clientDTO.setClientDTOList(clientRepository.findAll());
+        List<InternetDTO> getAllInternetDTOList = internetDTO.setIternetDTOList(internetRepository.findAll());
+        List<TvDTO> getAllTvDTOList = tvDTO.setTvDTOList(tvRepository.findAll());
+        List<RentDTO> getAllRentDTOList = rentDTO.setRentDTOList(rentRepository.findAll());
 
         Map<String, List> map = new HashMap<String, List>();
 
         map.put("clients", getAllClients);
         map.put("internets", getAllInternetDTOList);
-        //map.put("tvs", tvs);
-        //map.put("rents", rents);
+        map.put("tvs", getAllTvDTOList);
+        map.put("rents", getAllRentDTOList);
 
         System.out.println("Map: " + map);
 
