@@ -1,5 +1,6 @@
 package ru.soyuz_kom.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import ru.soyuz_kom.entity.Client;
@@ -9,6 +10,7 @@ import ru.soyuz_kom.entity.Tv;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 import ru.soyuz_kom.entity.view.Views;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Getter
@@ -32,7 +34,9 @@ public class ClientDTO {
     public String note;
     public Set<Tv> tvs = new HashSet<>();
     public Set<Rent> rents = new HashSet<>();
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
     public Date createdAt;
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
     public Date updatedAt;
 
     public List<ClientDTO> setClientDTOList(List<Client> clientList){

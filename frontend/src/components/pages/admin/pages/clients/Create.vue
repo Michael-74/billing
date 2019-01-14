@@ -92,9 +92,11 @@
                     </div>
                     <div class="clear"></div>
                 </div>
+                <!--
                 <div class="create__package task__margin-top">
                     <app-task></app-task>
                 </div>
+                -->
             </div>
             <div class="create__button-save">
                 <button v-if="isFormCreate" class="button button__save button__save-user" @click="addClient">Сохранить пользователя</button>

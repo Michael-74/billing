@@ -1,11 +1,13 @@
 package ru.soyuz_kom.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import ru.soyuz_kom.entity.Internet;
 import ru.soyuz_kom.entity.Rent;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,18 +18,24 @@ public class RentDTO {
     private String description;
     private Boolean status;
     private String val;
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
+    public Date createdAt;
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
+    public Date updatedAt;
 
     public List<RentDTO> setRentDTOList(List<Rent> rentList){
         List<RentDTO> rentDTOList = new ArrayList();
         for(Rent rent: rentList) {
-            RentDTO internetDTO = new RentDTO();
-            internetDTO.setId(rent.getId());
-            internetDTO.setName(rent.getName());
-            internetDTO.setDescription(rent.getDescription());
-            internetDTO.setStatus(rent.getStatus());
-            internetDTO.setVal(rent.getName());
+            RentDTO rentDTO = new RentDTO();
+            rentDTO.setId(rent.getId());
+            rentDTO.setName(rent.getName());
+            rentDTO.setDescription(rent.getDescription());
+            rentDTO.setStatus(rent.getStatus());
+            rentDTO.setVal(rent.getName());
+            rentDTO.setCreatedAt(rent.getCreatedAt());
+            rentDTO.setUpdatedAt(rent.getUpdatedAt());
 
-            rentDTOList.add(internetDTO);
+            rentDTOList.add(rentDTO);
         }
 
         return rentDTOList;

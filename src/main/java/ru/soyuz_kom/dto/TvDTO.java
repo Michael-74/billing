@@ -1,10 +1,12 @@
 package ru.soyuz_kom.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import ru.soyuz_kom.entity.Tv;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -14,16 +16,23 @@ public class TvDTO {
     private String name;
     private Boolean status;
     private String val;
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
+    public Date createdAt;
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
+    public Date updatedAt;
 
     public List<TvDTO> setTvDTOList(List<Tv> tvList){
         List<TvDTO> tvDTOList = new ArrayList();
         for(Tv tv: tvList) {
-            TvDTO internetDTO = new TvDTO();
-            internetDTO.setId(tv.getId());
-            internetDTO.setName(tv.getName());
-            internetDTO.setStatus(tv.getStatus());
-            internetDTO.setVal(tv.getName());
-            tvDTOList.add(internetDTO);
+            TvDTO tvDTO = new TvDTO();
+            tvDTO.setId(tv.getId());
+            tvDTO.setName(tv.getName());
+            tvDTO.setStatus(tv.getStatus());
+            tvDTO.setVal(tv.getName());
+            tvDTO.setCreatedAt(tv.getCreatedAt());
+            tvDTO.setUpdatedAt(tv.getUpdatedAt());
+
+            tvDTOList.add(tvDTO);
         }
 
         return tvDTOList;
