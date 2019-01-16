@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "internets")
 @ToString(of = {"id", "name"})
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Internet extends Datetime {
 

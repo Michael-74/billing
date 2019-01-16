@@ -50,10 +50,8 @@ export default {
             },
             set: function(val)
             {
-                //console.log(val.toString());
                 if(val) {
-                    //console.log('s', this.formatDate(date));
-                    return this.data.val = val.toISOString();//this.formatDate(val);
+                    return this.data.val = val; //val.toISOString() //this.formatDate(val);
                 } else {
                     return this.data.val = null;
                 }

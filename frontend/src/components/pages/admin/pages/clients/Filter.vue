@@ -36,9 +36,7 @@
                     <app-select-multiple :data="client.selectRent"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-input class="filters__input_float" :data="client.inputDifferenceFrom"></app-input>
-                    <app-input class="filters__input_float" :data="client.inputDifferenceTo"></app-input>
-                    <div class="clear"></div>
+                    <app-difference-input :data="client.inputDifferenceBalance"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-difference-input :data="client.inputDifferencePrice"></app-difference-input>
@@ -62,7 +60,7 @@
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding filters__discount-width">
-                    <app-input :data="client.inputDiscount"></app-input>
+                    <app-difference-input :data="client.inputDifferenceDiscount"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean" @click="clearBlockDiscount">Очистить</button>
@@ -127,6 +125,7 @@ import { input, select, selectMultiple, checkbox, datepicker, inputDifference } 
 import { parseObj, clearFields, showPresets } from '../../../../../util/helpers'
 
 export default {
+    props: ['state'],
     components: {
         AppInput: Input,
         AppDatepicker: Datepicker,
@@ -153,13 +152,11 @@ export default {
                 inputContract: input('Номер договора', 'Номер договора', 'contract', false, false, null, null),
                 selectLoy: select('Лояльность', 'Не выбрано', 'loyalty', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
                 createdDifference: datepicker('Дата создания', 'Дата создания', 'created', true, false, false, null, null),
-                inputDiscount: input('Размер скидки', 'Скидка', 'discount', false, false, null, null),
-                selectDiscount: select('Скидка', 'Не выбрано', 'type_discount', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
+                inputDifferenceDiscount: inputDifference('Размер скидки', 'от', 'до', 'discount', false, false, null, [null, null]),
+                selectDiscount: select('Тип сскидки', 'Не выбрано', 'type_discount', false, false, null, null, []),
+                selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:0, val:"Выключен"}, {id:1, val:"Включен"}]),
                 checkboxParser: checkbox(null, 'Обещанный платеж', 'Обещанный платеж', 'promise', false, false, null, null),
-                inputDifferenceFrom: input('Баланс', 'от', 'balance_from', false, false, null, null),
-                inputDifferenceTo: input('&nbsp;', 'до', 'balance_to', false, false, null, null),
-                //inputDifferenceParser: inputDifference('Баланс', 'от -1000', 'до 1000','balance', false, false, null, [null, null]),
+                inputDifferenceBalance: inputDifference('Баланс', 'от', 'до','balance', false, false, null, [null, null]),
                 inputDifferencePrice: inputDifference('Цена до конца месяца', 'от', 'до','price_over_month', false, false, null, [null, null]),
                 selectInternet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
                 selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
