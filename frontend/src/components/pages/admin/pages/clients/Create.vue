@@ -133,7 +133,7 @@ export default {
         AppTask: Task,
         FontAwesomeIcon
     },
-    props: ['editItem'],
+    props: ['editItem', 'state'],
     data () {
         return {
             isNote: false,
@@ -152,8 +152,8 @@ export default {
                 phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
                 email: input('Email', 'Email', 'email', true, false, null, null),
                 discount: input('Скидка', 'Скидка', 'discount', true, false, null, 0),
-                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, [{id:1, val:1}, {id:2, val:2}, {id:3, val:3}, {id:4, val:4}, {id:5, val:5}, {id:6, val:6}, {id:7, val:7}, {id:8, val:8}, {id:9, val:9}, {id:10, val:10}]),
-                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, [{id:"discount10", val:"Скидка 10%"}, {id:"discount20", val:"Скидка 20%"}]),
+                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, this.state.loyalty),
+                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', true, false, null, null, this.state.typeDiscount),
                 isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
                 note: textarea(null, 'Введите текст', 'note', true, false, null, null),
                 internet: select('Интернет тариф', 'Не выбрано', 'internet', true, false, null, null, []),

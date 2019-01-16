@@ -4,7 +4,7 @@
             <app-filter-client :state="this.stateProps"></app-filter-client>
         </div>
         <div class="clients__create">
-            <app-create-client :editItem="selectedItem"></app-create-client>
+            <app-create-client :editItem="selectedItem" :state="this.stateProps"></app-create-client>
         </div>
         <div class="clients__items">
             <app-item-client :data="getClients"></app-item-client>
