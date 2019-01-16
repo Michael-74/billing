@@ -30,10 +30,10 @@
                     <app-select-multiple :data="client.internet"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.tv"></app-select-multiple>
+                    <app-select-multiple :data="client.tvs"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.rent"></app-select-multiple>
+                    <app-select-multiple :data="client.rents"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
                     <app-difference-input :data="client.balance"></app-difference-input>
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 import Input from '../../../../semantic-blocks/forms/Input'
 import Datepicker from '../../../../semantic-blocks/forms/Datepicker'
 import DifferenceInput from '../../../../semantic-blocks/forms/DifferenceInput'
@@ -122,7 +122,7 @@ import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference } from '../../../../../util/fields'
-import { parseObj, clearFields, showPresets } from '../../../../../util/helpers'
+import { parseObj, clearFields, showPresets, selectsIdVal } from '../../../../../util/helpers'
 
 export default {
     props: ['state'],
@@ -139,7 +139,7 @@ export default {
         return {
             isFilter: false,
             preset: {
-                selectPreset: select(null, 'не выбрано', 'name', false, false, null, null, this.$store.getters.getPresets),
+                selectPreset: select(null, 'не выбрано', 'name', false, false, null, null, this.getPresets),
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
             },
             client: {
@@ -158,16 +158,34 @@ export default {
                 isPromisedPay: select('Обещанный платеж', 'Не выбрано', 'isPromisedPay', false, false, null, null, this.state.switchedOffOn),
                 balance: inputDifference('Баланс', 'от', 'до','balance', false, false, null, [null, null]),
                 priceOverMonth: inputDifference('Цена до конца месяца', 'от', 'до','priceOverMonth', false, false, null, [null, null]),
-                internet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
-                tv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
-                rent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
+                internet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], []),
+                tvs: selectMultiple('Смотрешка', 'Не выбрано', 'tvs', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
+                rents: selectMultiple('Аренда оборудования', 'Не выбрано', 'rents', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
             }
         }
     },
     created () {
         //if(!this.$store.getters.getPresets.length) {
             this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
+
+
         //}
+    },
+    mounted () {
+        this.client.internet.items = this.getListInternets;
+        this.client.rents.items = this.getListRents;
+        this.client.tvs.items = this.getListTvs;
+    },
+    watch: {
+        getListInternets() {
+            this.client.internet.items = this.getListInternets;
+        },
+        getListRents() {
+            this.client.rents.items = this.getListRents;
+        },
+        getListTvs() {
+            this.client.tvs.items = this.getListTvs;
+        }
     },
     methods: {
         applyFilter: function () {
@@ -177,7 +195,7 @@ export default {
             this.$store.dispatch('searchClientsAsync', settings)
         },
         clearBlockService: function () {
-            const checkedFields = ['internet', 'tv', 'rent', 'balance', 'priceOverMonth', 'isPromisedPay'];
+            const checkedFields = ['internet', 'tvs', 'rents', 'balance', 'priceOverMonth', 'isPromisedPay'];
             clearFields(this.client, checkedFields);
         },
         clearBlockClient: function () {
@@ -202,9 +220,9 @@ export default {
         }
     },
     computed: {
-        getPresets () {
-            return this.$store.getters.getPresets
-        }
+        ...mapGetters([
+            'getPresets', 'getListInternets', 'getListRents', 'getListTvs'
+        ])
     }
 }
 </script>

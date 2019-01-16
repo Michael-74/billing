@@ -75,6 +75,17 @@ export function selectIds(obj) {
     });
 }
 
+
+export function selectsIdVal(obj) {
+console.log("dd", obj);
+    if(obj === undefined){
+        return [];
+    }
+    return obj.map(function(item, i, arr){
+        return {id: Number(item.id), val:item.val};
+    });
+}
+
 /**
  * Разбираем выбранный объект и конкретно для услуг парсим данные
  * Достаем только id
