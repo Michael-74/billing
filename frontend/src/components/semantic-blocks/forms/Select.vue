@@ -60,10 +60,10 @@ export default {
     },
     computed: {
         getSelectName () {
-            if(this.select && this.data.val != null && this.select === this.data.val){
+            if(this.data.val != null && this.select === this.data.val){
                 return this.selectName
             } else {
-                if(this.data.val) {
+                if(this.data.val != null && this.data.val !== "") {
                     this.select = this.data.val;
                     var index = null;
                     this.data.items.forEach((item, i, array) => {

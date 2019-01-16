@@ -1,10 +1,10 @@
 <template>
     <div class="clients">
         <div class="clients__filters">
-            <app-filter-client></app-filter-client>
+            <app-filter-client :state="this.stateProps"></app-filter-client>
         </div>
         <div class="clients__create">
-            <app-create-client :state="this.state" :editItem="selectedItem"></app-create-client>
+            <app-create-client :editItem="selectedItem"></app-create-client>
         </div>
         <div class="clients__items">
             <app-item-client :data="getClients"></app-item-client>
@@ -28,9 +28,10 @@ export default {
     },
     data () {
         return {
-            state: {
+            stateProps: {
                 loyalty: [{id:1, val:1}, {id:2, val:2}, {id:3, val:3}, {id:4, val:4}, {id:5, val:5}, {id:6, val:6}, {id:7, val:7}, {id:8, val:8}, {id:9, val:9}, {id:10, val:10}],
-                typeDiscount: [{id:"discount10", val:"Скидка 10%"}, {id:"discount20", val:"Скидка 20%"}]
+                typeDiscount: [{id:"discount10", val:"Скидка 10%"}, {id:"discount20", val:"Скидка 20%"}],
+                switchedOffOn: [{id:false, val:"Выключен"}, {id:true, val:"Включен"}],
             }
         }
     },

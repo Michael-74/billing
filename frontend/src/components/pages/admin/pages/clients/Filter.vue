@@ -27,40 +27,40 @@
             <div class="filters__block filters__block_service filters__fix-height">
                 <h2>Услуги и баланс</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.selectInternet"></app-select-multiple>
+                    <app-select-multiple :data="client.internet"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.selectTv"></app-select-multiple>
+                    <app-select-multiple :data="client.tv"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.selectRent"></app-select-multiple>
+                    <app-select-multiple :data="client.rent"></app-select-multiple>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="client.inputDifferenceBalance"></app-difference-input>
+                    <app-difference-input :data="client.balance"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="client.inputDifferencePrice"></app-difference-input>
+                    <app-difference-input :data="client.priceOverMonth"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean" @click="clearBlockService">Очистить</button>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-checkbox filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-checkbox :data="client.checkboxParser"></app-checkbox>
+                    <app-select :data="client.isPromisedPay"></app-select>
                 </div>
                 <div class="clear"></div>
             </div >
             <div class="filters__block filters__block_discount filters__fix-height">
                 <h2>Скидка и статус</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.selectDiscount"></app-select>
+                    <app-select :data="client.typeDiscount"></app-select>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.selectStatus"></app-select>
+                    <app-select :data="client.isStatus"></app-select>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding filters__discount-width">
-                    <app-difference-input :data="client.inputDifferenceDiscount"></app-difference-input>
+                    <app-difference-input :data="client.discount"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean" @click="clearBlockDiscount">Очистить</button>
@@ -71,35 +71,35 @@
             <div class="filters__block filters__block_contact">
                 <h2>Учетная запись и контактные данные</h2>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputLogin"></app-input>
+                    <app-input :data="client.login"></app-input>
                 </div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputIp"></app-input>
+                    <app-input :data="client.ip"></app-input>
                 </div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputContract"></app-input>
+                    <app-input :data="client.contract"></app-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.selectLoy"></app-select>
+                    <app-select :data="client.loyalty"></app-select>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean" @click="clearBlockClient">Очистить</button>
                 </div>
                 <div class="clear"></div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputFio"></app-input>
+                    <app-input :data="client.fio"></app-input>
                 </div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputAddress"></app-input>
+                    <app-input :data="client.address"></app-input>
                 </div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputPhone"></app-input>
+                    <app-input :data="client.phone"></app-input>
                 </div>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
-                    <app-input :data="client.inputEmail"></app-input>
+                    <app-input :data="client.email"></app-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
-                    <app-datepicker type="date" format="DD.MM.YYYY" :data="client.createdDifference"></app-datepicker>
+                    <app-datepicker type="date" format="DD.MM.YYYY" :data="client.createdAt"></app-datepicker>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -143,24 +143,24 @@ export default {
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
             },
             client: {
-                inputFio: input('ФИО', 'ФИО', 'fio', false, false, null, null),
-                inputAddress: input('Адрес', 'Адрес', 'address', false, false, null, null),
-                inputPhone: input('Телефон', 'Телефон', 'phone', false, false, null, null),
-                inputEmail: input('Email', 'Email', 'email', false, false, null, null),
-                inputIp: input('IP адрес', 'IP', 'ip', false, false, null, null),
-                inputLogin: input('Логин', 'Логин', 'login', false, false, null, null),
-                inputContract: input('Номер договора', 'Номер договора', 'contract', false, false, null, null),
-                selectLoy: select('Лояльность', 'Не выбрано', 'loyalty', false, false, null, null, [{id:1, val:1}, {id:2, val:2}]),
-                createdDifference: datepicker('Дата создания', 'Дата создания', 'created', true, false, false, null, null),
-                inputDifferenceDiscount: inputDifference('Размер скидки', 'от', 'до', 'discount', false, false, null, [null, null]),
-                selectDiscount: select('Тип сскидки', 'Не выбрано', 'type_discount', false, false, null, null, []),
-                selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:0, val:"Выключен"}, {id:1, val:"Включен"}]),
-                checkboxParser: checkbox(null, 'Обещанный платеж', 'Обещанный платеж', 'promise', false, false, null, null),
-                inputDifferenceBalance: inputDifference('Баланс', 'от', 'до','balance', false, false, null, [null, null]),
-                inputDifferencePrice: inputDifference('Цена до конца месяца', 'от', 'до','price_over_month', false, false, null, [null, null]),
-                selectInternet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
-                selectTv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
-                selectRent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
+                fio: input('ФИО', 'ФИО', 'fio', false, false, null, null),
+                address: input('Адрес', 'Адрес', 'address', false, false, null, null),
+                phone: input('Телефон', 'Телефон', 'phone', false, false, null, null),
+                email: input('Email', 'Email', 'email', false, false, null, null),
+                ip: input('IP адрес', 'IP', 'ip', false, false, null, null),
+                login: input('Логин', 'Логин', 'login', false, false, null, null),
+                contract: input('Номер договора', 'Номер договора', 'contract', false, false, null, null),
+                loyalty: select('Лояльность', 'Не выбрано', 'loyalty', false, false, null, null, this.state.loyalty),
+                createdAt: datepicker('Дата создания', 'Дата создания', 'createdAt', true, false, false, null, null),
+                discount: inputDifference('Размер скидки', 'от', 'до', 'discount', false, false, null, [null, null]),
+                typeDiscount: select('Тип скидки', 'Не выбрано', 'typeDiscount', false, false, null, null, this.state.typeDiscount),
+                isStatus: select('Статус', 'Не выбрано', 'isStatus', false, false, null, null, this.state.switchedOffOn),
+                isPromisedPay: select('Обещанный платеж', 'Не выбрано', 'isPromisedPay', false, false, null, null, this.state.switchedOffOn),
+                balance: inputDifference('Баланс', 'от', 'до','balance', false, false, null, [null, null]),
+                priceOverMonth: inputDifference('Цена до конца месяца', 'от', 'до','priceOverMonth', false, false, null, [null, null]),
+                internet: selectMultiple('Интернет', 'Не выбрано', 'internet', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
+                tv: selectMultiple('Смотрешка', 'Не выбрано', 'tv', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}]),
+                rent: selectMultiple('Аренда оборудования', 'Не выбрано', 'rent', false, false, null, [], [{id:1, val:'Тариф 1'}, {id:2, val:'Тариф 2'}])
             }
         }
     },
@@ -177,15 +177,15 @@ export default {
             this.$store.dispatch('searchClientsAsync', settings)
         },
         clearBlockService: function () {
-            const checkedFields = ['selectInternet', 'selectTv', 'selectRent', 'inputDifferenceFrom', 'inputDifferenceTo', 'inputDifferencePrice', 'checkboxParser'];
+            const checkedFields = ['internet', 'tv', 'rent', 'balance', 'priceOverMonth', 'isPromisedPay'];
             clearFields(this.client, checkedFields);
         },
         clearBlockClient: function () {
-            const checkedFields = ['inputFio', 'inputAddress', 'inputPhone', 'inputEmail', 'inputIp', 'inputLogin', 'inputContract', 'selectLoy', 'createdDifference'];
+            const checkedFields = ['fio', 'address', 'phone', 'email', 'ip', 'login', 'contract', 'loyalty', 'createdAt'];
             clearFields(this.client, checkedFields);
         },
         clearBlockDiscount: function () {
-            const checkedFields = ['selectDiscount', 'selectStatus', 'inputDiscount'];
+            const checkedFields = ['typeDiscount', 'isStatus', 'discount'];
             clearFields(this.client, checkedFields);
         },
         isFilterShow: function (){
