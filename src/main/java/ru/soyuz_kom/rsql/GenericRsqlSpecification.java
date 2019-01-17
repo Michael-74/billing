@@ -5,16 +5,20 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
 
+import org.hibernate.Metamodel;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
 import org.springframework.data.jpa.domain.Specification;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
+import ru.soyuz_kom.entity.Client;
+import ru.soyuz_kom.entity.Client_;
+import ru.soyuz_kom.entity.Tv;
+import ru.soyuz_kom.entity.Tv_;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 
 public class GenericRsqlSpecification<T> implements Specification<T> {
@@ -38,6 +42,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
         System.out.println("builder: " + builder); // Значение
         //System.out.println("property: " + property); // Значение
         //query.orderBy(builder.desc(root.get("id")));
+
 
 
         System.out.println("root2: " + root.get("tvs").in(2).getExpressions()); // Значение
@@ -93,19 +98,12 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
             }
             case IN:
                 switch(property){
+                    case "rents":
+                        return root.joinSet("rents").in(parceDataService(args));
                     case "tvs":
-                        ArrayList<Integer> arr2 = new ArrayList<Integer>();
-                        for(Object int2: args){
-                            arr2.add(Integer.parseInt((String) int2));
-                        }
-                        //return root.get("tvs").;
-                        //return root.get(property).in(arr2);
+                        return root.joinSet("tvs").in(parceDataService(args));
                     case "internet":
-                        ArrayList<Integer> arr = new ArrayList<Integer>();
-                        for(Object int2: args){
-                            arr.add(Integer.parseInt((String) int2));
-                        }
-                        return root.get(property).in(arr);
+                        return root.get(property).in(parceDataService(args));
                     default:
                         return root.get(property).in(args);
                 }
@@ -160,6 +158,14 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
         cal.add(Calendar.DATE, 1);
 
         return cal;
+    }
+
+    private ArrayList parceDataService (List<Object> args2) {
+        ArrayList<Integer> services = new ArrayList<Integer>();
+        for(Object intData: args2){
+            services.add(Integer.parseInt((String) intData));
+        }
+        return services;
     }
 
 }

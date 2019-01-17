@@ -112,7 +112,7 @@ public class ClientController extends AdminController {
             }
 
             switch (entry.getKey()) {
-                //case "priceOverMonth":
+                case "priceOverMonth":
                 case "balance":
                 case "discount":
                 case "createdAt":
@@ -126,7 +126,7 @@ public class ClientController extends AdminController {
                     break;
                 case "internet":
                 case "tvs":
-                //case "rent":
+                case "rents":
                     List arr = (List) entry.getValue();
                     if (arr.size() != 0) {
                         String listString = arr.toString();
@@ -135,8 +135,6 @@ public class ClientController extends AdminController {
                     }
                     break;
                 case "loyalty":
-                    string += entry.getKey() + "==" + entry.getValue() + ";";
-                    break;
                 case "typeDiscount":
                     string += entry.getKey() + "==" + entry.getValue() + ";";
                     break;
@@ -169,11 +167,10 @@ public class ClientController extends AdminController {
             Specification<Client> spec = rootNode.accept(new CustomRsqlVisitor<Client>());
 
             clients = clientRepository.findAll(spec);
+            return new HashSet<Client>((Collection<? extends Client>) clients);
         } else {
-            clients = clientRepository.findAll();
+            return clientRepository.findAll();
         }
-
-        return clients;
     }
 
     @MessageMapping("/deleteClient")
