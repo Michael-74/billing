@@ -119,6 +119,13 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
         return args;
     }
 
+    /**
+     * Настраиваем время
+     * @param argument - строка с датой
+     * @param hours - задаем конкретный час
+     * @param minutes - задаем конкретные минуты
+     * @return Calendar
+     */
     private Calendar setDate(String argument, Integer hours, Integer minutes) {
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("yyyy-MM-dd");
