@@ -19,7 +19,7 @@ public class ClientDTO {
     public Integer id;
     public String fio;
     public String login;
-    public String balance;
+    public Integer balance;
     public String contract;
     public String ip;
     public String address;

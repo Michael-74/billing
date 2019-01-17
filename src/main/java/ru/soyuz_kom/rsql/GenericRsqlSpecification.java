@@ -1,6 +1,8 @@
 package ru.soyuz_kom.rsql;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -29,11 +31,17 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     public Predicate toPredicate(final Root<T> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
         final List<Object> args = castArguments(root);
         final Object argument = args.get(0);
-        query.orderBy(builder.desc(root.get("id")));
-        switch (RsqlSearchOperation.getSimpleOperator(operator)) {
+        //System.out.println("argument: " + args); // Значение
+        //System.out.println("property: " + property); // Значение
+        //query.orderBy(builder.desc(root.get("id")));
 
+        switch (RsqlSearchOperation.getSimpleOperator(operator)) {
             case EQUAL: {
-                if (argument instanceof String) {
+                if (argument.equals("true")) {
+                    return builder.isTrue(root.get(property));
+                } else if (argument.equals("false")) {
+                    return builder.isFalse(root.get(property));
+                } else if (argument instanceof String) {
                     return builder.like(root.get(property), argument.toString().replace('*', '%'));
                 } else if (argument == null) {
                     return builder.isNull(root.get(property));
@@ -51,19 +59,40 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                 }
             }
             case GREATER_THAN: {
+                System.out.println("GREATER_THAN: " + argument);
                 return builder.greaterThan(root.<String> get(property), argument.toString());
             }
             case GREATER_THAN_OR_EQUAL: {
-                return builder.greaterThanOrEqualTo(root.<String> get(property), argument.toString());
+                switch(property) {
+                    case "createdAt":
+                        return builder.greaterThanOrEqualTo(root.<Date> get(property), setDate((String) argument, 0, 0).getTime());
+                    default:
+                        return builder.greaterThanOrEqualTo(root.<String> get(property), argument.toString());
+                }
             }
             case LESS_THAN: {
                 return builder.lessThan(root.<String> get(property), argument.toString());
             }
             case LESS_THAN_OR_EQUAL: {
-                return builder.lessThanOrEqualTo(root.<String> get(property), argument.toString());
+                switch(property) {
+                    case "createdAt":
+                        return builder.lessThanOrEqualTo(root.<Date>get(property), setDate((String) argument, 23, 59).getTime());
+                    default:
+                        return builder.lessThanOrEqualTo(root.<String>get(property), argument.toString());
+                }
             }
             case IN:
-                return root.get(property).in(args);
+                switch(property){
+                    case "internet":
+                        ArrayList<Integer> arr = new ArrayList<Integer>();
+                        for(Object int2: args){
+                            arr.add(Integer.parseInt((String) int2));
+                        }
+                        return root.get(property).in(arr);
+                    default:
+                        return root.get(property).in(args);
+                }
+
             case NOT_IN:
                 return builder.not(root.get(property).in(args));
         }
@@ -88,6 +117,25 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
         }).collect(Collectors.toList());
 
         return args;
+    }
+
+    private Calendar setDate(String argument, Integer hours, Integer minutes) {
+        SimpleDateFormat format = new SimpleDateFormat();
+        format.applyPattern("yyyy-MM-dd");
+        Date docDate = null;
+        try {
+            docDate = format.parse((String) argument);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime((Date) docDate);
+        cal.set(Calendar.MINUTE, minutes);
+        cal.set(Calendar.HOUR, hours);
+        cal.add(Calendar.DATE, 1);
+
+        return cal;
     }
 
 }

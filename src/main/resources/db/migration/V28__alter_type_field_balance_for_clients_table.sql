@@ -1,0 +1,1 @@
+ALTER TABLE clients MODIFY balance INT(11) NOT NULL DEFAULT 0;

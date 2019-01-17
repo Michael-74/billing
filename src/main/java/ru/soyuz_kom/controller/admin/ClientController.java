@@ -112,24 +112,39 @@ public class ClientController extends AdminController {
             }
 
             switch (entry.getKey()) {
-                case "price_over_month":
+                //case "priceOverMonth":
+                case "balance":
+                case "discount":
+                case "createdAt":
                     ArrayList data = (ArrayList) entry.getValue();
+                    System.out.println("ss: " + data);
                     if(data.get(0) != null && data.get(0) != "") {
-                        //string += entry.getKey() + ">" + data.get(0) + ";";
+                        string += entry.getKey() + ">=" + data.get(0) + ";";
                     }
                     if(data.get(1) != null && data.get(1) != "") {
-                        //string += entry.getKey() + "<" + data.get(1) + ";";
+                        string += entry.getKey() + "<=" + data.get(1) + ";";
                     }
                     break;
                 case "internet":
-                case "tv":
-                case "rent":
+                //case "tv":
+                //case "rent":
                     List arr = (List) entry.getValue();
                     if (arr.size() != 0) {
                         String listString = arr.toString();
                         String result = listString.substring(1, listString.length()-1);
-                        //string += entry.getKey() + "=in=(" + result + ");";
+                        string += entry.getKey() + "=in=("+result+");";
                     }
+                    break;
+                case "loyalty":
+                    string += entry.getKey() + "==" + entry.getValue() + ";";
+                    break;
+                case "typeDiscount":
+                    //string += entry.getKey() + "== 'discount10';";
+                    break;
+                case "isPromisedPay":
+                case "isStatus":
+                    Boolean bool = (Boolean) entry.getValue();
+                    string += entry.getKey() + "==" + bool + ";";
                     break;
                 case "fio":
                 case "address":
@@ -156,7 +171,7 @@ public class ClientController extends AdminController {
 
             clients = clientRepository.findAll(spec);
         } else {
-            clients = clientRepository.findAllByOrderByIdDesc();
+            clients = clientRepository.findAll();
         }
 
         return clients;
