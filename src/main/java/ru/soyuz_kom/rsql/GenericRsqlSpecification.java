@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.data.jpa.domain.Specification;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
@@ -31,9 +33,13 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     public Predicate toPredicate(final Root<T> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
         final List<Object> args = castArguments(root);
         final Object argument = args.get(0);
-        //System.out.println("argument: " + args); // Значение
+        System.out.println("root: " + root.get("tvs")); // Значение
+        System.out.println("builder: " + builder); // Значение
         //System.out.println("property: " + property); // Значение
         //query.orderBy(builder.desc(root.get("id")));
+
+
+        System.out.println("root2: " + root.get("tvs").in(2).getExpressions()); // Значение
 
         switch (RsqlSearchOperation.getSimpleOperator(operator)) {
             case EQUAL: {
@@ -83,6 +89,13 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
             }
             case IN:
                 switch(property){
+                    case "tvs":
+                        ArrayList<Integer> arr2 = new ArrayList<Integer>();
+                        for(Object int2: args){
+                            arr2.add(Integer.parseInt((String) int2));
+                        }
+                        //return root.get("tvs").;
+                        //return root.get(property).in(arr2);
                     case "internet":
                         ArrayList<Integer> arr = new ArrayList<Integer>();
                         for(Object int2: args){

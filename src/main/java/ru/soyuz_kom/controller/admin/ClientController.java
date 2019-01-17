@@ -117,7 +117,6 @@ public class ClientController extends AdminController {
                 case "discount":
                 case "createdAt":
                     ArrayList data = (ArrayList) entry.getValue();
-                    System.out.println("ss: " + data);
                     if(data.get(0) != null && data.get(0) != "") {
                         string += entry.getKey() + ">=" + data.get(0) + ";";
                     }
@@ -126,7 +125,7 @@ public class ClientController extends AdminController {
                     }
                     break;
                 case "internet":
-                //case "tv":
+                case "tvs":
                 //case "rent":
                     List arr = (List) entry.getValue();
                     if (arr.size() != 0) {
