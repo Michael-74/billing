@@ -15,6 +15,7 @@ import org.hibernate.criterion.SimpleExpression;
 import org.springframework.data.jpa.domain.Specification;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
+import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 
 public class GenericRsqlSpecification<T> implements Specification<T> {
 
@@ -43,6 +44,9 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
 
         switch (RsqlSearchOperation.getSimpleOperator(operator)) {
             case EQUAL: {
+                if(property.equals("typeDiscount")){
+                    return builder.equal(root.get(property), TypeDiscountEnum.valueOf(argument.toString()));
+                }
                 if (argument.equals("true")) {
                     return builder.isTrue(root.get(property));
                 } else if (argument.equals("false")) {

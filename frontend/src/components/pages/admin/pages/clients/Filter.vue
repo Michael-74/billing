@@ -196,15 +196,15 @@ export default {
         },
         clearBlockService: function () {
             const checkedFields = ['internet', 'tvs', 'rents', 'balance', 'priceOverMonth', 'isPromisedPay'];
-            clearFields(this.client, checkedFields);
+            clearFields(this.client, checkedFields, true);
         },
         clearBlockClient: function () {
             const checkedFields = ['fio', 'address', 'phone', 'email', 'ip', 'login', 'contract', 'loyalty', 'createdAt'];
-            clearFields(this.client, checkedFields);
+            clearFields(this.client, checkedFields, true);
         },
         clearBlockDiscount: function () {
             const checkedFields = ['typeDiscount', 'isStatus', 'discount'];
-            clearFields(this.client, checkedFields);
+            clearFields(this.client, checkedFields, true);
         },
         isFilterShow: function (){
             this.isFilter = !this.isFilter;

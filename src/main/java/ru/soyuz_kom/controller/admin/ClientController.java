@@ -138,7 +138,7 @@ public class ClientController extends AdminController {
                     string += entry.getKey() + "==" + entry.getValue() + ";";
                     break;
                 case "typeDiscount":
-                    //string += entry.getKey() + "== 'discount10';";
+                    string += entry.getKey() + "==" + entry.getValue() + ";";
                     break;
                 case "isPromisedPay":
                 case "isStatus":

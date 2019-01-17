@@ -49,12 +49,26 @@ export function checkErrors(obj, errors, options = {}) {
  * @param checkedFields
  * @returns {*}
  */
-export function clearFields(objFields, checkedFields) {
+export function clearFields(objFields, checkedFields, flag = false) {
     for(var item in objFields) {
         for(var name in checkedFields) {
             if(checkedFields[name] === item) {
                 if (objFields[item].val instanceof Array) {
-                    objFields[item].val = [];
+                    // TODO:: сделать более изящнго
+                    if(flag === true) {
+                        switch (item) {
+                            case "balance":
+                            case "discount":
+                            case "priceOverMonth":
+                                objFields[item].val = [null,null];
+                                break;
+                            default:
+                                objFields[item].val = [];
+                                break;
+                        }
+                    } else {
+                        objFields[item].val = [];
+                    }
                 } else {
                     objFields[item].val = null;
                 }
