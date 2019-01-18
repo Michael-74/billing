@@ -57,7 +57,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="items__td">
+                            <td class="items__td items_nowrap">
                                 <span v-show="item.isPromisedPay">
                                     <span class="items__signal"></span>
                                     <span class="items__status-text">Включен</span>
@@ -80,7 +80,7 @@
                                 }}
                             </td>
                             <td class="items__td">{{ item.discount }}</td>
-                            <td class="items__td">
+                            <td class="items__td items_nowrap">
                                 <span v-show="item.isStatus">
                                     <span class="items__signal"></span>
                                     <span class="items__status-text">Включен</span>
@@ -175,5 +175,4 @@ export default {
         max-height:500px;
         position: relative;
     }
-
 </style>

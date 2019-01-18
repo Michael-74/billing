@@ -17,7 +17,7 @@
                         <tr v-for="item in data" :key="item.id">
                             <td class="items__td">{{ item.id }}</td>
                             <td class="items__td">{{ item.name }}</td>
-                            <td class="items__td">
+                            <td class="items__td items_nowrap">
                                 <span v-show="item.isStatus">
                                     <span class="items__signal"></span>
                                     <span class="items__status-text">Включен</span>

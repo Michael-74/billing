@@ -132,64 +132,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .create {
-        border-radius: 4px;
-        margin: 60px 0;
-        background: #FFF;
-        box-shadow: 1px 2px 10px 2px rgba(0,0,0,0.2);
-    }
-    .create__header {
-        padding: 20px;
-    }
-    .create__button-dashed {
-        font-size: 12px;
-        margin-right: 5px;
-    }
-    .create__body {
-        padding: 20px;
-    }
-    .create__input {
-        margin: 0 20px 30px 0;
-        width: 230px;
-        float: left;
-    }
-    .create__input_note {
-        margin-bottom: 20px;
-    }
-    .create__input_hide {
-        display: none;
-    }
-    .create__select_width {
-        max-width: 160px;
-    }
-    .create__input_width-discount {
-        width: 90px;
-    }
-    .create__package {
-        border-radius: 4px;
-        padding: 20px 20px 0 20px;
-        box-shadow: 1px 2px 10px 2px rgba(0,0,0,0.2);
-    }
-    .create__package-h2 {
-        margin-bottom: 20px;
-    }
-    .create__package-button {
-        margin-top: 20px;
-        border: 2px solid transparent;
-    }
     .create__note {
-        padding-bottom: 20px;
+        margin: 0;
+        padding:0 0 20px 0;
     }
-    .create__input_full-width {
-        width: 100%;
-    }
-    .create__button-save {
-        padding: 0 20px 20px 20px;
-    }
-    .button__cancel-user_margin {
-        margin-left: 20px;
-    }
-
     .task__margin-top {
         margin-top: 20px;
     }
