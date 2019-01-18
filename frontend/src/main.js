@@ -9,6 +9,9 @@ import VTooltip from 'v-tooltip'
 
 import { connect } from "./util/ws";
 
+import VueSimpleContextMenu from 'vue-simple-context-menu'
+Vue.component('vue-simple-context-menu', VueSimpleContextMenu)
+
 connect();
 
 Vue.use(VModal, { dynamic: true });

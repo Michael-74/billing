@@ -30,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody class="items__tbody">
-                        <tr v-for="item in data" :key="item.id">
+                        <tr v-for="item in data" :key="item.id" @contextmenu.prevent.stop="handleClick($event, item)">
                             <td class="items__td">{{ item.id }}</td>
                             <td class="items__td">{{ item.login }}</td>
                             <td class="items__td">{{ item.ip }}</td>
@@ -118,6 +118,13 @@
                 </table>
             </div>
         </div>
+
+        <vue-simple-context-menu
+            :elementId="'myFirstMenu'"
+            :options="optionsArray"
+            :ref="'vueSimpleContextMenu1'"
+            @optionClicked="optionClicked">
+        </vue-simple-context-menu>
         <!--
         <div class="items__pagination pagination">
             <a class="pagination__link" href="#">1</a>
@@ -141,10 +148,32 @@ export default {
     props: ['data'],
     data () {
         return {
-
+            optionsArray: [
+                {
+                    name: 'Отредактировать',
+                    slug: 'edit'
+                },
+                {
+                    name: 'Удалить',
+                    slug: 'delete'
+                }
+            ],
         }
     },
     methods: {
+        handleClick (event, item) {
+            this.$refs.vueSimpleContextMenu1.showMenu(event, item)
+        },
+        optionClicked (event) {
+            switch(event.option.slug) {
+                case "edit":
+                    this.editClient(event.item);
+                    break;
+                case "delete":
+                    this.deleteClient(event.item.id);
+                    break;
+            }
+        },
         editClient: function(item) {
             this.$store.commit("setClient", item);
         },
