@@ -1,64 +1,66 @@
 <template>
     <div class="wrapper__task">
         <div class="task">
-            <h2 class="create__package-h2">Создание задачи</h2>
-            <div class="task__input hide">
-                <app-input :data="getEditTask.id"></app-input>
-            </div>
-            <div class="task__input">
-                <app-input :data="task.name"></app-input>
-            </div>
-            <div class="task__input">
-                <app-input :data="task.price"></app-input>
-            </div>
-            <div class="task__field_float task__select_padding">
-                <app-type-write-off :data="task.typeWriteOffRent"></app-type-write-off>
-            </div>
-            <div class="task__save-button task__field_float">
-                <button class="button button__add filters__header-input_inline" @click="saveTask">
-                    {{ isFormCreate ? 'Добавить задачу' : 'Редактировать задачу'}}
-                </button>
-            </div>
-            <div class="task__save-button task__field_float">
-                <button class="button button__add" @click="showSelectedTasks">Выбранные задачи</button>
-            </div>
-            <div class="task__save-button">
-                <button class="button button__add" @click="showTasks(task)">Все задачи</button>
-            </div>
-            <div class="task__save-button">
-                <button class="filters__clean" @click="clearBlockTask">Очистить</button>
-            </div>
-            <div class="clear"></div>
-            <div class="task__field_float task__select_padding task_margin-top">
-                <app-action-time label="Время действия" :isRequired=true :data="task.actionTime"></app-action-time>
-            </div>
-            <div class="clear"></div>
-            <br>
-            <div class="task__extra">
-                <h2 class="create__package-h2 task__extra_left">Дополнительно</h2>
-                <div class="filters__header-right task__extra_right task__extra_margin-top">
-                    <button class="button button__less" @click="isExtraChange">
-                        {{ this.isExtra ? 'Свернуть' : 'Развернуть' }}
-                        <span class="filters__button-less-block">
+            <h2 class="create__package-h2 task__extra_left">Создание задачи</h2>
+            <div class="filters__header-right task__extra_right task__extra_margin-top">
+                <button class="button button__less" @click="isExtraChange">
+                    {{ this.isExtra ? 'Свернуть' : 'Развернуть' }}
+                    <span class="filters__button-less-block">
                             <font-awesome-icon class="filters__button-less" icon="signal"></font-awesome-icon>
                         </span>
-                    </button>
-                </div>
-                <div class="clear"></div>
-            </div>
-            <div class="task__js-extra" v-show="isExtra">
-                <div class="task__input_block">
-                    <app-checkbox2 :data="task.isRentWriteOff"></app-checkbox2>
-                </div>
-                <div class="task__input task__input_width">
-                    <app-checkbox2 :data="task.isInstallments"></app-checkbox2>
-                </div>
-                <div class="task__input task__input_margin-top task__input_width">
-                    <app-input :data="task.priceInstallments"></app-input>
-                </div>
-                <div class="clear"></div>
+                </button>
             </div>
             <div class="clear"></div>
+            <div v-show="isExtra">
+                <div class="task__input hide">
+                    <app-input :data="getEditTask.id"></app-input>
+                </div>
+                <div class="task__input">
+                    <app-input :data="task.name"></app-input>
+                </div>
+                <div class="task__input">
+                    <app-input :data="task.price"></app-input>
+                </div>
+                <div class="task__field_float task__select_padding">
+                    <app-type-write-off :data="task.typeWriteOffRent"></app-type-write-off>
+                </div>
+                <div class="task__save-button task__field_float">
+                    <button class="button button__add filters__header-input_inline" @click="saveTask">
+                        {{ isFormCreate ? 'Добавить задачу' : 'Редактировать задачу'}}
+                    </button>
+                </div>
+                <div class="task__save-button task__field_float">
+                    <button class="button button__add" @click="showSelectedTasks">Выбранные задачи</button>
+                </div>
+                <div class="task__save-button">
+                    <button class="button button__add" @click="showTasks(task)">Все задачи</button>
+                </div>
+                <div class="task__save-button">
+                    <button class="filters__clean" @click="clearBlockTask">Очистить</button>
+                </div>
+                <div class="clear"></div>
+                <div class="task__field_float task__select_padding task_margin-top">
+                    <app-action-time label="Время действия" :isRequired=true :data="task.actionTime"></app-action-time>
+                </div>
+                <div class="clear"></div>
+                <br>
+                <div class="task__extra">
+                    <h2 class="create__package-h2">Дополнительно</h2>
+                </div>
+                <div class="task__js-extra">
+                    <div class="task__input_block">
+                        <app-checkbox2 :data="task.isRentWriteOff"></app-checkbox2>
+                    </div>
+                    <div class="task__input task__input_width">
+                        <app-checkbox2 :data="task.isInstallments"></app-checkbox2>
+                    </div>
+                    <div class="task__input task__input_margin-top task__input_width">
+                        <app-input :data="task.priceInstallments"></app-input>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -88,7 +90,7 @@ export default {
     data () {
         return {
             isFormCreate: true,
-            isExtra: true,
+            isExtra: false,
             task: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
@@ -266,7 +268,7 @@ export default {
         float: left;
     }
     .task__extra_margin-top {
-        margin-top: -12px;
+        margin-top: -6px;
     }
     .task__save-button {
         margin-top: 20px;
