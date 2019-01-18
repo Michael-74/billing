@@ -22,7 +22,6 @@ public class Internet extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @JsonView(Views.ClientsAndServicesIdName.class)
     private Integer id;
 
     @Column(name = "name")
@@ -30,13 +29,12 @@ public class Internet extends Datetime {
     @NotNull
     private String name;
 
-    @Size(min=2, max=50)
     @NotNull
     @Column(name = "speed")
-    private String speed;
+    private Integer speed;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "is_status")
+    private Boolean isStatus;
 
     @JsonView(Views.ClientsAndServicesIdName.class)
     public String getVal () {
@@ -58,6 +56,14 @@ public class Internet extends Datetime {
         this.tasks = tasks;
     }
 
+    @PrePersist
+    void preInsert() {
+        if (this.isStatus == null)
+            this.isStatus = false;
+        if (this.speed == null)
+            this.speed = 0;
+    }
+
     /*
     @JsonIgnore
     @OneToMany(mappedBy = "internet")
@@ -69,14 +75,6 @@ public class Internet extends Datetime {
 
     public void setClient(Set<Client> clients) {
         this.clients = clients;
-    }
-*/
-/*
-    Задает дефолтные данные
-    @PrePersist
-    public void prePersist() {
-        if(status == null)
-            status = 0;
     }
     */
 }

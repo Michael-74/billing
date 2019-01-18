@@ -31,7 +31,7 @@ public class Task extends Datetime {
     private String name;
 
     @Column(name = "price")
-    private String price;
+    private Integer price;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type_write_off", columnDefinition="ENUM('onetime','daily','monthly')", nullable = false)
@@ -67,16 +67,6 @@ public class Task extends Datetime {
     @Column(name = "price_installments")
     private String priceInstallments;
 
-    @PrePersist
-    void preInsert() {
-        if (this.price == null)
-            this.price = "0";
-        if (this.priceInstallments == null)
-            this.priceInstallments = "0";
-        if (this.dayInMonth == null || this.dayInMonth == 0)
-            this.dayInMonth = 0;
-    }
-
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnore
     private Set<Rent> rents;
@@ -88,4 +78,15 @@ public class Task extends Datetime {
     public void setRents(Set<Rent> rents) {
         this.rents = rents;
     }
+
+    @PrePersist
+    void preInsert() {
+        if (this.price == null)
+            this.price = 0;
+        if (this.priceInstallments == null)
+            this.priceInstallments = "0";
+        if (this.dayInMonth == null || this.dayInMonth == 0)
+            this.dayInMonth = 0;
+    }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Internet;
+import ru.soyuz_kom.helper.CriteriaHelper;
 import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 
@@ -69,41 +70,27 @@ public class InternetController extends AdminController {
 
             switch (entry.getKey()) {
                 case "speed":
-                    ArrayList data = (ArrayList) entry.getValue();
-                    if(data.get(0) != null && data.get(0) != "") {
-                        //string += entry.getKey() + ">" + data.get(0) + ";";
-                    }
-                    if(data.get(1) != null && data.get(1) != "") {
-                        //string += entry.getKey() + "<" + data.get(1) + ";";
-                    }
-                    break;
-                case "price":
-                    ArrayList price = (ArrayList) entry.getValue();
-                    if(price.get(0) != null && price.get(0) != "") {
-                        //string += entry.getKey() + ">" + data.get(0) + ";";
-                    }
-                    if(price.get(1) != null && price.get(1) != "") {
-                        //string += entry.getKey() + "<" + data.get(1) + ";";
-                    }
+                case "createdAt":
+                    string += CriteriaHelper.parseAndBuildLessAndGreatThan(entry.getKey(), entry.getValue());
                     break;
                 case "name":
-                    string += entry.getKey() + "==" + entry.getValue() + "*;";
+                    string += CriteriaHelper.parseAndBuildEqualMore(entry.getKey(), entry.getValue());
                     break;
-                default:
-                    //string += entry.getKey() + "==" + entry.getValue() + "*;";
+                case "isStatus":
+                    string += CriteriaHelper.parseAndBuildEqualBool(entry.getKey(), entry.getValue());
+                    break;
             }
         }
         Iterable<Internet> internet;
         if(string.length() != 0) {
             String newString = string.substring(0, string.length() - 1);
-            System.out.println("string search Internet: " + newString);
 
             Node rootNode = new RSQLParser().parse(newString);
             Specification<Internet> spec = rootNode.accept(new CustomRsqlVisitor<Internet>());
 
             internet = internetRepository.findAll(spec);
         } else {
-            internet = internetRepository.findAllByOrderByIdDesc();
+            internet = internetRepository.findAll();
         }
 
         return internet;

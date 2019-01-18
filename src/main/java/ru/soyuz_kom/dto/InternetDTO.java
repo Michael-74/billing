@@ -15,8 +15,8 @@ import java.util.List;
 public class InternetDTO {
     public Integer id;
     private String name;
-    private String speed;
-    private Boolean status;
+    private Integer speed;
+    private Boolean isStatus;
     private String val;
     @JsonFormat(pattern="dd.MM.yyyy HH:mm")
     public Date createdAt;
@@ -30,7 +30,7 @@ public class InternetDTO {
             internetDTO.setId(internet.getId());
             internetDTO.setName(internet.getName());
             internetDTO.setSpeed(internet.getSpeed());
-            internetDTO.setStatus(internet.getStatus());
+            internetDTO.setIsStatus(internet.getIsStatus());
             internetDTO.setVal(internet.getName());
             internetDTO.setCreatedAt(internet.getCreatedAt());
             internetDTO.setUpdatedAt(internet.getUpdatedAt());

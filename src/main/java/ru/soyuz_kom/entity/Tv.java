@@ -28,8 +28,8 @@ public class Tv extends Datetime {
     @NotNull
     private String name;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "is_status")
+    private Boolean isStatus;
 
     @JsonView(Views.ClientsAndServicesIdName.class)
     public String getVal () {
@@ -49,5 +49,11 @@ public class Tv extends Datetime {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @PrePersist
+    void preInsert() {
+        if (this.isStatus == null)
+            this.isStatus = false;
     }
 }

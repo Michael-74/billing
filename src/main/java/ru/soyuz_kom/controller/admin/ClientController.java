@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Internet;
 import ru.soyuz_kom.entity.view.Views;
+import ru.soyuz_kom.helper.CriteriaHelper;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
@@ -116,32 +117,20 @@ public class ClientController extends AdminController {
                 case "balance":
                 case "discount":
                 case "createdAt":
-                    ArrayList data = (ArrayList) entry.getValue();
-                    if(data.get(0) != null && data.get(0) != "") {
-                        string += entry.getKey() + ">=" + data.get(0) + ";";
-                    }
-                    if(data.get(1) != null && data.get(1) != "") {
-                        string += entry.getKey() + "<=" + data.get(1) + ";";
-                    }
+                    string += CriteriaHelper.parseAndBuildLessAndGreatThan(entry.getKey(), entry.getValue());
                     break;
                 case "internet":
                 case "tvs":
                 case "rents":
-                    List arr = (List) entry.getValue();
-                    if (arr.size() != 0) {
-                        String listString = arr.toString();
-                        String result = listString.substring(1, listString.length()-1);
-                        string += entry.getKey() + "=in=("+result+");";
-                    }
+                    string += CriteriaHelper.parseAndBuildIn(entry.getKey(), entry.getValue());
                     break;
                 case "loyalty":
                 case "typeDiscount":
-                    string += entry.getKey() + "==" + entry.getValue() + ";";
+                    string += CriteriaHelper.parseAndBuildEqual(entry.getKey(), entry.getValue());
                     break;
                 case "isPromisedPay":
                 case "isStatus":
-                    Boolean bool = (Boolean) entry.getValue();
-                    string += entry.getKey() + "==" + bool + ";";
+                    string += CriteriaHelper.parseAndBuildEqualBool(entry.getKey(), entry.getValue());
                     break;
                 case "fio":
                 case "address":
@@ -150,23 +139,17 @@ public class ClientController extends AdminController {
                 case "login":
                 case "contract":
                 case "ip":
-                    string += entry.getKey() + "==" + entry.getValue() + "*;";
+                    string += CriteriaHelper.parseAndBuildEqualMore(entry.getKey(), entry.getValue());
                     break;
-                default:
-                    //string += entry.getKey() + "==" + entry.getValue() + "*;";
             }
         }
         Iterable<Client> clients;
         if(string.length() != 0) {
             String newString = string.substring(0, string.length() - 1);
-            System.out.println("string search: " + newString);
-
-            //string = preset.entrySet().stream().filter(item -> !item.equals("")).toString();
-
             Node rootNode = new RSQLParser().parse(newString);
             Specification<Client> spec = rootNode.accept(new CustomRsqlVisitor<Client>());
-
             clients = clientRepository.findAll(spec);
+
             return new HashSet<Client>((Collection<? extends Client>) clients);
         } else {
             return clientRepository.findAll();

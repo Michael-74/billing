@@ -27,16 +27,16 @@
             <div class="filters__block filters__fix-height">
                 <h2>Интернет тарифы</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-input :data="internet.inputName"></app-input>
+                    <app-input :data="internet.name"></app-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="internet.inputDifferenceSpeed"></app-difference-input>
+                    <app-difference-input :data="internet.speed"></app-difference-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="internet.inputDifferencePrice"></app-difference-input>
+                    <app-select :data="internet.isStatus"></app-select>
                 </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="internet.selectStatus"></app-select>
+                <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
+                    <app-datepicker type="date" format="DD.MM.YYYY" :data="internet.createdAt"></app-datepicker>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean" @click="clearBlockInternet">Очистить</button>
@@ -82,10 +82,10 @@ export default {
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
             },
             internet: {
-                inputName: input('Название тарифа', 'Название тарифа', 'name', false, false, null, null),
-                inputDifferenceSpeed: inputDifference('Скорость интернета', 'от', 'до','speed', false, false, null, [null, null]),
-                inputDifferencePrice: inputDifference('Цена интернета', 'от', 'до','price', false, false, null, [null, null]),
-                selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:'Включен'}, {id:2, val:'Выключен'}]),
+                name: input('Название тарифа', 'Название тарифа', 'name', false, false, null, null),
+                speed: inputDifference('Скорость интернета', 'от', 'до','speed', false, false, null, [null, null]),
+                isStatus: select('Статус', 'Не выбрано', 'isStatus', false, false, null, null, [{id:true, val:'Включен'}, {id:false, val:'Выключен'}]),
+                createdAt: datepicker('Дата создания', 'Дата создания', 'createdAt', true, false, false, null, null),
             }
         }
     },
@@ -101,8 +101,8 @@ export default {
             this.$store.dispatch('searchInternetsAsync', settings)
         },
         clearBlockInternet: function () {
-            const checkedFields = ['inputDifferenceSpeed', 'inputDifferencePrice', 'selectStatus', 'inputName'];
-            clearFields(this.internet, checkedFields);
+            const checkedFields = ['speed', 'isStatus', 'name', 'createdAt'];
+            clearFields(this.internet, checkedFields, true);
         },
         isFilterShow: function (){
             this.isFilter = !this.isFilter;

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Tv;
+import ru.soyuz_kom.helper.CriteriaHelper;
 import ru.soyuz_kom.repository.TvRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 
@@ -69,10 +70,14 @@ public class TvController extends AdminController {
 
             switch (entry.getKey()) {
                 case "name":
-                    string += entry.getKey() + "==" + entry.getValue() + "*;";
+                    string += CriteriaHelper.parseAndBuildEqualMore(entry.getKey(), entry.getValue());
                     break;
-                default:
-                    //string += entry.getKey() + "==" + entry.getValue() + "*;";
+                case "createdAt":
+                    string += CriteriaHelper.parseAndBuildLessAndGreatThan(entry.getKey(), entry.getValue());
+                    break;
+                case "isStatus":
+                    string += CriteriaHelper.parseAndBuildEqualBool(entry.getKey(), entry.getValue());
+                    break;
             }
         }
         Iterable<Tv> tv;

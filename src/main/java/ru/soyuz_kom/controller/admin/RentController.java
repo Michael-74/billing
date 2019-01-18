@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Rent;
 import ru.soyuz_kom.entity.Task;
+import ru.soyuz_kom.helper.CriteriaHelper;
 import ru.soyuz_kom.repository.RentRepository;
 import ru.soyuz_kom.repository.TaskRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
@@ -75,10 +76,14 @@ public class RentController extends AdminController {
 
             switch (entry.getKey()) {
                 case "name":
-                    string += entry.getKey() + "==" + entry.getValue() + "*;";
+                    string += CriteriaHelper.parseAndBuildEqualMore(entry.getKey(), entry.getValue());
                     break;
-                default:
-                    //string += entry.getKey() + "==" + entry.getValue() + "*;";
+                case "createdAt":
+                    string += CriteriaHelper.parseAndBuildLessAndGreatThan(entry.getKey(), entry.getValue());
+                    break;
+                case "isStatus":
+                    string += CriteriaHelper.parseAndBuildEqualBool(entry.getKey(), entry.getValue());
+                    break;
             }
         }
         Iterable<Rent> rent;
@@ -91,7 +96,7 @@ public class RentController extends AdminController {
 
             rent = rentRepository.findAll(spec);
         } else {
-            rent = rentRepository.findAllByOrderByIdDesc();
+            rent = rentRepository.findAll();
         }
 
         return rent;

@@ -21,7 +21,7 @@
                         <app-input :data="tv.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-checkbox :data="tv.status"></app-checkbox>
+                        <app-checkbox :data="tv.isStatus"></app-checkbox>
                     </div>
                     <!--
                     <div class="create__input create__package-button">
@@ -90,7 +90,7 @@ export default {
             tv: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
-                status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
+                isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
             }
         }
     },

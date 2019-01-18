@@ -21,7 +21,7 @@
                         <app-input :data="rent.name"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-checkbox :data="rent.status"></app-checkbox>
+                        <app-checkbox :data="rent.isStatus"></app-checkbox>
                     </div>
                     <div class="clear"></div>
                     <div class="create__note">
@@ -75,7 +75,7 @@ export default {
             rent: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
-                status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
+                isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
                 description: textarea('Описание', 'Описание арендованного оборудования', 'description', true, false, null, ""),
             }
         }
@@ -106,15 +106,7 @@ export default {
             for(let item in this.rent) {
                 items[this.rent[item].name] = this.rent[item].val;
             }
-            //console.log('task', selectIds(this.getSelectedTasks));
-            //items['tasks'] = JSON.stringify(selectIds(this.getSelectedTasks));
-            //const tasks = JSON.stringify(selectIds(this.getSelectedTasks));
-            //const tasks = (selectIds(this.getSelectedTasks)).join(',');
-
-            //items['tasks'] = (selectIds(this.getSelectedTasks)).join(',');
-            console.log("tasks", this.getSelectedTasks);
             items['tasks'] = this.getSelectedTasks;
-            console.log('rent', items);
 
             this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate})
         },
@@ -124,7 +116,6 @@ export default {
                 this.rent[item].isError = false;
                 this.rent[item].val = null;
             }
-            console.log('clearCreateForm');
         },
         isCreateShow: function () {
             this.isCreate = true;

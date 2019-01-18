@@ -23,7 +23,6 @@ public class Rent extends Datetime {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @JsonView(Views.ClientsAndServicesIdName.class)
     private Integer id;
 
     @Column(name = "name")
@@ -34,10 +33,9 @@ public class Rent extends Datetime {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "is_status")
+    private Boolean isStatus;
 
-    @JsonView(Views.ClientsAndServicesIdName.class)
     public String getVal () {
         return this.name;
     }
@@ -55,5 +53,11 @@ public class Rent extends Datetime {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @PrePersist
+    void preInsert() {
+        if (this.isStatus == null)
+            this.isStatus = false;
     }
 }

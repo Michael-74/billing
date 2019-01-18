@@ -30,7 +30,7 @@ public class RentDTO {
             rentDTO.setId(rent.getId());
             rentDTO.setName(rent.getName());
             rentDTO.setDescription(rent.getDescription());
-            rentDTO.setStatus(rent.getStatus());
+            rentDTO.setStatus(rent.getIsStatus());
             rentDTO.setVal(rent.getName());
             rentDTO.setCreatedAt(rent.getCreatedAt());
             rentDTO.setUpdatedAt(rent.getUpdatedAt());

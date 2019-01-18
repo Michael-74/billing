@@ -24,7 +24,7 @@
                         <app-input :data="internet.speed"></app-input>
                     </div>
                     <div class="create__input create__select_width">
-                        <app-checkbox :data="internet.status"></app-checkbox>
+                        <app-checkbox :data="internet.isStatus"></app-checkbox>
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -76,7 +76,7 @@ export default {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
                 speed: input('Введите скорость', 'Введите скорость', 'speed', true, false, null, null),
-                status: checkbox('Статус', 'Включен', 'Выключен', 'status', true, false, null, true),
+                isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
             }
         }
     },

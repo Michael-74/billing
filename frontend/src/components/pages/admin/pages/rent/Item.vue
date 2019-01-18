@@ -10,12 +10,6 @@
                         <th class="items__th">Описание</th>
                         <th class="items__th">Статус</th>
                         <th class="items__th">Задачи</th>
-                        <!--
-                        <th class="items__th">Цена</th>
-                        <th class="items__th">Тип списания</th>
-                        <th class="items__th">Статус</th>
-                        <th class="items__th">Время работы</th>
-                        -->
                         <th class="items__th">Дата создания</th>
                         <th class="items__th">Действие</th>
                     </tr>
@@ -26,11 +20,11 @@
                             <td class="items__td">{{ item.name }}</td>
                             <td class="items__td">{{ item.description }}</td>
                             <td class="items__td">
-                                <span v-show="item.status">
+                                <span v-show="item.isStatus">
                                     <span class="items__signal"></span>
                                     <span class="items__status-text">Включен</span>
                                 </span>
-                                <span v-show="!item.status">
+                                <span v-show="!item.isStatus">
                                     <span class="items__signal items__signal_off"></span>
                                     <span class="items__status-text">Выключен</span>
                                 </span>

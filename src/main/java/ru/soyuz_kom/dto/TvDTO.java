@@ -27,7 +27,7 @@ public class TvDTO {
             TvDTO tvDTO = new TvDTO();
             tvDTO.setId(tv.getId());
             tvDTO.setName(tv.getName());
-            tvDTO.setStatus(tv.getStatus());
+            tvDTO.setStatus(tv.getIsStatus());
             tvDTO.setVal(tv.getName());
             tvDTO.setCreatedAt(tv.getCreatedAt());
             tvDTO.setUpdatedAt(tv.getUpdatedAt());

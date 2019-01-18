@@ -27,10 +27,13 @@
             <div class="filters__block filters__fix-height">
                 <h2>Тарифы аренды оборудования</h2>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-input :data="tv.inputName"></app-input>
+                    <app-input :data="tv.name"></app-input>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="tv.selectStatus"></app-select>
+                    <app-select :data="tv.isStatus"></app-select>
+                </div>
+                <div class="filters__header-select filters__header-input_inline filters__select_width260 filters__select_padding">
+                    <app-datepicker type="date" format="DD.MM.YYYY" :data="tv.createdAt"></app-datepicker>
                 </div>
                 <div class="filters__header-select filters__header-input_inline filters__select">
                     <button class="filters__clean" @click="clearBlockRent">Очистить</button>
@@ -76,8 +79,9 @@ export default {
                 inputPreset: input(null, 'Введите название пресета', 'name', false, false, null, null),
             },
             tv: {
-                inputName: input('Название', 'Название', 'name', false, false, null, null),
-                selectStatus: select('Статус', 'Не выбрано', 'status', false, false, null, null, [{id:1, val:'Включен'}, {id:2, val:'Выключен'}]),
+                name: input('Название', 'Название', 'name', false, false, null, null),
+                isStatus: select('Статус', 'Не выбрано', 'isStatus', false, false, null, null, [{id:true, val:'Включен'}, {id:false, val:'Выключен'}]),
+                createdAt: datepicker('Дата создания', 'Дата создания', 'createdAt', true, false, false, null, null),
             }
         }
     },
@@ -93,8 +97,8 @@ export default {
             this.$store.dispatch('searchRentsAsync', settings)
         },
         clearBlockRent: function () {
-            const checkedFields = ['selectStatus', 'inputName'];
-            clearFields(this.tv, checkedFields);
+            const checkedFields = ['isStatus', 'name', 'createdAt'];
+            clearFields(this.tv, checkedFields, true);
         },
         isFilterShow: function (){
             this.isFilter = !this.isFilter;

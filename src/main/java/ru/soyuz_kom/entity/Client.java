@@ -108,4 +108,12 @@ public class Client extends Datetime implements Serializable {
     public void setRents(Set<Rent> rents) {
         this.rents = rents;
     }
+
+    @PrePersist
+    void preInsert() {
+        if (this.isStatus == null)
+            this.isStatus = false;
+        if (this.isPromisedPay == null)
+            this.isPromisedPay = false;
+    }
 }

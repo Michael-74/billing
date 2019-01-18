@@ -60,6 +60,8 @@ export function clearFields(objFields, checkedFields, flag = false) {
                             case "balance":
                             case "discount":
                             case "priceOverMonth":
+                            case "speed":
+                            case "createdAt":
                                 objFields[item].val = [null,null];
                                 break;
                             default:

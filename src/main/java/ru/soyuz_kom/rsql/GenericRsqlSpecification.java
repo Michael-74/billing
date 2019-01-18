@@ -4,21 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
-
-import org.hibernate.Metamodel;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
 import org.springframework.data.jpa.domain.Specification;
-
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.entity.Client_;
-import ru.soyuz_kom.entity.Tv;
-import ru.soyuz_kom.entity.Tv_;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 
 public class GenericRsqlSpecification<T> implements Specification<T> {
@@ -38,14 +26,7 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     public Predicate toPredicate(final Root<T> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
         final List<Object> args = castArguments(root);
         final Object argument = args.get(0);
-        System.out.println("root: " + root.get("tvs")); // Значение
-        System.out.println("builder: " + builder); // Значение
-        //System.out.println("property: " + property); // Значение
         //query.orderBy(builder.desc(root.get("id")));
-
-
-
-        System.out.println("root2: " + root.get("tvs").in(2).getExpressions()); // Значение
 
         switch (RsqlSearchOperation.getSimpleOperator(operator)) {
             case EQUAL: {
@@ -114,8 +95,6 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
 
         return null;
     }
-
-    // === private
 
     private List<Object> castArguments(final Root<T> root) {
 
