@@ -108,7 +108,7 @@ export default {
             }
             items['tasks'] = this.getSelectedTasks;
 
-            this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate})
+            this.$store.dispatch('addRentAsync', {items: this.rent, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');

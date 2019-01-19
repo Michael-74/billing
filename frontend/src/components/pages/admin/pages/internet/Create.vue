@@ -108,7 +108,7 @@ export default {
             }
             items['tasks'] = this.getSelectedTasks;
 
-            this.$store.dispatch('addInternetAsync', {items: this.internet, obj: items, isFormCreate: this.isFormCreate})
+            this.$store.dispatch('addInternetAsync', {items: this.internet, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');

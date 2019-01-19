@@ -83,6 +83,7 @@ export default {
                                 text: 'Тариф успешно отредактирован'
                             });
                         }
+                        payload.successFunction();
                     }
                 })
                 .catch(error => {

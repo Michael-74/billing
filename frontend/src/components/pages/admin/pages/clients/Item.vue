@@ -168,9 +168,6 @@ export default {
     },
     methods: {
         searchNameForId(nameGetter, id){
-            console.log("id", id);
-            //console.log("getTvs", this[nameGetter]);
-
             const name = this[nameGetter].filter(item => {
                 if(item.id === id){
                     return item.name;
@@ -205,7 +202,6 @@ export default {
             this.$store.commit("setClient", item);
         },
         deleteClient: (clientId) => {
-            console.log("deleteClient", clientId);
             deleteSendClient(clientId);
         }
     }

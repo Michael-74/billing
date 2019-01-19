@@ -264,7 +264,7 @@ export default {
                 }
 
             }
-            this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isFormCreate: this.isFormCreate})
+            this.$store.dispatch('addClientAsync', {items: this.client, obj: client, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');

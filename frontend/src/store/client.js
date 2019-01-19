@@ -67,6 +67,7 @@ export default {
                                 text: 'Абонент успешно отредактирован'
                             });
                         }
+                        payload.successFunction();
                     }
                 })
                 .catch(error => {

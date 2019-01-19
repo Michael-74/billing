@@ -122,7 +122,7 @@ export default {
             }
             items['tasks'] = this.getSelectedTasks;
 
-            this.$store.dispatch('addTvAsync', {items: this.tv, obj: items, isFormCreate: this.isFormCreate})
+            this.$store.dispatch('addTvAsync', {items: this.tv, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
