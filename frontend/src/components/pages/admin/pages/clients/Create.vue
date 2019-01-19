@@ -166,24 +166,24 @@ export default {
         }
     },
     mounted () {
-        this.client.internet.items = this.getListInternets;
-        this.client.rents.items = this.getListRents;
-        this.client.tvs.items = this.getListTvs;
+        this.client.internet.items = this.getInternets;
+        this.client.rents.items = this.getRents;
+        this.client.tvs.items = this.getTvs;
     },
     watch: {
-        getListInternets() {
-            this.client.internet.items = this.getListInternets;
+        getInternets() {
+            this.client.internet.items = this.getInternets;
         },
-        getListRents() {
-            this.client.rents.items = this.getListRents;
+        getRents() {
+            this.client.rents.items = this.getRents;
         },
-        getListTvs() {
-            this.client.tvs.items = this.getListTvs;
+        getTvs() {
+            this.client.tvs.items = this.getTvs;
         }
     },
     computed: {
         ...mapGetters([
-            'getListInternets', 'getListRents', 'getListTvs'
+            'getInternets', 'getRents', 'getTvs'
         ]),
         getClient () {
             var isFlagFormCreate = true;
@@ -226,7 +226,7 @@ export default {
             for(let item in this.client) {
                 switch(item) {
                     case 'internet':
-                        const internetArray = this.getListInternets.filter((obj, i) => {
+                        const internetArray = this.getInternets.filter((obj, i) => {
                             if(obj.id === Number(this.client[item].val)){
                                 return true;
                             }
@@ -235,7 +235,7 @@ export default {
                         client[this.client[item].name] = newObj;
                         break;
                     case 'tvs':
-                        const tvArray = this.getListTvs.filter((obj, i) => {
+                        const tvArray = this.getTvs.filter((obj, i) => {
                             let isMatches = false;
                             this.client[item].val.map((obj2) => {
                                 if(obj.id === Number(obj2)){
@@ -247,7 +247,7 @@ export default {
                         client[this.client[item].name] = tvArray;
                         break;
                     case 'rents':
-                        const rentArray = this.getListRents.filter((obj, i) => {
+                        const rentArray = this.getRents.filter((obj, i) => {
                             let isMatches = false;
                             this.client[item].val.map((obj2) => {
                                 if(obj.id === Number(obj2)){
@@ -285,7 +285,7 @@ export default {
                 },
                 computed: {
                     ...mapGetters([
-                        'getListInternets', 'getListRents', 'getListTvs', 'getPacks'
+                        'getInternets', 'getRents', 'getTvs', 'getPacks'
                     ]),
                     getPackage() {
                         var data = [];
@@ -297,7 +297,7 @@ export default {
                             service.name = this.getPacks[index].name;
                             data[index] = service;
 
-                            this.getListInternets.filter(item => {
+                            this.getInternets.filter(item => {
 
                                 if(item.id === Number(this.getPacks[index].internet)) {
                                     data[index].internet.name = item.val;
@@ -308,7 +308,7 @@ export default {
                             var tvList = this.getPacks[index].tvs;
                             if(tvList !== null) {
                                 let tv = tvList.split(',');
-                                this.getListTvs.filter(item => {
+                                this.getTvs.filter(item => {
                                     for (let nameTv in tv) {
                                         if (item.id === Number(tv[nameTv])) {
                                             data[index].tv.name.push(item.val);
@@ -321,7 +321,7 @@ export default {
                             var rentList = this.getPacks[index].rents;
                             if(rentList !== null) {
                                 let rent = rentList.split(',');
-                                this.getListRents.filter(item => {
+                                this.getRents.filter(item => {
                                     for (let nameRent in rent) {
                                         if (item.id === Number(rent[nameRent])) {
                                             data[index].rent.name.push(item.val);

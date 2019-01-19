@@ -172,19 +172,19 @@ export default {
         //}
     },
     mounted () {
-        this.client.internet.items = this.getListInternets;
-        this.client.rents.items = this.getListRents;
-        this.client.tvs.items = this.getListTvs;
+        this.client.internet.items = this.getInternets;
+        this.client.rents.items = this.getRents;
+        this.client.tvs.items = this.getTvs;
     },
     watch: {
-        getListInternets() {
-            this.client.internet.items = this.getListInternets;
+        getInternets() {
+            this.client.internet.items = this.getInternets;
         },
-        getListRents() {
-            this.client.rents.items = this.getListRents;
+        getRents() {
+            this.client.rents.items = this.getRents;
         },
-        getListTvs() {
-            this.client.tvs.items = this.getListTvs;
+        getTvs() {
+            this.client.tvs.items = this.getTvs;
         }
     },
     methods: {
@@ -221,7 +221,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getPresets', 'getListInternets', 'getListRents', 'getListTvs'
+            'getPresets', 'getInternets', 'getRents', 'getTvs'
         ])
     }
 }
