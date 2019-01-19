@@ -60,6 +60,7 @@ export default {
     },
     methods: {
         editTv: function(item) {
+            console.log("tv", item);
             this.$store.commit("setTv", item);
             this.$store.commit("setSelectedTasks", item.tasks);
         },

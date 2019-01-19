@@ -46,7 +46,7 @@
                             <td class="items__td">
                                 <div v-if="item.tvs.length !== 0">
                                     <div v-for="tv in item.tvs">
-                                        <span class="items__pack">{{ tv.val }}</span>
+                                        <span class="items__pack" v-if="searchNameForId(tv.id)">{{ searchNameForId(tv.id) }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -138,6 +138,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { deleteSendClient } from "../../../../../util/ws";
 
@@ -160,7 +161,22 @@ export default {
             ],
         }
     },
+    computed: {
+        ...mapGetters([
+            'getTvs'
+        ]),
+    },
     methods: {
+        searchNameForId(id){
+            console.log("id", id);
+            console.log("getTvs", this.getTvs);
+            const name = this.getTvs.filter(item => {
+                if(item.id === id){
+                    return item.name;
+                }
+            });
+            return name.length !== 0 ? name[0].name : null;
+        },
         handleClick (event, item) {
             this.$refs.vueSimpleContextMenu1.showMenu(event, item)
         },

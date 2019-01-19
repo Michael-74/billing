@@ -174,7 +174,7 @@ export default {
     mounted () {
         this.client.internet.items = this.getListInternets;
         this.client.rents.items = this.getListRents;
-        this.client.tvs.items = this.getListTvs;
+        this.client.tvs.items = this.getTvs;
     },
     watch: {
         getListInternets() {
@@ -183,8 +183,8 @@ export default {
         getListRents() {
             this.client.rents.items = this.getListRents;
         },
-        getListTvs() {
-            this.client.tvs.items = this.getListTvs;
+        getTvs() {
+            this.client.tvs.items = this.getTvs;
         }
     },
     methods: {
@@ -221,7 +221,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getPresets', 'getListInternets', 'getListRents', 'getListTvs'
+            'getPresets', 'getListInternets', 'getListRents', 'getTvs'
         ])
     }
 }

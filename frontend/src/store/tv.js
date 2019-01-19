@@ -6,7 +6,7 @@ import {checkErrors} from "../util/helpers";
 export default {
     state: {
         tvs: [],
-        listTvs: [],
+        //listTvs: [],
         editTv: null
     },
     mutations: {
@@ -27,15 +27,19 @@ export default {
                     }
                 }
             });
+            // TODO:: указываем, что поменяли список для select свойств
+            //Vue.set(state, 'listTvs', [...state.tvs]);
         },
         clearTvs (state) {
             //state.presets = payload;
             Vue.set(state, 'tvs', []);
         },
+        /*
         setListTvs (state, payload) {
             //state.presets = payload;
             Vue.set(state, 'listTvs', [...payload]);
         },
+        */
         setTvs (state, payload) {
             state.tvs = payload;
         },
@@ -47,6 +51,7 @@ export default {
                 }
             });
             state.tvs.splice(idx, 1);
+            //Vue.set(state, 'listTvs', [...state.tvs]);
         },
         setTv (state, payload) {
             state.editTv = payload;
@@ -160,9 +165,11 @@ export default {
         getTvs (state) {
             return state.tvs;
         },
+        /*
         getListTvs (state) {
             return state.listTvs;
         },
+        */
         getEditTv (state) {
             return state.editTv;
         }

@@ -114,7 +114,7 @@ export default {
                     commit('setClients', response.data.clients);
                     commit('setListInternets', response.data.internets);
                     commit('setListRents', response.data.rents);
-                    commit('setListTvs', response.data.tvs);
+                    commit('setTvs', response.data.tvs);
                 }).catch(error => {
                     Vue.prototype.$notify({
                         group: 'notify',

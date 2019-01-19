@@ -168,7 +168,7 @@ export default {
     mounted () {
         this.client.internet.items = this.getListInternets;
         this.client.rents.items = this.getListRents;
-        this.client.tvs.items = this.getListTvs;
+        this.client.tvs.items = this.getTvs;
     },
     watch: {
         getListInternets() {
@@ -177,13 +177,13 @@ export default {
         getListRents() {
             this.client.rents.items = this.getListRents;
         },
-        getListTvs() {
-            this.client.tvs.items = this.getListTvs;
+        getTvs() {
+            this.client.tvs.items = this.getTvs;
         }
     },
     computed: {
         ...mapGetters([
-            'getListInternets', 'getListRents', 'getListTvs'
+            'getListInternets', 'getListRents', 'getTvs'
         ]),
         getClient () {
             var isFlagFormCreate = true;
@@ -235,7 +235,7 @@ export default {
                         client[this.client[item].name] = newObj;
                         break;
                     case 'tvs':
-                        const tvArray = this.getListTvs.filter((obj, i) => {
+                        const tvArray = this.getTvs.filter((obj, i) => {
                             let isMatches = false;
                             this.client[item].val.map((obj2) => {
                                 if(obj.id === Number(obj2)){
@@ -285,7 +285,7 @@ export default {
                 },
                 computed: {
                     ...mapGetters([
-                        'getListInternets', 'getListRents', 'getListTvs', 'getPacks'
+                        'getListInternets', 'getListRents', 'getTvs', 'getPacks'
                     ]),
                     getPackage() {
                         var data = [];
@@ -308,7 +308,7 @@ export default {
                             var tvList = this.getPacks[index].tvs;
                             if(tvList !== null) {
                                 let tv = tvList.split(',');
-                                this.getListTvs.filter(item => {
+                                this.getTvs.filter(item => {
                                     for (let nameTv in tv) {
                                         if (item.id === Number(tv[nameTv])) {
                                             data[index].tv.name.push(item.val);
