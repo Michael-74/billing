@@ -83,8 +83,10 @@ export default {
         getNameSelected () {
             if(this.selecteds.length === 1) {
                 return this.selectName[0]
-            } else {
+            } else if(this.selecteds.length > 1) {
                 return this.selectName[0] + '...';
+            } else {
+                return 'нет совпадений';
             }
         }
     },
@@ -110,7 +112,7 @@ export default {
                         });
                     });
 
-                    if(index.length !== 0) {
+                    if(index.length !== 0 || this.data.val.length !== 0) {
                         this.selectName = [];
                         this.selecteds = [];
                         this.selecteds = this.selecteds.concat(index);

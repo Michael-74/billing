@@ -122,15 +122,16 @@ export function parseServicesForId(obj, item) {
     }
 }
 
+import { mapGetters } from 'vuex';
 export function showPresets(items) {
     Vue.prototype.$modal.show({
             components:{
                 FontAwesomeIcon
             },
             computed: {
-                getPresets () {
-                    return this.$store.getters.getPresets;
-                }
+                ...mapGetters([
+                    'getPresets'
+                ]),
             },
             methods: {
                 deletePreset(id) {

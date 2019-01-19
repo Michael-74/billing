@@ -94,18 +94,18 @@
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon"
                                                    :class="{'items__icon_orange': item.note}"
-                                                     icon="comment-alt"
-                                                     v-tooltip="{
-                                                          content: item.note,
-                                                          placement: 'top-center',
-                                                          classes: ['info'],
-                                                          targetClasses: ['it-has-a-tooltip'],
-                                                          offset: 10,
-                                                          delay: {
-                                                            show: 200,
-                                                            hide: 100,
-                                                          }
-                                                     }"
+                                                   icon="comment-alt"
+                                                       v-tooltip="{
+                                                           content: item.note,
+                                                           placement: 'top-center',
+                                                           classes: ['info'],
+                                                           targetClasses: ['it-has-a-tooltip'],
+                                                           offset: 10,
+                                                           delay: {
+                                                               show: 200,
+                                                               hide: 100,
+                                                           }
+                                                       }"
                             ></font-awesome-icon>
                             </td>
                             <td class="items__td">{{ item.createdAt }}</td>
