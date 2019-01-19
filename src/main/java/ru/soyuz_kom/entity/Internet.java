@@ -50,6 +50,10 @@ public class Internet extends Datetime {
             inverseJoinColumns = @JoinColumn(name = "id_task") )
     private Set<Task> tasks;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "internet", cascade={CascadeType.PERSIST})
+    private Set<Client> clients;
+
     public Set<Task> getTasks() {
         return tasks;
     }
@@ -65,10 +69,6 @@ public class Internet extends Datetime {
         if (this.speed == null)
             this.speed = 0;
     }
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "internet", cascade={CascadeType.PERSIST})
-    private Set<Client> clients;
 
     @PreRemove
     private void preRemove() {

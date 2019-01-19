@@ -1,10 +1,8 @@
 package ru.soyuz_kom.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.view.Views;
 
@@ -15,6 +13,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tvs")
+@ToString(of = {"id", "name"})
+@EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Tv extends Datetime {
 
@@ -51,9 +51,18 @@ public class Tv extends Datetime {
         this.tasks = tasks;
     }
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tvs")
+    private Set<Client> clients;
+
     @PrePersist
     void preInsert() {
         if (this.isStatus == null)
             this.isStatus = false;
+    }
+
+    @PreRemove
+    private void preRemove() {
+        //clients.forEach( client -> client.);
     }
 }
