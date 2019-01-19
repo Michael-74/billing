@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Internet;
+import ru.soyuz_kom.entity.Task;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,6 +19,7 @@ public class InternetDTO {
     private String name;
     private Integer speed;
     private Boolean isStatus;
+    private Set<Task> tasks;
     private String val;
     @JsonFormat(pattern="dd.MM.yyyy HH:mm")
     public Date createdAt;
@@ -31,6 +34,7 @@ public class InternetDTO {
             internetDTO.setName(internet.getName());
             internetDTO.setSpeed(internet.getSpeed());
             internetDTO.setIsStatus(internet.getIsStatus());
+            internetDTO.setTasks(internet.getTasks());
             internetDTO.setVal(internet.getName());
             internetDTO.setCreatedAt(internet.getCreatedAt());
             internetDTO.setUpdatedAt(internet.getUpdatedAt());

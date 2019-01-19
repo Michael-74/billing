@@ -112,8 +112,8 @@ export default {
                 .then(response => {
                     console.log("getClientsAsync", response);
                     commit('setClients', response.data.clients);
-                    commit('setListInternets', response.data.internets);
-                    commit('setListRents', response.data.rents);
+                    commit('setInternets', response.data.internets);
+                    commit('setRents', response.data.rents);
                     commit('setTvs', response.data.tvs);
                 }).catch(error => {
                     Vue.prototype.$notify({

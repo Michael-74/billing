@@ -40,20 +40,20 @@
                             <td class="items__td">{{ item.contract }}</td>
                             <td class="items__td">
                                 <div v-if="item.internet !== null">
-                                    <span class="items__pack">{{ item.internet.val }}</span>
+                                    <span class="items__pack" v-if="isSearchNameForId('getInternets', item.internet.id)">{{ searchNameForId("getInternets", item.internet.id) }}</span>
                                 </div>
                             </td>
                             <td class="items__td">
                                 <div v-if="item.tvs.length !== 0">
                                     <div v-for="tv in item.tvs">
-                                        <span class="items__pack" v-if="searchNameForId(tv.id)">{{ searchNameForId(tv.id) }}</span>
+                                        <span class="items__pack" v-if="isSearchNameForId('getTvs', tv.id)">{{ searchNameForId("getTvs", tv.id) }}</span>
                                     </div>
                                 </div>
                             </td>
                             <td class="items__td">
                                 <div v-if="item.rents.length !== 0">
                                     <div v-for="rent in item.rents">
-                                        <span class="items__pack">{{ rent.val }}</span>
+                                        <span class="items__pack" v-if="isSearchNameForId('getRents', rent.id)">{{ searchNameForId("getRents", rent.id) }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -108,7 +108,7 @@
                                                      }"
                             ></font-awesome-icon>
                             </td>
-                            <td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>
+                            <td class="items__td">{{ item.createdAt }}</td>
                             <td class="items__td">
                                 <font-awesome-icon class="items__icon" icon="cog" @click="editClient(item)"></font-awesome-icon>
                                 <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteClient(item.id)"></font-awesome-icon>
@@ -163,19 +163,30 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getTvs'
+            'getTvs', 'getInternets', 'getRents'
         ]),
     },
     methods: {
-        searchNameForId(id){
+        searchNameForId(nameGetter, id){
             console.log("id", id);
-            console.log("getTvs", this.getTvs);
-            const name = this.getTvs.filter(item => {
+            //console.log("getTvs", this[nameGetter]);
+
+            const name = this[nameGetter].filter(item => {
                 if(item.id === id){
                     return item.name;
                 }
             });
+
             return name.length !== 0 ? name[0].name : null;
+        },
+        isSearchNameForId(nameGetter, id){
+            const name = this[nameGetter].filter(item => {
+                if(item.id === id){
+                    return item.name;
+                }
+            });
+
+            return name.length !== 0;
         },
         handleClick (event, item) {
             this.$refs.vueSimpleContextMenu1.showMenu(event, item)
