@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.soyuz_kom.entity.view.Views;
 
 import javax.persistence.*;
@@ -36,7 +39,6 @@ public class Internet extends Datetime {
     @Column(name = "is_status")
     private Boolean isStatus;
 
-    @JsonView(Views.ClientsAndServicesIdName.class)
     public String getVal () {
         return this.name;
     }
@@ -64,17 +66,12 @@ public class Internet extends Datetime {
             this.speed = 0;
     }
 
-    /*
     @JsonIgnore
-    @OneToMany(mappedBy = "internet")
+    @OneToMany(mappedBy = "internet", cascade={CascadeType.PERSIST})
     private Set<Client> clients;
 
-    public Set<Client> getClient() {
-        return clients;
+    @PreRemove
+    private void preRemove() {
+        clients.forEach( client -> client.setInternet(null));
     }
-
-    public void setClient(Set<Client> clients) {
-        this.clients = clients;
-    }
-    */
 }

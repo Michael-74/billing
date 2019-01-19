@@ -57,7 +57,6 @@ public class InternetController extends AdminController {
 
     @PostMapping({"v1/internet/search"})
     @ResponseBody
-    @CacheEvict(value="schedule", allEntries=true)
     public Iterable<Internet> search(@RequestBody HashMap<String, Object> preset) {
 
 
