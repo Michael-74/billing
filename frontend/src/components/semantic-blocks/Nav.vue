@@ -7,9 +7,9 @@
             <i class="fas fa-coffee fa-xs"></i>
             <li class="nav__li" v-for="page in pages">
                 <div class="nav__two"></div>
-                <router-link :to='{path: page.link}' tag="a" class="nav__a" exact active-class="nav__a_active">
-                    <font-awesome-icon class="nav__icon" :icon='page.icon'></font-awesome-icon>
-                    {{page.name}}
+                <router-link :to='{path: page.path}' tag="a" class="nav__a" exact active-class="nav__a_active">
+                    <font-awesome-icon class="nav__icon" :icon='page.meta.icon'></font-awesome-icon>
+                    {{page.meta.name}}
                     <!--
                     <ul class="nav__second">
                         <li class="nav__li-second">

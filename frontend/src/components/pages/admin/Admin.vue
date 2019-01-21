@@ -1,7 +1,7 @@
 <template>
     <div class="container container_admin" ref="container">
         <div class="nav_wrapper" ref="nav">
-            <app-nav :pages="adminPages"></app-nav>
+            <app-nav :pages="getRoutes"></app-nav>
         </div>
         <div class="background-nav"></div>
         <div class="main_wrapper" ref="body">
@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import Header from '../../semantic-blocks/Header.vue'
 import Body from '../../semantic-blocks/Body.vue'
 import Nav from '../../semantic-blocks/Nav.vue'
@@ -27,62 +26,21 @@ export default {
     },
     data() {
         return {
-            adminPages: [
-                {
-                    name: 'Абоненты',
-                    link: '/admin/clients',
-                    icon: 'user'
-                },
-                {
-                    name: 'Интернет тарифы',
-                    link: '/admin/internet',
-                    icon: 'globe'
-                },
-                {
-                    name: 'Смотрешка',
-                    link: '/admin/tv',
-                    icon: 'tv'
-                },
-                {
-                    name: 'Оборудование',
-                    link: '/admin/rent',
-                    icon: 'cog'
-                },
-                /*
-                {
-                    name: 'Услуги',
-                    link: '/admin/service',
-                    icon: 'briefcase'
-                },
-                */
-                {
-                    name: 'Финансы',
-                    link: '/admin/wallet',
-                    icon: 'wallet'
-                },
-                {
-                    name: 'Логи',
-                    link: '/admin/logs',
-                    icon: 'clock'
-                },
-                {
-                    name: 'Рассылка',
-                    link: '/admin/mail',
-                    icon: 'envelope'
-                },
-                {
-                    name: 'Настройка',
-                    link: '/admin/settings',
-                    icon: 'toggle-on'
-                }
-            ],
+
         }
     },
     mounted() {
 
     },
     computed: {
-
+        getRoutes () {
+            const routes = this.$router.options.routes.filter(item => {
+                if(item.path === "/admin") {
+                    return item;
+                }
+            });
+            return routes.length !== 0 ? routes[0].children : [];
+        }
     },
     watch: {
 

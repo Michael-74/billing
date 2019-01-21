@@ -68,55 +68,57 @@ const router = new Router({
                     path: 'clients',
                     component: Clients,
                     name: 'Clients',
-                    meta: {isRequiresAuth: true, name: "Абоненты"}
+                    meta: {isRequiresAuth: true, name: "Абоненты", icon: 'user'}
                 },
                 {
                     path: 'internet',
                     component: Internet,
                     name: 'Internet',
-                    meta: {isRequiresAuth: true, name: "Интернет тарифы"}
+                    meta: {isRequiresAuth: true, name: "Интернет тарифы", icon: 'globe'}
                 },
                 {
                     path: 'tv',
                     component: Tv,
                     name: 'Tv',
-                    meta: {isRequiresAuth: true, name: "Смотрешка"}
+                    meta: {isRequiresAuth: true, name: "Смотрешка", icon: 'tv'}
                 },
                 {
                     path: 'rent',
                     component: Rent,
                     name: 'Rent',
-                    meta: {isRequiresAuth: true, name: "Аренда оборудования"}
+                    meta: {isRequiresAuth: true, name: "Аренда оборудования", icon: 'cog'}
                 },
                 {
                     path: 'logs',
                     component: Logs,
                     name: 'Logs',
-                    meta: {isRequiresAuth: true, name: "Логи"}
+                    meta: {isRequiresAuth: true, name: "Логи", icon: 'clock'}
                 },
                 {
                     path: 'mail',
                     component: Mail,
                     name: 'Mail',
-                    meta: {isRequiresAuth: true, name: "Рассылка"}
+                    meta: {isRequiresAuth: true, name: "Рассылка", icon: 'envelope'}
                 },
+                /*
                 {
                     path: 'service',
                     component: Service,
                     name: 'Service',
-                    meta: {isRequiresAuth: true, name: "Услуги"}
+                    meta: {isRequiresAuth: true, name: "Услуги", icon: 'briefcase'}
                 },
+                */
                 {
                     path: 'settings',
                     component: Settings,
                     name: 'Settings',
-                    meta: {isRequiresAuth: true, name: "Настройки"}
+                    meta: {isRequiresAuth: true, name: "Настройки", icon: 'toggle-on'}
                 },
                 {
                     path: 'wallet',
                     component: Wallet,
                     name: 'Wallet',
-                    meta: {isRequiresAuth: true, name: "Финансы"}
+                    meta: {isRequiresAuth: true, name: "Финансы", icon: 'wallet'}
                 }
             ]
         }
