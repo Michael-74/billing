@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import {getActionTime, getDatetimeFormat, getTypeWriteOffDatetime, getTypeWriteOffName} from './helpersTask'
 
@@ -122,7 +123,6 @@ export function parseServicesForId(obj, item) {
     }
 }
 
-import { mapGetters } from 'vuex';
 export function showPresets(items) {
     Vue.prototype.$modal.show({
             components:{
@@ -398,3 +398,7 @@ export function showSelectedTasks() {
     );
 }
 
+
+export function formatPrice (price) {
+    return price.toFixed(2);
+}

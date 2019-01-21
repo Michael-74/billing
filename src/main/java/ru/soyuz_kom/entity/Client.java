@@ -7,9 +7,11 @@ import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 import ru.soyuz_kom.entity.view.Views;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -35,7 +37,8 @@ public class Client extends Datetime implements Serializable {
     private String login;
 
     @Column(name = "balance")
-    private Integer balance;
+    @Digits(integer=10, fraction=2)
+    private BigDecimal balance;
 
     @Column(name = "contract")
     @NotNull
@@ -115,5 +118,7 @@ public class Client extends Datetime implements Serializable {
             this.isStatus = false;
         if (this.isPromisedPay == null)
             this.isPromisedPay = false;
+        if (this.balance == null)
+            this.balance = BigDecimal.valueOf(0);
     }
 }
