@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import {getActionTime, getDatetimeFormat, getTypeWriteOffDatetime, getTypeWriteOffName} from './helpersTask'
 
@@ -122,7 +123,6 @@ export function parseServicesForId(obj, item) {
     }
 }
 
-import { mapGetters } from 'vuex';
 export function showPresets(items) {
     Vue.prototype.$modal.show({
             components:{
@@ -193,6 +193,9 @@ export function showTasks() {
                 }
             },
             methods: {
+                formatPriceLocal(price) {
+                    return formatPrice(price);
+                },
                 getActionTime(task) {
                     return getActionTime(task);
                 },
@@ -243,7 +246,7 @@ export function showTasks() {
                                 <tr class="modal__tr" v-for="(task, index) in getTasks">
                                     <td class="items__td">{{task.id}}</td>
                                     <td class="items__td" @click="selectTask(task)">{{task.name}}</td>
-                                    <td class="items__td" @click="selectTask(task)">{{task.price}}</td>
+                                    <td class="items__td" @click="selectTask(task)">{{ formatPriceLocal(task.price) }}</td>
                                     <td class="items__td" @click="selectTask(task)">
                                         {{getTypeWriteOffName(task.typeWriteOff)}}
                                     </td>
@@ -274,7 +277,7 @@ export function showTasks() {
                                         </span>
                                     </td>                                   
                                     <td class="items__td" @click="selectTask(task)">
-                                        {{task.priceInstallments}}
+                                        {{ formatPriceLocal(task.priceInstallments) }}
                                     </td>
                                     <td class="items__td">
                                         <font-awesome-icon class="items__icon" icon="cog" @click="selectEditTask(task)"></font-awesome-icon>
@@ -398,3 +401,7 @@ export function showSelectedTasks() {
     );
 }
 
+
+export function formatPrice (price) {
+    return price.toFixed(2);
+}

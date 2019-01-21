@@ -74,7 +74,7 @@ import Select from '../semantic-blocks/forms/Select'
 import TypeWriteOff from '../logic-blocks/TypeWriteOff'
 import ActionTime from '../semantic-blocks/forms/ActionTime'
 
-import { parseObj, clearFields, showTasks, showSelectedTasks } from '../../util/helpers'
+import { parseObj, clearFields, showTasks, showSelectedTasks, formatPrice } from '../../util/helpers'
 import { input, select, selectMultiple, checkbox, datepicker, inputDifference, actionTime, checkbox2 } from '../../util/fields'
 
 export default {
@@ -113,6 +113,9 @@ export default {
         }
     },
     methods: {
+        formatPriceLocal (price) {
+            return formatPrice(price);
+        },
         clearBlockTask: function () {
             for(let item in this.task) {
                 switch(item){

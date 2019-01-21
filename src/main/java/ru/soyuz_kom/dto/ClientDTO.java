@@ -10,6 +10,7 @@ import ru.soyuz_kom.entity.Tv;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 import ru.soyuz_kom.entity.view.Views;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class ClientDTO {
     public Integer id;
     public String fio;
     public String login;
-    public Integer balance;
+    public BigDecimal balance;
     public String contract;
     public String ip;
     public String address;

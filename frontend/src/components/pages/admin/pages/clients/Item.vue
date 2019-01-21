@@ -34,7 +34,7 @@
                             <td class="items__td">{{ item.id }}</td>
                             <td class="items__td">{{ item.login }}</td>
                             <td class="items__td">{{ item.ip }}</td>
-                            <td class="items__td">{{ item.balance }}</td>
+                            <td class="items__td">{{ formatPriceLocal(item.balance) }}</td>
                             <td class="items__td">{{ item.lastPriceDate }}</td>
                             <td class="items__td">{{ item.lastPrice }}</td>
                             <td class="items__td">{{ item.contract }}</td>
@@ -141,6 +141,7 @@
 import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { deleteSendClient } from "../../../../../util/ws";
+import { formatPrice } from "../../../../../util/helpers";
 
 export default {
     components: {
@@ -167,6 +168,9 @@ export default {
         ]),
     },
     methods: {
+        formatPriceLocal (price) {
+            return formatPrice(price);
+        },
         searchNameForId(nameGetter, id){
             const name = this[nameGetter].filter(item => {
                 if(item.id === id){

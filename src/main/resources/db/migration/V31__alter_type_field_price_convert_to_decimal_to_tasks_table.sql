@@ -1,0 +1,3 @@
+ALTER TABLE tasks
+    MODIFY price DECIMAL(10,2) NOT NULL DEFAULT 0,
+    MODIFY price_installments DECIMAL(10,2) NOT NULL DEFAULT 0;

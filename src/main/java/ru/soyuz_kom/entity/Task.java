@@ -10,9 +10,11 @@ import org.hibernate.annotations.ColumnDefault;
 import ru.soyuz_kom.entity.enums.TypeWriteOffEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -31,7 +33,8 @@ public class Task extends Datetime {
     private String name;
 
     @Column(name = "price")
-    private Integer price;
+    @Digits(integer=10, fraction=2)
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type_write_off", columnDefinition="ENUM('onetime','daily','monthly')", nullable = false)
@@ -39,7 +42,6 @@ public class Task extends Datetime {
 
     @Column(name = "datetime")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    //@Size(min=2, max=50)
     @NotNull
     private Date datetime;
 
@@ -65,7 +67,8 @@ public class Task extends Datetime {
     private Boolean isInstallments = false;
 
     @Column(name = "price_installments")
-    private String priceInstallments;
+    @Digits(integer=10, fraction=2)
+    private BigDecimal priceInstallments;
 
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnore
@@ -82,9 +85,9 @@ public class Task extends Datetime {
     @PrePersist
     void preInsert() {
         if (this.price == null)
-            this.price = 0;
+            this.price = BigDecimal.valueOf(0);
         if (this.priceInstallments == null)
-            this.priceInstallments = "0";
+            this.priceInstallments = BigDecimal.valueOf(0);
         if (this.dayInMonth == null || this.dayInMonth == 0)
             this.dayInMonth = 0;
     }
