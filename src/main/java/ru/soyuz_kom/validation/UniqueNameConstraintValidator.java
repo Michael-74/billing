@@ -20,24 +20,22 @@ public class UniqueNameConstraintValidator implements ConstraintValidator<Unique
 
     @Override
     public boolean isValid(Tv tv, ConstraintValidatorContext ctx) {
-        ctx.disableDefaultConstraintViolation();
 
-        if(false) {
-            System.out.println("2222");
+        Optional<Tv> tvR;
+        try {
+            tvR = tvRepository.findByName(tv.getName());
+        } catch (NullPointerException ex){
             return true;
         }
-        Optional<Tv> tvR = tvRepository.findByName("Тест11");
         if (tvR
                 .map(p -> p.getId())
                 .filter(id -> !id.equals(tv.getId())).isPresent()) {
             ctx.disableDefaultConstraintViolation();
             ctx.buildConstraintViolationWithTemplate(
-                    "{value.negative}")
+                    "Значение существует")
                     .addPropertyNode("name").addConstraintViolation();
-            System.out.println("GGGG");
             return false;
         }
-        System.out.println("11111");
         return true;
     }
 }

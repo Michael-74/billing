@@ -11,7 +11,7 @@ import javax.validation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueName {
 
-    String message() default "value.negative";
+    String message() default "Значение существует";
 
     Class<?>[] groups() default {};
 
