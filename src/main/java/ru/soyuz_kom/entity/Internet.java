@@ -8,6 +8,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ru.soyuz_kom.entity.view.Views;
+import ru.soyuz_kom.validator.UniqueName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "internets")
+@UniqueName
 @ToString(of = {"id", "name"})
 @EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor

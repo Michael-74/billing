@@ -1,17 +1,18 @@
 package ru.soyuz_kom.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.soyuz_kom.entity.Tv;
-import ru.soyuz_kom.repository.TvRepository;
+import ru.soyuz_kom.entity.Rent;
+import ru.soyuz_kom.repository.RentRepository;
 import ru.soyuz_kom.validator.UniqueName;
 
-import javax.validation.*;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
-public class UniqueNameConstraintValidator implements ConstraintValidator<UniqueName, Tv> {
+public class UniqueNameRentConstraintValidator implements ConstraintValidator<UniqueName, Rent> {
 
     @Autowired
-    private TvRepository tvRepository;
+    private RentRepository rentRepository;
 
     @Override
     public void initialize(UniqueName uniqueName) {
@@ -19,17 +20,17 @@ public class UniqueNameConstraintValidator implements ConstraintValidator<Unique
     }
 
     @Override
-    public boolean isValid(Tv tv, ConstraintValidatorContext ctx) {
+    public boolean isValid(Rent rent, ConstraintValidatorContext ctx) {
 
-        Optional<Tv> tvR;
+        Optional<Rent> tvR;
         try {
-            tvR = tvRepository.findByName(tv.getName());
+            tvR = rentRepository.findByName(rent.getName());
         } catch (NullPointerException ex){
             return true;
         }
         if (tvR
                 .map(p -> p.getId())
-                .filter(id -> !id.equals(tv.getId())).isPresent()) {
+                .filter(id -> !id.equals(rent.getId())).isPresent()) {
             ctx.disableDefaultConstraintViolation();
             ctx.buildConstraintViolationWithTemplate(
                     "Значение существует")

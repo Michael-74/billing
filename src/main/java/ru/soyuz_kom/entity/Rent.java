@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.view.Views;
+import ru.soyuz_kom.validator.UniqueName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "rents")
+@UniqueName
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Rent extends Datetime {
 

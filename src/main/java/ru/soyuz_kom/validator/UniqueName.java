@@ -1,12 +1,14 @@
 package ru.soyuz_kom.validator;
 
-import ru.soyuz_kom.validation.UniqueNameConstraintValidator;
+import ru.soyuz_kom.validation.UniqueNameTvConstraintValidator;
+import ru.soyuz_kom.validation.UniqueNameInternetConstraintValidator;
+import ru.soyuz_kom.validation.UniqueNameRentConstraintValidator;
 
 import java.lang.annotation.*;
 import javax.validation.*;
 
 @Documented
-@Constraint(validatedBy = UniqueNameConstraintValidator.class)
+@Constraint(validatedBy = {UniqueNameTvConstraintValidator.class, UniqueNameRentConstraintValidator.class, UniqueNameInternetConstraintValidator.class})
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueName {

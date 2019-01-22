@@ -21,4 +21,6 @@ public interface InternetRepository extends CrudRepository<Internet, Integer>, J
     List<Internet> findAll();
 
     Optional<Internet> findById(Integer id);
+
+    Optional<Internet> findByName(String name);
 }
