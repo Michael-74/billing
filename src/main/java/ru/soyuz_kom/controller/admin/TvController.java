@@ -14,6 +14,7 @@ import ru.soyuz_kom.helper.CriteriaHelper;
 import ru.soyuz_kom.repository.TvRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -39,6 +40,7 @@ public class TvController extends AdminController {
 
     @PostMapping(value = {"v1/tv/store"})
     @ResponseBody
+    @Transactional
     public ResponseEntity store(@Valid @RequestBody Tv tv, Errors errors) {
         System.out.println("v1/tv/store");
         HashMap error = new HashMap<>();

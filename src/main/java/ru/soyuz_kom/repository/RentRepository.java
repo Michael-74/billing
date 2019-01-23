@@ -18,4 +18,6 @@ public interface RentRepository extends CrudRepository<Rent, Integer>, JpaSpecif
     List<Rent> findAll(Specification<Rent> spec);
 
     Optional<Rent> findById(Integer id);
+
+    Optional<Rent> findByName(String name);
 }

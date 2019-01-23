@@ -1,10 +1,11 @@
 package ru.soyuz_kom.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
-import ru.soyuz_kom.entity.view.Views;
+import ru.soyuz_kom.validator.UniqueContractClient;
+import ru.soyuz_kom.validator.UniqueIpClient;
+import ru.soyuz_kom.validator.UniqueLoginClient;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -16,6 +17,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "clients")
+@UniqueLoginClient("login")
+@UniqueContractClient
+@UniqueIpClient
 @Getter
 @Setter
 @NoArgsConstructor

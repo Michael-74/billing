@@ -18,4 +18,6 @@ public interface TvRepository extends CrudRepository<Tv, Integer>, JpaSpecificat
     List<Tv> findAll(Specification<Tv> spec);
 
     Optional<Tv> findById(Integer id);
+
+    Optional<Tv> findByName(String name);
 }
