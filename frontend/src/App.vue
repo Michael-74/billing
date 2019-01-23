@@ -15,7 +15,7 @@ export default {
     name: 'app',
     data() {
         return {
-            msg: 'Современное приложение!'
+            msg: 'Союз-ком'
         }
     }
 }
