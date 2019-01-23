@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Client;
@@ -69,6 +70,7 @@ public class ClientController extends AdminController {
     }
     */
     @PostMapping(value = {"v1/client/create"})
+    @Transactional
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
         System.out.println("v1/client/create");
