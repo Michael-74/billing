@@ -70,7 +70,7 @@ public class Task extends Datetime {
     @Digits(integer=10, fraction=2)
     private BigDecimal priceInstallments;
 
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Rent> rents;
 
@@ -82,7 +82,7 @@ public class Task extends Datetime {
         this.rents = rents;
     }
 
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Tv> tvs;
 
@@ -94,7 +94,7 @@ public class Task extends Datetime {
         this.tvs = tvs;
     }
 
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Internet> internets;
 

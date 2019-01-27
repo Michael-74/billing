@@ -57,6 +57,18 @@ public class Rent extends Datetime {
         this.tasks = tasks;
     }
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "rents", fetch = FetchType.EAGER)
+    private Set<Client> clients;
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
+    }
+
     @PrePersist
     void preInsert() {
         if (this.isStatus == null)

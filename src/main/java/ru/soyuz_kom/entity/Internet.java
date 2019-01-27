@@ -53,7 +53,7 @@ public class Internet extends Datetime {
     private Set<Task> tasks;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "internet", cascade={CascadeType.PERSIST})
+    @OneToMany(mappedBy = "internet", fetch = FetchType.EAGER, cascade={CascadeType.PERSIST})
     private Set<Client> clients;
 
     public Set<Task> getTasks() {

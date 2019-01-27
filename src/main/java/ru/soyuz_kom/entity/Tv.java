@@ -53,7 +53,7 @@ public class Tv extends Datetime {
     }
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "tvs")
+    @ManyToMany(mappedBy = "tvs", fetch = FetchType.EAGER)
     private Set<Client> clients;
 
     public Set<Client> getClients() {
