@@ -82,6 +82,30 @@ public class Task extends Datetime {
         this.rents = rents;
     }
 
+    @ManyToMany(mappedBy = "tasks")
+    @JsonIgnore
+    private Set<Tv> tvs;
+
+    public Set<Tv> getTvs() {
+        return tvs;
+    }
+
+    public void setTvs(Set<Tv> tvs) {
+        this.tvs = tvs;
+    }
+
+    @ManyToMany(mappedBy = "tasks")
+    @JsonIgnore
+    private Set<Internet> internets;
+
+    public Set<Internet> getInternets() {
+        return internets;
+    }
+
+    public void setInternets(Set<Internet> internets) {
+        this.internets = internets;
+    }
+
     @PrePersist
     void preInsert() {
         if (this.price == null)

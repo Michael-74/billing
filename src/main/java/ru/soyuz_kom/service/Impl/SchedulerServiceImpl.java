@@ -2,7 +2,10 @@ package ru.soyuz_kom.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Task;
+import ru.soyuz_kom.entity.Tv;
 import ru.soyuz_kom.repository.TaskRepository;
 import ru.soyuz_kom.service.SchedulerService;
 
@@ -22,6 +25,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Transactional
     public void checkTasks() throws ParseException {
         List<Task> tasks = taskRepository.findAll();
 
@@ -42,6 +46,20 @@ public class SchedulerServiceImpl implements SchedulerService {
                 case monthly:
                     if(FORMAT_TIME.format(currentDate).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(currentDate, task.getDayInMonth())){
                         System.out.println("monthly");
+                        System.out.println("monthly cur: " + task.getTvs().size());
+
+                        if(task.getTvs().size() != 0) {
+                            System.out.println("getTvs");
+                            for(Tv tv: task.getTvs()) {
+                                System.out.println("TV: " + tv);
+                                if(tv.getClients().size() != 0) {
+                                    System.out.println("getClients");
+                                    for(Client client: tv.getClients()) {
+                                        System.out.println("client = " + client.getLogin());
+                                    }
+                                }
+                            }
+                        }
                     }
                     break;
             }
