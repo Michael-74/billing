@@ -6,7 +6,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import ru.soyuz_kom.entity.Task;
 import ru.soyuz_kom.repository.TaskRepository;
+import ru.soyuz_kom.service.Impl.SchedulerServiceImpl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,39 +21,11 @@ import java.util.List;
 public class Scheduling {
 
     @Autowired
-    private TaskRepository taskRepository;
+    SchedulerServiceImpl schedulerService;
 
     @Scheduled(fixedRate = 1000)
-    public void scheduler() throws InterruptedException {
+    public void scheduler() throws InterruptedException, ParseException {
 
-        List<Task> tasks = taskRepository.findAll();
-
-        Date currentDate = new Date();
-        SimpleDateFormat formatDatetime = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
-        SimpleDateFormat formatDayOfWeek = new SimpleDateFormat("dd");
-
-        for(Task task:  tasks) {
-            switch (task.getTypeWriteOff()) {
-                case onetime:
-                    if(formatDatetime.format(currentDate).equals(formatDatetime.format(task.getDatetime()))){
-                        System.out.println("onetime OK");
-                    }
-                    break;
-                case daily:
-                    if(formatTime.format(currentDate).equals(formatTime.format(task.getDatetime()))){
-                        System.out.println("daily");
-                    }
-                    break;
-                case monthly:
-                    System.out.println("cur " + formatDayOfWeek.format(currentDate));
-                    System.out.println("day " + task.getDayInMonth());
-                    //System.out.println("day eq " + formatDayOfWeek.format(currentDate) == (task.getDayInMonth());
-                    if(formatTime.format(currentDate).equals(formatTime.format(task.getDatetime())) && (Integer.parseInt(formatDayOfWeek.format(currentDate)) == task.getDayInMonth())){
-                        System.out.println("monthly");
-                    }
-                    break;
-            }
-        }
+        schedulerService.checkTasks();
     }
 }
