@@ -63,7 +63,7 @@ public class Client extends Datetime {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "id_internet", referencedColumnName = "id")
     private Internet internet;
 

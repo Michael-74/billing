@@ -175,6 +175,7 @@ public class ClientController extends AdminController {
 
     @MessageMapping("/deleteClient")
     @SendTo("/client/deleteClient")
+    @Transactional
     public Integer delete(Integer clientId) {
         System.out.println("delete client " + clientId);
         clientRepository.deleteById(clientId);
