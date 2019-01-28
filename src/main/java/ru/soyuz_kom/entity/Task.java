@@ -11,9 +11,7 @@ import ru.soyuz_kom.entity.enums.TypeWriteOffEnum;
 import ru.soyuz_kom.validator.ValidDayAndMonthStart;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -51,12 +49,14 @@ public class Task extends Datetime {
     private Integer dayInMonth = 0;
 
     @Column(name = "day_start")
+    @Max(31)
     private Integer dayStart;
 
     @Column(name = "month_start")
     private Integer monthStart;
 
     @Column(name = "day_end")
+    @Max(31)
     private Integer dayEnd;
 
     @Column(name = "month_end")
