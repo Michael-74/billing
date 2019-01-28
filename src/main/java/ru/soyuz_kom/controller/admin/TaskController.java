@@ -2,8 +2,10 @@ package ru.soyuz_kom.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Task;
@@ -38,6 +40,7 @@ public class TaskController extends AdminController {
     @PostMapping({"v1/task/store"})
     @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
+    @Transactional
     public ResponseEntity store(@Valid @RequestBody Task task, Errors errors) {
         System.out.println("v1/task/store: " + task);
         HashMap error = new HashMap<>();
@@ -57,6 +60,7 @@ public class TaskController extends AdminController {
     @DeleteMapping({"v1/task/delete/{id}"})
     @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
+    @Transactional
     public Boolean delete(@PathVariable Integer id) {
         System.out.println("delete task " + id);
         taskRepository.deleteById(id);

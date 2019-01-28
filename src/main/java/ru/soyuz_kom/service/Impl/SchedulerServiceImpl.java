@@ -12,8 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import static java.util.Calendar.MONTH;
 
 @Service
+@Transactional
 public class SchedulerServiceImpl implements SchedulerService {
 
     public static final SimpleDateFormat FORMAT_DATETIME = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -29,9 +33,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         Date currentDate = new Date();
 
-        for(Task task:  tasks) {
-
-
+        for(Task task: tasks) {
 
             switch (task.getTypeWriteOff()) {
                 case onetime:
@@ -48,7 +50,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                     if(FORMAT_TIME.format(currentDate).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(currentDate, task.getDayInMonth())){
                         System.out.println("monthly");
 
-                        this.checkInternetTasks(task);
+                        this.checkInternetTasks(task, currentDate);
                         this.checkTvTasks(task);
                         this.checkRentTasks(task);
                     }
@@ -57,7 +59,10 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
-    public void checkInternetTasks(Task task) {
+    public void checkInternetTasks(Task task, Date currentDate) {
+        if(task.getInternets().size() == 0) {
+            System.out.println("getInternets() null");
+        }
         if(task.getInternets().size() != 0) {
             System.out.println("getInternets");
             for(Internet internet: task.getInternets()) {
@@ -66,10 +71,40 @@ public class SchedulerServiceImpl implements SchedulerService {
                     System.out.println("getClients");
                     for(Client client: internet.getClients()) {
                         System.out.println("client = " + client.getLogin());
+
+                        //if(task.getDayStart() == null && task.)
+                        //currentDate.getDay();
+                        Integer diffMonth = diffMonth(currentDate, client.getCreatedAt());
+
+                        if(checkOrConvertToIntMin(task.getDayStart()) <= currentDate.getDay() && currentDate.getDay() <= checkOrConvertToIntMax(task.getDayStart())) {
+                            System.out.println("YES " + currentDate.getDay());
+                        }
+
                     }
                 }
             }
         }
+    }
+
+    public static Integer checkOrConvertToIntMin(Integer data) {
+        return data == null ? 0 : data;
+    }
+
+    public static Integer checkOrConvertToIntMax(Integer data) {
+        return data == null ? 99 : data;
+    }
+
+    /**
+     * Разница дат в месяцах
+     * @param currentDate
+     * @param clientCreatedDate
+     * @return
+     */
+    public Integer diffMonth(Date currentDate, Date clientCreatedDate) {
+        Calendar curDate = getCalendar(currentDate);
+        Calendar clientCreated = getCalendar(clientCreatedDate);
+
+        return (curDate.get(MONTH) - clientCreated.get(MONTH))+1;
     }
 
     public void checkTvTasks(Task task) {
@@ -102,6 +137,12 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    public static Calendar getCalendar(Date date) {
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        cal.setTime(date);
+        return cal;
+    }
+
     /**
      * Сравниваем даты
      * @param currentDate - дата и время
@@ -127,8 +168,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         String date = FORMAT_DATETIME.format(currentDate);
         Date convertedDate = FORMAT_DATETIME.parse(date);
-        Calendar c = Calendar.getInstance();
-        c.setTime(convertedDate);
+        //Calendar c = Calendar.getInstance();
+        //c.setTime(convertedDate);
+        Calendar c = getCalendar(convertedDate);
 
         return c.getMaximum(Calendar.DAY_OF_MONTH);
     }
