@@ -40,7 +40,6 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientServiceImpl clientService;
 
-    //@JsonView(Views.ClientsAndServicesIdName.class)
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
         return clientService.getClientsAndListsAllServices();
@@ -90,7 +89,7 @@ public class ClientController extends AdminController {
         // Имитируем запрос websocket
         this.template.convertAndSend("/client/changeClient", addClient);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(addClient, HttpStatus.OK);
     }
 
     /* TODO: заменили имитацией запроса выше. Отключено на время разбора валидации сокетов
@@ -159,23 +158,17 @@ public class ClientController extends AdminController {
         }
     }
 
-
-    //@MessageMapping("/addCashClient")
-    //@SendTo("/client/addCashClient")
     @PostMapping(value = {"v1/client/{client}/add-cash"})
     @Transactional
     public ResponseEntity addCash(@PathVariable Client client, @RequestBody HashMap<String, Object> data) {
-
-        System.out.println("addCash client " + client);
-        System.out.println("addCash cash " + data.get("cash"));
         String value = (String) data.get("cash");
         BigDecimal money = new BigDecimal(value.replaceAll(",", "."));
-        clientService.addCash(client, money);
+        Client addedCashClient = clientService.addCash(client, money);
 
         // Имитируем запрос websocket
-        this.template.convertAndSend("/client/addCashClient", money);
+        //this.template.convertAndSend("/client/addCashClient", addedCashClient);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(addedCashClient, HttpStatus.OK);
     }
 
     @MessageMapping("/deleteClient")

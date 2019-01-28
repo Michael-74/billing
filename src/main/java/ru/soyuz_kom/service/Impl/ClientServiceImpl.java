@@ -1,6 +1,7 @@
 package ru.soyuz_kom.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.dto.ClientDTO;
 import ru.soyuz_kom.dto.InternetDTO;
@@ -21,6 +22,9 @@ import java.util.Map;
 
 @Service
 public class ClientServiceImpl implements ClientService {
+
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -65,6 +69,10 @@ public class ClientServiceImpl implements ClientService {
 
         cash = cash.add(client.getBalance());
         client.setBalance(cash);
+
+        // Имитируем запрос websocket
+        this.template.convertAndSend("/client/addCashClient", client);
+
         return clientRepository.save(client);
     }
 }

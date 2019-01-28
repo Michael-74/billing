@@ -44,8 +44,13 @@ export default {
         });
 
         addCashClientSocket(data => {
-            console.log("Добавили денег", data);
-        })
+            this.$store.commit('pushClients', data);
+            this.$notify({
+                group: 'notify',
+                type: 'success ',
+                text: 'Сумма успешно изменена'
+            });
+        });
 
         deleteClient(data => {
             this.$store.commit('deleteClient', data);

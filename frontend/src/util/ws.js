@@ -21,7 +21,7 @@ export function connect() {
             delClientId.forEach(handler => handler(JSON.parse(message.body)));
         });
         stompClient.subscribe('/client/addCashClient', function (message) {
-            console.log('add-cash-parse: ', JSON.parse(message.body));
+            //console.log('add-cash-parse: ', JSON.parse(message.body));
             cashClientId.forEach(handler => handler(JSON.parse(message.body)));
         });
     });
@@ -50,11 +50,9 @@ export function sendClient(client) {
     stompClient.send("/app/changeClient", {}, JSON.stringify(client));
 }
 export function sendAddCashClient(cash) {
-    console.log("sendAddCashClient", cash);
     stompClient.send("/app/addCashClient", {}, JSON.stringify(cash));
 }
 
 export function deleteSendClient(id) {
-    console.log("deleteSendClient", id);
     stompClient.send("/app/deleteClient", {}, JSON.stringify(parseInt(id)));
 }
