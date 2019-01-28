@@ -29,9 +29,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         Date currentDate = new Date();
 
-        for(Task task:  tasks) {
-
-
+        for(Task task: tasks) {
 
             switch (task.getTypeWriteOff()) {
                 case onetime:

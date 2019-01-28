@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import ru.soyuz_kom.entity.enums.TypeWriteOffEnum;
+import ru.soyuz_kom.validator.ValidDayAndMonthStart;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
+@ValidDayAndMonthStart
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Task extends Datetime {
 
