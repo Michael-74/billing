@@ -30,10 +30,13 @@ public class SchedulerServiceImpl implements SchedulerService {
         Date currentDate = new Date();
 
         for(Task task:  tasks) {
+
+
+
             switch (task.getTypeWriteOff()) {
                 case onetime:
                     if(FORMAT_DATETIME.format(currentDate).equals(FORMAT_DATETIME.format(task.getDatetime()))){
-                        System.out.println("onetime OK");
+                        System.out.println("onetime");
                     }
                     break;
                 case daily:
@@ -44,48 +47,57 @@ public class SchedulerServiceImpl implements SchedulerService {
                 case monthly:
                     if(FORMAT_TIME.format(currentDate).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(currentDate, task.getDayInMonth())){
                         System.out.println("monthly");
-                        //System.out.println("monthly cur: " + task.getTvs().size());
 
-                        if(task.getInternets().size() != 0) {
-                            System.out.println("getInternets");
-                            for(Internet internet: task.getInternets()) {
-                                System.out.println("Internet: " + internet);
-                                if(internet.getClients().size() != 0) {
-                                    System.out.println("getClients");
-                                    for(Client client: internet.getClients()) {
-                                        System.out.println("client = " + client.getLogin());
-                                    }
-                                }
-                            }
-                        }
-
-                        if(task.getTvs().size() != 0) {
-                            System.out.println("getTvs");
-                            for(Tv tv: task.getTvs()) {
-                                System.out.println("TV: " + tv);
-                                if(tv.getClients().size() != 0) {
-                                    System.out.println("getClients");
-                                    for(Client client: tv.getClients()) {
-                                        System.out.println("client = " + client.getLogin());
-                                    }
-                                }
-                            }
-                        }
-
-                        if(task.getRents().size() != 0) {
-                            System.out.println("getRents");
-                            for(Rent rent: task.getRents()) {
-                                System.out.println("Rent: " + rent);
-                                if(rent.getClients().size() != 0) {
-                                    System.out.println("getClients");
-                                    for(Client client: rent.getClients()) {
-                                        System.out.println("client = " + client.getLogin());
-                                    }
-                                }
-                            }
-                        }
+                        this.checkInternetTasks(task);
+                        this.checkTvTasks(task);
+                        this.checkRentTasks(task);
                     }
                     break;
+            }
+        }
+    }
+
+    public void checkInternetTasks(Task task) {
+        if(task.getInternets().size() != 0) {
+            System.out.println("getInternets");
+            for(Internet internet: task.getInternets()) {
+                System.out.println("Internet: " + internet);
+                if(internet.getClients().size() != 0) {
+                    System.out.println("getClients");
+                    for(Client client: internet.getClients()) {
+                        System.out.println("client = " + client.getLogin());
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkTvTasks(Task task) {
+        if(task.getTvs().size() != 0) {
+            System.out.println("getTvs");
+            for(Tv tv: task.getTvs()) {
+                System.out.println("TV: " + tv);
+                if(tv.getClients().size() != 0) {
+                    System.out.println("getClients");
+                    for(Client client: tv.getClients()) {
+                        System.out.println("client = " + client.getLogin());
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkRentTasks(Task task) {
+        if(task.getRents().size() != 0) {
+            System.out.println("getRents");
+            for(Rent rent: task.getRents()) {
+                System.out.println("Rent: " + rent);
+                if(rent.getClients().size() != 0) {
+                    System.out.println("getClients");
+                    for(Client client: rent.getClients()) {
+                        System.out.println("client = " + client.getLogin());
+                    }
+                }
             }
         }
     }
