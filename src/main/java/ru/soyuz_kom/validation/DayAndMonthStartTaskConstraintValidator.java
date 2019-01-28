@@ -21,14 +21,19 @@ public class DayAndMonthStartTaskConstraintValidator implements ConstraintValida
     @Override
     public boolean isValid(Task task, ConstraintValidatorContext ctx) {
 
-        if(task.getDayStart() == null && task.getMonthStart() == null) {
-            ctx.disableDefaultConstraintViolation();
-            ctx.buildConstraintViolationWithTemplate(
-                    "начало: день и месяц не заполнены")
-                    .addPropertyNode("day_start").addConstraintViolation();
-            return false;
+        // Разрешаем все значения null (весь период действует)
+        if(task.getDayStart() == null && task.getMonthStart() == null && task.getDayEnd() == null && task.getMonthEnd() == null){
+            return true;
         }
 
-        return true;
+        // разрешаем если только заполнены день и месяц какого-то одного интервала
+        if((task.getDayStart() != null && task.getMonthStart() != null) || (task.getDayEnd() != null && task.getMonthEnd() != null)) {
+            return true;
+        }
+        ctx.disableDefaultConstraintViolation();
+        ctx.buildConstraintViolationWithTemplate(
+                "день и месяц не заполнены")
+                .addPropertyNode("dayStart").addConstraintViolation();
+        return false;
     }
 }
