@@ -1,6 +1,7 @@
 package ru.soyuz_kom.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.dto.ClientDTO;
 import ru.soyuz_kom.dto.InternetDTO;
@@ -13,6 +14,7 @@ import ru.soyuz_kom.repository.RentRepository;
 import ru.soyuz_kom.repository.TvRepository;
 import ru.soyuz_kom.service.ClientService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,9 @@ import java.util.Map;
 
 @Service
 public class ClientServiceImpl implements ClientService {
+
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -58,5 +63,16 @@ public class ClientServiceImpl implements ClientService {
         System.out.println("Map: " + map);
 
         return map;
+    }
+
+    public Client addCash(Client client, BigDecimal cash) {
+
+        cash = cash.add(client.getBalance());
+        client.setBalance(cash);
+
+        // Имитируем запрос websocket
+        this.template.convertAndSend("/client/addCashClient", client);
+
+        return clientRepository.save(client);
     }
 }

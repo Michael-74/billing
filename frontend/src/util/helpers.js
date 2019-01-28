@@ -2,6 +2,8 @@ import Vue from "vue";
 import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import {getActionTime, getDatetimeFormat, getTypeWriteOffDatetime, getTypeWriteOffName} from './helpersTask'
+import { input } from '../util/fields'
+import Input from '../components/semantic-blocks/forms/Input'
 
 /**
  * Подготавливаем новый массив содержащий название поля и значение
@@ -401,6 +403,50 @@ export function showSelectedTasks() {
     );
 }
 
+
+export function addCashModal(item) {
+    Vue.prototype.$modal.show({
+            components:{
+                AppInput: Input,
+                FontAwesomeIcon
+            },
+            computed: {
+                getInput() {
+                    return input(null, 'Сумма', 'login', true, false, null, null)
+                },
+                getItem() {
+                    return item;
+                }
+            },
+            methods: {
+                addCash() {
+                    this.$store.dispatch("addCashClientAsync", {id: item.id, cash: this.getInput.val});
+                    this.$emit('close');
+                }
+            },
+            template: `
+                    <div class="modal__block">
+                        <div class="modal__close" @click="$emit('close')">
+                            <font-awesome-icon class="modal__icon" icon="times-circle"></font-awesome-icon>
+                            Закрыть
+                        </div>
+                        <h3 class="modal__h3">Добавть на счет {{ getItem.login }}</h3>
+                        <div class="modal__input modal__input_width250">
+                            <app-input :data="getInput"></app-input>
+                        </div>
+                        <div class="modal__input">
+                            <button @click="addCash" class="button button__add">Внести</button>
+                        </div>
+                    </div>
+                  `
+        },{
+        },{
+            height: '200px',
+            width: '400px',
+            clickToClose: false
+        }
+    );
+}
 
 export function formatPrice (price) {
     return price.toFixed(2);

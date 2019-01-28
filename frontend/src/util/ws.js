@@ -4,6 +4,7 @@ import { Stomp } from '@stomp/stompjs'
 var stompClient = null;
 const clients = [];
 const delClientId = [];
+const cashClientId = [];
 
 export function connect() {
     const socket = new SockJS('/websocket');
@@ -19,6 +20,10 @@ export function connect() {
             //console.log('delete-parse: ', JSON.parse(message.body));
             delClientId.forEach(handler => handler(JSON.parse(message.body)));
         });
+        stompClient.subscribe('/client/addCashClient', function (message) {
+            //console.log('add-cash-parse: ', JSON.parse(message.body));
+            cashClientId.forEach(handler => handler(JSON.parse(message.body)));
+        });
     });
 }
 
@@ -28,6 +33,10 @@ export function addClient(client) {
 
 export function deleteClient(clientId) {
     delClientId.push(clientId);
+}
+
+export function addCashClientSocket(cash) {
+    cashClientId.push(cash);
 }
 
 export function disconnect() {
@@ -40,8 +49,10 @@ export function disconnect() {
 export function sendClient(client) {
     stompClient.send("/app/changeClient", {}, JSON.stringify(client));
 }
+export function sendAddCashClient(cash) {
+    stompClient.send("/app/addCashClient", {}, JSON.stringify(cash));
+}
 
 export function deleteSendClient(id) {
-    console.log("deleteSendClient", id);
     stompClient.send("/app/deleteClient", {}, JSON.stringify(parseInt(id)));
 }

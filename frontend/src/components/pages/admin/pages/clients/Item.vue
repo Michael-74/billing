@@ -138,10 +138,11 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import { deleteSendClient } from "../../../../../util/ws";
-import { formatPrice } from "../../../../../util/helpers";
+import { deleteSendClient, sendAddCashClient } from "../../../../../util/ws";
+import { formatPrice, addCashModal } from "../../../../../util/helpers";
 
 export default {
     components: {
@@ -151,6 +152,10 @@ export default {
     data () {
         return {
             optionsArray: [
+                {
+                    name: 'Добавить на счет',
+                    slug: 'addCash'
+                },
                 {
                     name: 'Отредактировать',
                     slug: 'edit'
@@ -194,6 +199,9 @@ export default {
         },
         optionClicked (event) {
             switch(event.option.slug) {
+                case "addCash":
+                    addCashModal(event.item)
+                    break;
                 case "edit":
                     this.editClient(event.item);
                     break;

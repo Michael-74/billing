@@ -25,6 +25,7 @@ import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
@@ -39,7 +40,6 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientServiceImpl clientService;
 
-    //@JsonView(Views.ClientsAndServicesIdName.class)
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
         return clientService.getClientsAndListsAllServices();
@@ -89,7 +89,7 @@ public class ClientController extends AdminController {
         // Имитируем запрос websocket
         this.template.convertAndSend("/client/changeClient", addClient);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(addClient, HttpStatus.OK);
     }
 
     /* TODO: заменили имитацией запроса выше. Отключено на время разбора валидации сокетов
@@ -155,6 +155,21 @@ public class ClientController extends AdminController {
             return new HashSet<Client>((Collection<? extends Client>) clients);
         } else {
             return clientRepository.findAll();
+        }
+    }
+
+    @PostMapping(value = {"v1/client/{client}/add-cash"})
+    @Transactional
+    public ResponseEntity addCash(@PathVariable Client client, @RequestBody HashMap<String, Object> data) {
+
+        try {
+            String value = (String) data.get("cash");
+            BigDecimal money = new BigDecimal(value.replaceAll(",", "."));
+            Client addedCashClient = clientService.addCash(client, money);
+
+            return new ResponseEntity<>(addedCashClient, HttpStatus.OK);
+        } catch (NumberFormatException ex) {
+            return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
