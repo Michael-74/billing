@@ -200,7 +200,6 @@ export default {
         optionClicked (event) {
             switch(event.option.slug) {
                 case "addCash":
-                    console.log("addCash optionClicked", event.item)
                     addCashModal(event.item)
                     break;
                 case "edit":

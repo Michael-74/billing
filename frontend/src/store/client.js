@@ -52,11 +52,19 @@ export default {
                 })
                 .then(response => {
                     if (response.status === 200) {
-
+                        Vue.prototype.$notify({
+                            group: 'notify',
+                            type: 'success',
+                            text: 'Баланс успешно изменен'
+                        });
                     }
                 })
                 .catch(error => {
-
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'error',
+                        text: 'Проверьте введенные данные'
+                    });
                 });
 
 

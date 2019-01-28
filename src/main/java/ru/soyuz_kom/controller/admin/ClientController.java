@@ -161,14 +161,16 @@ public class ClientController extends AdminController {
     @PostMapping(value = {"v1/client/{client}/add-cash"})
     @Transactional
     public ResponseEntity addCash(@PathVariable Client client, @RequestBody HashMap<String, Object> data) {
-        String value = (String) data.get("cash");
-        BigDecimal money = new BigDecimal(value.replaceAll(",", "."));
-        Client addedCashClient = clientService.addCash(client, money);
 
-        // Имитируем запрос websocket
-        //this.template.convertAndSend("/client/addCashClient", addedCashClient);
+        try {
+            String value = (String) data.get("cash");
+            BigDecimal money = new BigDecimal(value.replaceAll(",", "."));
+            Client addedCashClient = clientService.addCash(client, money);
 
-        return new ResponseEntity<>(addedCashClient, HttpStatus.OK);
+            return new ResponseEntity<>(addedCashClient, HttpStatus.OK);
+        } catch (NumberFormatException ex) {
+            return new ResponseEntity(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
     @MessageMapping("/deleteClient")
