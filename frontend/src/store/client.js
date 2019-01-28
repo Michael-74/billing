@@ -41,6 +41,26 @@ export default {
         }
     },
     actions: {
+        addCashClientAsync ({commit, state, rootGetters }, payload) {
+            axios
+                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash}, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + rootGetters.getUser.token
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+
+                    }
+                })
+                .catch(error => {
+
+                });
+
+
+        },
         addClientAsync ({commit, state, rootGetters }, payload) {
             //sendClient(data); // websocket
 

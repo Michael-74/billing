@@ -1,6 +1,5 @@
 <template>
     <div class="items">
-        <div @click="addCashClient">Добавить</div>
         <div class="items__clients-wrapper">
             <div class="items__clients">
                 <table class="items__table">
@@ -143,7 +142,7 @@ import axios from "axios";
 import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { deleteSendClient, sendAddCashClient } from "../../../../../util/ws";
-import { formatPrice } from "../../../../../util/helpers";
+import { formatPrice, addCashModal } from "../../../../../util/helpers";
 
 export default {
     components: {
@@ -153,6 +152,10 @@ export default {
     data () {
         return {
             optionsArray: [
+                {
+                    name: 'Добавить на счет',
+                    slug: 'addCash'
+                },
                 {
                     name: 'Отредактировать',
                     slug: 'edit'
@@ -170,28 +173,6 @@ export default {
         ]),
     },
     methods: {
-        addCashClient () {
-            //sendAddCashClient("200");
-
-            axios
-                .post('/admin/v1/client/484/add-cash', {cash: "500"}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        //'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-
-                    }
-                })
-                .catch(error => {
-
-                });
-
-
-        },
         formatPriceLocal (price) {
             return formatPrice(price);
         },
@@ -218,6 +199,10 @@ export default {
         },
         optionClicked (event) {
             switch(event.option.slug) {
+                case "addCash":
+                    console.log("addCash optionClicked", event.item)
+                    addCashModal(event.item)
+                    break;
                 case "edit":
                     this.editClient(event.item);
                     break;
