@@ -13,6 +13,7 @@ import ru.soyuz_kom.repository.RentRepository;
 import ru.soyuz_kom.repository.TvRepository;
 import ru.soyuz_kom.service.ClientService;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,5 +59,12 @@ public class ClientServiceImpl implements ClientService {
         System.out.println("Map: " + map);
 
         return map;
+    }
+
+    public Client addCash(Client client, BigDecimal cash) {
+
+        cash = cash.add(client.getBalance());
+        client.setBalance(cash);
+        return clientRepository.save(client);
     }
 }

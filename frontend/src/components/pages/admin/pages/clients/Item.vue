@@ -1,5 +1,6 @@
 <template>
     <div class="items">
+        <div @click="addCashClient">Добавить</div>
         <div class="items__clients-wrapper">
             <div class="items__clients">
                 <table class="items__table">
@@ -138,9 +139,10 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-import { deleteSendClient } from "../../../../../util/ws";
+import { deleteSendClient, sendAddCashClient } from "../../../../../util/ws";
 import { formatPrice } from "../../../../../util/helpers";
 
 export default {
@@ -168,6 +170,28 @@ export default {
         ]),
     },
     methods: {
+        addCashClient () {
+            //sendAddCashClient("200");
+
+            axios
+                .post('/admin/v1/client/484/add-cash', {cash: "500"}, {
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        //'Authorization': 'Bearer ' + rootGetters.getUser.token
+                    }
+                })
+                .then(response => {
+                    if (response.status === 200) {
+
+                    }
+                })
+                .catch(error => {
+
+                });
+
+
+        },
         formatPriceLocal (price) {
             return formatPrice(price);
         },

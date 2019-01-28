@@ -25,6 +25,7 @@ import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
@@ -156,6 +157,25 @@ public class ClientController extends AdminController {
         } else {
             return clientRepository.findAll();
         }
+    }
+
+
+    //@MessageMapping("/addCashClient")
+    //@SendTo("/client/addCashClient")
+    @PostMapping(value = {"v1/client/{client}/add-cash"})
+    @Transactional
+    public ResponseEntity addCash(@PathVariable Client client, @RequestBody HashMap<String, Object> data) {
+
+        System.out.println("addCash client " + client);
+        System.out.println("addCash cash " + data.get("cash"));
+        String value = (String) data.get("cash");
+        BigDecimal money = new BigDecimal(value.replaceAll(",", "."));
+        clientService.addCash(client, money);
+
+        // Имитируем запрос websocket
+        this.template.convertAndSend("/client/addCashClient", money);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @MessageMapping("/deleteClient")

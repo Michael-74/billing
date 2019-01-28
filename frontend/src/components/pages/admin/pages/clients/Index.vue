@@ -17,8 +17,7 @@ import FilterClients from './Filter'
 import CreateClients from './Create'
 import ItemClients from './Item'
 import axios from "axios";
-import { addClient } from "../../../../../util/ws";
-import { deleteClient } from "../../../../../util/ws";
+import { addClient, deleteClient, addCashClientSocket } from "../../../../../util/ws";
 
 export default {
     components: {
@@ -43,6 +42,10 @@ export default {
         addClient(data => {
             this.$store.commit('pushClients', data);
         });
+
+        addCashClientSocket(data => {
+            console.log("Добавили денег", data);
+        })
 
         deleteClient(data => {
             this.$store.commit('deleteClient', data);
