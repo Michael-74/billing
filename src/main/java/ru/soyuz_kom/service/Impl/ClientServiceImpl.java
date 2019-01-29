@@ -3,6 +3,7 @@ package ru.soyuz_kom.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.soyuz_kom.dto.ClientDTO;
 import ru.soyuz_kom.dto.InternetDTO;
 import ru.soyuz_kom.dto.RentDTO;
@@ -65,6 +66,7 @@ public class ClientServiceImpl implements ClientService {
         return map;
     }
 
+    @Transactional
     public Client addCash(Client client, BigDecimal cash) {
 
         cash = cash.add(client.getBalance());

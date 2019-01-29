@@ -70,6 +70,7 @@ public class ClientController extends AdminController {
     }
     */
     @PostMapping(value = {"v1/client/create"})
+    @CacheEvict(value="schedule", allEntries=true)
     @Transactional
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
