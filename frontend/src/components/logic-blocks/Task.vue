@@ -25,7 +25,7 @@
                     <app-type-write-off :data="task.typeWriteOffRent"></app-type-write-off>
                 </div>
                 <div class="task__save-button task__field_float">
-                    <button class="button button__add filters__header-input_inline" @click="saveTask">
+                    <button class="button button__add" @click="saveTask">
                         {{ isFormCreate ? 'Добавить задачу' : 'Редактировать задачу'}}
                     </button>
                 </div>
@@ -248,6 +248,15 @@ export default {
     }
     .task_margin-top {
         margin-top: -30px;
+    }
+
+    @media screen and (max-width: 1600px) {
+        .task_margin-top {
+            margin-top: 20px;
+        }
+        .task__select_padding {
+            margin: 0 20px 0 0;
+        }
     }
 
     .filters__button-less-block {

@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableCaching
+@EnableScheduling
 @EnableJpaRepositories(basePackages = {"ru.soyuz_kom.repository"})
 @EntityScan("ru.soyuz_kom.entity")
 public class Application {

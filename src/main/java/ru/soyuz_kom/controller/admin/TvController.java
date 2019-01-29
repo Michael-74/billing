@@ -39,6 +39,7 @@ public class TvController extends AdminController {
     }
 
     @PostMapping(value = {"v1/tv/store"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     @Transactional
     public ResponseEntity store(@Valid @RequestBody Tv tv, Errors errors) {
@@ -99,6 +100,7 @@ public class TvController extends AdminController {
     }
 
     @DeleteMapping({"v1/tv/delete/{id}"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     public Boolean delete(@PathVariable Integer id) {
         System.out.println("delete tv " + id);

@@ -1,11 +1,8 @@
 package ru.soyuz_kom.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
-import org.hibernate.validator.constraints.UniqueElements;
-import ru.soyuz_kom.entity.view.Views;
 import ru.soyuz_kom.validator.UniqueName;
 
 import javax.persistence.*;

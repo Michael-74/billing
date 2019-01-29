@@ -9,11 +9,12 @@ import ru.soyuz_kom.service.SchedulerService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static java.util.Calendar.MONTH;
 
 @Service
+@Transactional
 public class SchedulerServiceImpl implements SchedulerService {
 
     public static final SimpleDateFormat FORMAT_DATETIME = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -23,83 +24,123 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private ClientServiceImpl clientService;
+
 
     public void checkTasks() throws ParseException {
         List<Task> tasks = taskRepository.findAll();
+        Date curDate = new Date();
+        System.out.println("curDate: " + curDate);
 
-        Date currentDate = new Date();
-
-        for(Task task:  tasks) {
-
-
+        for(Task task: tasks) {
 
             switch (task.getTypeWriteOff()) {
                 case onetime:
-                    if(FORMAT_DATETIME.format(currentDate).equals(FORMAT_DATETIME.format(task.getDatetime()))){
-                        System.out.println("onetime");
+                    if(FORMAT_DATETIME.format(curDate).equals(FORMAT_DATETIME.format(task.getDatetime()))){
+                        buildServices(task);
                     }
                     break;
                 case daily:
-                    if(FORMAT_TIME.format(currentDate).equals(FORMAT_TIME.format(task.getDatetime()))){
-                        System.out.println("daily");
+                    if(FORMAT_TIME.format(curDate).equals(FORMAT_TIME.format(task.getDatetime()))){
+                        buildServices(task);
                     }
                     break;
                 case monthly:
-                    if(FORMAT_TIME.format(currentDate).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(currentDate, task.getDayInMonth())){
-                        System.out.println("monthly");
-
-                        this.checkInternetTasks(task);
-                        this.checkTvTasks(task);
-                        this.checkRentTasks(task);
+                    //System.out.println("monthly");
+                    if(FORMAT_TIME.format(curDate).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(curDate, task.getDayInMonth())){
+                        //System.out.println("monthly task");
+                        buildServices(task);
                     }
                     break;
             }
         }
     }
 
+    public void buildServices(Task task) {
+        this.checkInternetTasks(task);
+        this.checkTvTasks(task);
+        this.checkRentTasks(task);
+    }
+
     public void checkInternetTasks(Task task) {
+        System.out.println("checkInternetTasks: " + task);
         if(task.getInternets().size() != 0) {
-            System.out.println("getInternets");
             for(Internet internet: task.getInternets()) {
-                System.out.println("Internet: " + internet);
-                if(internet.getClients().size() != 0) {
-                    System.out.println("getClients");
-                    for(Client client: internet.getClients()) {
-                        System.out.println("client = " + client.getLogin());
-                    }
-                }
+                makeServices(task, internet.getClients());
             }
         }
     }
 
     public void checkTvTasks(Task task) {
         if(task.getTvs().size() != 0) {
-            System.out.println("getTvs");
             for(Tv tv: task.getTvs()) {
-                System.out.println("TV: " + tv);
-                if(tv.getClients().size() != 0) {
-                    System.out.println("getClients");
-                    for(Client client: tv.getClients()) {
-                        System.out.println("client = " + client.getLogin());
-                    }
-                }
+                makeServices(task, tv.getClients());
             }
         }
     }
 
     public void checkRentTasks(Task task) {
         if(task.getRents().size() != 0) {
-            System.out.println("getRents");
             for(Rent rent: task.getRents()) {
-                System.out.println("Rent: " + rent);
-                if(rent.getClients().size() != 0) {
-                    System.out.println("getClients");
-                    for(Client client: rent.getClients()) {
-                        System.out.println("client = " + client.getLogin());
-                    }
+                makeServices(task, rent.getClients());
+            }
+        }
+    }
+
+    private void makeServices(Task task, Set<Client> clients) {
+        Date curDate = new Date();
+        System.out.println("makeServices curDate: " + curDate);
+        System.out.println("makeServices task: " + task);
+        System.out.println("makeServices clients: " + clients);
+        if(clients.size() != 0) {
+            for(Client client: clients) {
+                boolean isActiveTime = isCheckActiveTime(curDate, client, task);
+                System.out.println("Date: " + curDate);
+                System.out.println("isActiveTime: " + isActiveTime);
+                if(isActiveTime){
+                    clientService.addCash(client, task.getPrice());
                 }
             }
         }
+    }
+
+    public boolean isCheckActiveTime(Date currentDate, Client client, Task task) {
+        Integer diffMonth = diffMonth(currentDate, client.getCreatedAt());
+        if(checkOrConvertToIntMin(task.getDayStart()) <= currentDate.getDate() && currentDate.getDate() <= checkOrConvertToIntMax(task.getDayEnd()) &&
+                checkOrConvertToIntMin(task.getMonthStart()) <= diffMonth && diffMonth <= checkOrConvertToIntMax(task.getMonthEnd())
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static Integer checkOrConvertToIntMin(Integer data) {
+        return data == null ? 1 : data;
+    }
+
+    public static Integer checkOrConvertToIntMax(Integer data) {
+        return data == null ? 99 : data;
+    }
+
+    /**
+     * Разница дат в месяцах
+     * @param currentDate
+     * @param clientCreatedDate
+     * @return
+     */
+    public Integer diffMonth(Date currentDate, Date clientCreatedDate) {
+        Calendar curDate = getCalendar(currentDate);
+        Calendar clientCreated = getCalendar(clientCreatedDate);
+
+        return (curDate.get(MONTH) - clientCreated.get(MONTH))+1;
+    }
+
+    public static Calendar getCalendar(Date date) {
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        cal.setTime(date);
+        return cal;
     }
 
     /**
@@ -127,8 +168,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         String date = FORMAT_DATETIME.format(currentDate);
         Date convertedDate = FORMAT_DATETIME.parse(date);
-        Calendar c = Calendar.getInstance();
-        c.setTime(convertedDate);
+        //Calendar c = Calendar.getInstance();
+        //c.setTime(convertedDate);
+        Calendar c = getCalendar(convertedDate);
 
         return c.getMaximum(Calendar.DAY_OF_MONTH);
     }

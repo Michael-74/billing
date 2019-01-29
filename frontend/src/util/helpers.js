@@ -33,12 +33,10 @@ export function checkErrors(obj, errors, options = {}) {
         for(let item in errors) {
 
             // Проверяем, что для сложных объектов есть совпадения
-            if(Object.keys(options).length !== 0 && Object.keys(options).indexOf(item) === 0){
+            if(Object.keys(options).length !== 0 && Object.keys(options).indexOf(item) !== -1){
                 obj[options[item]].isError = true;
                 obj[options[item]].errorText = errors[item];
             } else {
-                console.log("obj[item]", obj);
-                console.log("obj[item]", item);
                 obj[item].isError = true;
                 obj[item].errorText = errors[item];
             }

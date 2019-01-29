@@ -38,6 +38,7 @@ public class InternetController extends AdminController {
     }
 
     @PostMapping(value = {"v1/internet/store"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Internet internet, Errors errors) {
         System.out.println("v1/internet/store");
@@ -96,6 +97,7 @@ public class InternetController extends AdminController {
     }
 
     @DeleteMapping({"v1/internet/delete/{id}"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     public Boolean delete(@PathVariable Integer id) {
         System.out.println("delete internet " + id);

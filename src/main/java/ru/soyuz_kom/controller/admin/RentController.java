@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Rent;
@@ -45,6 +46,8 @@ public class RentController extends AdminController {
     }
 
     @PostMapping(value = {"v1/rent/store"}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @CacheEvict(value="schedule", allEntries=true)
+    @Transactional
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Rent rent, Errors errors) {
 
@@ -103,6 +106,7 @@ public class RentController extends AdminController {
     }
 
     @DeleteMapping({"v1/rent/delete/{id}"})
+    @CacheEvict(value="schedule", allEntries=true)
     @ResponseBody
     public Boolean delete(@PathVariable Integer id) {
         System.out.println("delete rent " + id);
