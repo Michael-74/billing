@@ -25,7 +25,7 @@
                     <app-type-write-off :data="task.typeWriteOffRent"></app-type-write-off>
                 </div>
                 <div class="task__save-button task__field_float">
-                    <button class="button button__add filters__header-input_inline" @click="saveTask">
+                    <button class="button button__add" @click="saveTask">
                         {{ isFormCreate ? 'Добавить задачу' : 'Редактировать задачу'}}
                     </button>
                 </div>
