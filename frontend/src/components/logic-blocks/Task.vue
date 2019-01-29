@@ -250,6 +250,15 @@ export default {
         margin-top: -30px;
     }
 
+    @media screen and (max-width: 1600px) {
+        .task_margin-top {
+            margin-top: 20px;
+        }
+        .task__select_padding {
+            margin: 0 20px 0 0;
+        }
+    }
+
     .filters__button-less-block {
         position: relative;
         display: inline-block;
