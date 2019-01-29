@@ -20,7 +20,6 @@ public class SchedulerServiceImpl implements SchedulerService {
     public static final SimpleDateFormat FORMAT_DATETIME = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public static final SimpleDateFormat FORMAT_TIME = new SimpleDateFormat("HH:mm");
     public static final SimpleDateFormat FORMAT_DAY_OF_MONTH = new SimpleDateFormat("dd");
-    public static final Date CURRENT_DATE = new Date();
 
     @Autowired
     private TaskRepository taskRepository;
@@ -31,23 +30,26 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     public void checkTasks() throws ParseException {
         List<Task> tasks = taskRepository.findAll();
-
+        Date curDate = new Date();
+        System.out.println("curDate: " + curDate);
 
         for(Task task: tasks) {
 
             switch (task.getTypeWriteOff()) {
                 case onetime:
-                    if(FORMAT_DATETIME.format(CURRENT_DATE).equals(FORMAT_DATETIME.format(task.getDatetime()))){
+                    if(FORMAT_DATETIME.format(curDate).equals(FORMAT_DATETIME.format(task.getDatetime()))){
                         buildServices(task);
                     }
                     break;
                 case daily:
-                    if(FORMAT_TIME.format(CURRENT_DATE).equals(FORMAT_TIME.format(task.getDatetime()))){
+                    if(FORMAT_TIME.format(curDate).equals(FORMAT_TIME.format(task.getDatetime()))){
                         buildServices(task);
                     }
                     break;
                 case monthly:
-                    if(FORMAT_TIME.format(CURRENT_DATE).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(CURRENT_DATE, task.getDayInMonth())){
+                    //System.out.println("monthly");
+                    if(FORMAT_TIME.format(curDate).equals(FORMAT_TIME.format(task.getDatetime())) && isCheckDate(curDate, task.getDayInMonth())){
+                        //System.out.println("monthly task");
                         buildServices(task);
                     }
                     break;
@@ -62,6 +64,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     public void checkInternetTasks(Task task) {
+        System.out.println("checkInternetTasks: " + task);
         if(task.getInternets().size() != 0) {
             for(Internet internet: task.getInternets()) {
                 makeServices(task, internet.getClients());
@@ -86,10 +89,15 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     private void makeServices(Task task, Set<Client> clients) {
+        Date curDate = new Date();
+        System.out.println("makeServices curDate: " + curDate);
+        System.out.println("makeServices task: " + task);
+        System.out.println("makeServices clients: " + clients);
         if(clients.size() != 0) {
             for(Client client: clients) {
-                boolean isActiveTime = isCheckActiveTime(CURRENT_DATE, client, task);
-
+                boolean isActiveTime = isCheckActiveTime(curDate, client, task);
+                System.out.println("Date: " + curDate);
+                System.out.println("isActiveTime: " + isActiveTime);
                 if(isActiveTime){
                     clientService.addCash(client, task.getPrice());
                 }
