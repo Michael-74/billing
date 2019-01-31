@@ -121,7 +121,7 @@ export default {
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'success ',
-                        text: 'Интернет тариф успешно удален'
+                        text: 'Настройки успешно удалены'
                     });
                     commit('deleteSmotreshka', payload.id);
                 })
@@ -129,7 +129,7 @@ export default {
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'error',
-                        text: 'Ошибка при удалении интернет тарифа'
+                        text: 'Ошибка при удалении настроек'
                     });
                 })
         }
