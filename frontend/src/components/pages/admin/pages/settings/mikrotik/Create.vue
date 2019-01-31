@@ -98,4 +98,7 @@ export default {
 .settings__create_width300 {
     width: 300px;
 }
+.settings__create_border-left{
+    border-left:2px solid #2b87db;
+}
 </style>
