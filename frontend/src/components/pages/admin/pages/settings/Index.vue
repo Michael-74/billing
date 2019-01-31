@@ -21,7 +21,7 @@ export default {
     components: {
         AppSmotreshka: Smotreshka,
         AppMikrotik: Mikrotik,
-        AppMikrotik: Sms,
+        AppSms: Sms,
     },
     data () {
         return {

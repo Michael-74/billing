@@ -48,7 +48,7 @@ export default {
         },
     },
     actions: {
-        addSmsAsync ({commit, state, rootGetters}, payload) {
+        addSmsesAsync ({commit, state, rootGetters}, payload) {
 
             axios
                 .post('/admin/v1/sms/store', payload.obj, {
@@ -105,7 +105,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    commit('setMikrotiks', response.data);
+                    commit('setSmses', response.data);
                 })
         },
         deleteSmsAsync ({commit, state, rootGetters}, payload) {

@@ -24,7 +24,7 @@ export default {
         }
     },
     created(){
-        this.$store.dispatch('getSmsAsync');
+        this.$store.dispatch('getSmsesAsync');
     },
     computed: {
         selectedItem: function() {

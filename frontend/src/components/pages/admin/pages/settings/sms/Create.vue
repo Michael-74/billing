@@ -1,13 +1,13 @@
 <template>
     <div class="settings__create settings__create_border-left">
-        <h2 class="create__package-h2">Настройки микротика</h2>
+        <h2 class="create__package-h2">Настройки смс</h2>
         <div class="create__input hide">
             <app-input :data="getClient.id"></app-input>
         </div>
         <div class="create__input settings__create_width300">
             <app-input :data="sms.host"></app-input>
         </div>
-        <div class="create__input settings__create_width300">
+        <div class="create__input">
             <app-input :data="sms.port"></app-input>
         </div>
         <div class="create__input">
@@ -83,7 +83,7 @@ export default {
                 items[this.sms[item].name] = this.sms[item].val;
             }
 
-            this.$store.dispatch('addSmsAsync', {items: this.sms, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
+            this.$store.dispatch('addSmsesAsync', {items: this.sms, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
