@@ -1,49 +1,43 @@
 package ru.soyuz_kom.controller.admin;
 
-import cz.jirutka.rsql.parser.RSQLParser;
-import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Internet;
-import ru.soyuz_kom.helper.CriteriaHelper;
-import ru.soyuz_kom.repository.InternetRepository;
-import ru.soyuz_kom.rsql.CustomRsqlVisitor;
+import ru.soyuz_kom.entity.Smotreshka;
+import ru.soyuz_kom.repository.SmotreshkaRepository;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
 public class SmotreshkaSettingController extends AdminController {
 
     @Autowired
-    private InternetRepository internetRepository;
+    private SmotreshkaRepository smotreshkaRepository;
 
     @GetMapping({"v1/smotreshka","v1/smotreshka/"})
-    public Iterable<Internet> index() {
-        Iterable<Internet> internets = internetRepository.findAll();
+    public Iterable<Smotreshka> index() {
+        Iterable<Smotreshka> smotreshkas = smotreshkaRepository.findAll();
 
-        return internets;
+        return smotreshkas;
     }
 
     @GetMapping({"v1/smotreshka/{id}"})
-    public Optional<Internet> show(@PathVariable Integer id) {
-        Optional<Internet> internet = internetRepository.findById(id);
+    public Optional<Smotreshka> show(@PathVariable Integer id) {
+        Optional<Smotreshka> smotreshka = smotreshkaRepository.findById(id);
 
-        return internet;
+        return smotreshka;
     }
 
     @PostMapping(value = {"v1/smotreshka/store"})
     @ResponseBody
-    public ResponseEntity store(@Valid @RequestBody Internet internet, Errors errors) {
-        System.out.println("v1/internet/store");
+    public ResponseEntity store(@Valid @RequestBody Smotreshka smotreshka, Errors errors) {
+        System.out.println("v1/smotreshka/store");
         HashMap error = new HashMap<>();
 
         if (errors.hasErrors()) {
@@ -54,15 +48,15 @@ public class SmotreshkaSettingController extends AdminController {
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        Internet addInternet = internetRepository.save(internet);
-        return new ResponseEntity<>(addInternet, HttpStatus.OK);
+        Smotreshka addSmotreshka = smotreshkaRepository.save(smotreshka);
+        return new ResponseEntity<>(addSmotreshka, HttpStatus.OK);
     }
 
     @DeleteMapping({"v1/smotreshka/delete/{id}"})
     @ResponseBody
     public Boolean delete(@PathVariable Integer id) {
         System.out.println("delete smotreshka " + id);
-        internetRepository.deleteById(id);
+        smotreshkaRepository.deleteById(id);
 
         return true;
     }

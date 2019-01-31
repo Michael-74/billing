@@ -11,8 +11,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
-@Table(name = "smotreshka")
-@UniqueName
+@Table(name = "smotreshkas")
 @ToString(of = {"id"})
 @EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
