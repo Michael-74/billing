@@ -8,6 +8,7 @@ import tv from './tv'
 import task from './task'
 import rent from './rent'
 import smotreshka from './smotreshka'
+import mikrotik from './mikrotik'
 import pack from './package'
 import error from './error'
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
         task,
         pack,
         smotreshka,
+        mikrotik,
         error
     }
 })
