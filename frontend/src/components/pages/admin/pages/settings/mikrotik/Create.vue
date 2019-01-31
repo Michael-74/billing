@@ -5,7 +5,7 @@
             <app-input :data="getClient.id"></app-input>
         </div>
         <div class="create__input settings__create_width300">
-            <app-input :data="mikrotik.url"></app-input>
+            <app-input :data="mikrotik.host"></app-input>
         </div>
         <div class="create__input">
             <app-input :data="mikrotik.login"></app-input>
@@ -45,7 +45,7 @@ export default {
             isFormCreate: true,
             mikrotik: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
-                url: input('Хост', 'Введите хост', 'url', true, false, null, null),
+                host: input('Хост', 'Введите хост', 'host', true, false, null, null),
                 login: input('Логин', 'Введите логин', 'login', true, false, null, null),
                 password: input('Пароль', 'Введите пароль', 'password', true, false, null, null),
                 isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),

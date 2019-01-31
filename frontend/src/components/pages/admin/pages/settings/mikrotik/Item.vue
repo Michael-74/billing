@@ -6,7 +6,7 @@
                     <thead class="items__thead">
                     <tr>
                         <th class="items__th">N</th>
-                        <th class="items__th">URL</th>
+                        <th class="items__th">Хост</th>
                         <th class="items__th">Логин</th>
                         <th class="items__th">Статус</th>
                         <th class="items__th">Дата создания</th>
