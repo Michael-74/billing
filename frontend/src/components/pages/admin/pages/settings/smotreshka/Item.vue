@@ -30,8 +30,8 @@
                             </td>
                             <td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>
                             <td class="items__td">
-                                <font-awesome-icon class="items__icon" icon="cog" @click="editInternet(item)"></font-awesome-icon>
-                                <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteInternet(item.id)"></font-awesome-icon>
+                                <font-awesome-icon class="items__icon" icon="cog" @click="editSmotreshka(item)"></font-awesome-icon>
+                                <font-awesome-icon class="items__icon" icon="times-circle" @click="deleteSmotreshka(item.id)"></font-awesome-icon>
                             </td>
                         </tr>
                     </tbody>
@@ -55,13 +55,11 @@ export default {
         }
     },
     methods: {
-        editInternet: function(item) {
-            //this.$store.commit("setInternet", item);
-            //this.$store.commit("setSelectedTasks", item.tasks);
+        editSmotreshka: function(item) {
+            this.$store.commit("setSmotreshka", item);
         },
-        deleteInternet: function(clientId){
-            //this.$store.dispatch("deleteInternetAsync", {id: clientId});
-            //deleteSendClient(clientId);
+        deleteSmotreshka: function(clientId){
+            this.$store.dispatch("deleteSmotreshkaAsync", {id: clientId});
         }
     }
 }

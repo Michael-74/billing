@@ -21,8 +21,8 @@ export default {
         editSmotreshka (state, payload) {
             state.smotreshkas.forEach((item, index) => {
                 if(item.id === payload.id) {
-                    for(let cur in state.smotreskas[index]) {
-                        state.smotreskas[index][cur] = payload[cur];
+                    for(let cur in state.smotreshkas[index]) {
+                        state.smotreshkas[index][cur] = payload[cur];
                     }
                 }
             });
@@ -43,7 +43,8 @@ export default {
             state.smotreshkas.splice(idx, 1);
         },
         setSmotreshka (state, payload) {
-            state.editSmotreshka = payload;
+            Vue.set(state, 'editSmotreshka', payload);
+            //state.editSmotreshka = payload;
         },
     },
     actions: {
@@ -66,7 +67,7 @@ export default {
                             Vue.prototype.$notify({
                                 group: 'notify',
                                 type: 'success ',
-                                text: 'Тариф успешно добавлен'
+                                text: 'Настройки добавлены'
                             });
                         } else {
                             //console.log("internet", this.internet)
@@ -74,7 +75,7 @@ export default {
                             Vue.prototype.$notify({
                                 group: 'notify',
                                 type: 'success ',
-                                text: 'Тариф успешно отредактирован'
+                                text: 'Настройки отредактированы'
                             });
                         }
                         payload.successFunction();
@@ -104,7 +105,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    commit('setSmotreskas', response.data);
+                    commit('setSmotreshkas', response.data);
                 })
         },
         deleteSmotreshkaAsync ({commit, state, rootGetters}, payload) {
@@ -135,10 +136,10 @@ export default {
     },
     getters: {
         getSmotreshkas: state => {
-            return state.internets;
+            return state.smotreshkas;
         },
         getEditSmotreshka (state) {
-            return state.editSmotreska;
+            return state.editSmotreshka;
         }
     }
 }

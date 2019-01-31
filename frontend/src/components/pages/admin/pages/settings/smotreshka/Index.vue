@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper__settings">
         <div class="wrapper__create">
-            <app-create :data="selectedItem"></app-create>
+            <app-create :editItem="selectedItem"></app-create>
         </div>
         <div class="wrapper__item">
             <app-item :data="getSmotreshkas"></app-item>
@@ -22,6 +22,9 @@ export default {
         return {
             editItem: null
         }
+    },
+    created(){
+        this.$store.dispatch('getSmotreshkasAsync');
     },
     computed: {
         selectedItem: function() {
