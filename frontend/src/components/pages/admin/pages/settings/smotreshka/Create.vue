@@ -1,6 +1,22 @@
 <template>
-    <div class="index">
-
+    <div class="settings__create settings__create_border-left">
+        <h2 class="create__package-h2">Настройки смотрешка</h2>
+        <div class="create__input hide">
+            <app-input :data="getClient.id"></app-input>
+        </div>
+        <div class="create__input settings__create_width300">
+            <app-input :data="smotreshka.url"></app-input>
+        </div>
+        <div class="create__input">
+            <app-input :data="smotreshka.login"></app-input>
+        </div>
+        <div class="create__input">
+            <app-input :data="smotreshka.password"></app-input>
+        </div>
+        <div class="settings__button_padding">
+            <button class="button button__add" @click="addItem">Сохранить</button>
+        </div>
+        <div class="clear"></div>
     </div>
 </template>
 
@@ -20,28 +36,52 @@ export default {
     props: ['editItem'],
     data () {
         return {
-            tv: {
+            smotreshka: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
-                name: input('Введите название', 'Введите название', 'name', true, false, null, null),
-                url: input('Введите название', 'Введите название', 'url', true, false, null, null),
-                login: input('Введите название', 'Введите название', 'login', true, false, null, null),
-                password: input('Введите название', 'Введите название', 'password', true, false, null, null),
+                url: input('URL', 'Введите url', 'url', true, false, null, null),
+                login: input('Логин', 'Введите логин', 'login', true, false, null, null),
+                password: input('Пароль', 'Введите пароль', 'password', true, false, null, null),
             }
         }
     },
     computed: {
-        ...mapGetters([
-            'getSelectedTasks'
-        ])
+        getClient () {
+            if(this.editItem) {
+                for (let item in this.smotreshka) {
+                    this.smotreshka[item].val = this.editItem[item];
+                }
+            }
+            return this.smotreshka
+        }
     },
     methods: {
+        addItem () {
+            const items = {};
+            //this.clearCreateForm();
+            for(let item in this.smotreshka) {
+                items[this.smotreshka[item].name] = this.smotreshka[item].val;
+            }
 
+            this.$store.dispatch('addSmotreshkaAsync', {items: this.smotreshka, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
+        },
+        clearCreateForm () {
+            this.$store.commit('clearErrors');
+            for(let item in this.internet) {
+                this.smotreshka[item].isError = false;
+                this.smotreshka[item].val = null;
+            }
+            console.log('clearCreateForm');
+        },
+        isCreateClose: function () {
+            this.clearCreateForm();
+            this.$store.commit('setSmotreshka', null);
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    .task__margin-top {
-        margin-top: 20px;
-    }
+.settings__create_width300 {
+    width: 300px;
+}
 </style>

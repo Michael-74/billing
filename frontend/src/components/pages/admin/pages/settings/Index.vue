@@ -1,6 +1,6 @@
 <template>
-    <div class="index">
-        <div class="clients__items">
+    <div class="settings">
+        <div class="settings__block">
             <app-smotreshka></app-smotreshka>
         </div>
     </div>
@@ -21,6 +21,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 </style>

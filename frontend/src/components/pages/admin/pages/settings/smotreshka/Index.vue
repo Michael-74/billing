@@ -1,20 +1,22 @@
 <template>
-    <div class="create">
-        <div class="clients__filters">
-            123
-            <app-create :editItem="selectedItem"></app-create>
+    <div class="wrapper__settings">
+        <div class="wrapper__create">
+            <app-create :data="selectedItem"></app-create>
+        </div>
+        <div class="wrapper__item">
+            <app-item :data="getSmotreshkas"></app-item>
         </div>
     </div>
 </template>
 
 <script>
 import Create from './Create'
-//import Items from './Item'
+import Items from './Item'
 
 export default {
     components: {
         AppCreate: Create,
-        //AppItem: Items
+        AppItem: Items
     },
     data () {
         return {
@@ -23,7 +25,10 @@ export default {
     },
     computed: {
         selectedItem: function() {
-            return this.editItem = this.$store.getters.getEditTv;
+            return this.$store.getters.getEditSmotreshka;
+        },
+        getSmotreshkas () {
+            return this.$store.getters.getSmotreshkas;
         }
     }
 }

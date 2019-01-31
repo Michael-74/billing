@@ -1,5 +1,5 @@
 <template>
-    <div class="container container_admin" :class="{container_settings:getRoute}" ref="container">
+    <div class="container container_admin" :class="{container_settings:getRouteSetting}" ref="container">
 
         <div class="nav_wrapper" ref="nav">
             <app-nav :pages="getRoutes"></app-nav>
@@ -42,7 +42,7 @@ export default {
             });
             return routes.length !== 0 ? routes[0].children : [];
         },
-        getRoute(){
+        getRouteSetting(){
             return this.$route.name === "Settings"
         }
     },
