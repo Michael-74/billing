@@ -13,7 +13,7 @@
         <div class="create__input">
             <app-input :data="smotreshka.password"></app-input>
         </div>
-        <div class="create__input">
+        <div class="create__input create__input_width-inherit">
             <app-checkbox :data="smotreshka.isStatus"></app-checkbox>
         </div>
         <div class="settings__button_padding">
