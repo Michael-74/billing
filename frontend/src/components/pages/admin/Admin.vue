@@ -1,5 +1,6 @@
 <template>
-    <div class="container container_admin" ref="container">
+    <div class="container container_admin" :class="{container_settings:getRouteSetting}" ref="container">
+
         <div class="nav_wrapper" ref="nav">
             <app-nav :pages="getRoutes"></app-nav>
         </div>
@@ -40,6 +41,9 @@ export default {
                 }
             });
             return routes.length !== 0 ? routes[0].children : [];
+        },
+        getRouteSetting(){
+            return this.$route.name === "Settings"
         }
     },
     watch: {
@@ -55,6 +59,9 @@ export default {
     .container {
         height: 100%;
         background: #ecf1f3;
+    }
+    .container_settings {
+        background: #fff;
     }
     .nav_wrapper {
         height: 100%;

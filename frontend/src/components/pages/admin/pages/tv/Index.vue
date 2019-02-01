@@ -13,35 +13,35 @@
 </template>
 
 <script>
-    import Filter from './Filter'
-    import Create from './Create'
-    import Items from './Item'
+import Filter from './Filter'
+import Create from './Create'
+import Items from './Item'
 
-    export default {
-        components: {
-            AppFilter: Filter,
-            AppCreate: Create,
-            AppItem: Items
+export default {
+    components: {
+        AppFilter: Filter,
+        AppCreate: Create,
+        AppItem: Items
+    },
+    data () {
+        return {
+            editItem: null
+        }
+    },
+    created() {
+        if(!this.$store.getters.getTvs.length) {
+            this.$store.dispatch('getTvsAsync');
+        }
+    },
+    computed: {
+        selectedItem: function() {
+            return this.editItem = this.$store.getters.getEditTv;
         },
-        data () {
-            return {
-                editItem: null
-            }
-        },
-        created() {
-            if(!this.$store.getters.getTvs.length) {
-                this.$store.dispatch('getTvsAsync');
-            }
-        },
-        computed: {
-            selectedItem: function() {
-                return this.editItem = this.$store.getters.getEditTv;
-            },
-            getTvs () {
-                return this.$store.getters.getTvs.slice().reverse();
-            }
+        getTvs () {
+            return this.$store.getters.getTvs.slice().reverse();
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
