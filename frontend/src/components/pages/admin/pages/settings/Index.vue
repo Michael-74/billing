@@ -7,6 +7,9 @@
             <app-mikrotik></app-mikrotik>
         </div><br><br>
         <div class="settings__block">
+            <app-email></app-email>
+        </div><br><br>
+        <div class="settings__block">
             <app-sms></app-sms>
         </div>
     </div>
@@ -16,12 +19,14 @@
 import Smotreshka from './smotreshka/Index'
 import Mikrotik from './mikrotik/Index'
 import Sms from './sms/Index'
+import Email from './email/Index'
 
 export default {
     components: {
         AppSmotreshka: Smotreshka,
         AppMikrotik: Mikrotik,
         AppSms: Sms,
+        AppEmail: Email,
     },
     data () {
         return {

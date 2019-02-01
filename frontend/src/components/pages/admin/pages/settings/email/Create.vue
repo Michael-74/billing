@@ -5,19 +5,22 @@
             <app-input :data="getClient.id"></app-input>
         </div>
         <div class="create__input settings__create_width300">
-            <app-input :data="sms.host"></app-input>
+            <app-input :data="email.host"></app-input>
         </div>
         <div class="create__input">
-            <app-input :data="sms.port"></app-input>
+            <app-input :data="email.port"></app-input>
         </div>
         <div class="create__input">
-            <app-input :data="sms.login"></app-input>
+            <app-select :data="email.typeEncryption"></app-select>
         </div>
         <div class="create__input">
-            <app-input :data="sms.password"></app-input>
+            <app-input :data="email.login"></app-input>
+        </div>
+        <div class="create__input">
+            <app-input :data="email.password"></app-input>
         </div>
         <div class="create__input create__input_width-inherit">
-            <app-checkbox :data="sms.isStatus"></app-checkbox>
+            <app-checkbox :data="email.isStatus"></app-checkbox>
         </div>
         <div class="settings__button_padding">
             <button v-if="isFormCreate" class="button button__add" @click="addItem">Сохранить</button>
@@ -31,25 +34,28 @@
 import { mapGetters } from 'vuex';
 import Input from '../../../../../semantic-blocks/forms/Input'
 import Checkbox from '../../../../../semantic-blocks/forms/Checkbox'
+import Select from '../../../../../semantic-blocks/forms/Select'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
-import { input, checkbox } from '../../../../../../util/fields'
+import { input, checkbox, select } from '../../../../../../util/fields'
 import { parseObj } from '../../../../../../util/helpers'
 
 export default {
     components: {
         AppInput: Input,
         AppCheckbox: Checkbox,
+        AppSelect: Select,
         FontAwesomeIcon
     },
     props: ['editItem'],
     data () {
         return {
             isFormCreate: true,
-            sms: {
+            email: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 host: input('Хост', 'Введите хост', 'host', true, false, null, null),
                 port: input('Порт', 'Введите порт', 'port', true, false, null, null),
+                typeEncryption: select('Тип шифрования', 'Не выбрано', 'typeEncryption', true, false, null, null, [{id:"ssl", val:"SSL"}, {id:"web", val:"web"}]),
                 login: input('Логин', 'Введите логин', 'login', true, false, null, null),
                 password: input('Пароль', 'Введите пароль', 'password', true, false, null, null),
                 isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
@@ -58,18 +64,18 @@ export default {
     },
     computed: {
         getData(){
-            return this.sms;
+            return this.email;
         },
         getClient () {
             var isFlagFormCreate = true;
             if(this.editItem) {
                 isFlagFormCreate = false;
-                for (let item in this.sms) {
-                    this.sms[item].val = this.editItem[item];
+                for (let item in this.email) {
+                    this.email[item].val = this.editItem[item];
                 }
             }
             this.changeForm(isFlagFormCreate);
-            return this.sms
+            return this.email
         }
     },
     methods: {
@@ -79,23 +85,23 @@ export default {
         addItem () {
             const items = {};
             //this.clearCreateForm();
-            for(let item in this.sms) {
-                items[this.sms[item].name] = this.sms[item].val;
+            for(let item in this.email) {
+                items[this.email[item].name] = this.email[item].val;
             }
 
-            this.$store.dispatch('addSmsesAsync', {items: this.sms, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
+            this.$store.dispatch('addEmailsAsync', {items: this.email, obj: items, isFormCreate: this.isFormCreate, successFunction: () => { this.isCreateClose(); }})
         },
         clearCreateForm () {
             this.$store.commit('clearErrors');
-            for(let item in this.sms) {
-                this.sms[item].isError = false;
-                this.sms[item].val = null;
+            for(let item in this.email) {
+                this.email[item].isError = false;
+                this.email[item].val = null;
             }
             console.log('clearCreateForm');
         },
         isCreateClose: function () {
             this.clearCreateForm();
-            this.$store.commit('setSms', null);
+            this.$store.commit('setEmail', null);
         }
     }
 }
