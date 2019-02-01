@@ -2,6 +2,7 @@ package ru.soyuz_kom.entity;
 
 import lombok.*;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
+import ru.soyuz_kom.entity.enums.TypeEncryptionEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -33,8 +34,8 @@ public class Email extends Datetime {
     private String login;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type_encription", columnDefinition="enum('ssl','web')")
-    private TypeEncriptionEnum typeEncription;
+    @Column(name = "type_encryption", columnDefinition="enum('ssl','web')")
+    private TypeEncryptionEnum typeEncryption;
 
     @NotNull
     @Column(name = "password")
