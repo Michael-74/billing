@@ -4,7 +4,7 @@
         <div class="create__input hide">
             <app-input :data="getClient.id"></app-input>
         </div>
-        <div class="create__input settings__create_width300">
+        <div class="create__input">
             <app-input :data="sms.host"></app-input>
         </div>
         <div class="create__input">
@@ -19,7 +19,7 @@
         <div class="create__input create__input_width-inherit">
             <app-checkbox :data="sms.isStatus"></app-checkbox>
         </div>
-        <div class="settings__button_padding">
+        <div class="settings__button_padding create__input create__input_width-inherit">
             <button v-if="isFormCreate" class="button button__add" @click="addItem">Сохранить</button>
             <button v-else class="button button__add" @click="addItem">Редактировать</button>
         </div>
