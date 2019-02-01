@@ -9,6 +9,7 @@
                         <th class="items__th">Хост</th>
                         <th class="items__th">Порт</th>
                         <th class="items__th">Логин</th>
+                        <th class="items__th">Тип шифрования</th>
                         <th class="items__th">Статус</th>
                         <th class="items__th">Дата создания</th>
                         <th class="items__th">Действие</th>

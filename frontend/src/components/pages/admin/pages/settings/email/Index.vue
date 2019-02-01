@@ -28,10 +28,10 @@ export default {
     },
     computed: {
         selectedItem: function() {
-            return this.$store.getters.getEditSms;
+            return this.$store.getters.getEditEmail;
         },
         getItems () {
-            return this.$store.getters.getSmses;
+            return this.$store.getters.getEmails;
         }
     }
 }

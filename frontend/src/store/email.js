@@ -71,7 +71,7 @@ export default {
                             });
                         } else {
                             //console.log("internet", this.internet)
-                            commit("editSms", response.data)
+                            commit("editEmail", response.data)
                             Vue.prototype.$notify({
                                 group: 'notify',
                                 type: 'success ',
