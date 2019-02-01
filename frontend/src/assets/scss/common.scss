@@ -214,3 +214,20 @@ $boxShadow: 10px 30px 70px 0px rgba(0,0,0,0.2);
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(215,227,239,1);
 }
+
+/* Settings */
+.settings__block {
+    background: #edfaff;
+    padding: 20px;
+    border-radius: 4px;
+}
+.settings__create {
+    margin-top: 0px;
+    background: #FFF;
+    border-radius: 4px;
+    box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.settings__button_padding {
+    padding: 22px 20px 0 0;
+}

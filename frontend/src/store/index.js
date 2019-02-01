@@ -7,6 +7,10 @@ import internet from './internet'
 import tv from './tv'
 import task from './task'
 import rent from './rent'
+import smotreshka from './smotreshka'
+import mikrotik from './mikrotik'
+import sms from './sms'
+import email from './email'
 import pack from './package'
 import error from './error'
 
@@ -23,6 +27,10 @@ export default new Vuex.Store({
         rent,
         task,
         pack,
+        smotreshka,
+        mikrotik,
+        sms,
+        email,
         error
     }
 })
