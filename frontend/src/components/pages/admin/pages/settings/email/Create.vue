@@ -1,6 +1,6 @@
 <template>
     <div class="settings__create settings__create_border-left">
-        <h2 class="create__package-h2">Настройки смс</h2>
+        <h2 class="create__package-h2">Настройки email</h2>
         <div class="create__input hide">
             <app-input :data="getClient.id"></app-input>
         </div>
