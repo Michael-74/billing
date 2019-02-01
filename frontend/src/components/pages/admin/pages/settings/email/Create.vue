@@ -17,7 +17,7 @@
             <app-input :data="email.login"></app-input>
         </div>
         <div class="create__input">
-            <app-input :data="email.password"></app-input>
+            <app-input :data="email.password" type="password"></app-input>
         </div>
         <div class="create__input create__input_width-inherit">
             <app-checkbox :data="email.isStatus"></app-checkbox>
@@ -112,6 +112,6 @@ export default {
     width: 300px;
 }
 .settings__create_border-left{
-    border-left:2px solid #8e2bdb;
+    border-left:2px solid #fc8f1b;
 }
 </style>

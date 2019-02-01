@@ -11,7 +11,7 @@
             <app-input :data="mikrotik.login"></app-input>
         </div>
         <div class="create__input">
-            <app-input :data="mikrotik.password"></app-input>
+            <app-input :data="mikrotik.password" type="password"></app-input>
         </div>
         <div class="create__input create__input_width-inherit">
             <app-checkbox :data="mikrotik.isStatus"></app-checkbox>

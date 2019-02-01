@@ -14,7 +14,7 @@
             <app-input :data="sms.login"></app-input>
         </div>
         <div class="create__input">
-            <app-input :data="sms.password"></app-input>
+            <app-input :data="sms.password" type="password"></app-input>
         </div>
         <div class="create__input create__input_width-inherit">
             <app-checkbox :data="sms.isStatus"></app-checkbox>
