@@ -1,7 +1,8 @@
 <template>
     <div class="nav">
         <div class="nav__logo">
-            <img class="nav__logo-img" src="../../assets/images/nav/logo_white.png" alt="logo">
+            <img v-if="!isNavMin" class="nav__logo-img" src="../../assets/images/nav/logo_white.png" alt="logo">
+            <div v-else class="nav__logo-text">СК</div>
         </div>
         <ul class="nav__ul">
             <i class="fas fa-coffee fa-xs"></i>
@@ -9,7 +10,9 @@
                 <div class="nav__two"></div>
                 <router-link :to='{path: page.path}' tag="a" class="nav__a" exact active-class="nav__a_active">
                     <font-awesome-icon class="nav__icon" :icon='page.meta.icon'></font-awesome-icon>
-                    {{page.meta.name}}
+                    <span class="nav__text" :class="{'nav__text_none': isNavMin}">
+                        {{page.meta.name}}
+                    </span>
                     <!--
                     <ul class="nav__second">
                         <li class="nav__li-second">
@@ -37,6 +40,7 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
     props: ['pages'],
@@ -47,6 +51,11 @@ export default {
         return {
 
         }
+    },
+    computed: {
+        ...mapGetters([
+            'isNavMin'
+        ]),
     }
 }
 </script>
@@ -67,6 +76,9 @@ export default {
         height: 70px;
         border-bottom: 1px solid #70abe0;
     }
+    .nav__logo-text {
+        padding: 28px 18px 0;
+    }
     .nav__logo-img {
         width: 120px;
         height: auto;
@@ -78,13 +90,11 @@ export default {
     .nav__li {
         /*position: relative;*/
     }
-    .nav__li .nav__a{
-        color: #FFF;
-    }
     .nav__a {
         /*position: relative;*/
+        color: #FFF;
         display: block;
-        padding: 14px 0 14px 30px;
+        padding: 14px 0 14px 20px;
         border-left: 2px solid #2b87db;
     }
     .nav__a:hover, .nav__a_active {
@@ -134,5 +144,8 @@ export default {
 
     .nav__li:hover .nav__two {
         /*display: block;*/
+    }
+    .nav__text_none {
+        display: none;
     }
 </style>

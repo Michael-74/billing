@@ -1,6 +1,9 @@
 <template>
     <div class="header_wrapper">
         <div class="header">
+            <button class="header__slide-nav header__js-slide-nav" @click="slideNav">
+                <font-awesome-icon class="header__slide-nav-bars" icon='bars'></font-awesome-icon>
+            </button>
             <div class="header__search header_left search">
                 <div class="search__block">
                     <font-awesome-icon class="search__icon-search" icon='search'></font-awesome-icon>
@@ -28,6 +31,7 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -39,11 +43,17 @@ export default {
         }
     },
     methods: {
+        ...mapMutations([
+            'changeNavMin'
+        ]),
         logOut: function(e) {
             this.$store.commit('logOut');
             this.$router.push('/');
 
             e.preventDefault();
+        },
+        slideNav() {
+            this.changeNavMin();
         }
     },
     computed: {
@@ -66,7 +76,7 @@ export default {
         float:left;
     }
     .header__search {
-        padding: 12px 10px 0 60px
+        padding: 12px 10px 0 10px;
     }
     .search__block {
         padding: 0 0 0 20px;
@@ -128,5 +138,24 @@ export default {
     .header__icon {
         color: #e6e6e6;
         font-size: 30px;
+    }
+    .header__slide-nav {
+        border: 1px solid #2b87db;
+        background: #FFF;
+        padding: 12px 15px;
+        border-radius: 50%;
+        float: left;
+        margin: 14px 10px 10px;
+    }
+    .header__slide-nav-bars {
+        color: #2b87db;
+    }
+    .header__slide-nav:hover {
+        background: #2b87db;
+        cursor: pointer;
+
+        .header__slide-nav-bars {
+            color: #FFF;
+        }
     }
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="container container_admin" :class="{container_settings:getRouteSetting}" ref="container">
 
-        <div class="nav_wrapper" ref="nav">
+        <div class="nav_wrapper" ref="nav" :class="{'nav_wrapper_js-min-left': this.isNavMin}">
             <app-nav :pages="getRoutes"></app-nav>
         </div>
         <div class="background-nav"></div>
-        <div class="main_wrapper" ref="body">
+        <div class="main_wrapper" ref="body" :class="{'main_wrapper_js-min-left': this.isNavMin}">
             <app-header></app-header>
             <app-body></app-body>
             <div class="clear"></div>
@@ -18,7 +18,7 @@
 import Header from '../../semantic-blocks/Header.vue'
 import Body from '../../semantic-blocks/Body.vue'
 import Nav from '../../semantic-blocks/Nav.vue'
-
+import { mapMutations, mapGetters } from 'vuex';
 export default {
     components: {
         appHeader: Header,
@@ -34,6 +34,9 @@ export default {
 
     },
     computed: {
+        ...mapGetters([
+            'isNavMin'
+        ]),
         getRoutes () {
             const routes = this.$router.options.routes.filter(item => {
                 if(item.path === "/admin") {
@@ -70,11 +73,21 @@ export default {
         position: absolute;
         top: 0;
         left: 0;
+        transition: all .3s;
+    }
+    .nav_wrapper_js-min-left {
+        width: 60px;
     }
     .main_wrapper {
         //float: left;
         //width: calc(100% - 220px);
         margin-left: 220px;
+        transition: all .3s;
+    }
+    .main_wrapper_js-min-left {
+        //float: left;
+        //width: calc(100% - 220px);
+        margin-left: 60px;
     }
     .background-nav {
         position: fixed;
