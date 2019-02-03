@@ -11,6 +11,7 @@ import smotreshka from './smotreshka'
 import mikrotik from './mikrotik'
 import sms from './sms'
 import email from './email'
+import setting from './setting'
 import pack from './package'
 import error from './error'
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
         mikrotik,
         sms,
         email,
-        error
+        error,
+        setting
     }
 })
