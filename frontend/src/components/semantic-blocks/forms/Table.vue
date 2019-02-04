@@ -48,8 +48,8 @@
                     </td>
                     <!--<td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>-->
                     <td class="items__td items__td_setting">
-                        <font-awesome-icon class="items__icon" icon="cog"></font-awesome-icon>
-                        <font-awesome-icon class="items__icon" icon="times-circle"></font-awesome-icon>
+                        <font-awesome-icon class="items__icon" icon="cog" @click="edit(item)"></font-awesome-icon>
+                        <font-awesome-icon class="items__icon" icon="times-circle" @click="del(item.id)"></font-awesome-icon>
                     </td>
                 </tr>
                 </tbody>
@@ -62,7 +62,7 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export default {
-    props: ["columns","rows"],
+    props: ["columns","rows", "editItem", "deleteItem"],
     components: {
         FontAwesomeIcon
     },
@@ -98,6 +98,12 @@ export default {
                 this.getRows.sort(this.byFieldEnd(field));
                 this.flagSort = !this.flagSort;
             }
+        },
+        edit(item){
+            this.editItem(item);
+        },
+        del(id){
+            this.deleteItem(id);
         }
     },
     computed: {

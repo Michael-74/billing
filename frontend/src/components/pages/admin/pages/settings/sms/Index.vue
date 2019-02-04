@@ -1,11 +1,10 @@
 <template>
     <div class="wrapper__settings">
         <div class="wrapper__create">
-            <app-create :editItem="selectedItem"></app-create>
+            <app-create :editItem="this.getEditSms"></app-create>
         </div>
         <div class="wrapper__item">
-            <app-item :data="getItems"></app-item>
-            <app-table :columns="getTable" :rows="this.getSmses" ></app-table>
+            <app-table :columns="getTable" :rows="this.getSmses" :editItem="editItem" :deleteItem="deleteItem"></app-table>
         </div>
     </div>
 </template>
@@ -25,7 +24,6 @@ export default {
     },
     data () {
         return {
-            editItem: null,
             columns: [
                 {
                     field: 'id',
@@ -75,9 +73,17 @@ export default {
     created(){
         this.$store.dispatch('getSmsesAsync');
     },
+    methods: {
+        editItem: function(item) {
+            this.$store.commit("setSms", item);
+        },
+        deleteItem: function(id){
+            this.$store.dispatch("deleteSmsAsync", {id: id});
+        }
+    },
     computed: {
         ...mapGetters([
-            'getSmses'
+            'getSmses', 'getEditSms'
         ]),
         sorted(){
             this.columns = this._.sortBy(this.columns, 'sort');
@@ -85,12 +91,6 @@ export default {
         },
         getTable(){
             return this.sorted;
-        },
-        selectedItem: function() {
-            return this.$store.getters.getEditSms;
-        },
-        getItems () {
-            return this.$store.getters.getSmses;
         }
     }
 }
