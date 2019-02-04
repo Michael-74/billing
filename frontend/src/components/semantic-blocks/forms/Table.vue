@@ -1,6 +1,5 @@
 <template>
     <div class="items__clients">
-        <button @click="change">Press</button>
         <table class="items__table">
             <thead class="items__thead">
             <tr>
@@ -80,10 +79,6 @@ export default {
                 this.getData.rows.sort(this.byFieldEnd(field));
                 this.flagSort = !this.flagSort;
             }
-        },
-        change () {
-            this.getData.rows = this.search(this.getData.rows, "port", "3");
-            //this.getData.columns.splice(0,1);
         }
     },
     computed: {
@@ -95,5 +90,16 @@ export default {
 </script>
 
 <style scoped>
+.items__clients {
+    background: #FFF;
+    margin: 20px 0;
+}
+.items__table {
+    background: #FFF;
+    border-radius: 4px;
+    padding-bottom: 40px;
+    box-shadow: 1px 2px 10px 2px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
 
 </style>

@@ -14,6 +14,7 @@
 import Create from './Create'
 import Items from './Item'
 import Table from '../../../../../semantic-blocks/forms/Table'
+
 import { mapGetters } from 'vuex';
 
 export default {
@@ -29,43 +30,43 @@ export default {
                 columns: [{
                     field: 'id',
                     name: 'ID',
-                    sort: 0,
+                    sort: 1,
                     isShow: true,
                     width: "50px",
                 },
                 {
                     field: 'host',
                     name: 'Хост',
-                    sort: 0,
+                    sort: 2,
                     isShow: true,
                     width: "300px",
                 },
                 {
                     field: 'port',
                     name: 'Порт',
-                    sort: 0,
+                    sort: 3,
                     isShow: true,
                     width: "200px",
                 },
                 {
                     field: 'login',
                     name: 'Логин',
-                    sort: 0,
+                    sort: 4,
                     isShow: true,
                     width: "200px",
                 },
                 {
                     field: 'isStatus',
                     name: 'Статус',
-                    sort: 0,
+                    sort: 5,
                     isShow: true,
                     width: "200px",
                 },
                 {
                     field: 'createdAt',
                     name: 'Дата создания',
-                    sort: 0,
-                    isShow: true,
+                    sort: 6,
+                    isShow: false,
                     width: "300px",
                 },
                 ],
@@ -85,8 +86,12 @@ export default {
         ...mapGetters([
             'getSmses'
         ]),
-        getTable(){
+        sorted(){
+            this.table.columns = this._.sortBy(this.table.columns, 'sort');
             return this.table;
+        },
+        getTable(){
+            return this.sorted;
         },
         selectedItem: function() {
             return this.$store.getters.getEditSms;
