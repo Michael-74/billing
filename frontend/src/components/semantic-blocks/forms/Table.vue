@@ -1,5 +1,8 @@
 <template>
     <div class="items__clients">
+        <div class="wrapper-cog">
+            <app-setting-table :columns="getСolumns"></app-setting-table>
+        </div>
         <div class="items__table-fix">
             <table class="items__table">
                 <thead class="items__thead">
@@ -36,7 +39,7 @@
                     <td v-else-if="col.field === 'createdAt'" class="items__td">
                         {{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}
                     </td>
-                    <td v-else-if="col.field === 'isStatus'" class="items__td items_nowrap">
+                    <td v-else-if="col.field === 'isStatus'" v-show="col.isShow" class="items__td items_nowrap">
                         <span v-show="item.isStatus">
                             <span class="items__signal"></span>
                             <span class="items__status-text">Включен</span>
@@ -60,11 +63,13 @@
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+import SettingTable from '../../logic-blocks/SettingTable'
 
 export default {
     props: ["columns","rows", "editItem", "deleteItem"],
     components: {
-        FontAwesomeIcon
+        FontAwesomeIcon,
+        AppSettingTable: SettingTable
     },
     data () {
         return {
@@ -119,7 +124,7 @@ export default {
 
 <style scoped>
 .items__clients {
-    background: #FFF;
+    /*background: #FFF;*/
     margin: 20px 0;
 }
 .items__table {
@@ -130,9 +135,6 @@ export default {
 }
 .items__td_setting {
     width: 80px;
-}
-.items__table-fix {
-
 }
 .items__table-hide {
     height: 300px;
@@ -148,4 +150,5 @@ export default {
     padding: 0px;
     font-size: 0px;
 }
+
 </style>

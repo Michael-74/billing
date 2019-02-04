@@ -9,6 +9,7 @@
     padding: 6px 10px;
     text-align: center;
     min-width: 50px;
+    cursor: pointer;
 }
 .items__th:first-child {
     border-top-left-radius: 4px;
@@ -40,4 +41,45 @@
 }
 .items_nowrap {
     white-space: nowrap;
+}
+
+
+
+.cog {
+    margin: 10px 0;
+    position: relative;
+
+    &__button {
+        margin: 10px 0 0;
+        padding: 8px 12px;
+        border: 1px solid silver;
+        border-radius: 4px;
+        background: #FFF;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
+        }
+    }
+
+    &__fields {
+        top: 50px;
+        position: absolute;
+        background: #FFF;
+        padding: 10px;
+        border: 1px solid silver;
+        border-radius: 4px;
+        box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    }
+
+    &__input-sort {
+        width: 30px;
+        text-align: center;
+        border: 0px;
+    }
+
+    &__input-chexbox {
+        width: 30px;
+        text-align: center;
+    }
 }

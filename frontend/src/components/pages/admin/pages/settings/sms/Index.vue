@@ -24,6 +24,7 @@ export default {
     },
     data () {
         return {
+            offset: 10,
             columns: [
                 {
                     field: 'id',
