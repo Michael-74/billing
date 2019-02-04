@@ -66,7 +66,7 @@ export default {
                     field: 'createdAt',
                     name: 'Дата создания',
                     sort: 6,
-                    isShow: false,
+                    isShow: true,
                     width: "300px",
                 },
                 ],
