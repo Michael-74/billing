@@ -57,7 +57,6 @@
                 </tbody>
             </table>
         </div>
-        {{test}}
     </div>
 </template>
 
@@ -130,11 +129,11 @@ export default {
 <style scoped>
 .items__clients {
     /*background: #FFF;*/
-    margin: 20px 0;
+    /*margin: 20px 0;*/
 }
 .items__table {
     background: #FFF;
-    border-radius: 4px;
+    /*border-radius: 4px;*/
     box-shadow: 1px 2px 10px 2px rgba(0, 0, 0, 0.2);
     width: 100%;
 }
@@ -142,8 +141,9 @@ export default {
     width: 80px;
 }
 .items__table-source {
-    height: 300px;
+    max-height: 600px;
     overflow: scroll;
+    padding-bottom: 20px;
 }
 .items__thead_hide {
     visibility: hidden;

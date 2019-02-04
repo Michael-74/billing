@@ -11,7 +11,6 @@
 
 <script>
 import Create from './Create'
-import Items from './Item'
 import Table from '../../../../../semantic-blocks/forms/Table'
 
 import { mapGetters } from 'vuex';
@@ -19,7 +18,6 @@ import { mapGetters } from 'vuex';
 export default {
     components: {
         AppCreate: Create,
-        AppItem: Items,
         AppTable: Table
     },
     data () {
