@@ -21,7 +21,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="items__table-hide">
+        <div class="items__table-source">
             <table class="items__table">
                 <thead class="items__thead items__thead_hide">
                 <tr>
@@ -49,7 +49,6 @@
                             <span class="items__status-text">Выключен</span>
                         </span>
                     </td>
-                    <!--<td class="items__td">{{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}</td>-->
                     <td class="items__td items__td_setting">
                         <font-awesome-icon class="items__icon" icon="cog" @click="edit(item)"></font-awesome-icon>
                         <font-awesome-icon class="items__icon" icon="times-circle" @click="del(item.id)"></font-awesome-icon>
@@ -58,6 +57,7 @@
                 </tbody>
             </table>
         </div>
+        {{test}}
     </div>
 </template>
 
@@ -117,7 +117,12 @@ export default {
         },
         getRows() {
             return this.rows;
+        },
+        /* TODO:: доработать пагинацию
+        countPages(){
+            return _.chunk(this.getRows, 10);
         }
+        */
     }
 }
 </script>
@@ -136,7 +141,7 @@ export default {
 .items__td_setting {
     width: 80px;
 }
-.items__table-hide {
+.items__table-source {
     height: 300px;
     overflow: scroll;
 }
@@ -146,7 +151,7 @@ export default {
 .items__thead_hide .items__th {
     height: 0px;
 }
-.items__table-hide .items__thead th {
+.items__table-source .items__thead th {
     padding: 0px;
     font-size: 0px;
 }
