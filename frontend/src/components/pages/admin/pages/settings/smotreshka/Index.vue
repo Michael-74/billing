@@ -11,9 +11,9 @@
 
 <script>
 import Create from './Create'
-import Items from './Item'
 import Table from '../../../../../semantic-blocks/forms/Table'
 import { mapGetters } from 'vuex';
+
 export default {
     components: {
         AppCreate: Create,
@@ -39,21 +39,21 @@ export default {
                 {
                     field: 'login',
                     name: 'Логин',
-                    sort: 4,
+                    sort: 3,
                     isShow: true,
                     width: "200px",
                 },
                 {
                     field: 'isStatus',
                     name: 'Статус',
-                    sort: 6,
+                    sort: 4,
                     isShow: true,
                     width: "200px",
                 },
                 {
                     field: 'createdAt',
                     name: 'Дата создания',
-                    sort: 7,
+                    sort: 5,
                     isShow: true,
                     width: "300px",
                 },
@@ -75,10 +75,6 @@ export default {
         ...mapGetters([
             'getSmotreshkas', 'getEditSmotreshka'
         ]),
-        sorted(){
-            this.columns = this._.sortBy(this.columns, 'sort');
-            return this.columns;
-        },
         getTable(){
             return this._.sortBy(this.columns, 'sort');
         }
