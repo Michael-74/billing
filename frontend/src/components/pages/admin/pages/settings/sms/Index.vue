@@ -5,7 +5,7 @@
         </div>
         <div class="wrapper__item">
             <app-item :data="getItems"></app-item>
-            <app-table :data="getTable"></app-table>
+            <app-table :columns="getTable" :rows="this.getSmses" ></app-table>
         </div>
     </div>
 </template>
@@ -26,8 +26,8 @@ export default {
     data () {
         return {
             editItem: null,
-            table: {
-                columns: [{
+            columns: [
+                {
                     field: 'id',
                     name: 'ID',
                     sort: 1,
@@ -69,26 +69,19 @@ export default {
                     isShow: true,
                     width: "300px",
                 },
-                ],
-                rows: []
-            }
+            ]
         }
     },
     created(){
         this.$store.dispatch('getSmsesAsync');
-    },
-    watch: {
-        getSmses(){
-            return this.table.rows = this.getSmses
-        }
     },
     computed: {
         ...mapGetters([
             'getSmses'
         ]),
         sorted(){
-            this.table.columns = this._.sortBy(this.table.columns, 'sort');
-            return this.table;
+            this.columns = this._.sortBy(this.columns, 'sort');
+            return this.columns;
         },
         getTable(){
             return this.sorted;

@@ -5,7 +5,7 @@
                 <thead class="items__thead">
                 <tr>
                     <th class="items__th"
-                        v-for="column in getData.columns"
+                        v-for="column in getСolumns"
                         :style="{width: column.width}"
                         @click="sort(column.field)"
                         v-show="column.isShow"
@@ -14,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody class="items__tbody">
-                <tr v-for="item in getData.rows" :key="item.id"></tr>
+                <tr v-for="item in getRows" :key="item.id"></tr>
                 </tbody>
             </table>
         </div>
@@ -23,7 +23,7 @@
                 <thead class="items__thead items__thead_hide">
                 <tr>
                     <th class="items__th"
-                        v-for="column in getData.columns"
+                        v-for="column in getСolumns"
                         :style="{width: column.width}"
                         v-show="column.isShow"
                     >{{ column.name }}</th>
@@ -31,8 +31,8 @@
                 </tr>
                 </thead>
                 <tbody class="items__tbody">
-                <tr v-for="item in getData.rows" :key="item.id">
-                    <td v-if="col.field !== 'isStatus'" v-show="col.isShow" class="items__td" v-for="col in getData.columns">{{ item[col.field] }}</td>
+                <tr v-for="item in getRows" :key="item.id">
+                    <td v-if="col.field !== 'isStatus'" v-show="col.isShow" class="items__td" v-for="col in getСolumns">{{ item[col.field] }}</td>
                     <td v-else-if="col.field === 'createdAt'" class="items__td">
                         {{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}
                     </td>
@@ -62,7 +62,7 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 export default {
-    props: ["data"],
+    props: ["columns","rows"],
     components: {
         FontAwesomeIcon
     },
@@ -92,17 +92,20 @@ export default {
         },
         sort(field){
             if(this.flagSort) {
-                this.getData.rows.sort(this.byField(field));
+                this.getRows.sort(this.byField(field));
                 this.flagSort = !this.flagSort;
             } else {
-                this.getData.rows.sort(this.byFieldEnd(field));
+                this.getRows.sort(this.byFieldEnd(field));
                 this.flagSort = !this.flagSort;
             }
         }
     },
     computed: {
-        getData() {
-            return this.data;
+        getСolumns() {
+            return this.columns;
+        },
+        getRows() {
+            return this.rows;
         }
     }
 }
