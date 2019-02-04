@@ -12,6 +12,9 @@ import { connect } from "./util/ws";
 import VueSimpleContextMenu from 'vue-simple-context-menu'
 Vue.component('vue-simple-context-menu', VueSimpleContextMenu)
 
+import VueLodash from 'vue-lodash';
+Vue.use(VueLodash)
+
 connect();
 
 Vue.use(VModal, { dynamic: true });
