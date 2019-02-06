@@ -15,6 +15,9 @@
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
+            <div class="create__button-mail">
+                <button class="button button__save button__save-user">Отправить</button>
+            </div>
         </div>
     </div>
 </template>

@@ -9,7 +9,7 @@
                 <font-awesome-icon class="create__button-dashed" icon="cog"></font-awesome-icon>
                 Редактировать пользователя
             </button>
-            <button class="button button__dased button__dased_margin-left">
+            <button class="button button__dased button__dased_margin-left" @click="changeMailShow">
                 Рассылка
             </button>
         </div>
@@ -147,7 +147,7 @@ export default {
             isNote: false,
             isFormCreate: true,
             isCreate: false,
-            isMailForm: true,
+            isMailForm: false,
             client: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 login: input('Логин', 'Логин', 'login', true, false, null, null),
@@ -208,7 +208,10 @@ export default {
         }
     },
     methods: {
-        savePackage: function () {
+        changeMailShow () {
+            this.isMailForm = !this.isMailForm;
+        },
+        savePackage () {
             const unionPack = {
                 name: this.packages.name,
                 internet: this.client.internet,
