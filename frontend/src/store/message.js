@@ -27,7 +27,7 @@ export default {
                             type: 'success ',
                             text: 'Сообщение отправлено'
                         });
-                        payload.successFunction();
+                        //payload.successFunction();
                     }
                 })
                 .catch(error => {

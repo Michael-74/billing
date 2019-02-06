@@ -13,6 +13,7 @@ import sms from './sms'
 import email from './email'
 import setting from './setting'
 import pack from './package'
+import message from './message'
 import error from './error'
 
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         sms,
         email,
         error,
+        message,
         setting
     }
 })
