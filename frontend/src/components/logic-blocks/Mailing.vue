@@ -16,13 +16,14 @@
             </div>
             <div class="clear"></div>
             <div class="create__button-mail">
-                <button class="button button__save button__save-user">Отправить</button>
+                <button class="button button__save button__save-user" @click="sendMail">Отправить</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import { input, select, selectMultiple, checkbox2, datepicker, inputDifference, textarea } from '../../util/fields'
 import Textarea from '../semantic-blocks/forms/Textarea'
@@ -44,10 +45,42 @@ export default {
         }
     },
     methods: {
+        /**
+         * Получаем все email от абонентов
+         * @param arr
+         * @returns {Array}
+         */
+        makeEmails(arr) {
+            let emails = [];
+            arr.forEach(item => {
+                if(item.email != null) {
+                    emails.push(item.email);
+                }
+            });
 
+            return emails;
+        },
+        sendMail() {
+            const data = {};
+            for(let item in this.mail) {
+                data[this.mail[item].name] = this.mail[item].val;
+            }
+            data['emails'] = this.makeEmails(this.getClients);
+
+            this.$store.dispatch('sendMailingAsync', {items: this.mail, obj: data});
+            //this.clearFields();
+        },
+        clearFields () {
+            this.$store.commit('clearErrors');
+            this.mail.isSms.val = false;
+            this.mail.isEMail.val = false;
+            this.mail.isEMail.message = null;
+        }
     },
     computed: {
-
+        ...mapGetters([
+            'getClients'
+        ]),
     }
 }
 </script>
