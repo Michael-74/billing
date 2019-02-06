@@ -17,57 +17,59 @@
                 <button class="button button__less" @click="isFilterShow">
                     {{ this.isFilter ? 'Свернуть' : 'Развернуть' }}
                     <span class="filters__button-less-block">
-                            <font-awesome-icon class="filters__button-less" icon="signal"></font-awesome-icon>
-                        </span>
+                        <font-awesome-icon class="filters__button-less" icon="signal"></font-awesome-icon>
+                    </span>
                 </button>
             </div>
             <div class="clear"></div>
         </div>
-        <div class="filters__body" v-show="isFilter">
-            <div class="filters__block filters__block_service filters__fix-height">
-                <h2>Услуги и баланс</h2>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.internet"></app-select-multiple>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.tvs"></app-select-multiple>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select-multiple :data="client.rents"></app-select-multiple>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="client.balance"></app-difference-input>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-difference-input :data="client.priceOverMonth"></app-difference-input>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select">
-                    <button class="filters__clean" @click="clearBlockService">Очистить</button>
-                </div>
-                <div class="clear"></div>
-                <div class="filters__header-checkbox filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.isPromisedPay"></app-select>
-                </div>
-                <div class="clear"></div>
-            </div >
-            <div class="filters__block filters__block_discount filters__fix-height">
-                <h2>Скидка и статус</h2>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.typeDiscount"></app-select>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
-                    <app-select :data="client.isStatus"></app-select>
-                </div>
-                <div class="clear"></div>
-                <div class="filters__header-input_width filters__header-input_inline filters__select_padding filters__discount-width">
-                    <app-difference-input :data="client.discount"></app-difference-input>
-                </div>
-                <div class="filters__header-select filters__header-input_inline filters__select">
-                    <button class="filters__clean" @click="clearBlockDiscount">Очистить</button>
+        <div class="filters__body">
+            <div class="filters__user-more" v-show="isFilter">
+                <div class="filters__block filters__block_service filters__fix-height">
+                    <h2>Услуги и баланс</h2>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-select-multiple :data="client.internet"></app-select-multiple>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-select-multiple :data="client.tvs"></app-select-multiple>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-select-multiple :data="client.rents"></app-select-multiple>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-difference-input :data="client.balance"></app-difference-input>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-difference-input :data="client.priceOverMonth"></app-difference-input>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select">
+                        <button class="filters__clean" @click="clearBlockService">Очистить</button>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="filters__header-checkbox filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-select :data="client.isPromisedPay"></app-select>
+                    </div>
+                    <div class="clear"></div>
+                </div >
+                <div class="filters__block filters__block_discount filters__fix-height">
+                    <h2>Скидка и статус</h2>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-select :data="client.typeDiscount"></app-select>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select filters__select_padding">
+                        <app-select :data="client.isStatus"></app-select>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="filters__header-input_width filters__header-input_inline filters__select_padding filters__discount-width">
+                        <app-difference-input :data="client.discount"></app-difference-input>
+                    </div>
+                    <div class="filters__header-select filters__header-input_inline filters__select">
+                        <button class="filters__clean" @click="clearBlockDiscount">Очистить</button>
+                    </div>
+                    <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="clear"></div>
             <div class="filters__block filters__block_contact">
                 <h2>Учетная запись и контактные данные</h2>
                 <div class="filters__header-input_width filters__header-input_inline filters__select_padding">
@@ -245,8 +247,8 @@ export default {
         width: 49%;
         float: left;
     }
-    .filters__block_contact {
-        margin: 20px 0 0;
+    .filters__user-more {
+        margin: 0 0 20px 0;
     }
 
 </style>
