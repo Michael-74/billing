@@ -67,14 +67,17 @@ export default {
             }
             data['emails'] = this.makeEmails(this.getClients);
 
-            this.$store.dispatch('sendMailingAsync', {items: this.mail, obj: data});
+            this.$store.dispatch('sendMailingAsync', {items: this.mail, obj: data, successFunction: () => { this.clearFields(); }});
             //this.clearFields();
         },
         clearFields () {
             this.$store.commit('clearErrors');
             this.mail.isSms.val = false;
+            this.mail.isSms.isError = false;
             this.mail.isEMail.val = false;
-            this.mail.isEMail.message = null;
+            this.mail.isEMail.isError = false;
+            this.mail.message.val = null;
+            this.mail.message.isError = false;
         }
     },
     computed: {

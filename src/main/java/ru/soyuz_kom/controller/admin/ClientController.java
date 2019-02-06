@@ -9,8 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -42,25 +40,8 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientServiceImpl clientService;
 
-    @Autowired
-    public JavaMailSender emailSender;
-
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
-
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-
-            message.setFrom("baryshnikov@unionit.pw"); // Отправитель, Обязательное поле для yandex и mail
-            message.setTo("michael74.ru@mail.ru", "michael74.ru@yandex.ru"); // Отображаются всем
-            message.setSubject("Тестовый заголовок");
-            message.setText("Тестовое сообщение3");
-
-            // Send Message!
-            this.emailSender.send(message);
-        } catch (Exception ex) {
-            System.out.println("Ошибка");
-        }
 
         return clientService.getClientsAndListsAllServices();
     }
