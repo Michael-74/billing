@@ -111,10 +111,11 @@ export default {
                 });
 
         },
-        searchClientsAsync ({commit, state, rootGetters }, payload) {
+        searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
             console.log("searchClientsAsync", payload);
             //const data = {data: payload.data};
             //const store = JSON.stringify(data);
+            rootState.isLoader = true;
 
             axios
                 .post('/admin/v1/client/search', payload, {
