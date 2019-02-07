@@ -1,0 +1,33 @@
+
+.loading {
+    position: fixed;
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    background: rgba(0,0,0,0.2);
+}
+.loader {
+    left: 50%;
+    margin-left: -4em;
+    font-size: 10px;
+    border: .4em solid #fff;
+    border-left: .4em solid #2b87db;
+    animation: spin 0.8s infinite linear;
+}
+.loader, .loader:after {
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+    display: block;
+    position: absolute;
+    top: 50%;
+    margin-top: -4.05em;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}

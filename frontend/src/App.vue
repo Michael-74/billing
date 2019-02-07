@@ -6,6 +6,9 @@
         </div>
         <div class="footer"></div>
         <notifications group="notify" classes="notify"/>
+        <div class="loading">
+            <div class="loader"></div>
+        </div>
     </div>
 </template>
 
