@@ -17,6 +17,10 @@ Vue.use(VueLodash)
 
 connect();
 
+import NProgress from 'vue-nprogress'
+const nprogress = new NProgress({ parent: '.nprogress-container' })
+
+Vue.use(NProgress);
 Vue.use(VModal, { dynamic: true });
 Vue.use(Notifications);
 Vue.use(VTooltip);
@@ -43,5 +47,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  nprogress,
   render: h => h(App)
 })
