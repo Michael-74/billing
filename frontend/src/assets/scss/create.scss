@@ -19,6 +19,9 @@
     width: 230px;
     float: left;
 }
+.create__input_margin {
+    margin: 0 20px 20px 0;
+}
 .create__input_width-inherit {
     width: inherit;
 }
@@ -55,6 +58,9 @@
 }
 .create__button-save {
     padding: 0 20px 20px 20px;
+}
+.create__button-mail {
+    padding: 0 20px 20px 0px;
 }
 .button__cancel-user_margin {
     margin-left: 20px;

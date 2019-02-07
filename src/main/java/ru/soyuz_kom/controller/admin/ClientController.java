@@ -42,6 +42,7 @@ public class ClientController extends AdminController {
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
+
         return clientService.getClientsAndListsAllServices();
     }
 
