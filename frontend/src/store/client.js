@@ -2,6 +2,7 @@ import axios from "axios";
 import router from '../router'
 import Vue from "vue";
 import { parseObj, checkErrors } from '../util/helpers'
+import http from '../util/httpCommon';
 
 export default {
     state: {
@@ -112,24 +113,14 @@ export default {
 
         },
         searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
-            console.log("searchClientsAsync", payload);
             //const data = {data: payload.data};
             //const store = JSON.stringify(data);
-            commit('changeLoader', true, {root: true});
+            //TODO:: передать еще олин парамет по обработке 422 ошибки
+            http.post('/admin/v1/client/search', payload, rootGetters.getUser.token)
+            .then(response => {
+                commit('setClients', response.data);
+            })
 
-            axios
-                .post('/admin/v1/client/search', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("searchClientsAsync success", response);
-                    commit('setClients', response.data);
-                    commit('changeLoader', false, {root: true});
-                })
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
             axios
