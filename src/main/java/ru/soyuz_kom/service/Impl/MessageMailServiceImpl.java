@@ -55,6 +55,7 @@ public class MessageMailServiceImpl implements IMessage {
                 mailSender.setPort(Integer.parseInt(email.getPort()));
                 mailSender.setUsername(email.getLogin());
                 mailSender.setPassword(email.getPassword());
+                mailSender.setDefaultEncoding("UTF-8");
 
                 Properties props = mailSender.getJavaMailProperties();
                 props.put("mail.transport.protocol", "smtp");
@@ -62,7 +63,7 @@ public class MessageMailServiceImpl implements IMessage {
                 props.put("mail.smtp.ssl.enable", type);
                 props.put("mail.smtp.auth", "true");
                 props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.debug", "false");
+                props.put("mail.debug", "true");
             } else {
                 return null;
             }
