@@ -109,6 +109,7 @@
                 <button class="button button__save" @click="applyFilter">Применить фильтр</button>
             </div>
             <div class="clear"></div>
+            {{isLoader}}
         </div>
     </div>
 </template>
@@ -223,7 +224,7 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getPresets', 'getInternets', 'getRents', 'getTvs'
+            'getPresets', 'getInternets', 'getRents', 'getTvs', 'isLoader'
         ])
     }
 }

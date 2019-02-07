@@ -115,7 +115,7 @@ export default {
             console.log("searchClientsAsync", payload);
             //const data = {data: payload.data};
             //const store = JSON.stringify(data);
-            rootState.isLoader = true;
+            commit('changeLoader', true, {root: true});
 
             axios
                 .post('/admin/v1/client/search', payload, {
@@ -128,6 +128,7 @@ export default {
                 .then(response => {
                     console.log("searchClientsAsync success", response);
                     commit('setClients', response.data);
+                    commit('changeLoader', false, {root: true});
                 })
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
