@@ -9,8 +9,14 @@
                 <font-awesome-icon class="create__button-dashed" icon="cog"></font-awesome-icon>
                 Редактировать пользователя
             </button>
+            <button class="button button__dased button__dased_margin-left" @click="changeMailShow">
+                Рассылка
+            </button>
         </div>
-        <div class="create__body_wrapper"  v-show="isCreate">
+        <div class="create__body_wrapper" v-show="isMailForm">
+            <app-mailing></app-mailing>
+        </div>
+        <div class="create__body_wrapper" v-show="isCreate">
             <div class="create__body">
                 <div class="create__input create__input_hide">
                     <app-input :data="getClient.id"></app-input>
@@ -116,6 +122,7 @@ import SelectMultiple from '../../../../semantic-blocks/forms/SelectMultiple'
 import Textarea from '../../../../semantic-blocks/forms/Textarea'
 import Checkbox from '../../../../semantic-blocks/forms/Checkbox'
 import Task from '../../../../logic-blocks/Task'
+import Mailing from '../../../../logic-blocks/Mailing'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import axios from "axios";
 import { sendClient } from "../../../../../util/ws";
@@ -131,6 +138,7 @@ export default {
         AppCheckbox: Checkbox,
         AppTextarea: Textarea,
         AppTask: Task,
+        AppMailing: Mailing,
         FontAwesomeIcon
     },
     props: ['editItem', 'state'],
@@ -139,6 +147,7 @@ export default {
             isNote: false,
             isFormCreate: true,
             isCreate: false,
+            isMailForm: false,
             client: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 login: input('Логин', 'Логин', 'login', true, false, null, null),
@@ -199,7 +208,10 @@ export default {
         }
     },
     methods: {
-        savePackage: function () {
+        changeMailShow () {
+            this.isMailForm = !this.isMailForm;
+        },
+        savePackage () {
             const unionPack = {
                 name: this.packages.name,
                 internet: this.client.internet,

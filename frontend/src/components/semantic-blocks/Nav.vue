@@ -1,8 +1,10 @@
 <template>
     <div class="nav">
         <div class="nav__logo">
+            <button class="nav__slide-nav" @click="slideNav">
+                <font-awesome-icon class="nav__slide-nav-bars" icon='bars'></font-awesome-icon>
+            </button>
             <img v-if="!isNavMin" class="nav__logo-img" src="../../assets/images/nav/logo_white.png" alt="logo">
-            <div v-else class="nav__logo-text">СК</div>
         </div>
         <ul class="nav__ul">
             <i class="fas fa-coffee fa-xs"></i>
@@ -52,6 +54,14 @@ export default {
 
         }
     },
+    methods: {
+        ...mapMutations([
+            'changeNavMin'
+        ]),
+        slideNav() {
+            this.changeNavMin();
+        }
+    },
     computed: {
         ...mapGetters([
             'isNavMin'
@@ -83,7 +93,6 @@ export default {
         width: 120px;
         height: auto;
         font-size: 0px;
-        margin: auto;
         display: block;
         padding: 20px 0;
     }
@@ -147,5 +156,25 @@ export default {
     }
     .nav__text_none {
         display: none;
+    }
+
+
+    .nav__slide-nav {
+        border: 0px;
+        padding: 12px 12px;
+        float: left;
+        margin: 14px 10px 10px;
+        background: transparent;
+    }
+    .nav__slide-nav-bars {
+        color: #FFF;
+    }
+    .nav__slide-nav:hover {
+        background: #2b87db;
+        cursor: pointer;
+
+        .nav__slide-nav-bars {
+            color: #FFF;
+        }
     }
 </style>
