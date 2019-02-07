@@ -30,6 +30,10 @@ public class MessageMailServiceImpl implements IMessage {
                 simpleMessage.setSubject("Союз-ком");
                 simpleMessage.setText(message);
                 this.mailSender().send(simpleMessage);
+            } catch (NullPointerException nullEx) {
+                throw new NullPointerException();
+                // TODO:: log - отлавливать ошибки
+                //System.out.println("Ошибка при отправке почты: " + nullEx);
             } catch (Exception ex) {
                 // TODO:: log - отлавливать ошибки
                 System.out.println("Ошибка при отправке почты: " + ex);
