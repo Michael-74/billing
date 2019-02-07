@@ -109,7 +109,6 @@
                 <button class="button button__save" @click="applyFilter">Применить фильтр</button>
             </div>
             <div class="clear"></div>
-            {{isLoader}}
         </div>
     </div>
 </template>
