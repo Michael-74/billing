@@ -10,6 +10,7 @@
                 Редактировать пользователя
             </button>
             <button class="button button__dased button__dased_margin-left" @click="changeMailShow">
+                <font-awesome-icon class="create__button-dashed" icon="envelope"></font-awesome-icon>
                 Рассылка
             </button>
         </div>
