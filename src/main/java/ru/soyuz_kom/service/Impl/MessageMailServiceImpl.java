@@ -23,22 +23,17 @@ public class MessageMailServiceImpl implements IMessage {
     public void send(String[] to, String message) {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
 
-        try {
-            simpleMessage.setFrom("michael74.ru@mail.ru");
-            simpleMessage.setTo(to);
-            simpleMessage.setSubject("Союз-ком");
-            simpleMessage.setText(message);
-
-
-            // Send Message!
+        for(String email: to) {
             try {
+                //simpleMessage.setFrom("michael74.ru@mail.ru");
+                simpleMessage.setTo(email);
+                simpleMessage.setSubject("Союз-ком");
+                simpleMessage.setText(message);
                 this.mailSender().send(simpleMessage);
-            } catch (MessagingException mex) {
-
+            } catch (Exception ex) {
+                // TODO:: log - отлавливать ошибки
+                System.out.println("Ошибка при отправке почты: " + ex);
             }
-
-        } catch(Exception ex) {
-            throw new NullPointerException();
         }
     }
 
