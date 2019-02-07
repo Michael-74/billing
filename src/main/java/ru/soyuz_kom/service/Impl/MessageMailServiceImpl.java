@@ -18,14 +18,14 @@ public class MessageMailServiceImpl implements IMessage {
     @Autowired
     EmailRepository emailRepository;
 
-    //private JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+    private String emailFrom = null;
 
     public void send(String[] to, String message) {
         SimpleMailMessage simpleMessage = new SimpleMailMessage();
 
         for(String email: to) {
             try {
-                //simpleMessage.setFrom("michael74.ru@mail.ru");
+                simpleMessage.setFrom(this.emailFrom);
                 simpleMessage.setTo(email);
                 simpleMessage.setSubject("Союз-ком");
                 simpleMessage.setText(message);
@@ -46,19 +46,19 @@ public class MessageMailServiceImpl implements IMessage {
 
             if(emails.size() != 0) {
                 Email email = emails.get(0);
+                this.emailFrom = email.getLogin();
                 mailSender.setHost(email.getHost());
                 mailSender.setPort(Integer.parseInt(email.getPort()));
                 mailSender.setUsername(email.getLogin());
                 mailSender.setPassword(email.getPassword());
 
                 Properties props = mailSender.getJavaMailProperties();
-                props.put("mail.smtp.from", email.getLogin());
                 props.put("mail.transport.protocol", "smtp");
                 String type = String.valueOf(email.getTypeEncryption()).equals("ssl") ? "true" : "false";
                 props.put("mail.smtp.ssl.enable", type);
                 props.put("mail.smtp.auth", "true");
                 props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.debug", "true");
+                props.put("mail.debug", "false");
             } else {
                 return null;
             }
