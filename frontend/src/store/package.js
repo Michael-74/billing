@@ -2,6 +2,7 @@ import axios from "axios";
 import router from '../router'
 import Vue from "vue";
 import {checkErrors} from "../util/helpers";
+import http from '../util/httpCommon';
 
 export default {
     state: {
@@ -93,104 +94,50 @@ export default {
     },
     actions: {
         addPackAsync ({commit, state, rootGetters}, payload) {
-
-            axios
-                .post('/admin/v1/package/store', payload.obj, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-
-                        commit("pushPacks", response.data)
-                        if(payload.isFormCreate) {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Пакет успешно добавлен'
-                            });
-                        } else {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Пакет успешно отредактирован'
-                            });
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-
-                        checkErrors(payload.items, rootGetters.getErrors);
-                    }
-                });
-
-        },
-        getPacksAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/package/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    commit('setPacks', response.data);
-                })
-        },
-        deletePackAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .delete('/admin/v1/package/delete/' + payload.id, {id: parseInt(payload.id)}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
+            let onMethod = (response) => {
+                commit("pushPacks", response.data)
+                if(payload.isFormCreate) {
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'success ',
-                        text: 'Пакет успешно удалена'
+                        text: 'Пакет успешно добавлен'
                     });
-                    commit('deletePack', payload.id);
-                })
-                .catch(error => {
+                } else {
                     Vue.prototype.$notify({
                         group: 'notify',
-                        type: 'error',
-                        text: 'Ошибка при удалении пакета'
+                        type: 'success ',
+                        text: 'Пакет успешно отредактирован'
                     });
-                })
+                }
+            };
+            http
+                .post('/admin/v1/package/store', payload.obj, payload, onMethod);
+        },
+        getPacksAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response) => {
+                commit('setPacks', response.data);
+            };
+            http
+                .get('/admin/v1/package/', onMethod);
+        },
+        deletePackAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response, options) => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success ',
+                    text: 'Пакет успешно удален'
+                });
+                commit('deletePack', payload.id);
+            };
+            http
+                .delete('/admin/v1/package/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod);
         },
         searchPacksAsync ({commit, state, rootGetters }, payload) {
-            console.log("searchPacksAsync", payload);
-            //const data = {data: payload.data};
-            //const store = JSON.stringify(data);
-
-            axios
-                .post('/admin/v1/package/search', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("searchPacksAsync success", response);
-                    commit('setPacks', response.data);
-                })
+            let onMethod = (response) => {
+                commit('setPacks', response.data);
+            };
+            http
+                .post('/admin/v1/package/search', payload, payload, onMethod);
         },
     },
     getters: {
