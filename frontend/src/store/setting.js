@@ -12,7 +12,7 @@ export default {
         changeNavMin (state, payload) {
             Vue.set(state, 'isNavMin', state = !state.isNavMin );
         },
-        changeLoader (state, payload) {
+        setLoader (state, payload) {
             Vue.set(state, 'isLoader', state = payload);
         },
     },

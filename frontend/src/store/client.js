@@ -116,7 +116,7 @@ export default {
             //const data = {data: payload.data};
             //const store = JSON.stringify(data);
             //TODO:: передать еще олин парамет по обработке 422 ошибки
-            http.post('/admin/v1/client/search', payload, rootGetters.getUser.token)
+            http.post('/admin/v1/client/search', payload)
             .then(response => {
                 commit('setClients', response.data);
             })

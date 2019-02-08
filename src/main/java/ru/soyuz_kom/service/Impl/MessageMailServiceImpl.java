@@ -63,7 +63,7 @@ public class MessageMailServiceImpl implements IMessage {
                 props.put("mail.smtp.ssl.enable", type);
                 props.put("mail.smtp.auth", "true");
                 props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.debug", "true");
+                props.put("mail.debug", "false");
             } else {
                 return null;
             }
