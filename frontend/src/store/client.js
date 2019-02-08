@@ -58,14 +58,8 @@ export default {
         addClientAsync ({commit, state, rootGetters }, payload) {
             //sendClient(data); // websocket
 
-            axios
-                .post('/admin/v1/client/create', payload.obj, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
+            http
+                .post('/admin/v1/client/create', payload.obj, )
                 .then(response => {
                     if (response.status === 200) {
                         if(payload.isFormCreate) {
@@ -83,53 +77,24 @@ export default {
                         }
                         payload.successFunction();
                     }
-                })
-                .catch(error => {
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-                        checkErrors(payload.items, rootGetters.getErrors);
-                    }
                 });
-
         },
         searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
-            //const data = {data: payload.data};
-            //const store = JSON.stringify(data);
-
             http
                 .post('/admin/v1/client/search', payload)
                 .then(response => {
                     commit('setClients', response.data);
-                })
-
+                });
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
             axios
-                .get('/admin/v1/client/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
+                .get('/admin/v1/client/')
                 .then(response => {
-                    console.log("getClientsAsync", response);
                     commit('setClients', response.data.clients);
                     commit('setInternets', response.data.internets);
                     commit('setRents', response.data.rents);
                     commit('setTvs', response.data.tvs);
-                }).catch(error => {
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'error',
-                        text: 'Проверьте введенные данные'
-                    });
-            });
+                });
         }
     },
     getters: {
