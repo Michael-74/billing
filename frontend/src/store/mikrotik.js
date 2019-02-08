@@ -86,7 +86,7 @@ export default {
                     type: 'success ',
                     text: 'Настройки успешно удалены'
                 });
-                commit('deleteMikrotik', payload.id);
+                commit('deleteMikrotik', options.id);
             };
             http
                 .delete('/admin/v1/mikrotik/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod);

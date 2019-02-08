@@ -127,7 +127,7 @@ export default {
                     type: 'success ',
                     text: 'Пакет успешно удален'
                 });
-                commit('deletePack', payload.id);
+                commit('deletePack', options.id);
             };
             http
                 .delete('/admin/v1/package/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod);
