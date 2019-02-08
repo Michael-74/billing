@@ -82,7 +82,7 @@ export default {
                 .post('/admin/v1/client/search', payload, payload, onMethod)
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
-            const onMethod = (response) => {
+            let onMethod = (response) => {
                 commit('setClients', response.data.clients);
                 commit('setInternets', response.data.internets);
                 commit('setRents', response.data.rents);

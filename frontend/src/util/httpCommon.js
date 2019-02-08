@@ -69,11 +69,49 @@ export default {
                 }
             })
             .catch(error => {
+                if(error.response && error.response.status === 403) {
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'error',
+                        text: 'Пользователь не зарегистрирован'
+                    });
+                    setTimeout(()=>{
+                        this.$router.push("/login")
+                    }, 1000)
+                } else {
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'error',
+                        text: 'Ошибка, код ошибки неизвестен'
+                    });
+                }
+            })
+            .finally(() => {
+                loaderStore.state.isLoader = false;
+            });
+    },
+    delete(url, data, options, onMethod) {
+        loaderStore.state.isLoader = true;
+
+        return axios
+            .post(url, data, {
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + userStore.state.auth.token
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    onMethod(response);
+                }
+            })
+            .catch(error => {
                 if(error.response && error.response.status === 422) {
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'error',
-                        text: 'Проверьте введенные данные'
+                        text: 'ID не найден'
                     });
                 } else if(error.response && error.response.status === 403) {
                     Vue.prototype.$notify({
@@ -90,6 +128,7 @@ export default {
                         type: 'error',
                         text: 'Ошибка, код ошибки неизвестен'
                     });
+                    console.log("err", error);
                 }
             })
             .finally(() => {

@@ -50,58 +50,36 @@ export default {
     },
     actions: {
         addEmailsAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response) => {
+                // Если форма стоит для Добавления
+                if(payload.isFormCreate) {
+                    commit("pushEmails", response.data)
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'success ',
+                        text: 'Настройки добавлены'
+                    });
+                } else {
+                    //console.log("internet", this.internet)
+                    commit("editEmail", response.data)
+                    Vue.prototype.$notify({
+                        group: 'notify',
+                        type: 'success ',
+                        text: 'Настройки отредактированы'
+                    });
+                }
+                payload.successFunction();
+            };
 
             http
-                .post('/admin/v1/email/store', payload.obj)
-                .then(response => {
-                    if (response.status === 200) {
-
-                        // Если форма стоит для Добавления
-                        if(payload.isFormCreate) {
-                            commit("pushEmails", response.data)
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Настройки добавлены'
-                            });
-                        } else {
-                            //console.log("internet", this.internet)
-                            commit("editEmail", response.data)
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Настройки отредактированы'
-                            });
-                        }
-                        payload.successFunction();
-                    }
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-                        checkErrors(payload.items, rootGetters.getErrors);
-                    }
-                });
-
+                .post('/admin/v1/email/store', payload.obj, payload, onMethod);
         },
         getEmailsAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/email/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    commit('setEmails', response.data);
-                })
+            let onMethod = (response) => {
+                commit('setEmails', response.data);
+            };
+            http
+                .get('/admin/v1/email/', onMethod);
         },
         deleteEmailAsync ({commit, state, rootGetters}, payload) {
             axios
