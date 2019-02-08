@@ -94,7 +94,7 @@ export default {
                 commit('deleteInternet', options.id);
             };
             http
-                .delete('/admin/v1/internet/delete/' + payload.id, {id: parseInt(payload.id)}, onMethod)
+                .delete('/admin/v1/internet/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod)
         },
         searchInternetsAsync ({commit, state, rootGetters }, payload) {
             let onMethod = (response) => {
