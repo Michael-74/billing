@@ -43,14 +43,8 @@ export default {
     },
     actions: {
         addCashClientAsync ({commit, state, rootGetters }, payload) {
-            axios
-                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
+            http
+                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash})
                 .then(response => {
                     if (response.status === 200) {
                         Vue.prototype.$notify({
@@ -60,15 +54,6 @@ export default {
                         });
                     }
                 })
-                .catch(error => {
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'error',
-                        text: 'Проверьте введенные данные'
-                    });
-                });
-
-
         },
         addClientAsync ({commit, state, rootGetters }, payload) {
             //sendClient(data); // websocket
@@ -115,11 +100,12 @@ export default {
         searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
             //const data = {data: payload.data};
             //const store = JSON.stringify(data);
-            //TODO:: передать еще олин парамет по обработке 422 ошибки
-            http.post('/admin/v1/client/search', payload)
-            .then(response => {
-                commit('setClients', response.data);
-            })
+
+            http
+                .post('/admin/v1/client/search', payload)
+                .then(response => {
+                    commit('setClients', response.data);
+                })
 
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
