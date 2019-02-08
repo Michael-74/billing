@@ -81,6 +81,7 @@ export default {
             let onMethod = (response) => {
                 commit('setInternets', response.data);
             };
+            commit('setLoader',true, {root: true});
             http
                 .get('/admin/v1/internet/', onMethod);
         },
