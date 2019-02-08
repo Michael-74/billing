@@ -29,7 +29,7 @@ export default {
                         type: 'error',
                         text: 'Проверьте введенные данные'
                     });
-                    checkErrors(options.items, error.response.data);
+                    checkErrors(options.items, error.response.data, options.options);
                 } else if(error.response && error.response.status === 403) {
                     Vue.prototype.$notify({
                         group: 'notify',

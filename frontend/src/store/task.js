@@ -1,7 +1,6 @@
 import axios from "axios";
-import router from '../router'
 import Vue from "vue";
-import {checkErrors} from "../util/helpers";
+import http from '../util/httpCommon';
 
 export default {
     state: {
@@ -96,104 +95,51 @@ export default {
     },
     actions: {
         addTaskAsync ({commit, state, rootGetters}, payload) {
-
-            axios
-                .post('/admin/v1/task/store', payload.obj, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-
-                        commit("pushTasks", response.data)
-                        if(payload.isFormCreate) {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Задача успешно добавлена'
-                            });
-                        } else {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Задача успешно отредактирована'
-                            });
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-
-                        checkErrors(payload.items, rootGetters.getErrors, payload.options);
-                    }
-                });
-
-        },
-        getTasksAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/task/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    commit('setTasks', response.data);
-                })
-        },
-        deleteTaskAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .delete('/admin/v1/task/delete/' + payload.id, {id: parseInt(payload.id)}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
+            let onMethod = (response) => {
+                commit("pushTasks", response.data)
+                if(payload.isFormCreate) {
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'success ',
-                        text: 'Задача успешно удалена'
+                        text: 'Задача успешно добавлена'
                     });
-                    commit('deleteTask', payload.id);
-                })
-                .catch(error => {
+                } else {
                     Vue.prototype.$notify({
                         group: 'notify',
-                        type: 'error',
-                        text: 'Ошибка при удалении задачи'
+                        type: 'success ',
+                        text: 'Задача успешно отредактирована'
                     });
-                })
+                }
+            };
+            http
+                .post('/admin/v1/task/store', payload.obj, payload, onMethod)
+
+        },
+        getTasksAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response) => {
+                commit('setTasks', response.data);
+            };
+            http
+                .get('/admin/v1/task/', onMethod);
+        },
+        deleteTaskAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response, options) => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success ',
+                    text: 'Задача успешно удалена'
+                });
+                commit('deleteTask', options.id);
+            };
+            http
+                .delete('/admin/v1/task/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod);
         },
         searchTasksAsync ({commit, state, rootGetters }, payload) {
-            console.log("searchTasksAsync", payload);
-            //const data = {data: payload.data};
-            //const store = JSON.stringify(data);
-
-            axios
-                .post('/admin/v1/task/search', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("searchTasksAsync success", response);
-                    commit('setTasks', response.data);
-                })
+            let onMethod = (response) => {
+                commit('setTasks', response.data);
+            };
+            http
+                .post('/admin/v1/task/search', payload, payload, onMethod);
         },
     },
     getters: {

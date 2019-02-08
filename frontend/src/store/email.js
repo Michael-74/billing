@@ -1,7 +1,4 @@
-import axios from "axios";
-import router from '../router'
 import Vue from "vue";
-import {checkErrors} from "../util/helpers";
 import http from '../util/httpCommon';
 
 export default {
