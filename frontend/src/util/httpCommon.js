@@ -94,7 +94,7 @@ export default {
         loaderStore.state.isLoader = true;
 
         return axios
-            .post(url, data, {
+            .delete(url, data, {
                 headers:{
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export default {
             })
             .then(response => {
                 if (response.status === 200) {
-                    onMethod(response);
+                    onMethod(response, options);
                 }
             })
             .catch(error => {
@@ -111,7 +111,7 @@ export default {
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'error',
-                        text: 'ID не найден'
+                        text: 'Ошибка при удалени. ID не найден'
                     });
                 } else if(error.response && error.response.status === 403) {
                     Vue.prototype.$notify({

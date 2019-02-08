@@ -82,29 +82,16 @@ export default {
                 .get('/admin/v1/email/', onMethod);
         },
         deleteEmailAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .delete('/admin/v1/email/delete/' + payload.id, {id: parseInt(payload.id)}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'success ',
-                        text: 'Настройки успешно удалены'
-                    });
-                    commit('deleteEmail', payload.id);
-                })
-                .catch(error => {
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'error',
-                        text: 'Ошибка при удалении настроек'
-                    });
-                })
+            let onMethod = (response, options) => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success ',
+                    text: 'Настройки успешно удалены'
+                });
+                commit('deleteEmail', options.id);
+            };
+            http
+                .delete('/admin/v1/email/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod)
         }
     },
     getters: {
