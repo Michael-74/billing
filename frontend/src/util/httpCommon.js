@@ -6,15 +6,20 @@ import errorStore from '../store/error';
 import { checkErrors } from "./helpers";
 
 export default {
-    post(url, payload) {
+    post(url, data, options, onMethod) {
         loaderStore.state.isLoader = true;
 
         return axios
-            .post(url, payload, {
+            .post(url, data, {
                 headers:{
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + userStore.state.auth.token
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    onMethod(response);
                 }
             })
             .catch(error => {
@@ -24,7 +29,7 @@ export default {
                         type: 'error',
                         text: 'Проверьте введенные данные'
                     });
-                    checkErrors(payload.items, errorStore.getters.getErrors);
+                    checkErrors(options.items, error.response.data);
                 } else if(error.response && error.response.status === 403) {
                     Vue.prototype.$notify({
                         group: 'notify',
@@ -40,21 +45,27 @@ export default {
                         type: 'error',
                         text: 'Ошибка, код ошибки неизвестен'
                     });
+                    console.log("err", error);
                 }
             })
             .finally(() => {
                 loaderStore.state.isLoader = false;
             });
     },
-    get(url) {
+    get(url, onMethod) {
         loaderStore.state.isLoader = true;
 
         return axios
-            .post(url, {
+            .get(url, {
                 headers:{
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + userStore.state.auth.token
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    onMethod(response);
                 }
             })
             .catch(error => {

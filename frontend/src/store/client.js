@@ -1,7 +1,5 @@
 import axios from "axios";
-import router from '../router'
 import Vue from "vue";
-import { parseObj, checkErrors } from '../util/helpers'
 import http from '../util/httpCommon';
 
 export default {
@@ -43,58 +41,55 @@ export default {
     },
     actions: {
         addCashClientAsync ({commit, state, rootGetters }, payload) {
+            let onMethod = () => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success',
+                    text: 'Баланс успешно изменен'
+                });
+            };
             http
-                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash})
-                .then(response => {
-                    if (response.status === 200) {
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'success',
-                            text: 'Баланс успешно изменен'
-                        });
-                    }
-                })
+                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash}, {}, onMethod);
         },
         addClientAsync ({commit, state, rootGetters }, payload) {
             //sendClient(data); // websocket
 
-            http
-                .post('/admin/v1/client/create', payload.obj, )
-                .then(response => {
-                    if (response.status === 200) {
-                        if(payload.isFormCreate) {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Абонент успешно добавлен'
-                            });
-                        } else {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Абонент успешно отредактирован'
-                            });
-                        }
-                        payload.successFunction();
+            let onMethod = () => {
+                    if(payload.isFormCreate) {
+                        Vue.prototype.$notify({
+                            group: 'notify',
+                            type: 'success ',
+                            text: 'Абонент успешно добавлен'
+                        });
+                    } else {
+                        Vue.prototype.$notify({
+                            group: 'notify',
+                            type: 'success ',
+                            text: 'Абонент успешно отредактирован'
+                        });
                     }
-                });
+                    payload.successFunction();
+                };
+
+            http
+                .post('/admin/v1/client/create', payload.obj, payload, onMethod)
         },
         searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
+            let onMethod = (response) => {
+                commit('setClients', response.data);
+            };
             http
-                .post('/admin/v1/client/search', payload)
-                .then(response => {
-                    commit('setClients', response.data);
-                });
+                .post('/admin/v1/client/search', payload, payload, onMethod)
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/client/')
-                .then(response => {
-                    commit('setClients', response.data.clients);
-                    commit('setInternets', response.data.internets);
-                    commit('setRents', response.data.rents);
-                    commit('setTvs', response.data.tvs);
-                });
+            const onMethod = (response) => {
+                commit('setClients', response.data.clients);
+                commit('setInternets', response.data.internets);
+                commit('setRents', response.data.rents);
+                commit('setTvs', response.data.tvs);
+            };
+            http
+                .get('/admin/v1/client/', onMethod)
         }
     },
     getters: {
