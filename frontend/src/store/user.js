@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from '../router'
+import http from '../util/httpCommon';
 
 export default {
     state: {

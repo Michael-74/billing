@@ -168,7 +168,7 @@ export default {
     },
     created () {
         //if(!this.$store.getters.getPresets.length) {
-            this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
+            //this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
 
 
         //}
@@ -191,7 +191,6 @@ export default {
     },
     methods: {
         applyFilter: function () {
-            console.log('applyFilter');
             const settings = parseObj(this.client);
 
             this.$store.dispatch('searchClientsAsync', settings)
@@ -210,7 +209,6 @@ export default {
         },
         isFilterShow: function (){
             this.isFilter = !this.isFilter;
-            console.log('isFilterShow');
         },
         savePreset: function () {
             const objFields = parseObj(this.client);
@@ -218,6 +216,7 @@ export default {
             this.$store.dispatch("addPresetAsync", {url: this.$route.path, name: this.preset.inputPreset.val, settings: store});
         },
         showPresets: function (items) {
+            this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
             showPresets(items);
         }
     },

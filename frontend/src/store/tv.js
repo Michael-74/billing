@@ -2,6 +2,7 @@ import axios from "axios";
 import router from '../router'
 import Vue from "vue";
 import {checkErrors} from "../util/helpers";
+import http from '../util/httpCommon';
 
 export default {
     state: {
@@ -49,107 +50,53 @@ export default {
     },
     actions: {
         addTvAsync ({commit, state, rootGetters}, payload) {
-
-            axios
-                .post('/admin/v1/tv/store', payload.obj, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-
-                        // Если форма стоит для Добавления
-                        if(payload.isFormCreate) {
-                            commit("pushTvs", response.data)
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Тариф успешно добавлен'
-                            });
-                        } else {
-                            //console.log("internet", this.internet)
-                            commit("editTv", response.data)
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Тариф успешно отредактирован'
-                            });
-                        }
-                        payload.successFunction();
-                    }
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-                        checkErrors(payload.items, rootGetters.getErrors);
-                    }
-                });
-
-        },
-        getTvsAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/tv/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    commit('setTvs', response.data);
-                })
-        },
-        deleteTvAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .delete('/admin/v1/tv/delete/' + payload.id, {id: parseInt(payload.id)}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
+            let onMethod = (response) => {
+                if(payload.isFormCreate) {
+                    commit("pushTvs", response.data)
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'success ',
-                        text: 'Интернет тариф успешно удален'
+                        text: 'Тариф успешно добавлен'
                     });
-                    commit('deleteTv', payload.id);
-                })
-                .catch(error => {
+                } else {
+                    //console.log("internet", this.internet)
+                    commit("editTv", response.data)
                     Vue.prototype.$notify({
                         group: 'notify',
-                        type: 'error',
-                        text: 'Ошибка при удалении интернет тарифа'
+                        type: 'success ',
+                        text: 'Тариф успешно отредактирован'
                     });
-                })
+                }
+                payload.successFunction();
+            };
+            http
+                .post('/admin/v1/tv/store', payload.obj, payload, onMethod);
+        },
+        getTvsAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response) => {
+                commit('setTvs', response.data);
+            };
+            http
+                .get('/admin/v1/tv/', onMethod);
+        },
+        deleteTvAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response, options) => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success ',
+                    text: 'Интернет тариф успешно удален'
+                });
+                commit('deleteTv', options.id);
+            };
+            http
+                .delete('/admin/v1/tv/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod);
         },
         searchTvsAsync ({commit, state, rootGetters }, payload) {
-            console.log("searchTvAsync", payload);
-            //const data = {data: payload.data};
-            //const store = JSON.stringify(data);
-
-            axios
-                .post('/admin/v1/tv/search', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("searchTvAsync success", response);
-                    commit('setTvs', response.data);
-                })
+            let onMethod = (response) => {
+                commit('setTvs', response.data);
+            };
+            http
+                .post('/admin/v1/tv/search', payload, payload, onMethod);
         },
     },
     getters: {

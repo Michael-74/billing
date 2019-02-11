@@ -94,13 +94,13 @@ const router = new Router({
                     name: 'Logs',
                     meta: {isRequiresAuth: true, name: "Логи", icon: 'clock'}
                 },
+                /*
                 {
                     path: 'mail',
                     component: Mail,
                     name: 'Mail',
                     meta: {isRequiresAuth: true, name: "Рассылка", icon: 'envelope'}
                 },
-                /*
                 {
                     path: 'service',
                     component: Service,

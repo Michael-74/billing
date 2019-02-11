@@ -6,12 +6,17 @@
         </div>
         <div class="footer"></div>
         <notifications group="notify" classes="notify"/>
+        <app-loader></app-loader>
     </div>
 </template>
 
 <script>
+import Loader from './components/logic-blocks/Loader';
 
 export default {
+    components: {
+        AppLoader: Loader,
+    },
     name: 'app',
     data() {
         return {

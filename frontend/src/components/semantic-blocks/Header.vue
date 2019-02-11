@@ -47,6 +47,7 @@ export default {
             e.preventDefault();
         }
     },
+
     computed: {
         getName () {
             return this.name.username;
