@@ -2,6 +2,7 @@ import axios from "axios";
 import router from '../router'
 import Vue from "vue";
 import {checkErrors} from "../util/helpers";
+import http from '../util/httpCommon';
 
 export default {
     state: {
@@ -50,104 +51,53 @@ export default {
     },
     actions: {
         addRentAsync ({commit, state, rootGetters}, payload) {
-
-            axios
-                .post('/admin/v1/rent/store', payload.obj, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-
-                        // Если форма стоит для Добавления
-                        if(payload.isFormCreate) {
-                            commit("pushRents", response.data)
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Тариф успешно добавлен'
-                            });
-                        } else {
-                            //console.log("internet", this.internet)
-                            commit("editRent", response.data)
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Тариф успешно отредактирован'
-                            });
-                        }
-                        payload.successFunction();
-                    }
-                })
-                .catch(error => {
-                    console.log("error", error);
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
-                        });
-                        checkErrors(payload.items, rootGetters.getErrors);
-                    }
-                });
-
-        },
-        getRentsAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/rent/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    commit('setRents', response.data);
-                })
-        },
-        deleteRentAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .delete('/admin/v1/rent/delete/' + payload.id, {id: parseInt(payload.id)}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
+            let onMethod = (response) => {
+                if(payload.isFormCreate) {
+                    commit("pushRents", response.data)
                     Vue.prototype.$notify({
                         group: 'notify',
                         type: 'success ',
-                        text: 'Тариф успешно удален'
+                        text: 'Тариф успешно добавлен'
                     });
-                    commit('deleteRent', payload.id);
-                })
-                .catch(error => {
+                } else {
+                    commit("editRent", response.data)
                     Vue.prototype.$notify({
                         group: 'notify',
-                        type: 'error',
-                        text: 'Ошибка при удалении тарифа'
+                        type: 'success ',
+                        text: 'Тариф успешно отредактирован'
                     });
-                })
+                }
+                payload.successFunction();
+            };
+            http
+                .post('/admin/v1/rent/store', payload.obj, payload, onMethod);
+
+        },
+        getRentsAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response) => {
+                commit('setRents', response.data);
+            };
+            http
+                .get('/admin/v1/rent/', onMethod);
+        },
+        deleteRentAsync ({commit, state, rootGetters}, payload) {
+            let onMethod = (response, options) => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success ',
+                    text: 'Тариф успешно удален'
+                });
+                commit('deleteRent', options.id);
+            };
+            http
+                .delete('/admin/v1/rent/delete/' + payload.id, {id: parseInt(payload.id)}, payload, onMethod);
         },
         searchRentsAsync ({commit, state, rootGetters }, payload) {
-
-            axios
-                .post('/admin/v1/rent/search', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("searchRentAsync success", response);
-                    commit('setRents', response.data);
-                })
+            let onMethod = (response) => {
+                commit('setRents', response.data);
+            };
+            http
+                .post('/admin/v1/rent/search', payload, payload, onMethod);
         },
     },
     getters: {

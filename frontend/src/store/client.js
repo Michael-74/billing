@@ -1,7 +1,6 @@
 import axios from "axios";
-import router from '../router'
 import Vue from "vue";
-import { parseObj, checkErrors } from '../util/helpers'
+import http from '../util/httpCommon';
 
 export default {
     state: {
@@ -42,117 +41,55 @@ export default {
     },
     actions: {
         addCashClientAsync ({commit, state, rootGetters }, payload) {
-            axios
-                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        Vue.prototype.$notify({
-                            group: 'notify',
-                            type: 'success',
-                            text: 'Баланс успешно изменен'
-                        });
-                    }
-                })
-                .catch(error => {
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'error',
-                        text: 'Проверьте введенные данные'
-                    });
+            let onMethod = () => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success',
+                    text: 'Баланс успешно изменен'
                 });
-
-
+            };
+            http
+                .post('/admin/v1/client/' + payload.id + '/add-cash', {cash: payload.cash}, {}, onMethod);
         },
         addClientAsync ({commit, state, rootGetters }, payload) {
             //sendClient(data); // websocket
 
-            axios
-                .post('/admin/v1/client/create', payload.obj, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        if(payload.isFormCreate) {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Абонент успешно добавлен'
-                            });
-                        } else {
-                            Vue.prototype.$notify({
-                                group: 'notify',
-                                type: 'success ',
-                                text: 'Абонент успешно отредактирован'
-                            });
-                        }
-                        payload.successFunction();
-                    }
-                })
-                .catch(error => {
-                    if(error.response.status === 422) {
-                        commit('setErrors', error.response.data);
+            let onMethod = () => {
+                    if(payload.isFormCreate) {
                         Vue.prototype.$notify({
                             group: 'notify',
-                            type: 'error',
-                            text: 'Проверьте введенные данные'
+                            type: 'success ',
+                            text: 'Абонент успешно добавлен'
                         });
-                        checkErrors(payload.items, rootGetters.getErrors);
+                    } else {
+                        Vue.prototype.$notify({
+                            group: 'notify',
+                            type: 'success ',
+                            text: 'Абонент успешно отредактирован'
+                        });
                     }
-                });
+                    payload.successFunction();
+                };
 
+            http
+                .post('/admin/v1/client/create', payload.obj, payload, onMethod)
         },
         searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
-            console.log("searchClientsAsync", payload);
-            //const data = {data: payload.data};
-            //const store = JSON.stringify(data);
-            commit('changeLoader', true, {root: true});
-
-            axios
-                .post('/admin/v1/client/search', payload, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("searchClientsAsync success", response);
-                    commit('setClients', response.data);
-                    commit('changeLoader', false, {root: true});
-                })
+            let onMethod = (response) => {
+                commit('setClients', response.data);
+            };
+            http
+                .post('/admin/v1/client/search', payload, payload, onMethod)
         },
         getClientsAsync ({commit, state, rootGetters}, payload) {
-            axios
-                .get('/admin/v1/client/', {}, {
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + rootGetters.getUser.token
-                    }
-                })
-                .then(response => {
-                    console.log("getClientsAsync", response);
-                    commit('setClients', response.data.clients);
-                    commit('setInternets', response.data.internets);
-                    commit('setRents', response.data.rents);
-                    commit('setTvs', response.data.tvs);
-                }).catch(error => {
-                    Vue.prototype.$notify({
-                        group: 'notify',
-                        type: 'error',
-                        text: 'Проверьте введенные данные'
-                    });
-            });
+            let onMethod = (response) => {
+                commit('setClients', response.data.clients);
+                commit('setInternets', response.data.internets);
+                commit('setRents', response.data.rents);
+                commit('setTvs', response.data.tvs);
+            };
+            http
+                .get('/admin/v1/client/', onMethod)
         }
     },
     getters: {

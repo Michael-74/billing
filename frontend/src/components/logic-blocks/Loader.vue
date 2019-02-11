@@ -1,5 +1,5 @@
 <template>
-    <div class="loading" v-show="this.isLoader">
+    <div class="loading" v-show="isLoader">
         <div class="loader"></div>
     </div>
 </template>
@@ -23,7 +23,7 @@ export default {
     computed: {
         ...mapGetters([
             'isLoader'
-        ]),
+        ])
     }
 }
 </script>

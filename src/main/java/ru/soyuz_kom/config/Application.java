@@ -23,7 +23,7 @@ public class Application {
     @PostConstruct
     public void init(){
         TimeZone.setDefault(TimeZone.getDefault());   // It will set UTC timezone
-        System.out.println("Spring boot application running in UTC timezone :" + new Date());   // It will print UTC timezone
+        //System.out.println("Spring boot application running in UTC timezone :" + new Date());   // It will print UTC timezone
     }
 
     public static void main(String[] args) {

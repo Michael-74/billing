@@ -90,9 +90,7 @@ export default {
         }
     },
     created () {
-        //if(!this.$store.getters.getPresets.length) {
-            this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
-        //}
+
     },
     methods: {
         applyFilter: function () {
@@ -113,6 +111,7 @@ export default {
             this.$store.dispatch("addPresetAsync", {url: this.$route.path, name: this.preset.inputPreset.val, settings: store});
         },
         showPresets(items) {
+            this.$store.dispatch('getPresetsAsync', {url: this.$route.path});
             showPresets(items)
         },
     },
