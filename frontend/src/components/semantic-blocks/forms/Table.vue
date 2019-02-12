@@ -5,7 +5,7 @@
         </div>
         <div class="items__wrapper-tables">
             <div class="items__tables">
-                <div class="items__table-fix">
+                <!--<div class="items__table-fix2">
                     <table class="items__table">
                         <thead class="items__thead">
                         <tr>
@@ -26,17 +26,19 @@
                         <tr v-for="item in getRows" :key="item.id"></tr>
                         </tbody>
                     </table>
-                </div>
+                </div>-->
                 <div class="items__table-source">
                 <table class="items__table">
                     <thead class="items__thead items__thead_hide">
                     <tr>
-                        <th class="items__th items__th_square">
-                            <font-awesome-icon class="select__icon select__icon_blue" icon="square"></font-awesome-icon>
+                        <th class="items__th items__th_square" @click="selectAllItems">
+                            <font-awesome-icon class="select__icon select__icon_white" v-if="isSelectAllItems" icon="check-square"></font-awesome-icon>
+                            <font-awesome-icon class="select__icon select__icon_white" v-else icon="square"></font-awesome-icon>
                         </th>
                         <th class="items__th"
                             v-for="column in getСolumns"
                             :style="{width: column.width}"
+                            @click="sort(column.field)"
                             v-show="column.isShow"
                         >{{ column.name }}</th>
                         <th class="items__th items__td_setting">Действие</th>
@@ -49,24 +51,24 @@
                             <font-awesome-icon class="select__icon select__icon_blue" v-else icon="square"></font-awesome-icon>
                         </td>
 
-                        <td v-if="col.field !== 'isStatus' && col.field !== 'tasks' && col.field !== 'typeDiscount' && col.field !== 'isPromisedPay'  && col.field !== 'note' && col.field !== 'internet' && col.field !== 'tvs' && col.field !== 'rents' && col.field !== 'balance'"
+                        <td :style="{width: col.width}" v-if="col.field !== 'isStatus' && col.field !== 'tasks' && col.field !== 'typeDiscount' && col.field !== 'isPromisedPay'  && col.field !== 'note' && col.field !== 'internet' && col.field !== 'tvs' && col.field !== 'rents' && col.field !== 'balance'"
                             v-show="col.isShow" class="items__td" v-for="col in getСolumns">{{ item[col.field] }}</td>
 
-                        <td v-else-if="col.field === 'tasks'" v-show="col.isShow"  class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'tasks'" v-show="col.isShow"  class="items__td">
                             <div class="" v-for="task in item[col.field]">
                                 <span class="items__pack">{{ task.name }}</span>
                             </div>
                         </td>
 
-                        <td v-else-if="col.field === 'balance'" v-show="col.isShow" class="items__td">{{ formatPriceLocal(item.balance) }}</td>
+                        <td :style="{width: col.width}" v-else-if="col.field === 'balance'" v-show="col.isShow" class="items__td">{{ formatPriceLocal(item.balance) }}</td>
 
-                        <td v-else-if="col.field === 'internet'" v-show="col.isShow" class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'internet'" v-show="col.isShow" class="items__td">
                             <div v-if="item.internet !== null">
                                 <span class="items__pack" v-if="isSearchNameForId('getInternets', item.internet.id)">{{ searchNameForId("getInternets", item.internet.id) }}</span>
                             </div>
                         </td>
 
-                        <td v-else-if="col.field === 'tvs'" v-show="col.isShow" class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'tvs'" v-show="col.isShow" class="items__td">
                             <div v-if="item.tvs.length !== 0">
                                 <div v-for="tv in item.tvs">
                                     <span class="items__pack" v-if="isSearchNameForId('getTvs', tv.id)">{{ searchNameForId("getTvs", tv.id) }}</span>
@@ -74,7 +76,7 @@
                             </div>
                         </td>
 
-                        <td v-else-if="col.field === 'rents'" v-show="col.isShow" class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'rents'" v-show="col.isShow" class="items__td">
                             <div v-if="item.rents.length !== 0">
                                 <div v-for="rent in item.rents">
                                     <span class="items__pack" v-if="isSearchNameForId('getRents', rent.id)">{{ searchNameForId("getRents", rent.id) }}</span>
@@ -82,12 +84,12 @@
                             </div>
                         </td>
 
-                        <td v-else-if="col.field === 'typeDiscount'" v-show="col.isShow" class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'typeDiscount'" v-show="col.isShow" class="items__td">
                             {{ item.typeDiscount === "discount10" ? "Скидка до 10%" : ""}}
                             {{ item.typeDiscount === "discount20" ? "Скидка до 20%" : "" }}
                         </td>
 
-                        <td v-else-if="col.field === 'isPromisedPay'" v-show="col.isShow" class="items__td items_nowrap">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'isPromisedPay'" v-show="col.isShow" class="items__td items_nowrap">
                                 <span v-show="item.isPromisedPay">
                                     <span class="items__signal"></span>
                                     <span class="items__status-text">Включен</span>
@@ -98,11 +100,11 @@
                                 </span>
                         </td>
 
-                        <td v-else-if="col.field === 'createdAt'" class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'createdAt'" class="items__td">
                             {{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}
                         </td>
 
-                        <td v-else-if="col.field === 'isStatus'" v-show="col.isShow" class="items__td items_nowrap">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'isStatus'" v-show="col.isShow" class="items__td items_nowrap">
                             <span v-show="item.isStatus">
                                 <span class="items__signal"></span>
                                 <span class="items__status-text">Включен</span>
@@ -113,7 +115,7 @@
                             </span>
                         </td>
 
-                        <td v-else-if="col.field === 'note'" v-show="col.isShow" class="items__td">
+                        <td :style="{width: col.width}" v-else-if="col.field === 'note'" v-show="col.isShow" class="items__td">
                             <font-awesome-icon class="items__icon"
                                                :class="{'items__icon_orange': item.note}"
                                                icon="comment-alt"
@@ -323,8 +325,7 @@ export default {
 
 }
 .items__tables {
-    background: #FFF;
-    /*border-radius: 4px;*/
+    border-radius: 4px;
     box-shadow: 1px 2px 10px 2px rgba(0, 0, 0, 0.2);
     width: 100%;
     padding-bottom: 20px;
@@ -332,14 +333,18 @@ export default {
 .items__table {
     width: 100%;
 }
+.items__tbody {
+    background: #FFF;
+}
 .items__td_setting {
     width: 80px;
 }
 .items__table-source {
     max-height: 600px;
-    overflow: scroll;
+    overflow-x: scroll;
     padding-bottom: 20px;
 }
+/*
 .items__thead_hide {
     visibility: hidden;
 }
@@ -350,5 +355,5 @@ export default {
     padding: 0px;
     font-size: 0px;
 }
-
+*/
 </style>

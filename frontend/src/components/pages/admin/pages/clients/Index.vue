@@ -134,13 +134,6 @@ export default {
                     width: "200px",
                 },
                 {
-                    field: 'tasks',
-                    name: 'Задачи',
-                    sort: 14,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
                     field: 'isStatus',
                     name: 'Статус',
                     sort: 15,
