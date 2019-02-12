@@ -1,7 +1,7 @@
 <template>
     <div class="items__clients">
         <div class="wrapper-cog">
-            <app-setting-table :columns="getСolumns"></app-setting-table>
+            <app-setting-table :columns="getColumns"></app-setting-table>
         </div>
         <div class="items__wrapper-tables">
             <div class="items__tables">
@@ -301,7 +301,7 @@ export default {
         ...mapGetters([
             'getTvs', 'getInternets', 'getRents'
         ]),
-        getСolumns() {
+        getColumns() {
             return this.columns;
         },
         getRows() {
