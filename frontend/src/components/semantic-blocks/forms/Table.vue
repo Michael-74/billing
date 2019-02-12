@@ -135,11 +135,7 @@ export default {
                 this.items.splice(idx, 1);
             }
 
-            if(this.isDiffRowsAndItems()) {
-                this.isSelectAllItems = true
-            } else {
-                this.isSelectAllItems = false
-            }
+            this.isSelectAllItems = !!this.isDiffRowsAndItems();
         },
         isDiffRowsAndItems() {
             return this.getRows.length === this.items.length
