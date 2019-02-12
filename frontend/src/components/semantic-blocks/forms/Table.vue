@@ -3,25 +3,26 @@
         <div class="wrapper-cog">
             <app-setting-table :columns="getСolumns"></app-setting-table>
         </div>
-        <div class="items__table-fix">
-            <table class="items__table">
-                <thead class="items__thead">
-                <tr>
-                    <th class="items__th"
-                        v-for="column in getСolumns"
-                        :style="{width: column.width}"
-                        @click="sort(column.field)"
-                        v-show="column.isShow"
-                    >{{ column.name }}</th>
-                    <th class="items__th items__td_setting">Действие</th>
-                </tr>
-                </thead>
-                <tbody class="items__tbody">
-                <tr v-for="item in getRows" :key="item.id"></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="items__table-source">
+        <div class="items__tables">
+            <div class="items__table-fix">
+                <table class="items__table">
+                    <thead class="items__thead">
+                    <tr>
+                        <th class="items__th"
+                            v-for="column in getСolumns"
+                            :style="{width: column.width}"
+                            @click="sort(column.field)"
+                            v-show="column.isShow"
+                        >{{ column.name }}</th>
+                        <th class="items__th items__td_setting">Действие</th>
+                    </tr>
+                    </thead>
+                    <tbody class="items__tbody">
+                    <tr v-for="item in getRows" :key="item.id"></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="items__table-source">
             <table class="items__table">
                 <thead class="items__thead items__thead_hide">
                 <tr>
@@ -56,6 +57,7 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 </template>
@@ -131,10 +133,14 @@ export default {
     /*background: #FFF;*/
     /*margin: 20px 0;*/
 }
-.items__table {
+.items__tables {
     background: #FFF;
     /*border-radius: 4px;*/
     box-shadow: 1px 2px 10px 2px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding-bottom: 20px;
+}
+.items__table {
     width: 100%;
 }
 .items__td_setting {
