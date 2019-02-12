@@ -15,7 +15,6 @@
 <script>
 import Filter from './Filter'
 import Create from './Create'
-import Items from './Item'
 import Table from '../../../../semantic-blocks/forms/Table'
 import { mapGetters } from 'vuex';
 
@@ -23,8 +22,7 @@ export default {
     components: {
         AppFilter: Filter,
         AppCreate: Create,
-        AppTable: Table,
-        AppItem: Items
+        AppTable: Table
     },
     data () {
         return {
@@ -82,6 +80,7 @@ export default {
     methods: {
         editItem: function(item) {
             this.$store.commit("setRent", item);
+            this.$store.commit("setSelectedTasks", item.tasks);
         },
         deleteItem: function(id) {
             this.$store.dispatch("deleteRentAsync", {id: id});
