@@ -8,6 +8,9 @@
                 <table class="items__table">
                     <thead class="items__thead">
                     <tr>
+                        <th class="items__th items__th_square" @click="selectAllItems">
+                            <font-awesome-icon class="select__icon select__icon_white" icon="square"></font-awesome-icon>
+                        </th>
                         <th class="items__th"
                             v-for="column in getСolumns"
                             :style="{width: column.width}"
@@ -26,6 +29,9 @@
             <table class="items__table">
                 <thead class="items__thead items__thead_hide">
                 <tr>
+                    <th class="items__th items__th_square">
+                        <font-awesome-icon class="select__icon select__icon_blue" icon="square"></font-awesome-icon>
+                    </th>
                     <th class="items__th"
                         v-for="column in getСolumns"
                         :style="{width: column.width}"
@@ -36,6 +42,10 @@
                 </thead>
                 <tbody class="items__tbody">
                 <tr v-for="item in getRows" :key="item.id">
+                    <td class="items__td items__th_square" @click="checkItem(item.id)">
+                        <font-awesome-icon class="select__icon select__icon_blue" v-if="isCheckItem(item.id)" icon="check-square"></font-awesome-icon>
+                        <font-awesome-icon class="select__icon select__icon_blue" v-else icon="square"></font-awesome-icon>
+                    </td>
                     <td v-if="col.field !== 'isStatus'" v-show="col.isShow" class="items__td" v-for="col in getСolumns">{{ item[col.field] }}</td>
                     <td v-else-if="col.field === 'createdAt'" class="items__td">
                         {{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}
@@ -74,7 +84,8 @@ export default {
     },
     data () {
         return {
-            flagSort: true
+            flagSort: true,
+            items: []
         }
     },
     methods: {
@@ -110,6 +121,24 @@ export default {
         },
         del(id){
             this.deleteItem(id);
+        },
+        isCheckItem(id) {
+            return this.items.indexOf(id) !== -1;
+        },
+        checkItem(id) {
+            if(!this.isCheckItem(id)){
+                this.items.push(id);
+            } else {
+                let idx = this.items.indexOf(id);
+                this.items.splice(idx, 1);
+            }
+        },
+        selectAllItems() {
+            if(this.getRows.length === this.items.length) {
+                this.items = [];
+            } else {
+                this.items = this._.map(this.getRows, 'id');
+            }
         }
     },
     computed: {
