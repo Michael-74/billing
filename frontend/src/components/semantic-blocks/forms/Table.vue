@@ -14,7 +14,7 @@
                                 <font-awesome-icon class="select__icon select__icon_white" v-else icon="square"></font-awesome-icon>
                             </th>
                             <th class="items__th"
-                                v-for="column in getСolumns"
+                                v-for="column in getColumns"
                                 :style="{width: column.width}"
                                 @click="sort(column.field)"
                                 v-show="column.isShow"
@@ -36,7 +36,7 @@
                             <font-awesome-icon class="select__icon select__icon_white" v-else icon="square"></font-awesome-icon>
                         </th>
                         <th class="items__th"
-                            v-for="column in getСolumns"
+                            v-for="column in getColumns"
                             :style="{width: column.width}"
                             @click="sort(column.field)"
                             v-show="column.isShow"
@@ -52,7 +52,7 @@
                         </td>
 
                         <td :style="{width: col.width}" v-if="col.field !== 'isStatus' && col.field !== 'tasks' && col.field !== 'typeDiscount' && col.field !== 'isPromisedPay'  && col.field !== 'note' && col.field !== 'internet' && col.field !== 'tvs' && col.field !== 'rents' && col.field !== 'balance'"
-                            v-show="col.isShow" class="items__td" v-for="col in getСolumns">{{ item[col.field] }}</td>
+                            v-show="col.isShow" class="items__td" v-for="col in getColumns">{{ item[col.field] }}</td>
 
                         <td :style="{width: col.width}" v-else-if="col.field === 'tasks'" v-show="col.isShow"  class="items__td">
                             <div class="" v-for="task in item[col.field]">
