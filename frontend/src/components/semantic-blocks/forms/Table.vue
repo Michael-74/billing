@@ -9,7 +9,8 @@
                     <thead class="items__thead">
                     <tr>
                         <th class="items__th items__th_square" @click="selectAllItems">
-                            <font-awesome-icon class="select__icon select__icon_white" icon="square"></font-awesome-icon>
+                            <font-awesome-icon class="select__icon select__icon_white" v-if="isSelectAllItems" icon="check-square"></font-awesome-icon>
+                            <font-awesome-icon class="select__icon select__icon_white" v-else icon="square"></font-awesome-icon>
                         </th>
                         <th class="items__th"
                             v-for="column in getСolumns"
@@ -85,6 +86,7 @@ export default {
     data () {
         return {
             flagSort: true,
+            isSelectAllItems: false,
             items: []
         }
     },
@@ -132,9 +134,20 @@ export default {
                 let idx = this.items.indexOf(id);
                 this.items.splice(idx, 1);
             }
+
+            if(this.isDiffRowsAndItems()) {
+                this.isSelectAllItems = true
+            } else {
+                this.isSelectAllItems = false
+            }
+        },
+        isDiffRowsAndItems() {
+            return this.getRows.length === this.items.length
         },
         selectAllItems() {
-            if(this.getRows.length === this.items.length) {
+            this.isSelectAllItems = true
+            if(this.isDiffRowsAndItems()) {
+                this.isSelectAllItems = false
                 this.items = [];
             } else {
                 this.items = this._.map(this.getRows, 'id');
