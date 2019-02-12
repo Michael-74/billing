@@ -4,7 +4,7 @@
             <app-create :editItem="this.getEditMikrotik"></app-create>
         </div>
         <div class="wrapper__item">
-            <app-table :columns="getTable" :rows="this.getMikrotiks" :editItem="editItem" :deleteItem="deleteItem"></app-table>
+            <app-table :columns="getTable" :rows="this.getMikrotiks" :editItem="editItem" :deleteItem="deleteItem" typeSetting="mikrotik"></app-table>
         </div>
     </div>
 </template>

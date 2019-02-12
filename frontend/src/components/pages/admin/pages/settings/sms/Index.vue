@@ -4,7 +4,7 @@
             <app-create :editItem="this.getEditSms"></app-create>
         </div>
         <div class="wrapper__item">
-            <app-table :columns="getTable" :rows="this.getSmses" :editItem="editItem" :deleteItem="deleteItem"></app-table>
+            <app-table :columns="getTable" :rows="this.getSmses" :editItem="editItem" :deleteItem="deleteItem" typeSetting="sms"></app-table>
         </div>
     </div>
 </template>
