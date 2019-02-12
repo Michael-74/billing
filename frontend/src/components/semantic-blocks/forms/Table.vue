@@ -47,7 +47,12 @@
                         <font-awesome-icon class="select__icon select__icon_blue" v-if="isCheckItem(item.id)" icon="check-square"></font-awesome-icon>
                         <font-awesome-icon class="select__icon select__icon_blue" v-else icon="square"></font-awesome-icon>
                     </td>
-                    <td v-if="col.field !== 'isStatus'" v-show="col.isShow" class="items__td" v-for="col in getСolumns">{{ item[col.field] }}</td>
+                    <td v-if="col.field !== 'isStatus' && col.field !== 'tasks'" v-show="col.isShow" class="items__td" v-for="col in getСolumns">{{ item[col.field] }}</td>
+                    <td v-else-if="col.field === 'tasks'" v-show="col.isShow"  class="items__td">
+                        <div class="" v-for="task in item[col.field]">
+                            <span class="items__pack">{{ task.name }}</span>
+                        </div>
+                    </td>
                     <td v-else-if="col.field === 'createdAt'" class="items__td">
                         {{ item.createdAt ? item.createdAt : "Добавлен или изменен только что" }}
                     </td>
