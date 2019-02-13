@@ -340,7 +340,7 @@ export default {
     width: 80px;
 }
 .items__table-source {
-    max-height: 600px;
+    /*max-height: 600px;*/
     overflow-x: scroll;
     padding-bottom: 20px;
 }
