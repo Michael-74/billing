@@ -61,6 +61,12 @@ public class Tv extends Datetime {
         this.clients = clients;
     }
 
+    @Column(name = "id_smotreshka")
+    private Integer smotreshkaId;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @PrePersist
     void preInsert() {
         if (this.isStatus == null)

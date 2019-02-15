@@ -1,29 +1,54 @@
 package ru.soyuz_kom.provider;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.soyuz_kom.entity.Smotreshka;
-import ru.soyuz_kom.repository.SmotreshkaRepository;
+import org.springframework.web.client.RestTemplate;
+import ru.soyuz_kom.dto.smotreshka.AccountDTO;
+import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
 
 import java.util.List;
 
-public class SmotreshkaProvider implements IProvider {
+@Service
+@Getter @Setter
+public class SmotreshkaProvider {
 
     @Autowired
-    SmotreshkaRepository smotreshkaRepository;
+    private RestTemplate restTemplate;
 
-    private List<Smotreshka> items;
+    private String url;
+    private String login;
+    private String password;
 
-    public SmotreshkaProvider() {
-        //this.items = smotreshkaRepository.findAll();
+    public SmotreshkaProvider instance(String url, String login, String password) {
+        this.url = url;
+        this.login = login;
+        this.password = password;
+
+        return this;
     }
 
-    public void makeInstance() {
-        this.items = smotreshkaRepository.findAll();
-    }
+    public void getAllItems() {
+        String str = "/v2/accounts";
+        System.out.println("getAllItems");
 
-    public void getSys() {
-        System.out.println("Smotreshka count: " + this.items.size());
+
+        AccountListDTO response = restTemplate.getForObject(this.url + str, AccountListDTO.class);
+        List<AccountDTO> accounts = response.getAccounts();
+        System.out.println(accounts.get(0).getInfo().getFio());
+
+        /* Альтернатива
+        ResponseEntity<AccountListDTO> rateResponse =
+                restTemplate.exchange(this.url + str,
+                            HttpMethod.GET, null, new ParameterizedTypeReference<AccountListDTO>() {}
+                        );
+        AccountListDTO accounts = rateResponse.getBody();
+        System.out.println(accounts.getAccounts().get(0).getId());
+        */
+
     }
 }

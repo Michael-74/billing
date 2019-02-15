@@ -45,7 +45,7 @@ public class ClientController extends AdminController {
     private ClientServiceImpl clientService;
 
     @Autowired
-    private SmotreshkaProvider smt;
+    private SmotreshkaProvider smotreshkaProvider;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -114,6 +114,23 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/search"})
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
+
+        /* ------------------------------ */
+
+        SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
+
+        smt.getAllItems();
+
+
+
+
+
+
+
+
+
+
+        /* ------------------------------ */
 
         String string = "";
 
