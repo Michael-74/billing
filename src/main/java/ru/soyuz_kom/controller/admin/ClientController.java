@@ -119,7 +119,9 @@ public class ClientController extends AdminController {
 
         SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
 
-        smt.getAllItems();
+        //smt.getAccount("5bea68dc70c0ef0d0d0fc7b1");
+        smt.setAccountInfo("5bea68dc70c0ef0d0d0fc7b1", null, null, "Барышников Станислав Владимирович", "1");
+
 
 
 
