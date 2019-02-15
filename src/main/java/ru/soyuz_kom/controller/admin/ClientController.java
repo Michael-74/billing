@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Internet;
 import ru.soyuz_kom.entity.view.Views;
 import ru.soyuz_kom.helper.CriteriaHelper;
+
+import ru.soyuz_kom.provider.IProvider;
+import ru.soyuz_kom.provider.SmotreshkaProvider;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
@@ -39,6 +43,9 @@ public class ClientController extends AdminController {
 
     @Autowired
     private ClientServiceImpl clientService;
+
+    @Autowired
+    private SmotreshkaProvider smt;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -107,7 +114,6 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/search"})
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
-
 
         String string = "";
 
