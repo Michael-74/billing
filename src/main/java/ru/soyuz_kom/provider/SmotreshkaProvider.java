@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import ru.soyuz_kom.dto.smotreshka.AccountDTO;
 import ru.soyuz_kom.dto.smotreshka.AccountInfoDTO;
 import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
+import ru.soyuz_kom.dto.smotreshka.AccountPasswordStatusDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,12 +79,17 @@ public class SmotreshkaProvider {
         System.out.println(obj);
     }
 
-    public void setAccountPassword(String id, String password) {
+    /**
+     * Сбрасываем пароль и ставим свой
+     * @param id
+     * @param password
+     */
+    public boolean setAccountPassword(String id, String password) {
         String str = "/v2/accounts/" + id + "/reset-password";
         Map info = new HashMap<String, String>();
         info.put("password", password);
 
-        Object obj = restTemplate.postForObject(this.url + str, info, Object.class);
-        System.out.println(obj);
+        AccountPasswordStatusDTO status = restTemplate.postForObject(this.url + str, info, AccountPasswordStatusDTO.class);
+        return status.getStatus().equals("ok");
     }
 }
