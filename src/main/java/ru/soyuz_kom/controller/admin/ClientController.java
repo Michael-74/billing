@@ -135,15 +135,6 @@ public class ClientController extends AdminController {
         smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", null);
 
 
-
-
-
-
-
-
-
-
-
         /* ------------------------------ */
 
         String string = "";
