@@ -77,4 +77,13 @@ public class SmotreshkaProvider {
         Object obj = restTemplate.postForObject(this.url + str, info, Object.class);
         System.out.println(obj);
     }
+
+    public void setAccountPassword(String id, String password) {
+        String str = "/v2/accounts/" + id + "/reset-password";
+        Map info = new HashMap<String, String>();
+        info.put("password", password);
+
+        Object obj = restTemplate.postForObject(this.url + str, info, Object.class);
+        System.out.println(obj);
+    }
 }
