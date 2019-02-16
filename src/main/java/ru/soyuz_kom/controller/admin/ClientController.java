@@ -132,7 +132,9 @@ public class ClientController extends AdminController {
         List pur = new ArrayList();
         pur.add(102);
 
-        smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", null);
+        Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
+
+        System.out.println("s: " + obj);
 
 
         /* ------------------------------ */
