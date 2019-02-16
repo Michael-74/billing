@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.soyuz_kom.dto.smotreshka.AccountDTO;
-import ru.soyuz_kom.dto.smotreshka.AccountInfoDTO;
-import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
-import ru.soyuz_kom.dto.smotreshka.AccountPasswordStatusDTO;
+import ru.soyuz_kom.dto.smotreshka.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,5 +89,55 @@ public class SmotreshkaProvider {
 
         AccountPasswordStatusDTO status = restTemplate.postForObject(this.url + str, info, AccountPasswordStatusDTO.class);
         return status.getStatus().equals("ok");
+    }
+
+    /**
+     * Удаление абонента по id
+     * Если абонент был удален выкинет ошибку 403
+     * @param id
+     */
+    public Boolean deleteAccountById(String id) {
+        String str = "/v2/accounts/" + id;
+
+        ResponseEntity<AccountDeleteDTO> response = restTemplate
+                .exchange(this.url + str, HttpMethod.DELETE, null, AccountDeleteDTO.class);
+        AccountDeleteDTO delete = response.getBody();
+        return delete.getDelete() == true;
+    }
+
+
+    /**
+     * Получаем все подписки абонента
+     * @param id
+     */
+    public void getAccountSubscriptions(String id) {
+        String str = "/v2/accounts/" + id + "/subscriptions";
+
+        ResponseEntity<List<AccountSubscriptionsDTO>> responseEntity =
+                restTemplate.exchange(this.url + str,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
+                        });
+        List<AccountSubscriptionsDTO> listOfString = responseEntity.getBody();
+    }
+
+    /**
+     * Изменяем тип подписки в зависимости от булева значения
+     * @param id - номер акаунта
+     * @param subscriptionId - номер подписки
+     * @param isValid - добавить/удалить подписку
+     */
+    public void setAccountSubscriptions(String id, String subscriptionId, boolean isValid) {
+        String str = "/v2/accounts/" + id + "/subscriptions";
+
+        SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
+        subscriptionDTO.setId(subscriptionId);
+        subscriptionDTO.setValid(isValid);
+        HttpEntity<?> httpEntity = new HttpEntity<SubscriptionDTO>(subscriptionDTO);
+
+        ResponseEntity<SubscriptionDTO> responseEntity =
+                restTemplate.exchange(this.url + str,
+                        HttpMethod.POST, httpEntity, new ParameterizedTypeReference<SubscriptionDTO>() {
+                        });
+        SubscriptionDTO subscriptionDTOResponse = responseEntity.getBody();
     }
 }

@@ -121,7 +121,10 @@ public class ClientController extends AdminController {
 
         // smt.getAccount("5bea68dc70c0ef0d0d0fc7b1");
         // smt.setAccountInfo("5bea68dc70c0ef0d0d0fc7b1", null, null, "Барышников Станислав Владимирович", "1");
-        smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
+        // smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
+        //smt.deleteAccountById("5bea68dc70c0ef0d0d0fc7b1");
+        //smt.getAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd");
+        smt.setAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd", "102", false);
 
 
 
