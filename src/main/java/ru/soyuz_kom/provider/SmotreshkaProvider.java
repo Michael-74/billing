@@ -81,47 +81,60 @@ public class SmotreshkaProvider {
      * @param id
      * @return
      */
-    /*
+
     public AccountDTO getAccountById(String id) {
-        String str = "/v2/accounts/{id}";
+        String str = "/v2/accounts/" + id;
 
-        return restTemplate.getForObject(this.url + str, AccountDTO.class, id);
+        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<AccountDTO>() {}
+        );
+
     }
-    */
 
-    /*
-    public void setAccountInfo(String id, String date, String address, String fio, String period) {
+
+    public AccountDTO setAccountInfo(String id, String date, String address, String fio, String period) {
         String str = "/v2/accounts/" + id + "/update";
+
         Map info = new HashMap<String, String>();
         AccountInfoDTO infoData = new AccountInfoDTO();
         infoData.setActivation_date(date);
         infoData.setAddress(address);
         infoData.setFio(fio);
         infoData.setPeriod(period);
-
-
         info.put("info", infoData);
 
-        Object obj = restTemplate.postForObject(this.url + str, info, Object.class);
-        System.out.println(obj);
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
+
+        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<AccountDTO>() {}
+        );
+
     }
-    */
 
     /**
      * Сбрасываем пароль и ставим свой
      * @param id
      * @param password
      */
-    /*
     public boolean setAccountPassword(String id, String password) {
         String str = "/v2/accounts/" + id + "/reset-password";
         Map info = new HashMap<String, String>();
         info.put("password", password);
 
         AccountPasswordStatusDTO status = restTemplate.postForObject(this.url + str, info, AccountPasswordStatusDTO.class);
+
+        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<AccountDTO>() {}
+        );
+
         return status.getStatus().equals("ok");
     }
-    */
 
     /**
      * Удаление абонента по id

@@ -16,6 +16,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import ru.soyuz_kom.dto.smotreshka.AccountDTO;
 import ru.soyuz_kom.dto.smotreshka.AccountInfoDTO;
 import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
 import ru.soyuz_kom.dto.smotreshka.AccountNewDTO;
@@ -122,20 +123,21 @@ public class ClientController extends AdminController {
 
         SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
 
-        AccountListDTO ss = smt.getAccounts();
+        List pur = new ArrayList();
+        pur.add(102);
+
+        //Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
+        //AccountListDTO ss = smt.getAccounts();
+
+        //AccountDTO ss = smt.getAccountById("5bea68dc70c0ef0d0d0fc7b1");
+        //AccountDTO ss = smt.setAccountInfo("5bea68dc70c0ef0d0d0fc7b1", null, null, "Барышников Станислав Владимирович", "1");
+         smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
         System.out.println("s" +  ss);
-        // smt.getAccountById("5bea68dc70c0ef0d0d0fc7b1");
-        // smt.setAccountInfo("5bea68dc70c0ef0d0d0fc7b1", null, null, "Барышников Станислав Владимирович", "1");
-        // smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
         //smt.deleteAccountById("5bea68dc70c0ef0d0d0fc7b1");
         //smt.getAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd");
         // smt.setAccountSubscription("5bea743b70c0ef0d0d0fc7bd", "102", false);
         //smt.deleteAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd");
 
-        List pur = new ArrayList();
-        pur.add(102);
-
-        //Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
 
 
 
