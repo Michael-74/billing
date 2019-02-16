@@ -14,7 +14,6 @@ import java.util.List;
 public class AccountListDTO {
 
     public List<AccountDTO> accounts;
-    public AccountDTO accountDTO;
 
     public AccountListDTO() {
         accounts = new ArrayList<AccountDTO>();

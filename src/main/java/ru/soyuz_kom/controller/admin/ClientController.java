@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.dto.smotreshka.AccountInfoDTO;
+import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
 import ru.soyuz_kom.dto.smotreshka.AccountNewDTO;
 import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Internet;
@@ -121,6 +122,8 @@ public class ClientController extends AdminController {
 
         SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
 
+        AccountListDTO ss = smt.getAccounts();
+        System.out.println("s" +  ss);
         // smt.getAccountById("5bea68dc70c0ef0d0d0fc7b1");
         // smt.setAccountInfo("5bea68dc70c0ef0d0d0fc7b1", null, null, "Барышников Станислав Владимирович", "1");
         // smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
@@ -132,9 +135,9 @@ public class ClientController extends AdminController {
         List pur = new ArrayList();
         pur.add(102);
 
-        Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
+        //Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
 
-        System.out.println("s: " + obj);
+
 
 
         /* ------------------------------ */
