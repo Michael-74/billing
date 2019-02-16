@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.soyuz_kom.dto.smotreshka.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,30 @@ public class SmotreshkaProvider {
         return this;
     }
 
+
+    public void addAccount(String username, String email, String password, List purchases) {
+        String str = "/v2/accounts";
+
+        Map addAccount = new HashMap<String, Object>();
+        addAccount.put("username", username);
+        addAccount.put("email", email);
+        if(password != null){
+            addAccount.put("password", password);
+        }
+        if(purchases != null){
+            addAccount.put("purchases", purchases);
+        }
+
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(addAccount);
+
+        ResponseEntity<AccountNewResponseDTO> responseEntity =
+                restTemplate.exchange(this.url + str,
+                        HttpMethod.POST, httpEntity, new ParameterizedTypeReference<AccountNewResponseDTO>() {
+                        });
+        AccountNewResponseDTO accountNewResponseDTO = responseEntity.getBody();
+        System.out.println("new: " + accountNewResponseDTO);
+    }
+
     /**
      * Получаем всех абонентов со всеми их данными
      */
@@ -51,14 +76,10 @@ public class SmotreshkaProvider {
      * @param id
      * @return
      */
-    public AccountDTO getAccount(String id) {
+    public AccountDTO getAccountById(String id) {
         String str = "/v2/accounts/{id}";
 
         return restTemplate.getForObject(this.url + str, AccountDTO.class, id);
-    }
-
-    public void setAccountInfo() {
-        setAccountInfo(null, null, null, null, null);
     }
 
     public void setAccountInfo(String id, String date, String address, String fio, String period) {
