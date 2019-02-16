@@ -124,7 +124,8 @@ public class ClientController extends AdminController {
         // smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
         //smt.deleteAccountById("5bea68dc70c0ef0d0d0fc7b1");
         //smt.getAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd");
-        smt.setAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd", "102", false);
+        // smt.setAccountSubscription("5bea743b70c0ef0d0d0fc7bd", "102", false);
+        smt.deleteAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd");
 
 
 

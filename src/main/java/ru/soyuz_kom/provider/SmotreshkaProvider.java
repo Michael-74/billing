@@ -126,7 +126,7 @@ public class SmotreshkaProvider {
      * @param subscriptionId - номер подписки
      * @param isValid - добавить/удалить подписку
      */
-    public void setAccountSubscriptions(String id, String subscriptionId, boolean isValid) {
+    public void setAccountSubscription(String id, String subscriptionId, boolean isValid) {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
         SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
@@ -139,5 +139,21 @@ public class SmotreshkaProvider {
                         HttpMethod.POST, httpEntity, new ParameterizedTypeReference<SubscriptionDTO>() {
                         });
         SubscriptionDTO subscriptionDTOResponse = responseEntity.getBody();
+    }
+
+    /**
+     * Удаление всех подписок
+     * Ststus 200 - означает что запрос прошел
+     * Метод возвращает delete: null, что значит не отследить верно ли прошел запрос, только по статусу определять
+     * @param id
+     */
+    public void deleteAccountSubscriptions(String id) {
+        String str = "/v2/accounts/" + id + "/subscriptions";
+
+        ResponseEntity<AccountDeleteDTO> responseEntity =
+                restTemplate.exchange(this.url + str,
+                        HttpMethod.DELETE, null, new ParameterizedTypeReference<AccountDeleteDTO>() {
+                        });
+        AccountDeleteDTO accountDeleteDTO = responseEntity.getBody();
     }
 }
