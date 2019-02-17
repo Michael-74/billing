@@ -157,12 +157,12 @@ public class SmotreshkaProvider {
     public List<AccountSubscriptionsDTO> getSubscriptionsOfAccount(String id) {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
-                return (List<AccountSubscriptionsDTO>) restTemplateHelper
-                        .exchange(this.url + str,
-                            HttpMethod.GET,
-                            null,
-                            new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
-                        });
+        return (List<AccountSubscriptionsDTO>) restTemplateHelper
+                .exchange(this.url + str,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
+                });
     }
 
     /**
@@ -171,8 +171,7 @@ public class SmotreshkaProvider {
      * @param subscriptionId - номер подписки
      * @param isValid - добавить/удалить подписку
      */
-    /*
-    public void setAccountSubscription(String id, String subscriptionId, boolean isValid) {
+    public SubscriptionDTO setSubscriptionOfAccount(String id, String subscriptionId, boolean isValid) {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
         SubscriptionDTO subscriptionDTO = new SubscriptionDTO();
@@ -180,13 +179,14 @@ public class SmotreshkaProvider {
         subscriptionDTO.setValid(isValid);
         HttpEntity<?> httpEntity = new HttpEntity<SubscriptionDTO>(subscriptionDTO);
 
-        ResponseEntity<SubscriptionDTO> responseEntity =
-                restTemplate.exchange(this.url + str,
-                        HttpMethod.POST, httpEntity, new ParameterizedTypeReference<SubscriptionDTO>() {
-                        });
-        SubscriptionDTO subscriptionDTOResponse = responseEntity.getBody();
+       return (SubscriptionDTO) restTemplateHelper
+                .exchange(
+                        this.url + str,
+                        HttpMethod.POST,
+                        httpEntity,
+                        new ParameterizedTypeReference<SubscriptionDTO>() {}
+                    );
     }
-    */
 
     /**
      * Удаление всех подписок
