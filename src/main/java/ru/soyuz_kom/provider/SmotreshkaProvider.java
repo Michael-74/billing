@@ -154,17 +154,16 @@ public class SmotreshkaProvider {
      * Получаем все подписки абонента
      * @param id
      */
-    /*
-    public void getAccountSubscriptions(String id) {
+    public List<AccountSubscriptionsDTO> getSubscriptionsOfAccount(String id) {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
-        ResponseEntity<List<AccountSubscriptionsDTO>> responseEntity =
-                restTemplate.exchange(this.url + str,
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
+                return (List<AccountSubscriptionsDTO>) restTemplateHelper
+                        .exchange(this.url + str,
+                            HttpMethod.GET,
+                            null,
+                            new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
                         });
-        List<AccountSubscriptionsDTO> listOfString = responseEntity.getBody();
     }
-    */
 
     /**
      * Изменяем тип подписки в зависимости от булева значения
