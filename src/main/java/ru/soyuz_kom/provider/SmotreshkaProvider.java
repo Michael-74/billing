@@ -37,6 +37,14 @@ public class SmotreshkaProvider {
     }
 
 
+    /**
+     * Создаем абонента
+     * @param username
+     * @param email
+     * @param password - пароль | необязательное поле
+     * @param purchases - массив id подписок | необязательное поле
+     * @return
+     */
     public Object addAccount(String username, String email, String password, List purchases) {
         String str = "/v2/accounts";
 
@@ -66,10 +74,6 @@ public class SmotreshkaProvider {
      */
     public AccountListDTO getAccounts() {
         String str = "/v2/accounts";
-        /*
-        AccountListDTO response = restTemplate.getForObject(this.url + str, AccountListDTO.class);
-        List<AccountDTO> accounts = response.getAccounts();
-        */
 
         return (AccountListDTO) restTemplateHelper
             .exchange(
@@ -85,7 +89,6 @@ public class SmotreshkaProvider {
      * @param id
      * @return
      */
-
     public AccountDTO getAccountById(String id) {
         String str = "/v2/accounts/" + id;
 
@@ -98,7 +101,16 @@ public class SmotreshkaProvider {
             );
     }
 
-
+    /**
+     * Изменяем информацио о абоненте
+     * Все поля текстовые и необязательные
+     * @param id
+     * @param date - Дата
+     * @param address - Адрес
+     * @param fio - ФИО
+     * @param period - Период
+     * @return
+     */
     public AccountDTO setInfoOfAccount(String id, String date, String address, String fio, String period) {
         String str = "/v2/accounts/" + id + "/update";
 
