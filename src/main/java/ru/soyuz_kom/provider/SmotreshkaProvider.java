@@ -99,7 +99,7 @@ public class SmotreshkaProvider {
     }
 
 
-    public AccountDTO setAccountInfo(String id, String date, String address, String fio, String period) {
+    public AccountDTO setInfoOfAccount(String id, String date, String address, String fio, String period) {
         String str = "/v2/accounts/" + id + "/update";
 
         Map info = new HashMap<String, String>();
@@ -124,7 +124,7 @@ public class SmotreshkaProvider {
      * @param id
      * @param password
      */
-    public AccountPasswordStatusDTO setAccountPassword(String id, String password) {
+    public AccountPasswordStatusDTO setResetPasswordOfAccount(String id, String password) {
         String str = "/v2/accounts/" + id + "/reset-password";
         Map info = new HashMap<String, String>();
         info.put("password", password);
@@ -188,11 +188,11 @@ public class SmotreshkaProvider {
 
        return (SubscriptionDTO) restTemplateHelper
             .exchange(
-                    this.url + str,
-                    HttpMethod.POST,
-                    httpEntity,
-                    new ParameterizedTypeReference<SubscriptionDTO>() {}
-                );
+                this.url + str,
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<SubscriptionDTO>() {}
+            );
     }
 
     /**
@@ -206,10 +206,10 @@ public class SmotreshkaProvider {
 
         return (AccountDeleteDTO) restTemplateHelper
             .exchange(
-                    this.url + str,
-                    HttpMethod.DELETE,
-                    null,
-                    new ParameterizedTypeReference<AccountDeleteDTO>() {}
-                );
+                this.url + str,
+                HttpMethod.DELETE,
+                null,
+                new ParameterizedTypeReference<AccountDeleteDTO>() {}
+            );
     }
 }
