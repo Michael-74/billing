@@ -28,6 +28,7 @@ import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
+import ru.soyuz_kom.service.Impl.SmotreshkaService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -45,8 +46,13 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientServiceImpl clientService;
 
+    /*
     @Autowired
     private SmotreshkaProvider smotreshkaProvider;
+    */
+
+    @Autowired
+    SmotreshkaService smotreshkaService;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -118,7 +124,7 @@ public class ClientController extends AdminController {
 
         /* ------------------------------ */
 
-        SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
+        //SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
 
         List pur = new ArrayList();
         pur.add(102);
@@ -132,8 +138,12 @@ public class ClientController extends AdminController {
         //AccountDeleteDTO ss = smt.deleteAccountById("5bea68dc70c0ef0d0d0fc7b1");
         //List<AccountSubscriptionsDTO> ss = smt.getSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
         //SubscriptionDTO ss = smt.setSubscriptionOfAccount("5bea743b70c0ef0d0d0fc7bd", "102", false);
-        AccountDeleteDTO ss = smt.deleteAllSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
-        System.out.println("s" +  ss);
+        //AccountDeleteDTO ss = smt.deleteAllSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
+        //System.out.println("s" +  ss);
+
+        //SmotreshkaService sm = new SmotreshkaService();
+        smotreshkaService.load();
+        smotreshkaService.sys();
 
 
 
