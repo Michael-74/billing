@@ -52,11 +52,13 @@ public class SmotreshkaProvider {
 
         HttpEntity<?> httpEntity = new HttpEntity<Object>(addAccount);
 
-        return restTemplateHelper.exchange(this.url + str,
+        return restTemplateHelper
+            .exchange(
+                this.url + str,
                 HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<AccountNewResponseDTO>() {}
-        );
+            );
     }
 
     /**
@@ -69,11 +71,13 @@ public class SmotreshkaProvider {
         List<AccountDTO> accounts = response.getAccounts();
         */
 
-        return (AccountListDTO) restTemplateHelper.exchange(this.url + str,
+        return (AccountListDTO) restTemplateHelper
+            .exchange(
+                this.url + str,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<AccountListDTO>() {}
-        );
+            );
     }
 
     /**
@@ -85,12 +89,13 @@ public class SmotreshkaProvider {
     public AccountDTO getAccountById(String id) {
         String str = "/v2/accounts/" + id;
 
-        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
+        return (AccountDTO) restTemplateHelper
+            .exchange(
+                this.url + str,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<AccountDTO>() {}
-        );
-
+            );
     }
 
 
@@ -112,7 +117,6 @@ public class SmotreshkaProvider {
                 httpEntity,
                 new ParameterizedTypeReference<AccountDTO>() {}
         );
-
     }
 
     /**
@@ -127,7 +131,8 @@ public class SmotreshkaProvider {
 
         HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
 
-        return (AccountPasswordStatusDTO) restTemplateHelper.exchange(this.url + str,
+        return (AccountPasswordStatusDTO) restTemplateHelper.exchange(
+                this.url + str,
                 HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<AccountPasswordStatusDTO>() {}
@@ -143,11 +148,12 @@ public class SmotreshkaProvider {
         String str = "/v2/accounts/" + id;
 
         return (AccountDeleteDTO) restTemplateHelper
-                .exchange(this.url + str,
-                        HttpMethod.DELETE,
-                        null,
-                        new ParameterizedTypeReference<AccountDeleteDTO>() {}
-                );
+            .exchange(
+                    this.url + str,
+                    HttpMethod.DELETE,
+                    null,
+                    new ParameterizedTypeReference<AccountDeleteDTO>() {}
+            );
     }
 
     /**
@@ -158,11 +164,12 @@ public class SmotreshkaProvider {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
         return (List<AccountSubscriptionsDTO>) restTemplateHelper
-                .exchange(this.url + str,
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
-                });
+            .exchange(
+                this.url + str,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<AccountSubscriptionsDTO>>() {
+            });
     }
 
     /**
@@ -180,12 +187,12 @@ public class SmotreshkaProvider {
         HttpEntity<?> httpEntity = new HttpEntity<SubscriptionDTO>(subscriptionDTO);
 
        return (SubscriptionDTO) restTemplateHelper
-                .exchange(
-                        this.url + str,
-                        HttpMethod.POST,
-                        httpEntity,
-                        new ParameterizedTypeReference<SubscriptionDTO>() {}
-                    );
+            .exchange(
+                    this.url + str,
+                    HttpMethod.POST,
+                    httpEntity,
+                    new ParameterizedTypeReference<SubscriptionDTO>() {}
+                );
     }
 
     /**
@@ -194,15 +201,15 @@ public class SmotreshkaProvider {
      * Метод возвращает delete: null, что значит не отследить верно ли прошел запрос, только по статусу определять
      * @param id
      */
-    /*
-    public void deleteAccountSubscriptions(String id) {
+    public AccountDeleteDTO deleteAllSubscriptionsOfAccount(String id) {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
-        ResponseEntity<AccountDeleteDTO> responseEntity =
-                restTemplate.exchange(this.url + str,
-                        HttpMethod.DELETE, null, new ParameterizedTypeReference<AccountDeleteDTO>() {
-                        });
-        AccountDeleteDTO accountDeleteDTO = responseEntity.getBody();
+        return (AccountDeleteDTO) restTemplateHelper
+            .exchange(
+                    this.url + str,
+                    HttpMethod.DELETE,
+                    null,
+                    new ParameterizedTypeReference<AccountDeleteDTO>() {}
+                );
     }
-    */
 }

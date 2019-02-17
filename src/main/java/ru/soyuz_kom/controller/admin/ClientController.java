@@ -131,9 +131,9 @@ public class ClientController extends AdminController {
         //AccountPasswordStatusDTO ss = smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
         //AccountDeleteDTO ss = smt.deleteAccountById("5bea68dc70c0ef0d0d0fc7b1");
         //List<AccountSubscriptionsDTO> ss = smt.getSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
-        SubscriptionDTO ss = smt.setSubscriptionOfAccount("5bea743b70c0ef0d0d0fc7bd", "102", false);
+        //SubscriptionDTO ss = smt.setSubscriptionOfAccount("5bea743b70c0ef0d0d0fc7bd", "102", false);
+        AccountDeleteDTO ss = smt.deleteAllSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
         System.out.println("s" +  ss);
-        //smt.deleteAccountSubscriptions("5bea743b70c0ef0d0d0fc7bd");
 
 
 
