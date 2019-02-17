@@ -120,20 +120,18 @@ public class SmotreshkaProvider {
      * @param id
      * @param password
      */
-    public boolean setAccountPassword(String id, String password) {
+    public AccountPasswordStatusDTO setAccountPassword(String id, String password) {
         String str = "/v2/accounts/" + id + "/reset-password";
         Map info = new HashMap<String, String>();
         info.put("password", password);
 
-        AccountPasswordStatusDTO status = restTemplate.postForObject(this.url + str, info, AccountPasswordStatusDTO.class);
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
 
-        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
+        return (AccountPasswordStatusDTO) restTemplateHelper.exchange(this.url + str,
                 HttpMethod.POST,
                 httpEntity,
-                new ParameterizedTypeReference<AccountDTO>() {}
+                new ParameterizedTypeReference<AccountPasswordStatusDTO>() {}
         );
-
-        return status.getStatus().equals("ok");
     }
 
     /**
