@@ -139,17 +139,16 @@ public class SmotreshkaProvider {
      * Если абонент был удален выкинет ошибку 403
      * @param id
      */
-    /*
-    public Boolean deleteAccountById(String id) {
+    public AccountDeleteDTO deleteAccountById(String id) {
         String str = "/v2/accounts/" + id;
 
-        ResponseEntity<AccountDeleteDTO> response = restTemplate
-                .exchange(this.url + str, HttpMethod.DELETE, null, AccountDeleteDTO.class);
-        AccountDeleteDTO delete = response.getBody();
-        return delete.getDelete() == true;
+        return (AccountDeleteDTO) restTemplateHelper
+                .exchange(this.url + str,
+                        HttpMethod.DELETE,
+                        null,
+                        new ParameterizedTypeReference<AccountDeleteDTO>() {}
+                );
     }
-    */
-
 
     /**
      * Получаем все подписки абонента
