@@ -20,29 +20,17 @@
                     <div class="create__input">
                         <app-input :data="tv.name"></app-input>
                     </div>
+                    <div class="create__input create__input_width100">
+                        <app-input :data="tv.smotreshkaId"></app-input>
+                    </div>
                     <div class="create__input create__select_width">
                         <app-checkbox :data="tv.isStatus"></app-checkbox>
                     </div>
-                    <!--
-                    <div class="create__input create__package-button">
-                        <button class="button button__add" @click="show(tv)">Выбрать из существующих</button>
-                    </div>
-                    <div class="create__input create__package-button">
-                        <button class="button button__save-package">Сохранить пакет</button>
-                    </div>
-                    -->
                     <div class="clear"></div>
-                </div>
-                <!--
-                <div class="create__package create__note">
-                    <h2 class="create__package-h2">Создание задачи</h2>
-
-                    <div class="create__input create__input_note">
-                        <button class="button button__add" @click="isNote = !isNote">Добавить заметку</button>
+                    <div class="create__note">
+                        <app-textarea :data="tv.description"></app-textarea>
                     </div>
-                    <div class="clear"></div>
                 </div>
-                -->
                 <div class="create__package task__margin-top">
                     <app-task></app-task>
                 </div>
@@ -90,7 +78,9 @@ export default {
             tv: {
                 id: input('ID', 'ID', 'id', false, false, null, null),
                 name: input('Введите название', 'Введите название', 'name', true, false, null, null),
+                smotreshkaId: input('ID смотрешка', 'ID', 'smotreshkaId', true, false, null, null),
                 isStatus: checkbox('Статус', 'Включен', 'Выключен', 'isStatus', true, false, null, true),
+                description: textarea('Описание', 'Описание', 'description', true, false, null, ""),
             }
         }
     },
@@ -149,5 +139,9 @@ export default {
 <style lang="scss" scoped>
     .task__margin-top {
         margin-top: 20px;
+    }
+    .create__note {
+        margin: 0;
+        padding:0 0 20px 0;
     }
 </style>
