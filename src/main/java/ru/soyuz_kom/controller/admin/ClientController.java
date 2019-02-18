@@ -123,11 +123,12 @@ public class ClientController extends AdminController {
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
 
         /* ------------------------------ */
+        // Смотрешка
 
         //SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
 
-        List pur = new ArrayList();
-        pur.add(102);
+        //List pur = new ArrayList();
+        //pur.add(102);
 
         //Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
         //AccountListDTO ss = smt.getAccounts();
@@ -141,14 +142,15 @@ public class ClientController extends AdminController {
         //AccountDeleteDTO ss = smt.deleteAllSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
         //System.out.println("s" +  ss);
 
+        // Клиентский код
         //SmotreshkaService sm = new SmotreshkaService();
-        smotreshkaService.load();
-        smotreshkaService.sys();
+        //smotreshkaService.load();
+        //smotreshkaService.sys();
 
+        /* ------------------------------ */
 
-
-
-
+        /* ------------------------------ */
+        //
         /* ------------------------------ */
 
         String string = "";
