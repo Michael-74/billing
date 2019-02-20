@@ -157,7 +157,21 @@ public class ClientController extends AdminController {
         /* ------------------------------ */
         // Микротик
         try {
-            mikrotikProvider.getSys();
+            mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
+
+            if(mikrotikProvider.isConnect()){
+                Map<String, String> map = new HashMap();
+                map.put("address", "127.1.1.1");
+                map.put("list", "test");
+                map.put("comment", "id_test");
+
+                List<Map<String, String>> test = mikrotikProvider.exec();
+                System.out.println("map-exec: " + test);
+
+                List<Map<String, String>> all = mikrotikProvider.getAll();
+                System.out.println("all: " + all);
+            }
+
         } catch (MikrotikApiException mae) {
             System.out.println("error-mikrotik: " + mae.getMessage());
         }
