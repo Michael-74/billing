@@ -156,7 +156,7 @@ public class ClientController extends AdminController {
 
         /* ------------------------------ */
         // Микротик
-        try {
+
             mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
 
             if(mikrotikProvider.isConnect()){
@@ -165,16 +165,16 @@ public class ClientController extends AdminController {
                 map.put("list", "test");
                 map.put("comment", "id_test");
 
-                List<Map<String, String>> test = mikrotikProvider.exec();
-                System.out.println("map-exec: " + test);
+                List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
+
+                List<Map<String, String>> test = mikrotikProvider.create("127.0.1.1", "test10", "test10");
+                System.out.println("exec: " + test);
 
                 List<Map<String, String>> all = mikrotikProvider.getAll();
                 System.out.println("all: " + all);
             }
 
-        } catch (MikrotikApiException mae) {
-            System.out.println("error-mikrotik: " + mae.getMessage());
-        }
+
 
 
         /* ------------------------------ */
