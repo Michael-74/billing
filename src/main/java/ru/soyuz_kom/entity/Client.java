@@ -86,6 +86,12 @@ public class Client extends Datetime {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
+    @Column(name = "id_mikrotik_service")
+    private String mikrotikServiceId;
+
+    @Column(name = "id_smotreshka_service")
+    private String smotreshkaServiceId;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @BatchSize(size=25)
     @JoinTable(name = "clients_tvs",
