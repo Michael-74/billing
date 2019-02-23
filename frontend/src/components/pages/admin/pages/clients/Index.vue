@@ -9,18 +9,12 @@
         <div class="wrapper__item">
             <app-table :columns="getTable" :rows="this.getClients" :editItem="editItem" :deleteItem="deleteItem"></app-table>
         </div>
-        <!--
-        <div class="clients__items">
-            <app-item-client :data="getClients"></app-item-client>
-        </div>
-        -->
     </div>
 </template>
 
 <script>
 import FilterClients from './Filter'
 import CreateClients from './Create'
-import ItemClients from './Item'
 
 import axios from "axios";
 import Table from '../../../../semantic-blocks/forms/Table'
@@ -31,7 +25,6 @@ export default {
     components: {
         AppFilterClient: FilterClients,
         AppCreateClient: CreateClients,
-        AppItemClient: ItemClients,
         AppTable: Table
     },
     data () {
@@ -174,6 +167,20 @@ export default {
                     sort: 20,
                     isShow: true,
                     width: "200px",
+                },
+                {
+                    field: 'mikrotikServiceId',
+                    name: 'ID в микротике',
+                    sort: 21,
+                    isShow: true,
+                    width: "100px",
+                },
+                {
+                    field: 'smotreshkaServiceId',
+                    name: 'ID в смотрешке',
+                    sort: 22,
+                    isShow: true,
+                    width: "100px",
                 },
             ]
         }
