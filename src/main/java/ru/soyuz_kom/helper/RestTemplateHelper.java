@@ -14,8 +14,8 @@ public class RestTemplateHelper {
     @Autowired
     RestTemplate restTemplate;
 
-    public Object exchange(String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
-
+    public Object exchange2(String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
+        System.out.println("exchange1: " + url);
         try {
             ResponseEntity response = restTemplate.exchange(url,
                     method,
@@ -26,8 +26,10 @@ public class RestTemplateHelper {
             if(response.getStatusCode().value() == 200) {
                 return response.getBody();
             }
+            System.out.println("exchange: " + url);
             return null;
         } catch(Exception ex) {
+            System.out.println("exchange-error: " + ex);
             return null;
         }
     }

@@ -1,13 +1,12 @@
 package ru.soyuz_kom.controller.admin;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
-import me.legrange.mikrotik.MikrotikApiException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +16,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import ru.soyuz_kom.dto.smotreshka.*;
+import org.springframework.web.client.RestTemplate;
+import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
 import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.entity.Internet;
-import ru.soyuz_kom.entity.view.Views;
 import ru.soyuz_kom.helper.CriteriaHelper;
 
-import ru.soyuz_kom.provider.IProvider;
+import ru.soyuz_kom.helper.RestTemplateHelper;
 import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.provider.SmotreshkaProvider;
 import ru.soyuz_kom.repository.ClientRepository;
-import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
@@ -48,16 +45,14 @@ public class ClientController extends AdminController {
     @Autowired
     private ClientServiceImpl clientService;
 
-    /*
     @Autowired
-    private SmotreshkaProvider smotreshkaProvider;
-    */
+    MikrotikProvider mikrotikProvider;
 
     @Autowired
     SmotreshkaService smotreshkaService;
 
     @Autowired
-    MikrotikProvider mikrotikProvider;
+    RestTemplateHelper restTemplateHelper;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -130,12 +125,13 @@ public class ClientController extends AdminController {
         /* ------------------------------ */
         // Смотрешка
 
-        //SmotreshkaProvider smt = smotreshkaProvider.instance("https://soyuz-kom.test.lfstrm.tv", "admin", "PocyofOj33");
+        List pur = new ArrayList();
+        pur.add(102);
 
-        //List pur = new ArrayList();
-        //pur.add(102);
-
-        //Object obj = smt.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
+        smotreshkaService.getItems();
+        //List<Object> obj = smotreshkaService.getAccounts();
+        //System.out.println("sys" + obj);
+        Object obj = smotreshkaService.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
         //AccountListDTO ss = smt.getAccounts();
 
         //AccountDTO ss = smt.getAccountById("5bea68dc70c0ef0d0d0fc7b1");
@@ -156,14 +152,10 @@ public class ClientController extends AdminController {
 
         /* ------------------------------ */
         // Микротик
-
+            /*
             mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
 
             if(mikrotikProvider.isConnect()){
-                Map<String, String> map = new HashMap();
-                map.put("address", "127.1.1.1");
-                map.put("list", "test");
-                map.put("comment", "id_test");
 
                 List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
 
@@ -173,7 +165,7 @@ public class ClientController extends AdminController {
                 List<Map<String, String>> all = mikrotikProvider.getAll();
                 System.out.println("all: " + all);
             }
-
+            */
 
 
 

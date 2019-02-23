@@ -64,7 +64,7 @@ public class MikrotikProvider {
         try {
             return this.con.execute(str);
         } catch(MikrotikApiException ex) {
-            System.out.println("Error exec");
+            System.out.println("Error exec: " + str);
             return new ArrayList<>();
         }
     }
