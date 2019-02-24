@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import ru.soyuz_kom.provider.Receiver;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
 
 import javax.annotation.PostConstruct;
@@ -34,6 +33,17 @@ public class Application {
 
     @Autowired
     SmotreshkaService smotreshkaService;
+
+    @Bean
+    public Queue logQueue() {
+        return new Queue("log");
+    }
+
+    @Bean
+    public Queue taskQueue() {
+        return new Queue("task");
+    }
+
 
     @PostConstruct
     public void init(){

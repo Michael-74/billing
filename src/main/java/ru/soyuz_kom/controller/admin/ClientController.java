@@ -118,11 +118,11 @@ public class ClientController extends AdminController {
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) throws InterruptedException {
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 100; i++) {
             rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
         }
         Thread.sleep(2000);
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 100; i++) {
             rabbitTemplate.convertAndSend("log", "log from RabbitMQ = " + i);
         }
 

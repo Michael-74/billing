@@ -12,12 +12,13 @@ public class EventListener {
 
     @RabbitListener(queues = "task")
     public void processTask(String message) {
-        System.out.println("spring: " + message);
+        System.out.println("task: " + message);
         latch.countDown();
     }
 
     @RabbitListener(queues = "log")
-    public void processLog(String message) {
+    public void processLog(String message) throws InterruptedException {
+        Thread.sleep(1000);
         System.out.println("log: " + message);
         latch.countDown();
     }
