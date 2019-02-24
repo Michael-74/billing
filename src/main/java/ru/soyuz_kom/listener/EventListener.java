@@ -1,4 +1,4 @@
-package ru.soyuz_kom.provider;
+package ru.soyuz_kom.listener;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
