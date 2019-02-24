@@ -3,10 +3,7 @@ package ru.soyuz_kom.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.entity.Internet;
-import ru.soyuz_kom.entity.Rent;
-import ru.soyuz_kom.entity.Tv;
+import ru.soyuz_kom.entity.*;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
 import ru.soyuz_kom.entity.view.Views;
 
@@ -32,8 +29,7 @@ public class ClientDTO {
     public TypeDiscountEnum typeDiscount;
     public Boolean isStatus;
     public Boolean isPromisedPay;
-    public String mikrotikServiceId;
-    public String smotreshkaServiceId;
+    public Set<MikrotikData> mikrotikDatas;
     public String note;
     public Set<Tv> tvs = new HashSet<>();
     public Set<Rent> rents = new HashSet<>();
@@ -64,9 +60,8 @@ public class ClientDTO {
             clientDTO.setTypeDiscount(client.getTypeDiscount());
             clientDTO.setIsStatus(client.getIsStatus());
             clientDTO.setIsPromisedPay(client.getIsPromisedPay());
-            clientDTO.setMikrotikServiceId(client.getMikrotikServiceId());
-            clientDTO.setSmotreshkaServiceId(client.getSmotreshkaServiceId());
             clientDTO.setNote(client.getNote());
+            clientDTO.setMikrotikDatas(client.getMikrotikDatas());
             clientDTO.setCreatedAt(client.getCreatedAt());
             clientDTO.setUpdatedAt(client.getUpdatedAt());
 

@@ -86,11 +86,16 @@ public class Client extends Datetime {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @Column(name = "id_mikrotik_service")
-    private String mikrotikServiceId;
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.DETACH})
+    private Set<MikrotikData> mikrotikDatas;
 
-    @Column(name = "id_smotreshka_service")
-    private String smotreshkaServiceId;
+    public Set<MikrotikData> getMikrotikDatas() {
+        return mikrotikDatas;
+    }
+
+    public void setMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
+        this.mikrotikDatas = mikrotikDatas;
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @BatchSize(size=25)
