@@ -32,5 +32,6 @@ export default {
     min-width: 1240px;
     max-width: 100%;
     min-height: 100%;
+    background: #ecf1f3;
 }
 </style>

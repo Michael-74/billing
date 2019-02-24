@@ -21,6 +21,9 @@
     border-bottom: 1px solid #d6dfe8;
     color: #333333;
 }
+.items__th_square {
+    width: 20px;
+}
 .items__tbody tr:hover {
     background: #eef6ff;
 }
@@ -46,11 +49,10 @@
 
 
 .cog {
-    margin: 10px 0;
+    margin: 20px 0 10px;
     position: relative;
 
     &__button {
-        margin: 10px 0 0;
         padding: 8px 12px;
         border: 1px solid silver;
         border-radius: 4px;
@@ -63,7 +65,7 @@
     }
 
     &__fields {
-        top: 50px;
+        top: 40px;
         position: absolute;
         background: #FFF;
         padding: 10px;

@@ -4,7 +4,7 @@
             <app-create :editItem="this.getEditSmotreshka"></app-create>
         </div>
         <div class="wrapper__item">
-            <app-table :columns="getTable" :rows="this.getSmotreshkas" :editItem="editItem" :deleteItem="deleteItem"></app-table>
+            <app-table :columns="getTable" :rows="this.getSmotreshkas" :editItem="editItem" :deleteItem="deleteItem" typeSetting="smotreshka"></app-table>
         </div>
     </div>
 </template>

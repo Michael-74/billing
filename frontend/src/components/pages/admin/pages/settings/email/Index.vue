@@ -4,7 +4,7 @@
             <app-create :editItem="getEditEmail"></app-create>
         </div>
         <div class="wrapper__item">
-            <app-table :columns="getTable" :rows="this.getEmails" :editItem="editItem" :deleteItem="deleteItem"></app-table>
+            <app-table :columns="getTable" :rows="this.getEmails" :editItem="editItem" :deleteItem="deleteItem" typeSetting="email"></app-table>
         </div>
     </div>
 </template>

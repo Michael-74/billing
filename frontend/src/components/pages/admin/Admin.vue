@@ -61,7 +61,6 @@ export default {
 <style lang="scss">
     .container {
         height: 100%;
-        background: #ecf1f3;
     }
     .container_settings {
         background: #fff;

@@ -1,8 +1,8 @@
 package ru.soyuz_kom.controller.admin;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.entity.Internet;
-import ru.soyuz_kom.entity.view.Views;
 import ru.soyuz_kom.helper.CriteriaHelper;
+
+import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.repository.ClientRepository;
-import ru.soyuz_kom.repository.InternetRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
+import ru.soyuz_kom.service.Impl.SmotreshkaService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -39,6 +39,16 @@ public class ClientController extends AdminController {
 
     @Autowired
     private ClientServiceImpl clientService;
+
+    @Autowired
+    MikrotikProvider mikrotikProvider;
+
+    @Autowired
+    SmotreshkaService smotreshkaService;
+
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -106,8 +116,64 @@ public class ClientController extends AdminController {
 
     @PostMapping({"v1/client/search"})
     @ResponseBody
-    public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
+    public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) throws InterruptedException {
 
+        for(int i = 0; i < 10; i++) {
+            rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
+        }
+        Thread.sleep(2000);
+        for(int i = 0; i < 20; i++) {
+            rabbitTemplate.convertAndSend("log", "log from RabbitMQ = " + i);
+        }
+
+        /* ------------------------------ */
+        // Смотрешка
+
+        List pur = new ArrayList();
+        pur.add(102);
+
+        //smotreshkaService.getItems();
+        //List<Object> obj = smotreshkaService.getAccounts();
+        //System.out.println("sys" + obj);
+        //Object obj = smotreshkaService.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
+        //AccountListDTO ss = smt.getAccounts();
+
+        //AccountDTO ss = smt.getAccountById("5bea68dc70c0ef0d0d0fc7b1");
+        //AccountDTO ss = smt.setAccountInfo("5bea68dc70c0ef0d0d0fc7b1", null, null, "Барышников Станислав Владимирович", "1");
+        //AccountPasswordStatusDTO ss = smt.setAccountPassword("5bea68dc70c0ef0d0d0fc7b1", "123");
+        //AccountDeleteDTO ss = smt.deleteAccountById("5bea68dc70c0ef0d0d0fc7b1");
+        //List<AccountSubscriptionsDTO> ss = smt.getSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
+        //SubscriptionDTO ss = smt.setSubscriptionOfAccount("5bea743b70c0ef0d0d0fc7bd", "102", false);
+        //AccountDeleteDTO ss = smt.deleteAllSubscriptionsOfAccount("5bea743b70c0ef0d0d0fc7bd");
+        //System.out.println("s" +  ss);
+
+        // Клиентский код
+        //SmotreshkaService sm = new SmotreshkaService();
+        //smotreshkaService.load();
+        //smotreshkaService.sys();
+
+        /* ------------------------------ */
+
+        /* ------------------------------ */
+        // Микротик
+            /*
+            mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
+
+            if(mikrotikProvider.isConnect()){
+
+                List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
+
+                List<Map<String, String>> test = mikrotikProvider.create("127.0.1.1", "test10", "test10");
+                System.out.println("exec: " + test);
+
+                List<Map<String, String>> all = mikrotikProvider.getAll();
+                System.out.println("all: " + all);
+            }
+            */
+
+
+
+        /* ------------------------------ */
 
         String string = "";
 
