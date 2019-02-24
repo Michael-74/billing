@@ -131,6 +131,12 @@
             <version>3.0.5</version>
         </dependency>
 
+        <!-- Очереди -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
     </dependencies>
 
     <properties>

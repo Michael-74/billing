@@ -2,6 +2,7 @@ package ru.soyuz_kom.controller.admin;
 
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
@@ -44,6 +45,10 @@ public class ClientController extends AdminController {
 
     @Autowired
     SmotreshkaService smotreshkaService;
+
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -111,7 +116,15 @@ public class ClientController extends AdminController {
 
     @PostMapping({"v1/client/search"})
     @ResponseBody
-    public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) {
+    public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) throws InterruptedException {
+
+        for(int i = 0; i < 10; i++) {
+            rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
+        }
+        Thread.sleep(2000);
+        for(int i = 0; i < 20; i++) {
+            rabbitTemplate.convertAndSend("log", "log from RabbitMQ = " + i);
+        }
 
         /* ------------------------------ */
         // Смотрешка
@@ -119,10 +132,10 @@ public class ClientController extends AdminController {
         List pur = new ArrayList();
         pur.add(102);
 
-        smotreshkaService.getItems();
+        //smotreshkaService.getItems();
         //List<Object> obj = smotreshkaService.getAccounts();
         //System.out.println("sys" + obj);
-        Object obj = smotreshkaService.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
+        //Object obj = smotreshkaService.addAccount("michael74", "michael74.ru@mail.ru", "123123", pur);
         //AccountListDTO ss = smt.getAccounts();
 
         //AccountDTO ss = smt.getAccountById("5bea68dc70c0ef0d0d0fc7b1");
