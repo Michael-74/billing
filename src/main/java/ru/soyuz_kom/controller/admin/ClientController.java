@@ -4,9 +4,7 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +14,10 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import ru.soyuz_kom.dto.smotreshka.AccountListDTO;
 import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.helper.CriteriaHelper;
 
-import ru.soyuz_kom.helper.RestTemplateHelper;
 import ru.soyuz_kom.provider.MikrotikProvider;
-import ru.soyuz_kom.provider.SmotreshkaProvider;
 import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
@@ -50,9 +44,6 @@ public class ClientController extends AdminController {
 
     @Autowired
     SmotreshkaService smotreshkaService;
-
-    @Autowired
-    RestTemplateHelper restTemplateHelper;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {

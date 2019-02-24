@@ -32,6 +32,8 @@ public class ClientDTO {
     public TypeDiscountEnum typeDiscount;
     public Boolean isStatus;
     public Boolean isPromisedPay;
+    public String mikrotikServiceId;
+    public String smotreshkaServiceId;
     public String note;
     public Set<Tv> tvs = new HashSet<>();
     public Set<Rent> rents = new HashSet<>();
@@ -62,6 +64,8 @@ public class ClientDTO {
             clientDTO.setTypeDiscount(client.getTypeDiscount());
             clientDTO.setIsStatus(client.getIsStatus());
             clientDTO.setIsPromisedPay(client.getIsPromisedPay());
+            clientDTO.setMikrotikServiceId(client.getMikrotikServiceId());
+            clientDTO.setSmotreshkaServiceId(client.getSmotreshkaServiceId());
             clientDTO.setNote(client.getNote());
             clientDTO.setCreatedAt(client.getCreatedAt());
             clientDTO.setUpdatedAt(client.getUpdatedAt());
