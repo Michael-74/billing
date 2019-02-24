@@ -11,7 +11,8 @@ public class EventListener {
     private CountDownLatch latch = new CountDownLatch(1);
 
     @RabbitListener(queues = "task")
-    public void processTask(String message) {
+    public void processTask(String message) throws InterruptedException {
+        Thread.sleep(1000);
         System.out.println("task: " + message);
         latch.countDown();
     }
