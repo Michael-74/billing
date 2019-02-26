@@ -100,12 +100,15 @@ public class ClientServiceImpl implements ClientService {
         System.out.println("tvs: " + tvs);
 
         smotreshkaService.load();
-        smotreshkaService.addAccount(clientCreated.getLogin(), clientCreated.getEmail(), null, null);
+        if(clientCreated.getEmail() != null) {
+            smotreshkaService.addAccount(clientCreated.getLogin(), clientCreated.getEmail(), null, null);
+        }
 
         mikrotikService.load();
-        mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+        if(internet != null) {
+            mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+        }
 
         return clientCreated;
     }
-
 }
