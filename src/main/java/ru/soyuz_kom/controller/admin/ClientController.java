@@ -82,7 +82,6 @@ public class ClientController extends AdminController {
     */
     @PostMapping(value = {"v1/client/create"})
     @CacheEvict(value="schedule", allEntries=true)
-    @Transactional
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
         System.out.println("v1/client/create");
@@ -96,7 +95,9 @@ public class ClientController extends AdminController {
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        Client addClient = clientRepository.save(client);
+        //Client addClient = clientRepository.save(client);
+
+        Client addClient = clientService.addClient(client);
 
         // Имитируем запрос websocket
         this.template.convertAndSend("/client/changeClient", addClient);

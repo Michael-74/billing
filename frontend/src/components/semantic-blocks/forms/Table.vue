@@ -85,7 +85,7 @@
                         </td>
 
                         <td :style="{width: col.width}" v-else-if="col.field === 'mikrotikDatas'" v-show="col.isShow" class="items__td">
-                            <div v-if="item.mikrotikDatas.length !== 0">
+                            <div v-if="item.mikrotikDatas && item.mikrotikDatas.length !== 0">
                                 <div v-for="mikrotik in item.mikrotikDatas">
                                     <div class="items__wrapper-span">
                                         <span class="items__pack items__pack_blue" >{{mikrotik.mikrotikSettingId}}</span>

@@ -8,9 +8,8 @@ import ru.soyuz_kom.validator.UniqueIpClient;
 import ru.soyuz_kom.validator.UniqueLoginClient;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -51,6 +50,7 @@ public class Client extends Datetime {
 
     @Column(name = "ip")
     @NotNull
+    @Pattern(regexp = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message="неправильно задан")
     @Size(min=1, max=20)
     private String ip;
 
@@ -61,6 +61,7 @@ public class Client extends Datetime {
     private String phone;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})

@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @UniqueName
 @Table(name = "tvs")
-@ToString(of = {"id", "name"})
 @EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Tv extends Datetime {

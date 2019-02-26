@@ -25,6 +25,7 @@ public class MikrotikProvider {
         try {
             this.con = ApiConnection.connect(ip); // connect to router
             this.con.login(login,password); // log in to router
+            System.out.println("Mikrotik connect: " + this.isConnect());
         } catch(MikrotikApiException ex) {
             System.out.println("Error connect");
         }
@@ -82,7 +83,6 @@ public class MikrotikProvider {
     /**
      * Вывести все записи
      * @return List
-     * @throws MikrotikApiException
      */
     public List<Map<String, String>> getAll() {
         return this.exec(this.pathAdressList + "print");

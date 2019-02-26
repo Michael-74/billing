@@ -1,0 +1,2 @@
+ALTER TABLE internets
+    MODIFY speed VARCHAR(50) NOT NULL DEFAULT '0';

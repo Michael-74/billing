@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 public class SmotreshkaService {
+
     @Autowired
     RestTemplateHelper restTemplateHelper;
     @Autowired
@@ -43,12 +44,12 @@ public class SmotreshkaService {
     }
 
     public List<Object> addAccount(String username, String email, String password, List purchases) {
-        List<Object> obj = new ArrayList<>();
+        List<Object> accounts = new ArrayList<>();
 
         for(SmotreshkaProvider item: this.items) {
-            obj.add(item.addAccount(username, email, password, purchases));
+            accounts.add(item.addAccount(username, email, password, purchases));
         }
-        return obj;
+        return accounts;
     }
 
     public List<Object> getAccounts() {

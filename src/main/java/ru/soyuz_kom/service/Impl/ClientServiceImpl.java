@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Service
@@ -38,6 +39,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private RentRepository rentRepository;
+
+    @Autowired
+    SmotreshkaService smotreshkaService;
+
+    @Autowired
+    MikrotikService mikrotikService;
 
     @Override
     public Map getClientsAndListsAllServices() {
@@ -66,6 +73,12 @@ public class ClientServiceImpl implements ClientService {
         return map;
     }
 
+    /**
+     * Пополнение счета
+     * @param client
+     * @param cash
+     * @return
+     */
     @Transactional
     public Client addCash(Client client, BigDecimal cash) {
 
@@ -77,4 +90,22 @@ public class ClientServiceImpl implements ClientService {
 
         return clientRepository.save(client);
     }
+
+    @Transactional
+    public Client addClient(Client client) {
+        Client clientCreated = clientRepository.save(client);
+
+        Set tvs = clientCreated.getTvs();
+        Internet internet = clientCreated.getInternet();
+        System.out.println("tvs: " + tvs);
+
+        smotreshkaService.load();
+        smotreshkaService.addAccount(clientCreated.getLogin(), clientCreated.getEmail(), null, null);
+
+        mikrotikService.load();
+        mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+
+        return clientCreated;
+    }
+
 }

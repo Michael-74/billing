@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @Table(name = "internets")
 @UniqueName
-@ToString(of = {"id", "name"})
 @EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Internet extends Datetime {
@@ -29,7 +28,7 @@ public class Internet extends Datetime {
 
     @NotNull
     @Column(name = "speed")
-    private Integer speed;
+    private String speed;
 
     @Column(name = "is_status")
     private Boolean isStatus;
@@ -62,7 +61,7 @@ public class Internet extends Datetime {
         if (this.isStatus == null)
             this.isStatus = false;
         if (this.speed == null)
-            this.speed = 0;
+            this.speed = "0";
     }
 
     @PreRemove
