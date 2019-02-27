@@ -20,9 +20,11 @@ import ru.soyuz_kom.helper.CriteriaHelper;
 
 import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.repository.ClientRepository;
+import ru.soyuz_kom.repository.LogActionRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
+import ru.soyuz_kom.service.LogActionServiceImpl;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -46,9 +48,11 @@ public class ClientController extends AdminController {
     @Autowired
     SmotreshkaService smotreshkaService;
 
-
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    LogActionServiceImpl logActionService;
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -126,6 +130,7 @@ public class ClientController extends AdminController {
         for(int i = 0; i < 20; i++) {
             rabbitTemplate.convertAndSend("log", "log from RabbitMQ = " + i);
         }
+        logActionService.push("test", 0, true, preset, "test");
 
         /* ------------------------------ */
         // Смотрешка
