@@ -1,5 +1,6 @@
 package ru.soyuz_kom.service;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.entity.LogAction;
@@ -7,6 +8,9 @@ import ru.soyuz_kom.repository.LogActionRepository;
 
 @Service
 public class LogActionServiceImpl {
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Autowired
     LogActionRepository logActionRepository;
@@ -20,6 +24,6 @@ public class LogActionServiceImpl {
         log.setRequest(request);
         log.setResponse(response);
 
-        logActionRepository.save(log);
+        rabbitTemplate.convertAndSend("logAction", log);
     }
 }

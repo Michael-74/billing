@@ -49,10 +49,8 @@ public class ClientController extends AdminController {
     SmotreshkaService smotreshkaService;
 
     @Autowired
-    RabbitTemplate rabbitTemplate;
-
-    @Autowired
     LogActionServiceImpl logActionService;
+
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -124,13 +122,13 @@ public class ClientController extends AdminController {
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) throws InterruptedException {
 
         for(int i = 0; i < 10; i++) {
-            rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
+            //rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
         }
         Thread.sleep(2000);
-        for(int i = 0; i < 20; i++) {
-            rabbitTemplate.convertAndSend("log", "log from RabbitMQ = " + i);
+        for(int i = 0; i < 5; i++) {
+            //rabbitTemplate.convertAndSend("logAction", );
+            logActionService.push("testClient", 0, true, "test1", "test2");
         }
-        logActionService.push("test", 0, true, preset, "test");
 
         /* ------------------------------ */
         // Смотрешка

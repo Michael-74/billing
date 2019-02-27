@@ -36,7 +36,7 @@ public class Application {
 
     @Bean
     public Queue logQueue() {
-        return new Queue("log");
+        return new Queue("logAction");
     }
 
     @Bean

@@ -12,12 +12,13 @@ import ru.soyuz_kom.validator.UniqueName;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "log_actions")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class LogAction extends Datetime {
+public class LogAction extends Datetime implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,6 +40,7 @@ public class LogAction extends Datetime {
     private Object request;
 
     @Column(name = "response", columnDefinition = "TEXT")
+    @Convert(converter = DataJsonConverter.class)
     private Object response;
 
     @PrePersist
