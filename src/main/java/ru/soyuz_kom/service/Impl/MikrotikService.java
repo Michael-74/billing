@@ -34,6 +34,12 @@ public class MikrotikService {
         System.out.println("Load MikrotikProvider");
     }
 
+    public void disconect() {
+        for(MikrotikProvider item: this.items) {
+            item.disconect();
+        }
+    }
+
     public void addItems(MikrotikProvider item) {
         this.items.add(item);
     }

@@ -104,7 +104,7 @@ public class ClientServiceImpl implements ClientService {
 
         try {
             smotreshkaService.load();
-            if(clientCreated.getEmail() != null) {
+            if(clientCreated.getEmail() != null && !clientCreated.getEmail().equals("")) {
                 List<Integer> smotreshkaIds = null;
 
                 if(tvs.size() != 0) {
@@ -129,7 +129,9 @@ public class ClientServiceImpl implements ClientService {
                     mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
                 }
             }
+            mikrotikService.disconect();
         } catch(Exception ex) {
+            mikrotikService.disconect();
             System.out.println("error mikrotik: " + ex);
         }
 

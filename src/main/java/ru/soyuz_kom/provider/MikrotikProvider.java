@@ -31,6 +31,15 @@ public class MikrotikProvider {
         }
     }
 
+    public void disconect() {
+        try {
+            this.con.close();
+            System.out.println("Mikrotik close");
+        } catch(MikrotikApiException ex) {
+            System.out.println("Error close");
+        }
+    }
+
 
     /**
      * Команда на выполнение
@@ -65,7 +74,8 @@ public class MikrotikProvider {
         try {
             return this.con.execute(str);
         } catch(MikrotikApiException ex) {
-            System.out.println("Error exec: " + str);
+            System.out.println("Error exec str: " + str);
+            System.out.println("Error exec: " + ex);
             return new ArrayList<>();
         }
     }
