@@ -98,23 +98,39 @@ public class ClientServiceImpl implements ClientService {
         Set<Tv> tvs = clientCreated.getTvs();
         Internet internet = clientCreated.getInternet();
 
-        smotreshkaService.load();
-        if(clientCreated.getEmail() != null) {
-            List<Integer> smotreshkaIds = null;
+        /**
+         * TODO добавить сервисы и как быть с абонентом если статус его false
+         */
 
-            if(tvs.size() != 0) {
-                for(Tv tv: tvs) {
-                    if(tv.getSmotreshkaId() != null) {
-                        smotreshkaIds.add(tv.getSmotreshkaId());
+        try {
+            smotreshkaService.load();
+            if(clientCreated.getEmail() != null) {
+                List<Integer> smotreshkaIds = null;
+
+                if(tvs.size() != 0) {
+                    for(Tv tv: tvs) {
+
+                        // Проверяем есть ли подписка и включенный статус тарифа
+                        if(tv.getSmotreshkaId() != null && tv.getIsStatus()) {
+                            smotreshkaIds.add(tv.getSmotreshkaId());
+                        }
                     }
                 }
+                smotreshkaService.addAccount(clientCreated.getLogin(), clientCreated.getEmail(), null, smotreshkaIds);
             }
-            smotreshkaService.addAccount(clientCreated.getLogin(), clientCreated.getEmail(), null, smotreshkaIds);
+        } catch(Exception ex) {
+            System.out.println("error smotreshka: " + ex);
         }
 
-        mikrotikService.load();
-        if(internet != null) {
-            mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+        try {
+            mikrotikService.load();
+            if (internet != null) {
+                if (internet.getIsStatus()) {
+                    mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+                }
+            }
+        } catch(Exception ex) {
+            System.out.println("error mikrotik: " + ex);
         }
 
         return clientCreated;
