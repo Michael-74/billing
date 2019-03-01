@@ -24,6 +24,7 @@ import ru.soyuz_kom.repository.LogActionRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
+import ru.soyuz_kom.service.Impl.TestServiceImpl;
 import ru.soyuz_kom.service.LogActionServiceImpl;
 
 import javax.validation.Valid;
@@ -50,6 +51,9 @@ public class ClientController extends AdminController {
 
     @Autowired
     LogActionServiceImpl logActionService;
+
+    @Autowired
+    TestServiceImpl testService;
 
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -130,6 +134,7 @@ public class ClientController extends AdminController {
             logActionService.push("testClient", 0, true, "test1", "test2");
         }
 
+        testService.getSys();
         /* ------------------------------ */
         // Смотрешка
 
