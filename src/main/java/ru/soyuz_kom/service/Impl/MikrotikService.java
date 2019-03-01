@@ -44,6 +44,11 @@ public class MikrotikService {
         this.items.add(item);
     }
 
+    public void deleteItems() {
+        this.disconect();
+        this.items = new ArrayList();
+    }
+
     public void getItems() {
         System.out.println("getItems: " + this.items);
     }

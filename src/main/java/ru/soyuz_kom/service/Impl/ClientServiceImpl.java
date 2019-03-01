@@ -68,8 +68,6 @@ public class ClientServiceImpl implements ClientService {
         map.put("tvs", getAllTvDTOList);
         map.put("rents", getAllRentDTOList);
 
-        System.out.println("Map: " + map);
-
         return map;
     }
 
@@ -129,10 +127,12 @@ public class ClientServiceImpl implements ClientService {
                     mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
                 }
             }
-            mikrotikService.disconect();
+
         } catch(Exception ex) {
-            mikrotikService.disconect();
             System.out.println("error mikrotik: " + ex);
+        } finally {
+            mikrotikService.deleteItems();
+            System.out.println("finaly mikrotik");
         }
 
         return clientCreated;
