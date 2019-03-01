@@ -11,53 +11,48 @@ import ru.soyuz_kom.repository.MikrotikRepository;
 import ru.soyuz_kom.repository.SmotreshkaRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MikrotikService {
 
+    private Map<Integer, MikrotikProvider> items = new HashMap<Integer, MikrotikProvider>();
+
     @Autowired
     MikrotikRepository mikrotikRepository;
 
-    private List<MikrotikProvider> items = new ArrayList();
-
     public void load() {
-
-        List<Mikrotik> mikrotikRepositoryAll = mikrotikRepository.findAll();
-
-        for(Mikrotik mikrotik: mikrotikRepositoryAll) {
+        for (Mikrotik mikrotik : mikrotikRepository.findAll()) {
             MikrotikProvider mikrotikProvider = new MikrotikProvider();
             mikrotikProvider.connect(mikrotik.getHost(), mikrotik.getLogin(), mikrotik.getPassword());
 
-            this.addItems(mikrotikProvider);
+            this.addItems(mikrotik.getId(), mikrotikProvider);
         }
         System.out.println("Load MikrotikProvider");
     }
 
-    public void disconect() {
-        for(MikrotikProvider item: this.items) {
-            item.disconect();
-        }
-    }
-
-    public void addItems(MikrotikProvider item) {
-        this.items.add(item);
+    public void addItems(Integer id, MikrotikProvider item) {
+        this.items.put(id, item);
     }
 
     public void deleteItems() {
-        this.disconect();
-        this.items = new ArrayList();
+        for(Map.Entry<Integer, MikrotikProvider> entry: this.items.entrySet()) {
+            entry.getValue().disconect();
+            this.items.remove(entry.getKey());
+        }
     }
 
     public void getItems() {
         System.out.println("getItems: " + this.items);
     }
 
-    public List<Object> addAccount(String ip, String list, String comment) {
-        List<Object> accounts = new ArrayList<>();
+    public List<String> addAccount(String ip, String list, String comment) {
+        List<String> accounts = new ArrayList<>();
 
-        for(MikrotikProvider item: this.items) {
-            accounts.add(item.create(ip, list, comment));
+        for(Map.Entry<Integer, MikrotikProvider> entry: this.items.entrySet()) {
+            accounts.add(entry.getValue().create(ip, list, comment));
         }
 
         return accounts;
@@ -66,8 +61,8 @@ public class MikrotikService {
     public List<Object> getAccounts() {
         List<Object> obj = new ArrayList<>();
 
-        for(MikrotikProvider item: this.items) {
-            obj.add(item.getAll());
+        for(Map.Entry<Integer, MikrotikProvider> entry: this.items.entrySet()) {
+            obj.add(entry.getValue().getAll());
         }
         return obj;
     }

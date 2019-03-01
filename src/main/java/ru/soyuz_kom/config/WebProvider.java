@@ -14,10 +14,4 @@ public class WebProvider {
 
         return new SmotreshkaService();
     }
-
-    @Bean
-    public MikrotikService mikrotikService() {
-
-        return new MikrotikService();
-    }
 }

@@ -4,6 +4,7 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import ru.soyuz_kom.repository.ClientRepository;
 import ru.soyuz_kom.repository.LogActionRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
+import ru.soyuz_kom.service.Impl.MikrotikService;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
 import ru.soyuz_kom.service.Impl.TestServiceImpl;
 import ru.soyuz_kom.service.LogActionServiceImpl;
@@ -54,6 +56,9 @@ public class ClientController extends AdminController {
 
     @Autowired
     TestServiceImpl testService;
+
+    @Autowired
+    MikrotikService mikrotikService;
 
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -131,10 +136,12 @@ public class ClientController extends AdminController {
         Thread.sleep(2000);
         for(int i = 0; i < 5; i++) {
             //rabbitTemplate.convertAndSend("logAction", );
-            logActionService.push("testClient", 0, true, "test1", "test2");
+            //logActionService.push("testClient", 0, true, "test1", "test2");
         }
 
-        testService.getSys();
+        //mikrotikService.load();
+        List<Object> l = mikrotikService.getAccounts();
+        System.out.println("MikriService: " + l.size());
         /* ------------------------------ */
         // Смотрешка
 

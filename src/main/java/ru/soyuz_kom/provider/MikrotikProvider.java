@@ -73,7 +73,7 @@ public class MikrotikProvider {
     public List<Map<String, String>> exec(String str) {
         try {
             return this.con.execute(str);
-        } catch(MikrotikApiException ex) {
+        } catch(Exception ex) {
             System.out.println("Error exec str: " + str);
             System.out.println("Error exec: " + ex);
             return new ArrayList<>();
@@ -101,8 +101,13 @@ public class MikrotikProvider {
     /**
      * При добавление отдает LinkedList с Хеш мапой, параметр ret = *74УВ2 (уникально присвоенный номер)
      */
-    public List<Map<String, String>> create(String ip, String list, String comment) {
-        return this.exec(this.pathAdressList + "add " + " address=" + ip + " list=" + list + " comment=" + comment);
+    public String create(String ip, String list, String comment) {
+        String mikrotikId = null;
+        List<Map<String, String>> data = this.exec(this.pathAdressList + "add " + " address=" + ip + " list=" + list + " comment=" + comment);
+        if(data.size() != 0) {
+            mikrotikId = data.get(0).get("ret");
+        }
+        return mikrotikId;
     }
 
     /**
