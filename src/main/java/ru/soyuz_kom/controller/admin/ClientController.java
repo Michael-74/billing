@@ -160,15 +160,21 @@ public class ClientController extends AdminController {
 
         /* ------------------------------ */
         // Микротик
-            /*
+        /*
             mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
 
             if(mikrotikProvider.isConnect()){
 
-                List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
+                //List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
 
-                List<Map<String, String>> test = mikrotikProvider.create("127.0.1.1", "test10", "test10");
+                List<Map<String, String>> test = mikrotikProvider.create("127.0.0.2", "test12", "test12");
                 System.out.println("exec: " + test);
+
+                List<Map<String, String>> test1 = mikrotikProvider.delete("*8E8D4");
+                System.out.println("exec: " + test1);
+
+                List<Map<String, String>> test2 = mikrotikProvider.create("127.0.0.1", "test11", "test11");
+                System.out.println("exec: " + test2);
 
                 List<Map<String, String>> all = mikrotikProvider.getAll();
                 System.out.println("all: " + all);

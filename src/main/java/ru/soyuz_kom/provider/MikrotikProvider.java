@@ -102,14 +102,14 @@ public class MikrotikProvider {
      * При добавление отдает LinkedList с Хеш мапой, параметр ret = *74УВ2 (уникально присвоенный номер)
      */
     public List<Map<String, String>> create(String ip, String list, String comment) {
-        return this.exec(this.pathAdressList + "add" + " address=" + ip + " list=" + list + " comment=" + comment);
+        return this.exec(this.pathAdressList + "add " + " address=" + ip + " list=" + list + " comment=" + comment);
     }
 
     /**
      * При редактировании ничего не отдает, точнее List size = 0
      */
     public List<Map<String, String>> update(String number, String ip, String list, String comment) {
-        return this.exec(this.pathAdressList + "set" + "numbers=" + number + " address=" + ip + " list=" + list + " comment=" + comment);
+        return this.exec(this.pathAdressList + "set " + "numbers=" + number + " address=" + ip + " list=" + list + " comment=" + comment);
     }
 
     /**
@@ -117,6 +117,6 @@ public class MikrotikProvider {
      * При повторном удалении объекта которого уже нет выкидывает MikrotikApiException
      */
     public List<Map<String, String>> delete(String number) {
-        return this.exec(this.pathAdressList + "remove" + "numbers=" + number);
+        return this.exec(this.pathAdressList + "remove " + "numbers=" + number);
     }
 }
