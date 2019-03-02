@@ -268,7 +268,7 @@ public class ClientController extends AdminController {
     @Transactional
     public Integer delete(Integer clientId) {
         System.out.println("delete client " + clientId);
-        clientRepository.deleteById(clientId);
+        boolean isDelete = clientService.deleteClient(clientId);
 
         return clientId;
     }

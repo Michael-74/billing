@@ -152,4 +152,13 @@ public class ClientServiceImpl implements ClientService {
 
         return clientCreated;
     }
+
+    public boolean deleteClient(Integer clientId) {
+        try {
+            clientRepository.deleteById(clientId);
+            return true;
+        } catch(Exception ex) {
+            return false;
+        }
+    }
 }
