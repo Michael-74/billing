@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.MikrotikData;
+import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.MikrotikService;
 
+import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import java.util.Set;
 

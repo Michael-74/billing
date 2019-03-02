@@ -90,60 +90,20 @@ public class ClientServiceImpl implements ClientService {
     public Client addClient(Client client) {
         Client clientCreated = clientRepository.save(client);
 
-        Set<Tv> tvs = clientCreated.getTvs();
-        Internet internet = clientCreated.getInternet();
-
         /**
-         * TODO добавить сервисы и как быть с абонентом если статус его false
+         * TODO Как быть с абонентом если статус его false
          */
 
         try {
-            smotreshkaService.load();
-            if(clientCreated.getEmail() != null && !clientCreated.getEmail().equals("")) {
-                List<Integer> smotreshkaIds = null;
-
-                if(tvs.size() != 0) {
-                    for(Tv tv: tvs) {
-
-                        // Проверяем есть ли подписка и включенный статус тарифа
-                        if(tv.getSmotreshkaId() != null && tv.getIsStatus()) {
-                            smotreshkaIds.add(tv.getSmotreshkaId());
-                        }
-                    }
-                }
-                smotreshkaService.addAccount(clientCreated.getLogin(), clientCreated.getEmail(), null, smotreshkaIds);
-            }
+            this.addAccountMikrotik(clientCreated);
         } catch(Exception ex) {
-            System.out.println("error smotreshka: " + ex);
+            System.out.println("error mikrotik: " + ex);
         }
 
         try {
-            if (internet != null) {
-                if (internet.getIsStatus()) {
-                    Map<Integer, String> mikrotikIds = mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
-                    Set<MikrotikData> listMikrotikData = new HashSet();
-                    for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {
-
-                        MikrotikData mikrotikData = new MikrotikData();
-                        mikrotikData.setClientId(clientCreated.getId());
-                        mikrotikData.setMikrotikId(mikrotikId.getValue());
-                        mikrotikData.setMikrotikSettingId(mikrotikId.getKey());
-
-                        listMikrotikData.add(mikrotikData);
-                    }
-
-                    try{
-                        clientCreated.setMikrotikDatas(listMikrotikData);
-                        clientRepository.save(clientCreated);
-                    } catch (Exception e) {
-                        System.out.println("Ex: " + e);
-                    }
-
-                }
-            }
-
+            //this.addAccountSmotreshka(clientCreated);
         } catch(Exception ex) {
-            System.out.println("error mikrotik: " + ex);
+            System.out.println("error smotreshka: " + ex);
         }
 
         return clientCreated;
@@ -156,6 +116,54 @@ public class ClientServiceImpl implements ClientService {
             return true;
         } catch(Exception ex) {
             return false;
+        }
+    }
+
+    public void addAccountMikrotik(Client client) {
+        Internet internet = client.getInternet();
+
+        if (internet != null) {
+            if (internet.getIsStatus()) {
+                Map<Integer, String> mikrotikIds = mikrotikService.addAccount(client.getIp(), internet.getSpeed(), client.getLogin());
+                Set<MikrotikData> listMikrotikData = new HashSet();
+                for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {
+
+                    MikrotikData mikrotikData = new MikrotikData();
+                    mikrotikData.setClientId(client.getId());
+                    mikrotikData.setMikrotikId(mikrotikId.getValue());
+                    mikrotikData.setMikrotikSettingId(mikrotikId.getKey());
+
+                    listMikrotikData.add(mikrotikData);
+                }
+
+                try{
+                    client.setMikrotikDatas(listMikrotikData);
+                    clientRepository.save(client);
+                } catch (Exception e) {
+                    System.out.println("Ex: " + e);
+                }
+
+            }
+        }
+    }
+
+    public void addAccountSmotreshka(Client client) {
+
+        Set<Tv> tvs = client.getTvs();
+        smotreshkaService.load();
+        if(client.getEmail() != null && !client.getEmail().equals("")) {
+            List<Integer> smotreshkaIds = null;
+
+            if(tvs.size() != 0) {
+                for(Tv tv: tvs) {
+
+                    // Проверяем есть ли подписка и включенный статус тарифа
+                    if(tv.getSmotreshkaId() != null && tv.getIsStatus()) {
+                        smotreshkaIds.add(tv.getSmotreshkaId());
+                    }
+                }
+            }
+            smotreshkaService.addAccount(client.getLogin(), client.getEmail(), null, smotreshkaIds);
         }
     }
 }
