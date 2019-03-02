@@ -13,6 +13,9 @@ import javax.validation.constraints.*;
 import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -90,7 +93,7 @@ public class Client extends Datetime {
     private String note;
 
     @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-    private Set<MikrotikData> mikrotikDatas;
+    private Set<MikrotikData> mikrotikDatas = new HashSet<>();
 
     public Set<MikrotikData> getMikrotikDatas() {
         return mikrotikDatas;

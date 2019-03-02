@@ -106,9 +106,30 @@ public class ClientController extends AdminController {
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        //Client addClient = clientRepository.save(client);
-
         Client addClient = clientService.addClient(client);
+
+        // Имитируем запрос websocket
+        this.template.convertAndSend("/client/changeClient", addClient);
+
+        return new ResponseEntity<>(addClient, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"v1/client/update"})
+    @CacheEvict(value="schedule", allEntries=true)
+    @ResponseBody
+    public ResponseEntity update(@Valid @RequestBody Client client, Errors errors) {
+        System.out.println("v1/client/update");
+        HashMap error = new HashMap<>();
+
+        if (errors.hasErrors()) {
+            List<org.springframework.validation.FieldError> fieldErrors = errors.getFieldErrors();
+            for (org.springframework.validation.FieldError fieldError: fieldErrors) {
+                error.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        Client addClient = clientService.updateClient(client);
 
         // Имитируем запрос websocket
         this.template.convertAndSend("/client/changeClient", addClient);
@@ -139,9 +160,6 @@ public class ClientController extends AdminController {
             //logActionService.push("testClient", 0, true, "test1", "test2");
         }
 
-        //mikrotikService.load();
-        List<Object> l = mikrotikService.getAccounts();
-        System.out.println("MikriService: " + l.size());
         /* ------------------------------ */
         // Смотрешка
 
@@ -167,33 +185,6 @@ public class ClientController extends AdminController {
         //SmotreshkaService sm = new SmotreshkaService();
         //smotreshkaService.load();
         //smotreshkaService.sys();
-
-        /* ------------------------------ */
-
-        /* ------------------------------ */
-        // Микротик
-        /*
-            mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
-
-            if(mikrotikProvider.isConnect()){
-
-                //List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
-
-                List<Map<String, String>> test = mikrotikProvider.create("127.0.0.2", "test12", "test12");
-                System.out.println("exec: " + test);
-
-                List<Map<String, String>> test1 = mikrotikProvider.delete("*8E8D4");
-                System.out.println("exec: " + test1);
-
-                List<Map<String, String>> test2 = mikrotikProvider.create("127.0.0.1", "test11", "test11");
-                System.out.println("exec: " + test2);
-
-                List<Map<String, String>> all = mikrotikProvider.getAll();
-                System.out.println("all: " + all);
-            }
-            */
-
-
 
         /* ------------------------------ */
 

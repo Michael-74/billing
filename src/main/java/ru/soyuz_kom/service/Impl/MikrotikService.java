@@ -2,6 +2,7 @@ package ru.soyuz_kom.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.soyuz_kom.dto.ClientMikrotikUpdateDTO;
 import ru.soyuz_kom.entity.Mikrotik;
 import ru.soyuz_kom.entity.MikrotikData;
 import ru.soyuz_kom.entity.Smotreshka;
@@ -68,6 +69,19 @@ public class MikrotikService {
         this.deleteItems();
 
         return accounts;
+    }
+
+    public void updateAccount(Set<ClientMikrotikUpdateDTO> clientMikrotikUpdateDTO) {
+        this.load();
+
+        for (ClientMikrotikUpdateDTO clientMikrotik : clientMikrotikUpdateDTO) {
+            try {
+                this.mikrotikProviders.get(clientMikrotik.getMikrotikSettingId()).update(clientMikrotik.getNumber(), clientMikrotik.getIp(), clientMikrotik.getList(), clientMikrotik.getComment());
+            } catch (Exception ex) {
+                System.out.println("error update: " + ex);
+            }
+        }
+        this.deleteItems();
     }
 
     /**

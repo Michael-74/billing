@@ -4,15 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.soyuz_kom.dto.ClientDTO;
-import ru.soyuz_kom.dto.InternetDTO;
-import ru.soyuz_kom.dto.RentDTO;
-import ru.soyuz_kom.dto.TvDTO;
+import ru.soyuz_kom.dto.*;
 import ru.soyuz_kom.entity.*;
-import ru.soyuz_kom.repository.ClientRepository;
-import ru.soyuz_kom.repository.InternetRepository;
-import ru.soyuz_kom.repository.RentRepository;
-import ru.soyuz_kom.repository.TvRepository;
+import ru.soyuz_kom.repository.*;
 import ru.soyuz_kom.service.ClientService;
 
 import java.math.BigDecimal;
@@ -36,6 +30,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private RentRepository rentRepository;
+
+    @Autowired
+    private MikrotikDataRepository mikrotikDataRepository;
 
     @Autowired
     SmotreshkaService smotreshkaService;
@@ -107,6 +104,41 @@ public class ClientServiceImpl implements ClientService {
         }
 
         return clientCreated;
+    }
+
+    @Transactional
+    public Client updateClient(Client client) {
+
+        Set<MikrotikData> mikrotikDatas = mikrotikDataRepository.findByClientId(client.getId());
+        Optional<Client> clientOld = clientRepository.findById(client.getId());
+
+        Client clientNew = client;
+        /* Изменения */
+
+        if(clientOld.get().getIp() != clientNew.getIp()) {
+            Set<ClientMikrotikUpdateDTO> clientMikrotiks = new HashSet();
+
+            for(MikrotikData mikrotikData: mikrotikDatas) {
+                ClientMikrotikUpdateDTO clientMikrotikUpdateDTO = new ClientMikrotikUpdateDTO();
+                clientMikrotikUpdateDTO.setMikrotikSettingId(mikrotikData.getMikrotikSettingId());
+                clientMikrotikUpdateDTO.setNumber(mikrotikData.getMikrotikId());
+                clientMikrotikUpdateDTO.setIp(clientNew.getIp());
+                clientMikrotikUpdateDTO.setList(clientNew.getInternet().getSpeed());
+                clientMikrotikUpdateDTO.setComment(clientNew.getLogin());
+
+                clientMikrotiks.add(clientMikrotikUpdateDTO);
+            }
+
+            mikrotikService.updateAccount(clientMikrotiks);
+
+            clientNew.setMikrotikDatas(mikrotikDatas);
+        }
+
+        Client clientUpdated = clientRepository.save(clientNew);
+
+        System.out.println("updateClient: " + clientUpdated.getMikrotikDatas());
+
+        return clientUpdated;
     }
 
     @Transactional

@@ -71,8 +71,13 @@ export default {
                     payload.successFunction();
                 };
 
+            let urlMethod = "create";
+            if(!payload.isFormCreate) {
+                urlMethod = "update";
+            }
+
             http
-                .post('/admin/v1/client/create', payload.obj, payload, onMethod)
+                .post('/admin/v1/client/' + urlMethod, payload.obj, payload, onMethod)
         },
         searchClientsAsync ({commit, state, rootGetters, rootState}, payload) {
             let onMethod = (response) => {
