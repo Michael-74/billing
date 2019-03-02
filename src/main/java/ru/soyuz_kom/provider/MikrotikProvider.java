@@ -121,7 +121,7 @@ public class MikrotikProvider {
      * При удалении ничего не отдает, точнее List size = 0
      * При повторном удалении объекта которого уже нет выкидывает MikrotikApiException
      */
-    public List<Map<String, String>> delete(String number) {
-        return this.exec(this.pathAdressList + "remove " + "numbers=" + number);
+    public void delete(String number) {
+        this.exec(this.pathAdressList + "remove " + "numbers=" + number);
     }
 }

@@ -3,6 +3,7 @@ package ru.soyuz_kom.entity;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
+import ru.soyuz_kom.entity.listener.ClientListener;
 import ru.soyuz_kom.validator.UniqueContractClient;
 import ru.soyuz_kom.validator.UniqueIpClient;
 import ru.soyuz_kom.validator.UniqueLoginClient;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
+@EntityListeners(ClientListener.class)
 @Table(name = "clients")
 @UniqueLoginClient("login")
 @UniqueContractClient

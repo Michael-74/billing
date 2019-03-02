@@ -118,7 +118,6 @@ public class ClientServiceImpl implements ClientService {
         }
 
         try {
-            mikrotikService.load();
             if (internet != null) {
                 if (internet.getIsStatus()) {
                     Map<Integer, String> mikrotikIds = mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
@@ -145,14 +144,12 @@ public class ClientServiceImpl implements ClientService {
 
         } catch(Exception ex) {
             System.out.println("error mikrotik: " + ex);
-        } finally {
-            mikrotikService.deleteItems();
-            System.out.println("finaly mikrotik");
         }
 
         return clientCreated;
     }
 
+    @Transactional
     public boolean deleteClient(Integer clientId) {
         try {
             clientRepository.deleteById(clientId);

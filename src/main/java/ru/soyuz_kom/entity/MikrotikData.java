@@ -41,9 +41,4 @@ public class MikrotikData extends Datetime {
     @Column(name = "id_client")
     @NotNull
     private Integer clientId;
-
-    @PrePersist
-    void preInsert() {
-
-    }
 }
