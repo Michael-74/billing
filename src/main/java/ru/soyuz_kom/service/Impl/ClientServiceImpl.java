@@ -32,6 +32,9 @@ public class ClientServiceImpl implements ClientService {
     private RentRepository rentRepository;
 
     @Autowired
+    private MikrotikRepository mikrotikRepository;
+
+    @Autowired
     private MikrotikDataRepository mikrotikDataRepository;
 
     @Autowired
@@ -109,6 +112,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public Client updateClient(Client client) {
 
+        List<Mikrotik> mikrotiks = mikrotikRepository.findAll();
         Set<MikrotikData> mikrotikDatas = mikrotikDataRepository.findByClientId(client.getId());
         Optional<Client> clientOld = clientRepository.findById(client.getId());
 
