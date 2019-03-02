@@ -48,11 +48,17 @@ public class MikrotikService {
         System.out.println("getItems: " + this.items);
     }
 
-    public List<String> addAccount(String ip, String list, String comment) {
-        List<String> accounts = new ArrayList<>();
+    public Map<Integer, String> addAccount(String ip, String list, String comment) {
+        Map<Integer, String> accounts = new HashMap<>();
 
         for(Map.Entry<Integer, MikrotikProvider> entry: this.items.entrySet()) {
-            accounts.add(entry.getValue().create(ip, list, comment));
+            String mikrotikId = null;
+            try {
+                mikrotikId = entry.getValue().create(ip, list, comment);
+            } catch(Exception ex) {
+                System.out.println("error addAccount: " + ex);
+            }
+            accounts.put(entry.getKey(), mikrotikId);
         }
 
         return accounts;

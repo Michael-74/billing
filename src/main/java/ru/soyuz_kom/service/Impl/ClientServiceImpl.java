@@ -16,10 +16,7 @@ import ru.soyuz_kom.repository.TvRepository;
 import ru.soyuz_kom.service.ClientService;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -124,7 +121,25 @@ public class ClientServiceImpl implements ClientService {
             mikrotikService.load();
             if (internet != null) {
                 if (internet.getIsStatus()) {
-                    mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+                    Map<Integer, String> mikrotikIds = mikrotikService.addAccount(clientCreated.getIp(), internet.getSpeed(), clientCreated.getLogin());
+                    Set<MikrotikData> listMikrotikData = new HashSet();
+                    for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {
+
+                        MikrotikData mikrotikData = new MikrotikData();
+                        mikrotikData.setClientId(clientCreated.getId());
+                        mikrotikData.setMikrotikId(mikrotikId.getValue());
+                        mikrotikData.setMikrotikSettingId(mikrotikId.getKey());
+
+                        listMikrotikData.add(mikrotikData);
+                    }
+
+                    try{
+                        clientCreated.setMikrotikDatas(listMikrotikData);
+                        clientRepository.save(clientCreated);
+                    } catch (Exception e) {
+                        System.out.println("Ex: " + e);
+                    }
+
                 }
             }
 

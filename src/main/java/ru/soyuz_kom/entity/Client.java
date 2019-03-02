@@ -87,7 +87,7 @@ public class Client extends Datetime {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.DETACH})
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL})
     private Set<MikrotikData> mikrotikDatas;
 
     public Set<MikrotikData> getMikrotikDatas() {
