@@ -1,5 +1,6 @@
 package ru.soyuz_kom.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,16 @@ public class MikrotikData extends Datetime {
     @NotNull
     private Integer mikrotikSettingId;
 
-    @Column(name = "id_client")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "id_client", referencedColumnName = "id")
     @NotNull
-    private Integer clientId;
+    private Client clientId;
+
+    /*
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER, optional=false)
+    @JoinColumn(name = "id_client", insertable=false, updatable=false)
+    private Client client;
+    */
 }

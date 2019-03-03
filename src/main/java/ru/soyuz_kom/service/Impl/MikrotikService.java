@@ -3,6 +3,7 @@ package ru.soyuz_kom.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.dto.ClientMikrotikUpdateDTO;
+import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Mikrotik;
 import ru.soyuz_kom.entity.MikrotikData;
 import ru.soyuz_kom.entity.Smotreshka;
@@ -107,5 +108,39 @@ public class MikrotikService {
             obj.add(entry.getValue().getAll());
         }
         return obj;
+    }
+
+    public Set<ClientMikrotikUpdateDTO> buildMikrotikData(Client client, Set<MikrotikData> mikrotikDatas) {
+        Set<ClientMikrotikUpdateDTO> clientMikrotiks = new HashSet();
+
+        for(MikrotikData mikrotikData: mikrotikDatas) {
+            ClientMikrotikUpdateDTO clientMikrotikUpdateDTO = new ClientMikrotikUpdateDTO();
+            clientMikrotikUpdateDTO.setMikrotikSettingId(mikrotikData.getMikrotikSettingId());
+            clientMikrotikUpdateDTO.setNumber(mikrotikData.getMikrotikId());
+
+            clientMikrotikUpdateDTO.setIp(client.getIp());
+            clientMikrotikUpdateDTO.setList(client.getInternet().getSpeed());
+            clientMikrotikUpdateDTO.setComment(client.getLogin());
+
+            clientMikrotiks.add(clientMikrotikUpdateDTO);
+        }
+
+        return clientMikrotiks;
+    }
+
+    public Set<MikrotikData> createMikrotikData(Client client) {
+        Map<Integer, String> mikrotikIds = this.addAccount(client.getIp(), client.getInternet().getSpeed(), client.getLogin());
+        Set<MikrotikData> listMikrotikData = new HashSet();
+        for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {
+
+            MikrotikData mikrotikData = new MikrotikData();
+            mikrotikData.setClientId(client);
+            mikrotikData.setMikrotikId(mikrotikId.getValue());
+            mikrotikData.setMikrotikSettingId(mikrotikId.getKey());
+
+            listMikrotikData.add(mikrotikData);
+        }
+
+        return listMikrotikData;
     }
 }

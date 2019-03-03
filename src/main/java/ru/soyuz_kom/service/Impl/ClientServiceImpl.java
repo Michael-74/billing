@@ -86,18 +86,31 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.save(client);
     }
 
+    /**
+     * Производим добавление абонента
+     * @param client
+     * @return
+     */
     @Transactional
     public Client addClient(Client client) {
         Client clientCreated = clientRepository.save(client);
 
-        /**
-         * TODO Как быть с абонентом если статус его false
-         */
-
         try {
-            this.addAccountMikrotik(clientCreated);
+            if (client.getInternet() != null && client.getInternet().getIsStatus() && client.getIsStatus()) {
+                if (client.getInternet().getIsStatus()) {
+                    Set<MikrotikData> listMikrotikData = mikrotikService.createMikrotikData(client);
+
+                    try{
+                        client.setMikrotikDatas(listMikrotikData);
+                        clientRepository.save(client);
+                    } catch (Exception e) {
+                        System.out.println("error addClient setMikrotikDatas: " + e);
+                    }
+
+                }
+            }
         } catch(Exception ex) {
-            System.out.println("error mikrotik: " + ex);
+            System.out.println("error mikrotik addClient: " + ex);
         }
 
         try {
@@ -110,39 +123,36 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Transactional
-    public Client updateClient(Client client) {
+    public Client updateClient(Client clientNew) {
+        Optional<Client> clientOld = clientRepository.findById(clientNew.getId());
 
-        List<Mikrotik> mikrotiks = mikrotikRepository.findAll();
-        Set<MikrotikData> mikrotikDatas = mikrotikDataRepository.findByClientId(client.getId());
-        Optional<Client> clientOld = clientRepository.findById(client.getId());
+        if(clientNew.getIsStatus() && (clientNew.getInternet() != null) && clientNew.getInternet().getIsStatus()) {
 
-        Client clientNew = client;
-        /* Изменения */
+            // Сравниваем IP, тариф интернета и логин
+            if (!clientOld.get().getIp().equals(clientNew.getIp()) || (clientOld.get().getInternet() != clientNew.getInternet()) || !clientOld.get().getLogin().equals(clientNew.getLogin())) {
+                Set<ClientMikrotikUpdateDTO> clientMikrotiks;
+                clientMikrotiks = mikrotikService.buildMikrotikData(clientNew, clientOld.get().getMikrotikDatas());
 
-        if(clientOld.get().getIp() != clientNew.getIp()) {
-            Set<ClientMikrotikUpdateDTO> clientMikrotiks = new HashSet();
-
-            for(MikrotikData mikrotikData: mikrotikDatas) {
-                ClientMikrotikUpdateDTO clientMikrotikUpdateDTO = new ClientMikrotikUpdateDTO();
-                clientMikrotikUpdateDTO.setMikrotikSettingId(mikrotikData.getMikrotikSettingId());
-                clientMikrotikUpdateDTO.setNumber(mikrotikData.getMikrotikId());
-                clientMikrotikUpdateDTO.setIp(clientNew.getIp());
-                clientMikrotikUpdateDTO.setList(clientNew.getInternet().getSpeed());
-                clientMikrotikUpdateDTO.setComment(clientNew.getLogin());
-
-                clientMikrotiks.add(clientMikrotikUpdateDTO);
+                // Проверяем чтобы записи были.
+                // Есть такая ситуация когда абоненту включили статус и нужно создать записи в микротике
+                if(clientOld.get().getMikrotikDatas().size() != 0) {
+                    clientNew.setMikrotikDatas(clientOld.get().getMikrotikDatas());
+                    mikrotikService.updateAccount(clientMikrotiks);
+                } else { // Создаем записи для абонента в микротике
+                    Set<MikrotikData> mikrotikDatas = mikrotikService.createMikrotikData(clientNew);
+                    clientNew.setMikrotikDatas(mikrotikDatas);
+                }
             }
+        } else {
 
-            mikrotikService.updateAccount(clientMikrotiks);
-
-            clientNew.setMikrotikDatas(mikrotikDatas);
+            // Удаляем все записи в микротике
+            if(clientOld.get().getMikrotikDatas().size() != 0) {
+                mikrotikService.deleteAccount(clientOld.get().getMikrotikDatas());
+                clientNew.removeMikrotikDatas(clientNew.getMikrotikDatas());
+            }
         }
 
-        Client clientUpdated = clientRepository.save(clientNew);
-
-        System.out.println("updateClient: " + clientUpdated.getMikrotikDatas());
-
-        return clientUpdated;
+        return clientRepository.save(clientNew);
     }
 
     @Transactional
@@ -152,34 +162,6 @@ public class ClientServiceImpl implements ClientService {
             return true;
         } catch(Exception ex) {
             return false;
-        }
-    }
-
-    public void addAccountMikrotik(Client client) {
-        Internet internet = client.getInternet();
-
-        if (internet != null) {
-            if (internet.getIsStatus()) {
-                Map<Integer, String> mikrotikIds = mikrotikService.addAccount(client.getIp(), internet.getSpeed(), client.getLogin());
-                Set<MikrotikData> listMikrotikData = new HashSet();
-                for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {
-
-                    MikrotikData mikrotikData = new MikrotikData();
-                    mikrotikData.setClientId(client.getId());
-                    mikrotikData.setMikrotikId(mikrotikId.getValue());
-                    mikrotikData.setMikrotikSettingId(mikrotikId.getKey());
-
-                    listMikrotikData.add(mikrotikData);
-                }
-
-                try{
-                    client.setMikrotikDatas(listMikrotikData);
-                    clientRepository.save(client);
-                } catch (Exception e) {
-                    System.out.println("Ex: " + e);
-                }
-
-            }
         }
     }
 

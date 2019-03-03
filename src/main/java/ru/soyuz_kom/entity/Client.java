@@ -92,7 +92,7 @@ public class Client extends Datetime {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL}, orphanRemoval = true)
     private Set<MikrotikData> mikrotikDatas = new HashSet<>();
 
     public Set<MikrotikData> getMikrotikDatas() {
@@ -101,6 +101,9 @@ public class Client extends Datetime {
 
     public void setMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
         this.mikrotikDatas = mikrotikDatas;
+    }
+    public void removeMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
+        this.mikrotikDatas.remove(mikrotikDatas);
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
