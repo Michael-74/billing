@@ -14,7 +14,7 @@ public class RestTemplateHelper {
     @Autowired
     RestTemplate restTemplate;
 
-    public Object exchange2(String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
+    public Object exchange(String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
         System.out.println("exchange: " + url);
         try {
             ResponseEntity response = restTemplate.exchange(url,

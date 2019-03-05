@@ -102,8 +102,24 @@ public class Client extends Datetime {
     public void setMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
         this.mikrotikDatas = mikrotikDatas;
     }
+
     public void removeMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
         this.mikrotikDatas.remove(mikrotikDatas);
+    }
+
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL}, orphanRemoval = true)
+    private Set<SmotreshkaData> smotreshkaDatas = new HashSet<>();
+
+    public Set<SmotreshkaData> getSmotreshkaDatas() {
+        return smotreshkaDatas;
+    }
+
+    public void setSmotreshkaDatas(Set<SmotreshkaData> smotreshkaDatas) {
+        this.smotreshkaDatas = smotreshkaDatas;
+    }
+
+    public void removeSmotreshkaDatas(Set<SmotreshkaData> smotreshkaDatas) {
+        this.smotreshkaDatas.remove(smotreshkaDatas);
     }
 
     @ManyToMany(fetch = FetchType.LAZY)

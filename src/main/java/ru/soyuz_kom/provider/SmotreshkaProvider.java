@@ -59,7 +59,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(addAccount);
 
         return restTemplateHelper
-            .exchange2(this.url + str, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<AccountNewResponseDTO>() {}
+            .exchange(this.url + str, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<AccountNewResponseDTO>() {}
             );
     }
 
@@ -68,10 +68,10 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
      */
     public AccountListDTO getAccounts() {
         String str = "/v2/accounts";
-        System.out.println("123-----------" + this.url);
+        System.out.println("getAccounts: " + this.url);
         try {
             return (AccountListDTO) restTemplateHelper
-                    .exchange2(
+                    .exchange(
                         this.url + str,
                         HttpMethod.GET,
                         null,
@@ -79,7 +79,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
                         }
                     );
         }catch(Exception ex) {
-            System.out.println("123-----------" + ex);
+            System.out.println("getAccounts error: " + ex);
             return null;
         }
     }
@@ -93,7 +93,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         String str = "/v2/accounts/" + id;
 
         return (AccountDTO) restTemplateHelper
-            .exchange2(
+            .exchange(
                 this.url + str,
                 HttpMethod.GET,
                 null,
@@ -124,7 +124,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
 
-        return (AccountDTO) restTemplateHelper.exchange2(this.url + str,
+        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
                 HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<AccountDTO>() {}
@@ -143,7 +143,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
 
-        return (AccountPasswordStatusDTO) restTemplateHelper.exchange2(
+        return (AccountPasswordStatusDTO) restTemplateHelper.exchange(
                 this.url + str,
                 HttpMethod.POST,
                 httpEntity,
@@ -160,7 +160,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         String str = "/v2/accounts/" + id;
 
         return (AccountDeleteDTO) restTemplateHelper
-            .exchange2(
+            .exchange(
                     this.url + str,
                     HttpMethod.DELETE,
                     null,
@@ -176,7 +176,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
         return (List<AccountSubscriptionsDTO>) restTemplateHelper
-            .exchange2(
+            .exchange(
                 this.url + str,
                 HttpMethod.GET,
                 null,
@@ -199,7 +199,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         HttpEntity<?> httpEntity = new HttpEntity<SubscriptionDTO>(subscriptionDTO);
 
        return (SubscriptionDTO) restTemplateHelper
-            .exchange2(
+            .exchange(
                 this.url + str,
                 HttpMethod.POST,
                 httpEntity,
@@ -217,7 +217,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
         return (AccountDeleteDTO) restTemplateHelper
-            .exchange2(
+            .exchange(
                 this.url + str,
                 HttpMethod.DELETE,
                 null,
