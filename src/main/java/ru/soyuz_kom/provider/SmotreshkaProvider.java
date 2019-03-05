@@ -43,7 +43,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
      * @param purchases - массив id подписок | необязательное поле
      * @return
      */
-    public Object addAccount(String username, String email, String password, List purchases) {
+    public AccountNewResponseDTO addAccount(String username, String email, String password, List purchases) {
         String str = "/v2/accounts";
 
         Map<String, Object> addAccount = new HashMap<>();
@@ -58,7 +58,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         HttpEntity<?> httpEntity = new HttpEntity<Object>(addAccount);
 
-        return restTemplateHelper
+        return (AccountNewResponseDTO) restTemplateHelper
             .exchange(this.url + str, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<AccountNewResponseDTO>() {}
             );
     }

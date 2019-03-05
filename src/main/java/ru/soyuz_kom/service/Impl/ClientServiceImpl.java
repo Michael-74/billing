@@ -96,7 +96,6 @@ public class ClientServiceImpl implements ClientService {
 
                     try{
                         client.setMikrotikDatas(listMikrotikData);
-                        clientRepository.save(client);
                     } catch (Exception e) {
                         System.out.println("error addClient setMikrotikDatas: " + e);
                     }
@@ -109,23 +108,20 @@ public class ClientServiceImpl implements ClientService {
 
         try {
             if (client.getTvs().size() != 0 && client.getIsStatus()) {
-                List<Integer> subTv = new ArrayList<>();
-                for(Tv tv: client.getTvs()) {
-                    subTv.add(tv.getSmotreshkaId());
-                }
 
-                Map<Integer, Object> listSmotreshka = smotreshkaService.addAccount(client.getLogin(), client.getEmail(), null, subTv);
-                
+                Set<SmotreshkaData> listSmotreshka = smotreshkaService.createSmotreshkaData(client);
+
                 try{
-                    //client.set(listMikrotikData);
-                    //clientRepository.save(client);
+                    client.setSmotreshkaDatas(listSmotreshka);
                 } catch (Exception e) {
-                    System.out.println("error addClient setMikrotikDatas: " + e);
+                    System.out.println("error addClient setSmotreshkaDatas: " + e);
                 }
             }
         } catch(Exception ex) {
             System.out.println("error smotreshka: " + ex);
         }
+
+        clientRepository.save(client);
 
         return clientCreated;
     }

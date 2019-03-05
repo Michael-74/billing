@@ -130,6 +130,7 @@ public class MikrotikService {
 
     public Set<MikrotikData> createMikrotikData(Client client) {
         Map<Integer, String> mikrotikIds = this.addAccount(client.getIp(), client.getInternet().getSpeed(), client.getLogin());
+
         Set<MikrotikData> listMikrotikData = new HashSet();
         for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {
 

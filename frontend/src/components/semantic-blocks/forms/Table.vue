@@ -51,7 +51,7 @@
                             <font-awesome-icon class="select__icon select__icon_blue" v-else icon="square"></font-awesome-icon>
                         </td>
 
-                        <td :style="{width: col.width}" v-if="col.field !== 'isStatus' && col.field !== 'tasks' && col.field !== 'typeDiscount' && col.field !== 'isPromisedPay'  && col.field !== 'note' && col.field !== 'internet' && col.field !== 'tvs' && col.field !== 'rents' && col.field !== 'mikrotikDatas'"
+                        <td :style="{width: col.width}" v-if="col.field !== 'isStatus' && col.field !== 'tasks' && col.field !== 'typeDiscount' && col.field !== 'isPromisedPay'  && col.field !== 'note' && col.field !== 'internet' && col.field !== 'tvs' && col.field !== 'rents' && col.field !== 'mikrotikDatas' && col.field !== 'smotreshkaDatas'"
                             v-show="col.isShow" class="items__td" v-for="col in getColumns">{{ item[col.field] }}</td>
 
                         <td :style="{width: col.width}" v-else-if="col.field === 'tasks'" v-show="col.isShow"  class="items__td">
@@ -90,6 +90,17 @@
                                     <div class="items__wrapper-span">
                                         <span class="items__pack items__pack_blue" >{{mikrotik.mikrotikSettingId}}</span>
                                         <span class="items__pack" >{{mikrotik.mikrotikId}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td :style="{width: col.width}" v-else-if="col.field === 'smotreshkaDatas'" v-show="col.isShow" class="items__td">
+                            <div v-if="item.smotreshkaDatas && item.smotreshkaDatas.length !== 0">
+                                <div v-for="smotreshka in item.smotreshkaDatas">
+                                    <div class="items__wrapper-span">
+                                        <span class="items__pack items__pack_blue" >{{smotreshka.smotreshkaSettingId}}</span>
+                                        <span class="items__pack" >{{smotreshka.smotreshkaId}}</span>
                                     </div>
                                 </div>
                             </div>

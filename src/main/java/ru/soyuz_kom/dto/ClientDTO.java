@@ -30,6 +30,7 @@ public class ClientDTO {
     public Boolean isStatus;
     public Boolean isPromisedPay;
     public Set<MikrotikData> mikrotikDatas;
+    public Set<SmotreshkaData> smotreshkaDatas;
     public String note;
     public Set<Tv> tvs = new HashSet<>();
     public Set<Rent> rents = new HashSet<>();
@@ -62,6 +63,7 @@ public class ClientDTO {
             clientDTO.setIsPromisedPay(client.getIsPromisedPay());
             clientDTO.setNote(client.getNote());
             clientDTO.setMikrotikDatas(client.getMikrotikDatas());
+            clientDTO.setSmotreshkaDatas(client.getSmotreshkaDatas());
             clientDTO.setCreatedAt(client.getCreatedAt());
             clientDTO.setUpdatedAt(client.getUpdatedAt());
 

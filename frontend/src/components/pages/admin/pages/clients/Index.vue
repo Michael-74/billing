@@ -176,11 +176,11 @@ export default {
                     width: "200px",
                 },
                 {
-                    field: 'smotreshkaData',
+                    field: 'smotreshkaDatas',
                     name: 'ID в смотрешке',
                     sort: 22,
                     isShow: true,
-                    width: "100px",
+                    width: "200px",
                 },
             ]
         }

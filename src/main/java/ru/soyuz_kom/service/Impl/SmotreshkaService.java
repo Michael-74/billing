@@ -3,17 +3,14 @@ package ru.soyuz_kom.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.dto.smotreshka.*;
-import ru.soyuz_kom.entity.Smotreshka;
+import ru.soyuz_kom.entity.*;
 import ru.soyuz_kom.helper.RestTemplateHelper;
 import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.provider.ProviderSmotreshka;
 import ru.soyuz_kom.provider.SmotreshkaProvider;
 import ru.soyuz_kom.repository.SmotreshkaRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SmotreshkaService {
@@ -51,21 +48,44 @@ public class SmotreshkaService {
         System.out.println("getItems: " + this.smotreshkaProviders);
     }
 
-    public Map<Integer, Object> addAccount(String username, String email, String password, List subscriptions) {
+    public Map<Integer, String> addAccount(String username, String email, String password, List subscriptions) {
         this.load();
-        Map<Integer, Object> accounts = new HashMap<>();
+        Map<Integer, String> accounts = new HashMap<>();
 
         for(Map.Entry<Integer, SmotreshkaProvider> entry: this.smotreshkaProviders.entrySet()) {
-            Object smotreshkaId = null;
             try {
-                smotreshkaId = entry.getValue().addAccount(username, email, password, subscriptions);
+                AccountNewResponseDTO smotreshkaNewDTO = entry.getValue().addAccount(username, email, password, subscriptions);
+                if(smotreshkaNewDTO != null) {
+                    accounts.put(entry.getKey(), smotreshkaNewDTO.getId());
+                }
             } catch(Exception ex) {
-                System.out.println("error addAccount: " + ex);
+                System.out.println("error addAccountSmotreshka: " + ex);
             }
-            accounts.put(entry.getKey(), smotreshkaId);
         }
         this.deleteItems();
 
         return accounts;
+    }
+
+    public Set<SmotreshkaData> createSmotreshkaData(Client client) {
+        List<Integer> subTv = new ArrayList<>();
+        for(Tv tv: client.getTvs()) {
+            subTv.add(tv.getSmotreshkaId());
+        }
+
+        Map<Integer, String> smotreshkaIds = this.addAccount(client.getLogin(), client.getEmail(), null, subTv);
+
+        Set<SmotreshkaData> listSmotreshkaData = new HashSet();
+        for(Map.Entry<Integer, String> mikrotikId: smotreshkaIds.entrySet()) {
+
+            SmotreshkaData smotreshkaData = new SmotreshkaData();
+            smotreshkaData.setClientId(client);
+            smotreshkaData.setSmotreshkaId(mikrotikId.getValue());
+            smotreshkaData.setSmotreshkaSettingId(mikrotikId.getKey());
+
+            listSmotreshkaData.add(smotreshkaData);
+        }
+
+        return listSmotreshkaData;
     }
 }
