@@ -32,12 +32,6 @@ public class ClientServiceImpl implements ClientService {
     private RentRepository rentRepository;
 
     @Autowired
-    private MikrotikRepository mikrotikRepository;
-
-    @Autowired
-    private MikrotikDataRepository mikrotikDataRepository;
-
-    @Autowired
     SmotreshkaService smotreshkaService;
 
     @Autowired
@@ -114,7 +108,21 @@ public class ClientServiceImpl implements ClientService {
         }
 
         try {
-            //this.addAccountSmotreshka(clientCreated);
+            if (client.getTvs().size() != 0 && client.getIsStatus()) {
+                List<Integer> subTv = new ArrayList<>();
+                for(Tv tv: client.getTvs()) {
+                    subTv.add(tv.getSmotreshkaId());
+                }
+
+                Map<Integer, Object> listSmotreshka = smotreshkaService.addAccount(client.getLogin(), client.getEmail(), null, subTv);
+                
+                try{
+                    //client.set(listMikrotikData);
+                    //clientRepository.save(client);
+                } catch (Exception e) {
+                    System.out.println("error addClient setMikrotikDatas: " + e);
+                }
+            }
         } catch(Exception ex) {
             System.out.println("error smotreshka: " + ex);
         }
