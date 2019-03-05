@@ -165,6 +165,7 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /*
     public void addAccountSmotreshka(Client client) {
 
         Set<Tv> tvs = client.getTvs();
@@ -184,4 +185,5 @@ public class ClientServiceImpl implements ClientService {
             smotreshkaService.addAccount(client.getLogin(), client.getEmail(), null, smotreshkaIds);
         }
     }
+    */
 }
