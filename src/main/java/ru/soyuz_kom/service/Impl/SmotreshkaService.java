@@ -88,4 +88,17 @@ public class SmotreshkaService {
 
         return listSmotreshkaData;
     }
+
+    public void deleteAccount(Set<SmotreshkaData> smotreshkaDatas) {
+        this.load();
+        for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
+            try {
+                System.out.println("delete smotreshka deleteAccount");
+                this.smotreshkaProviders.get(smotreshkaData.getSmotreshkaSettingId()).deleteAccountById(smotreshkaData.getSmotreshkaId());
+            } catch (Exception ex) {
+                System.out.println("error delete smotreshka: " + ex);
+            }
+        }
+        this.deleteItems();
+    }
 }

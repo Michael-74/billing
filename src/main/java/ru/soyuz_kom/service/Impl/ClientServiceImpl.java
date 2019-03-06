@@ -163,8 +163,10 @@ public class ClientServiceImpl implements ClientService {
     public boolean deleteClient(Integer clientId) {
         try {
             clientRepository.deleteById(clientId);
+            System.out.println("deleteClient true");
             return true;
         } catch(Exception ex) {
+            System.out.println("deleteClient error: " + ex);
             return false;
         }
     }
