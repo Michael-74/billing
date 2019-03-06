@@ -5,6 +5,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.soyuz_kom.dto.*;
+import ru.soyuz_kom.dto.mikrotik.ClientMikrotikUpdateDTO;
+import ru.soyuz_kom.dto.smotreshka.ClientSmotreshkaUpdateDTO;
 import ru.soyuz_kom.entity.*;
 import ru.soyuz_kom.repository.*;
 import ru.soyuz_kom.service.ClientService;
@@ -93,13 +95,7 @@ public class ClientServiceImpl implements ClientService {
             if (client.getInternet() != null && client.getInternet().getIsStatus() && client.getIsStatus()) {
                 if (client.getInternet().getIsStatus()) {
                     Set<MikrotikData> listMikrotikData = mikrotikService.createMikrotikData(client);
-
-                    try{
-                        client.setMikrotikDatas(listMikrotikData);
-                    } catch (Exception e) {
-                        System.out.println("error addClient setMikrotikDatas: " + e);
-                    }
-
+                    client.setMikrotikDatas(listMikrotikData);
                 }
             }
         } catch(Exception ex) {
@@ -108,14 +104,8 @@ public class ClientServiceImpl implements ClientService {
 
         try {
             if (client.getTvs().size() != 0 && client.getIsStatus()) {
-
                 Set<SmotreshkaData> listSmotreshka = smotreshkaService.createSmotreshkaData(client);
-
-                try{
-                    client.setSmotreshkaDatas(listSmotreshka);
-                } catch (Exception e) {
-                    System.out.println("error addClient setSmotreshkaDatas: " + e);
-                }
+                client.setSmotreshkaDatas(listSmotreshka);
             }
         } catch(Exception ex) {
             System.out.println("error smotreshka: " + ex);
@@ -130,29 +120,57 @@ public class ClientServiceImpl implements ClientService {
     public Client updateClient(Client clientNew) {
         Optional<Client> clientOld = clientRepository.findById(clientNew.getId());
 
+        /**
+         * Обновляем данные микротика
+         */
         if(clientNew.getIsStatus() && (clientNew.getInternet() != null) && clientNew.getInternet().getIsStatus()) {
 
-            // Сравниваем IP, тариф интернета и логин
-            if (!clientOld.get().getIp().equals(clientNew.getIp()) || (clientOld.get().getInternet() != clientNew.getInternet()) || !clientOld.get().getLogin().equals(clientNew.getLogin())) {
-                Set<ClientMikrotikUpdateDTO> clientMikrotiks;
-                clientMikrotiks = mikrotikService.buildMikrotikData(clientNew, clientOld.get().getMikrotikDatas());
+            if (!clientOld.get().getIp().equals(clientNew.getIp()) || !clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getInternet().getId().equals(clientNew.getInternet().getId())) {
 
                 // Проверяем чтобы записи были.
                 // Есть такая ситуация когда абоненту включили статус и нужно создать записи в микротике
                 if(clientOld.get().getMikrotikDatas().size() != 0) {
+                    Set<ClientMikrotikUpdateDTO> clientMikrotiks = mikrotikService.buildMikrotikData(clientNew, clientOld.get().getMikrotikDatas());
                     clientNew.setMikrotikDatas(clientOld.get().getMikrotikDatas());
                     mikrotikService.updateAccount(clientMikrotiks);
                 } else { // Создаем записи для абонента в микротике
                     Set<MikrotikData> mikrotikDatas = mikrotikService.createMikrotikData(clientNew);
                     clientNew.setMikrotikDatas(mikrotikDatas);
                 }
+            } else {
+                clientNew.setMikrotikDatas(clientOld.get().getMikrotikDatas());
             }
         } else {
-
             // Удаляем все записи в микротике
             if(clientOld.get().getMikrotikDatas().size() != 0) {
                 mikrotikService.deleteAccount(clientOld.get().getMikrotikDatas());
                 clientNew.removeMikrotikDatas(clientNew.getMikrotikDatas());
+            }
+        }
+
+        /**
+         * Обновляем данные смотрешки
+         */
+        if(clientNew.getIsStatus() && (clientNew.getTvs().size() != 0)) {
+
+            // Если логин или email были изменены
+            if (!clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getEmail().equals(clientNew.getEmail())) {
+
+            }
+
+            /*
+            if (!clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getEmail().equals(clientNew.getEmail()) || (clientOld.get().getTvs().size() != clientNew.getTvs().size())) {
+
+
+
+            } else {
+                clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
+            }
+            */
+        } else {
+            if(clientOld.get().getSmotreshkaDatas().size() != 0) {
+                clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
+                smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get().getSmotreshkaDatas());
             }
         }
 

@@ -2,16 +2,12 @@ package ru.soyuz_kom.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.soyuz_kom.dto.ClientMikrotikUpdateDTO;
+import ru.soyuz_kom.dto.mikrotik.ClientMikrotikUpdateDTO;
 import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.Mikrotik;
 import ru.soyuz_kom.entity.MikrotikData;
-import ru.soyuz_kom.entity.Smotreshka;
-import ru.soyuz_kom.helper.RestTemplateHelper;
 import ru.soyuz_kom.provider.MikrotikProvider;
-import ru.soyuz_kom.provider.SmotreshkaProvider;
 import ru.soyuz_kom.repository.MikrotikRepository;
-import ru.soyuz_kom.repository.SmotreshkaRepository;
 
 import java.util.*;
 

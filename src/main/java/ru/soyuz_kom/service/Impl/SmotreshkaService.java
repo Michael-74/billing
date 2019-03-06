@@ -101,4 +101,38 @@ public class SmotreshkaService {
         }
         this.deleteItems();
     }
+
+    public void deleteAllSubscriptionsOfAccount(Set<SmotreshkaData> smotreshkaDatas) {
+        this.load();
+        for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
+            try {
+                System.out.println("delete all sub smotreshka deleteAccount");
+                this.smotreshkaProviders.get(smotreshkaData.getSmotreshkaSettingId()).deleteAllSubscriptionsOfAccount(smotreshkaData.getSmotreshkaId());
+            } catch (Exception ex) {
+                System.out.println("error delete all sub smotreshka: " + ex);
+            }
+        }
+        this.deleteItems();
+    }
+
+    /*
+    public Set<ClientSmotreshkaUpdateDTO> buildSmotreshkaData(Client client, Set<SmotreshkaData> smotreshkaDatas) {
+        Set<ClientSmotreshkaUpdateDTO> clientSmotreshkas = new HashSet();
+
+        for(SmotreshkaData smotreshkaData: smotreshkaDatas) {
+            ClientSmotreshkaUpdateDTO clientSmotreshkaUpdateDTO = new ClientSmotreshkaUpdateDTO();
+            clientSmotreshkaUpdateDTO.setSmotreshkaSettingId(smotreshkaData.getSmotreshkaSettingId());
+            clientSmotreshkaUpdateDTO.setNumber(smotreshkaData.getMikrotikId());
+
+            clientSmotreshkaUpdateDTO.setLogin(client.getIp());
+            clientSmotreshkaUpdateDTO.setEmail(client.getInternet().getSpeed());
+            clientSmotreshkaUpdateDTO.setPassword(client.getLogin());
+            clientSmotreshkaUpdateDTO.setPurchases(client.get);
+
+            clientSmotreshkas.add(clientSmotreshkaUpdateDTO);
+        }
+
+        return clientMikrotiks;
+    }
+    */
 }

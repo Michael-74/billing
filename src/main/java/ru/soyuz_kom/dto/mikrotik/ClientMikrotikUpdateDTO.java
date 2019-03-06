@@ -1,4 +1,4 @@
-package ru.soyuz_kom.dto;
+package ru.soyuz_kom.dto.mikrotik;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
