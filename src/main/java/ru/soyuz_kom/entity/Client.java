@@ -3,19 +3,23 @@ package ru.soyuz_kom.entity;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.entity.enums.TypeDiscountEnum;
+import ru.soyuz_kom.entity.listener.ClientListener;
 import ru.soyuz_kom.validator.UniqueContractClient;
 import ru.soyuz_kom.validator.UniqueIpClient;
 import ru.soyuz_kom.validator.UniqueLoginClient;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@EntityListeners(ClientListener.class)
 @Table(name = "clients")
 @UniqueLoginClient("login")
 @UniqueContractClient
@@ -51,6 +55,7 @@ public class Client extends Datetime {
 
     @Column(name = "ip")
     @NotNull
+    @Pattern(regexp = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", message="неправильно задан")
     @Size(min=1, max=20)
     private String ip;
 
@@ -61,6 +66,7 @@ public class Client extends Datetime {
     private String phone;
 
     @Column(name = "email")
+    @Email
     private String email;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
@@ -86,11 +92,35 @@ public class Client extends Datetime {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @Column(name = "id_mikrotik_service")
-    private String mikrotikServiceId;
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL}, orphanRemoval = true)
+    private Set<MikrotikData> mikrotikDatas = new HashSet<>();
 
-    @Column(name = "id_smotreshka_service")
-    private String smotreshkaServiceId;
+    public Set<MikrotikData> getMikrotikDatas() {
+        return mikrotikDatas;
+    }
+
+    public void setMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
+        this.mikrotikDatas = mikrotikDatas;
+    }
+
+    public void removeMikrotikDatas(Set<MikrotikData> mikrotikDatas) {
+        this.mikrotikDatas.remove(mikrotikDatas);
+    }
+
+    @OneToMany(mappedBy = "clientId", fetch = FetchType.EAGER, cascade={CascadeType.ALL}, orphanRemoval = true)
+    private Set<SmotreshkaData> smotreshkaDatas = new HashSet<>();
+
+    public Set<SmotreshkaData> getSmotreshkaDatas() {
+        return smotreshkaDatas;
+    }
+
+    public void setSmotreshkaDatas(Set<SmotreshkaData> smotreshkaDatas) {
+        this.smotreshkaDatas = smotreshkaDatas;
+    }
+
+    public void removeSmotreshkaDatas(Set<SmotreshkaData> smotreshkaDatas) {
+        this.smotreshkaDatas.remove(smotreshkaDatas);
+    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @BatchSize(size=25)

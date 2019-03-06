@@ -36,7 +36,7 @@ public class Application {
 
     @Bean
     public Queue logQueue() {
-        return new Queue("log");
+        return new Queue("logAction");
     }
 
     @Bean
@@ -47,8 +47,6 @@ public class Application {
 
     @PostConstruct
     public void init(){
-        smotreshkaService.load();
-
         TimeZone.setDefault(TimeZone.getDefault());   // It will set UTC timezone
         //System.out.println("Spring boot application running in UTC timezone :" + new Date());   // It will print UTC timezone
     }

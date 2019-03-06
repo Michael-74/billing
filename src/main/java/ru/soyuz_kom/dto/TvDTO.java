@@ -19,6 +19,8 @@ public class TvDTO {
     private Boolean isStatus;
     private Set<Task> tasks;
     private String val;
+    private Integer smotreshkaId;
+    private String description;
     @JsonFormat(pattern="dd.MM.yyyy HH:mm")
     public Date createdAt;
     @JsonFormat(pattern="dd.MM.yyyy HH:mm")
@@ -31,7 +33,8 @@ public class TvDTO {
             tvDTO.setId(tv.getId());
             tvDTO.setName(tv.getName());
             tvDTO.setIsStatus(tv.getIsStatus());
-            tvDTO.setIsStatus(tv.getIsStatus());
+            tvDTO.setSmotreshkaId(tv.getSmotreshkaId());
+            tvDTO.setDescription(tv.getDescription());
             tvDTO.setTasks(tv.getTasks());
             tvDTO.setVal(tv.getName());
             tvDTO.setCreatedAt(tv.getCreatedAt());

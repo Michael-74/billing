@@ -11,12 +11,10 @@ import ru.soyuz_kom.repository.TaskRepository;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"ru.soyuz_kom.controller", "ru.soyuz_kom.config", "ru.soyuz_kom.service", "ru.soyuz_kom.provider"})
+@ComponentScan({"ru.soyuz_kom.controller", "ru.soyuz_kom.config", "ru.soyuz_kom.service", "ru.soyuz_kom.service.Impl", "ru.soyuz_kom.listener", "ru.soyuz_kom.entity.listener"})
 public class WebConfig implements WebMvcConfigurer {
 
     private final static long MAX_AGE_SECS = 3600;
-
-
 
     @Autowired
     private TaskRepository taskRepository;

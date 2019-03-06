@@ -17,7 +17,7 @@ import java.util.Set;
 public class InternetDTO {
     public Integer id;
     private String name;
-    private Integer speed;
+    private String speed;
     private Boolean isStatus;
     private Set<Task> tasks;
     private String val;

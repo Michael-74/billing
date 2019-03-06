@@ -25,8 +25,18 @@ public class MikrotikProvider {
         try {
             this.con = ApiConnection.connect(ip); // connect to router
             this.con.login(login,password); // log in to router
+            System.out.println("Mikrotik connect: " + this.isConnect());
         } catch(MikrotikApiException ex) {
             System.out.println("Error connect");
+        }
+    }
+
+    public void disconect() {
+        try {
+            this.con.close();
+            System.out.println("Mikrotik close");
+        } catch(MikrotikApiException ex) {
+            System.out.println("Error close");
         }
     }
 
@@ -63,8 +73,9 @@ public class MikrotikProvider {
     public List<Map<String, String>> exec(String str) {
         try {
             return this.con.execute(str);
-        } catch(MikrotikApiException ex) {
-            System.out.println("Error exec: " + str);
+        } catch(Exception ex) {
+            System.out.println("Error exec str: " + str);
+            System.out.println("Error exec: " + ex);
             return new ArrayList<>();
         }
     }
@@ -82,7 +93,6 @@ public class MikrotikProvider {
     /**
      * Вывести все записи
      * @return List
-     * @throws MikrotikApiException
      */
     public List<Map<String, String>> getAll() {
         return this.exec(this.pathAdressList + "print");
@@ -91,22 +101,27 @@ public class MikrotikProvider {
     /**
      * При добавление отдает LinkedList с Хеш мапой, параметр ret = *74УВ2 (уникально присвоенный номер)
      */
-    public List<Map<String, String>> create(String ip, String list, String comment) {
-        return this.exec(this.pathAdressList + "add" + " address=" + ip + " list=" + list + " comment=" + comment);
+    public String create(String ip, String list, String comment) {
+        String mikrotikId = null;
+        List<Map<String, String>> data = this.exec(this.pathAdressList + "add " + " address=" + ip + " list=" + list + " comment=" + comment);
+        if(data.size() != 0) {
+            mikrotikId = data.get(0).get("ret");
+        }
+        return mikrotikId;
     }
 
     /**
      * При редактировании ничего не отдает, точнее List size = 0
      */
     public List<Map<String, String>> update(String number, String ip, String list, String comment) {
-        return this.exec(this.pathAdressList + "set" + "numbers=" + number + " address=" + ip + " list=" + list + " comment=" + comment);
+        return this.exec(this.pathAdressList + "set " + "numbers=" + number + " address=" + ip + " list=" + list + " comment=" + comment);
     }
 
     /**
      * При удалении ничего не отдает, точнее List size = 0
      * При повторном удалении объекта которого уже нет выкидывает MikrotikApiException
      */
-    public List<Map<String, String>> delete(String number) {
-        return this.exec(this.pathAdressList + "remove" + "numbers=" + number);
+    public void delete(String number) {
+        this.exec(this.pathAdressList + "remove " + "numbers=" + number);
     }
 }

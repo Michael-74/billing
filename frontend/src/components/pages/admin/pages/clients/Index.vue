@@ -169,18 +169,18 @@ export default {
                     width: "200px",
                 },
                 {
-                    field: 'mikrotikServiceId',
+                    field: 'mikrotikDatas',
                     name: 'ID в микротике',
                     sort: 21,
                     isShow: true,
-                    width: "100px",
+                    width: "200px",
                 },
                 {
-                    field: 'smotreshkaServiceId',
+                    field: 'smotreshkaDatas',
                     name: 'ID в смотрешке',
                     sort: 22,
                     isShow: true,
-                    width: "100px",
+                    width: "200px",
                 },
             ]
         }

@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "emails")
-@ToString(of = {"id"})
 @EqualsAndHashCode(callSuper = false)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Email extends Datetime {

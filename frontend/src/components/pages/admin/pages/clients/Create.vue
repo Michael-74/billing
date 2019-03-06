@@ -54,12 +54,6 @@
                     <app-checkbox :data="client.isPromisedPay"></app-checkbox>
                 </div>
                 <div class="clear"></div>
-                <div class="create__input">
-                    <app-input :data="client.mikrotikServiceId"></app-input>
-                </div>
-                <div class="create__input">
-                    <app-input :data="client.smotreshkaServiceId"></app-input>
-                </div>
                 <div class="create__input create__input_width-discount">
                     <app-input :data="client.discount"></app-input>
                 </div>
@@ -166,8 +160,6 @@ export default {
                 fio: input('ФИО', 'ФИО', 'fio', true, false, null, null),
                 address: input('Адрес', 'Адрес', 'address', true, false, null, null),
                 phone: input('Телефон', 'Телефон', 'phone', true, false, null, null),
-                mikrotikServiceId: input('ID в микротике', 'ID в микротике', 'mikrotikServiceId', true, false, null, null),
-                smotreshkaServiceId: input('ID в смотрешке', 'ID в смотрешке', 'smotreshkaServiceId', true, false, null, null),
                 email: input('Email', 'Email', 'email', true, false, null, null),
                 discount: input('Скидка', 'Скидка', 'discount', true, false, null, 0),
                 loyalty: select('Лояльность', 'Не выбрано', 'loyalty', true, false, null, null, this.state.loyalty),

@@ -10,6 +10,9 @@ export function connect() {
     const socket = new SockJS('/websocket');
     stompClient = Stomp.over(socket);
     stompClient.debug = () => {};
+    stompClient.heartbeat.outgoing = 10000;
+    stompClient.heartbeat.incoming = 0;
+    stompClient.reconnect_delay = 1000;
     stompClient.connect({}, frame => {
         //console.log('Connected: ', frame);
         stompClient.subscribe('/client/changeClient', function (message) {

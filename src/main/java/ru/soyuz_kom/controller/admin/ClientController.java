@@ -4,6 +4,7 @@ import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,13 @@ import ru.soyuz_kom.helper.CriteriaHelper;
 
 import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.repository.ClientRepository;
+import ru.soyuz_kom.repository.LogActionRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
+import ru.soyuz_kom.service.Impl.MikrotikService;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
+import ru.soyuz_kom.service.Impl.TestServiceImpl;
+import ru.soyuz_kom.service.LogActionServiceImpl;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -46,9 +51,15 @@ public class ClientController extends AdminController {
     @Autowired
     SmotreshkaService smotreshkaService;
 
+    @Autowired
+    LogActionServiceImpl logActionService;
 
     @Autowired
-    RabbitTemplate rabbitTemplate;
+    TestServiceImpl testService;
+
+    @Autowired
+    MikrotikService mikrotikService;
+
 
     @GetMapping(value = {"v1/client","v1/client/"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Map index() {
@@ -82,7 +93,6 @@ public class ClientController extends AdminController {
     */
     @PostMapping(value = {"v1/client/create"})
     @CacheEvict(value="schedule", allEntries=true)
-    @Transactional
     @ResponseBody
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
         System.out.println("v1/client/create");
@@ -96,7 +106,30 @@ public class ClientController extends AdminController {
             return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        Client addClient = clientRepository.save(client);
+        Client addClient = clientService.addClient(client);
+
+        // Имитируем запрос websocket
+        this.template.convertAndSend("/client/changeClient", addClient);
+
+        return new ResponseEntity<>(addClient, HttpStatus.OK);
+    }
+
+    @PostMapping(value = {"v1/client/update"})
+    @CacheEvict(value="schedule", allEntries=true)
+    @ResponseBody
+    public ResponseEntity update(@Valid @RequestBody Client client, Errors errors) {
+        System.out.println("v1/client/update");
+        HashMap error = new HashMap<>();
+
+        if (errors.hasErrors()) {
+            List<org.springframework.validation.FieldError> fieldErrors = errors.getFieldErrors();
+            for (org.springframework.validation.FieldError fieldError: fieldErrors) {
+                error.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        Client addClient = clientService.updateClient(client);
 
         // Имитируем запрос websocket
         this.template.convertAndSend("/client/changeClient", addClient);
@@ -119,11 +152,12 @@ public class ClientController extends AdminController {
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) throws InterruptedException {
 
         for(int i = 0; i < 10; i++) {
-            rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
+            //rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
         }
         Thread.sleep(2000);
-        for(int i = 0; i < 20; i++) {
-            rabbitTemplate.convertAndSend("log", "log from RabbitMQ = " + i);
+        for(int i = 0; i < 5; i++) {
+            //rabbitTemplate.convertAndSend("logAction", );
+            //logActionService.push("testClient", 0, true, "test1", "test2");
         }
 
         /* ------------------------------ */
@@ -151,27 +185,6 @@ public class ClientController extends AdminController {
         //SmotreshkaService sm = new SmotreshkaService();
         //smotreshkaService.load();
         //smotreshkaService.sys();
-
-        /* ------------------------------ */
-
-        /* ------------------------------ */
-        // Микротик
-            /*
-            mikrotikProvider.connect("62.192.60.157", "admin", "njgjh");
-
-            if(mikrotikProvider.isConnect()){
-
-                List<Map<String, String>> search = mikrotikProvider.search("address", "127.0.1.1");
-
-                List<Map<String, String>> test = mikrotikProvider.create("127.0.1.1", "test10", "test10");
-                System.out.println("exec: " + test);
-
-                List<Map<String, String>> all = mikrotikProvider.getAll();
-                System.out.println("all: " + all);
-            }
-            */
-
-
 
         /* ------------------------------ */
 
@@ -243,10 +256,9 @@ public class ClientController extends AdminController {
 
     @MessageMapping("/deleteClient")
     @SendTo("/client/deleteClient")
-    @Transactional
     public Integer delete(Integer clientId) {
         System.out.println("delete client " + clientId);
-        clientRepository.deleteById(clientId);
+        boolean isDelete = clientService.deleteClient(clientId);
 
         return clientId;
     }

@@ -3,60 +3,102 @@ package ru.soyuz_kom.service.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.dto.smotreshka.*;
-import ru.soyuz_kom.entity.Smotreshka;
+import ru.soyuz_kom.entity.*;
 import ru.soyuz_kom.helper.RestTemplateHelper;
+import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.provider.ProviderSmotreshka;
 import ru.soyuz_kom.provider.SmotreshkaProvider;
 import ru.soyuz_kom.repository.SmotreshkaRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SmotreshkaService {
+
     @Autowired
     RestTemplateHelper restTemplateHelper;
+
     @Autowired
     SmotreshkaRepository smotreshkaRepository;
 
-    private List<SmotreshkaProvider> items = new ArrayList();
+    private Map<Integer, SmotreshkaProvider> smotreshkaProviders = new HashMap<Integer, SmotreshkaProvider>();
 
     public void load() {
 
-        List<Smotreshka> smRepo = smotreshkaRepository.findAll();
-
-        for(Smotreshka smotreshka: smRepo) {
+        for(Smotreshka smotreshka: smotreshkaRepository.findAll()) {
             SmotreshkaProvider smotreshkaProvider = new SmotreshkaProvider(restTemplateHelper);
             smotreshkaProvider.init(smotreshka.getUrl(), smotreshka.getLogin(), smotreshka.getPassword());
 
-            this.addItems(smotreshkaProvider);
+            this.addItems(smotreshka.getId(), smotreshkaProvider);
         }
         System.out.println("Load SmotreshkaService");
     }
 
-    public void addItems(SmotreshkaProvider item) {
-        this.items.add(item);
+    public void addItems(Integer id, SmotreshkaProvider item) {
+        this.smotreshkaProviders.put(id, item);
+    }
+
+    public void deleteItems() {
+        for(Map.Entry<Integer, SmotreshkaProvider> entry: this.smotreshkaProviders.entrySet()) {
+            this.smotreshkaProviders.remove(entry.getKey());
+        }
     }
 
     public void getItems() {
-        System.out.println("getItems: " + this.items);
+        System.out.println("getItems: " + this.smotreshkaProviders);
     }
 
-    public List<Object> addAccount(String username, String email, String password, List purchases) {
-        List<Object> obj = new ArrayList<>();
+    public Map<Integer, String> addAccount(String username, String email, String password, List subscriptions) {
+        this.load();
+        Map<Integer, String> accounts = new HashMap<>();
 
-        for(SmotreshkaProvider item: this.items) {
-            obj.add(item.addAccount(username, email, password, purchases));
+        for(Map.Entry<Integer, SmotreshkaProvider> entry: this.smotreshkaProviders.entrySet()) {
+            try {
+                AccountNewResponseDTO smotreshkaNewDTO = entry.getValue().addAccount(username, email, password, subscriptions);
+                if(smotreshkaNewDTO != null) {
+                    accounts.put(entry.getKey(), smotreshkaNewDTO.getId());
+                }
+            } catch(Exception ex) {
+                System.out.println("error addAccountSmotreshka: " + ex);
+            }
         }
-        return obj;
+        this.deleteItems();
+
+        return accounts;
     }
 
-    public List<Object> getAccounts() {
-        List<Object> obj = new ArrayList<>();
-
-        for(SmotreshkaProvider item: this.items) {
-            obj.add(item.getAccounts());
+    public Set<SmotreshkaData> createSmotreshkaData(Client client) {
+        List<Integer> subTv = new ArrayList<>();
+        for(Tv tv: client.getTvs()) {
+            subTv.add(tv.getSmotreshkaId());
         }
-        return obj;
+
+        Map<Integer, String> smotreshkaIds = this.addAccount(client.getLogin(), client.getEmail(), null, subTv);
+
+        Set<SmotreshkaData> listSmotreshkaData = new HashSet();
+        for(Map.Entry<Integer, String> mikrotikId: smotreshkaIds.entrySet()) {
+
+            SmotreshkaData smotreshkaData = new SmotreshkaData();
+            smotreshkaData.setClientId(client);
+            smotreshkaData.setSmotreshkaId(mikrotikId.getValue());
+            smotreshkaData.setSmotreshkaSettingId(mikrotikId.getKey());
+
+            listSmotreshkaData.add(smotreshkaData);
+        }
+
+        return listSmotreshkaData;
+    }
+
+    public void deleteAccount(Set<SmotreshkaData> smotreshkaDatas) {
+        this.load();
+        for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
+            try {
+                System.out.println("delete smotreshka deleteAccount");
+                this.smotreshkaProviders.get(smotreshkaData.getSmotreshkaSettingId()).deleteAccountById(smotreshkaData.getSmotreshkaId());
+            } catch (Exception ex) {
+                System.out.println("error delete smotreshka: " + ex);
+            }
+        }
+        this.deleteItems();
     }
 }
