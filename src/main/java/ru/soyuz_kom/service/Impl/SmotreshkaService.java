@@ -115,6 +115,18 @@ public class SmotreshkaService {
         this.deleteItems();
     }
 
+    public void setSubscriptions(Set<SmotreshkaData> smotreshkaDatas, List<Integer> subscriptions, boolean isFlag) {
+        this.load();
+        System.out.println("setSubscriptions: ");
+        for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
+            for (Integer subscription : subscriptions) {
+                System.out.println("set purchases: " + subscription + " flag: " + isFlag);
+                this.smotreshkaProviders.get(smotreshkaData.getSmotreshkaSettingId()).setSubscriptionOfAccount(smotreshkaData.getSmotreshkaId(), subscription, isFlag);
+            }
+        }
+        this.deleteItems();
+    }
+
     /*
     public Set<ClientSmotreshkaUpdateDTO> buildSmotreshkaData(Client client, Set<SmotreshkaData> smotreshkaDatas) {
         Set<ClientSmotreshkaUpdateDTO> clientSmotreshkas = new HashSet();

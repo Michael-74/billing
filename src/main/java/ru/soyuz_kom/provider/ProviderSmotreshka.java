@@ -20,7 +20,7 @@ public interface ProviderSmotreshka {
 
     public List<AccountSubscriptionsDTO> getSubscriptionsOfAccount(String id);
 
-    public SubscriptionDTO setSubscriptionOfAccount(String id, String subscriptionId, boolean isValid);
+    public SubscriptionDTO setSubscriptionOfAccount(String id, Integer subscriptionId, boolean isValid);
 
     public AccountDeleteDTO deleteAllSubscriptionsOfAccount(String id);
 }

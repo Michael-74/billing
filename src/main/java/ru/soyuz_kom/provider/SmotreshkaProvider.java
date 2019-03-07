@@ -190,7 +190,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
      * @param subscriptionId - номер подписки
      * @param isValid - добавить/удалить подписку
      */
-    public SubscriptionDTO setSubscriptionOfAccount(String id, String subscriptionId, boolean isValid) {
+    public SubscriptionDTO setSubscriptionOfAccount(String id, Integer subscriptionId, boolean isValid) {
         String str = "/v2/accounts/" + id + "/subscriptions";
 
         SubscriptionDTO subscriptionDTO = new SubscriptionDTO();

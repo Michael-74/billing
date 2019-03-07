@@ -10,6 +10,6 @@ import java.util.List;
 @Getter @Setter
 public class SubscriptionDTO {
 
-    public String id;
+    public Integer id;
     public boolean valid;
 }

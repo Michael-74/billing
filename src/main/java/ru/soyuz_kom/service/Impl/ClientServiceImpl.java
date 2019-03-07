@@ -160,14 +160,13 @@ public class ClientServiceImpl implements ClientService {
             List<Integer> newPurchases = new ArrayList();
             List<Integer> deletePurchases = new ArrayList();
 
+            // Если есть старые подписки
             if(clientOld.get().getTvs().size() != 0) {
 
                 // Ищем совпадение по старым подпискам и удаляем отмененные
                 for(Tv tvOld: clientOld.get().getTvs()) {
                     for(Tv tvNew: clientNew.getTvs()) {
-                        if(tvOld.getSmotreshkaId().equals(tvNew.getSmotreshkaId())) {
-                            newPurchases.add(tvOld.getSmotreshkaId());
-                        } else { // на удаление
+                        if(!tvOld.getSmotreshkaId().equals(tvNew.getSmotreshkaId())) { // на удаление
                             deletePurchases.add(tvOld.getSmotreshkaId());
                         }
                     }
@@ -183,8 +182,18 @@ public class ClientServiceImpl implements ClientService {
                 }
             } else { //создаем новые подписки, т.к. старый список пуст
                 for(Tv tvNew: clientNew.getTvs()) {
+                    System.out.println("add new: " + tvNew.getSmotreshkaId());
                     newPurchases.add(tvNew.getSmotreshkaId());
                 }
+            }
+
+            if(newPurchases.size() != 0) {
+                System.out.println("newPurchases.size: " + newPurchases.size());
+                smotreshkaService.setSubscriptions(clientOld.get().getSmotreshkaDatas(), newPurchases, true);
+            }
+            if(deletePurchases.size() != 0) {
+                System.out.println("deletePurchases.size: " + deletePurchases.size());
+                smotreshkaService.setSubscriptions(clientOld.get().getSmotreshkaDatas(), deletePurchases, false);
             }
 
             // Если логин или email были изменены
@@ -194,20 +203,15 @@ public class ClientServiceImpl implements ClientService {
 
             }
 
-            /*
-            if (!clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getEmail().equals(clientNew.getEmail()) || (clientOld.get().getTvs().size() != clientNew.getTvs().size())) {
 
-
-
-            } else {
-                clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
-            }
-            */
         } else {
             if(clientOld.get().getSmotreshkaDatas().size() != 0) {
-                clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
                 smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get().getSmotreshkaDatas());
             }
+        }
+
+        if(clientOld.get().getSmotreshkaDatas().size() != 0) {
+            clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
         }
 
         return clientRepository.save(clientNew);
