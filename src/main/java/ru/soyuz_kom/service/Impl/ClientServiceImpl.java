@@ -151,9 +151,45 @@ public class ClientServiceImpl implements ClientService {
         /**
          * Обновляем данные смотрешки
          */
+
+
+
         if(clientNew.getIsStatus() && (clientNew.getTvs().size() != 0)) {
 
+            // проверям подписки
+            List<Integer> newPurchases = new ArrayList();
+            List<Integer> deletePurchases = new ArrayList();
+
+            if(clientOld.get().getTvs().size() != 0) {
+
+                // Ищем совпадение по старым подпискам и удаляем отмененные
+                for(Tv tvOld: clientOld.get().getTvs()) {
+                    for(Tv tvNew: clientNew.getTvs()) {
+                        if(tvOld.getSmotreshkaId().equals(tvNew.getSmotreshkaId())) {
+                            newPurchases.add(tvOld.getSmotreshkaId());
+                        } else { // на удаление
+                            deletePurchases.add(tvOld.getSmotreshkaId());
+                        }
+                    }
+                }
+
+                // Ищем новые подписки
+                for(Tv tvNew: clientNew.getTvs()) {
+                    for(Tv tvOld: clientOld.get().getTvs()) {
+                        if(!tvNew.getSmotreshkaId().equals(tvOld.getSmotreshkaId())) {
+                            newPurchases.add(tvOld.getSmotreshkaId());
+                        }
+                    }
+                }
+            } else { //создаем новые подписки, т.к. старый список пуст
+                for(Tv tvNew: clientNew.getTvs()) {
+                    newPurchases.add(tvNew.getSmotreshkaId());
+                }
+            }
+
             // Если логин или email были изменены
+            // Т.к. мы не можем изменить Логин или email, то оставляем это дело на администратора
+            // И в нашем случае мы просто создаем новое соединение
             if (!clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getEmail().equals(clientNew.getEmail())) {
 
             }
