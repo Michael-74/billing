@@ -151,35 +151,31 @@ public class ClientServiceImpl implements ClientService {
         /**
          * Обновляем данные смотрешки
          */
-
-
-
         if(clientNew.getIsStatus() && (clientNew.getTvs().size() != 0)) {
 
             // проверям подписки
             List<Integer> newPurchases = new ArrayList();
+            List<Integer> newPurchases2 = new ArrayList();
             List<Integer> deletePurchases = new ArrayList();
 
             // Если есть старые подписки
             if(clientOld.get().getTvs().size() != 0) {
 
-                // Ищем совпадение по старым подпискам и удаляем отмененные
-                for(Tv tvOld: clientOld.get().getTvs()) {
-                    for(Tv tvNew: clientNew.getTvs()) {
-                        if(!tvOld.getSmotreshkaId().equals(tvNew.getSmotreshkaId())) { // на удаление
-                            deletePurchases.add(tvOld.getSmotreshkaId());
-                        }
-                    }
+                for(Tv tvNew: clientNew.getTvs()) {
+                    newPurchases.add(tvNew.getSmotreshkaId());
+                    newPurchases2.add(tvNew.getSmotreshkaId());
                 }
 
-                // Ищем новые подписки
-                for(Tv tvNew: clientNew.getTvs()) {
-                    for(Tv tvOld: clientOld.get().getTvs()) {
-                        if(!tvNew.getSmotreshkaId().equals(tvOld.getSmotreshkaId())) {
-                            newPurchases.add(tvOld.getSmotreshkaId());
-                        }
-                    }
+                for(Tv tvOld: clientOld.get().getTvs()) {
+                    deletePurchases.add(tvOld.getSmotreshkaId());
                 }
+
+                // оставляет только новые
+                newPurchases.removeAll(deletePurchases);
+
+                // удаляет старые
+                deletePurchases.removeAll(newPurchases2);
+
             } else { //создаем новые подписки, т.к. старый список пуст
                 for(Tv tvNew: clientNew.getTvs()) {
                     System.out.println("add new: " + tvNew.getSmotreshkaId());
@@ -202,8 +198,6 @@ public class ClientServiceImpl implements ClientService {
             if (!clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getEmail().equals(clientNew.getEmail())) {
 
             }
-
-
         } else {
             if(clientOld.get().getSmotreshkaDatas().size() != 0) {
                 smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get().getSmotreshkaDatas());
