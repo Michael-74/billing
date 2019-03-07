@@ -148,6 +148,8 @@ public class ClientServiceImpl implements ClientService {
             }
         }
 
+        boolean isNewCreate = false;
+
         /**
          * Обновляем данные смотрешки
          */
@@ -196,7 +198,12 @@ public class ClientServiceImpl implements ClientService {
             // Т.к. мы не можем изменить Логин или email, то оставляем это дело на администратора
             // И в нашем случае мы просто создаем новое соединение
             if (!clientOld.get().getLogin().equals(clientNew.getLogin()) || !clientOld.get().getEmail().equals(clientNew.getEmail())) {
+                // удаляем связь
+                clientOld.get().removeSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
 
+                // создаем новое соединение
+                //smotreshkaService.addAccount(clientNew.getLogin(), clientNew.getEmail(), null, newPurchases2);
+                isNewCreate = true;
             }
         } else {
             if(clientOld.get().getSmotreshkaDatas().size() != 0) {
@@ -204,9 +211,16 @@ public class ClientServiceImpl implements ClientService {
             }
         }
 
-        if(clientOld.get().getSmotreshkaDatas().size() != 0) {
-            clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
+        if(isNewCreate) {
+            smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get().getSmotreshkaDatas());
+            Set<SmotreshkaData> listSmotreshka = smotreshkaService.createSmotreshkaData(clientNew);
+            clientNew.setSmotreshkaDatas(listSmotreshka);
+        } else {
+            if (clientOld.get().getSmotreshkaDatas().size() != 0) {
+                clientNew.setSmotreshkaDatas(clientOld.get().getSmotreshkaDatas());
+            }
         }
+
 
         return clientRepository.save(clientNew);
     }
