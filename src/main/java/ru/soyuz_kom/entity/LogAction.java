@@ -28,6 +28,10 @@ public class LogAction extends Datetime implements Serializable {
     @NotNull
     private String typeAction;
 
+    @Column(name = "url")
+    @NotNull
+    private String url;
+
     @Column(name = "id_user")
     @NotNull
     private Integer userId;

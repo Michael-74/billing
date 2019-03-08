@@ -1,0 +1,2 @@
+ALTER TABLE log_actions
+    ADD url VARCHAR(255) DEFAULT NULL AFTER id;
