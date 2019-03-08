@@ -5,10 +5,14 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ru.soyuz_kom.entity.LogAction;
+import ru.soyuz_kom.entity.User;
 import ru.soyuz_kom.repository.LogActionRepository;
+import ru.soyuz_kom.repository.UserRepository;
 
 @Component
 public class RestTemplateHelper {
@@ -19,12 +23,17 @@ public class RestTemplateHelper {
     @Autowired
     LogActionRepository logActionRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public Object exchange(String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
-        System.out.println("exchange: " + url);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUsername(auth.getName());
+
         LogAction logAction = new LogAction();
         logAction.setUrl(url);
         logAction.setTypeAction(String.valueOf(method));
-        logAction.setUserId(1);
+        logAction.setUserId(user.getId());
         logAction.setRequest(httpEntity);
 
         try {
