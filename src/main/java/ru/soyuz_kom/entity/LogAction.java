@@ -1,10 +1,7 @@
 package ru.soyuz_kom.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import ru.soyuz_kom.validation.DataJsonConverter;
 import ru.soyuz_kom.validator.UniqueName;
@@ -17,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "log_actions")
+@ToString(of = {"id"})
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class LogAction extends Datetime implements Serializable {
 

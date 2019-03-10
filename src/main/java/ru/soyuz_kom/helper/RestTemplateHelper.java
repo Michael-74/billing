@@ -1,5 +1,9 @@
 package ru.soyuz_kom.helper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -26,6 +30,9 @@ public class RestTemplateHelper {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
     public Object exchange(String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
@@ -35,6 +42,8 @@ public class RestTemplateHelper {
         logAction.setTypeAction(String.valueOf(method));
         logAction.setUserId(user.getId());
         logAction.setRequest(httpEntity);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
 
         try {
             ResponseEntity response = restTemplate.exchange(
@@ -48,19 +57,29 @@ public class RestTemplateHelper {
                 System.out.println("exchange body: " + response.getBody());
                 logAction.setIsSuccess(true);
                 logAction.setResponse(response.getBody());
-                logActionRepository.save(logAction);
+                //logActionRepository.save(logAction);
+                String json = ow.writeValueAsString(logAction);
+                rabbitTemplate.convertAndSend("log", json);
                 return response.getBody();
             }
             System.out.println("exchange: " + url);
             logAction.setIsSuccess(false);
             logAction.setResponse(null);
-            logActionRepository.save(logAction);
+            String json = ow.writeValueAsString(logAction);
+            rabbitTemplate.convertAndSend("log", json);
             return null;
         } catch(Exception ex) {
             System.out.println("exchange-error: " + ex);
             logAction.setIsSuccess(false);
             logAction.setResponse(ex);
-            logActionRepository.save(logAction);
+            //logActionRepository.save(logAction);
+            String json = null;
+            try {
+                json = ow.writeValueAsString(logAction);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            rabbitTemplate.convertAndSend("log", json);
             return null;
         }
     }
