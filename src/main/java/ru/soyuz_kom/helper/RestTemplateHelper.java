@@ -13,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import ru.soyuz_kom.entity.LogAction;
+import ru.soyuz_kom.entity.LogSmotreshka;
 import ru.soyuz_kom.entity.User;
-import ru.soyuz_kom.repository.LogActionRepository;
+import ru.soyuz_kom.repository.LogSmotreshkaRepository;
 import ru.soyuz_kom.repository.UserRepository;
 
 @Component
@@ -25,7 +25,7 @@ public class RestTemplateHelper {
     RestTemplate restTemplate;
 
     @Autowired
-    LogActionRepository logActionRepository;
+    LogSmotreshkaRepository logSmotreshkaRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -37,11 +37,11 @@ public class RestTemplateHelper {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
 
-        LogAction logAction = new LogAction();
-        logAction.setUrl(url);
-        logAction.setTypeAction(String.valueOf(method));
-        logAction.setUserId(user.getId());
-        logAction.setRequest(httpEntity);
+        LogSmotreshka logSmotreshka = new LogSmotreshka();
+        logSmotreshka.setUrl(url);
+        logSmotreshka.setTypeAction(String.valueOf(method));
+        logSmotreshka.setUserId(user.getId());
+        logSmotreshka.setRequest(httpEntity);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
 
@@ -55,27 +55,27 @@ public class RestTemplateHelper {
 
             if(response.getStatusCode().value() == 200) {
                 System.out.println("exchange body: " + response.getBody());
-                logAction.setIsSuccess(true);
-                logAction.setResponse(response.getBody());
-                //logActionRepository.save(logAction);
-                String json = ow.writeValueAsString(logAction);
+                logSmotreshka.setIsSuccess(true);
+                logSmotreshka.setResponse(response.getBody());
+                //logActionRepository.save(logSmotreshka);
+                String json = ow.writeValueAsString(logSmotreshka);
                 rabbitTemplate.convertAndSend("log", json);
                 return response.getBody();
             }
             System.out.println("exchange: " + url);
-            logAction.setIsSuccess(false);
-            logAction.setResponse(null);
-            String json = ow.writeValueAsString(logAction);
+            logSmotreshka.setIsSuccess(false);
+            logSmotreshka.setResponse(null);
+            String json = ow.writeValueAsString(logSmotreshka);
             rabbitTemplate.convertAndSend("log", json);
             return null;
         } catch(Exception ex) {
             System.out.println("exchange-error: " + ex);
-            logAction.setIsSuccess(false);
-            logAction.setResponse(ex);
-            //logActionRepository.save(logAction);
+            logSmotreshka.setIsSuccess(false);
+            logSmotreshka.setResponse(ex);
+            //logActionRepository.save(logSmotreshka);
             String json = null;
             try {
-                json = ow.writeValueAsString(logAction);
+                json = ow.writeValueAsString(logSmotreshka);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

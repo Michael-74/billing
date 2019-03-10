@@ -13,10 +13,10 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "log_actions")
+@Table(name = "log_smotreshkas")
 @ToString(of = {"id"})
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class LogAction extends Datetime implements Serializable {
+public class LogSmotreshka extends Datetime implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

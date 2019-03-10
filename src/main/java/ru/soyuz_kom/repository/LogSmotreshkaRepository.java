@@ -2,15 +2,15 @@ package ru.soyuz_kom.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.soyuz_kom.entity.LogAction;
+import ru.soyuz_kom.entity.LogSmotreshka;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LogActionRepository extends CrudRepository<LogAction, Long> {
+public interface LogSmotreshkaRepository extends CrudRepository<LogSmotreshka, Long> {
 
-    List<LogAction> findAll();
+    List<LogSmotreshka> findAll();
 
-    Optional<LogAction> findById(Long id);
+    Optional<LogSmotreshka> findById(Long id);
 }

@@ -2,9 +2,7 @@ package ru.soyuz_kom.controller.admin;
 
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -21,7 +19,6 @@ import ru.soyuz_kom.helper.CriteriaHelper;
 
 import ru.soyuz_kom.provider.MikrotikProvider;
 import ru.soyuz_kom.repository.ClientRepository;
-import ru.soyuz_kom.repository.LogActionRepository;
 import ru.soyuz_kom.rsql.CustomRsqlVisitor;
 import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.MikrotikService;
