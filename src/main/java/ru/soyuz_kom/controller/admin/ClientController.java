@@ -24,7 +24,7 @@ import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.MikrotikService;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
 import ru.soyuz_kom.service.Impl.TestServiceImpl;
-import ru.soyuz_kom.service.LogActionServiceImpl;
+import ru.soyuz_kom.service.Impl.LogSmotreshkaServiceImpl;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -47,9 +47,6 @@ public class ClientController extends AdminController {
 
     @Autowired
     SmotreshkaService smotreshkaService;
-
-    @Autowired
-    LogActionServiceImpl logActionService;
 
     @Autowired
     TestServiceImpl testService;
