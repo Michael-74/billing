@@ -19,11 +19,14 @@ public class MikrotikService {
     @Autowired
     private MikrotikRepository mikrotikRepository;
 
+    @Autowired
+    LogActionUserServiceImpl logActionService;
+
     public void load() {
         try {
             System.out.println("Load MikrotikProvider1");
             for (Mikrotik mikrotik : this.mikrotikRepository.findAll()) {
-                MikrotikProvider mikrotikProvider = new MikrotikProvider();
+                MikrotikProvider mikrotikProvider = new MikrotikProvider(logActionService);
                 mikrotikProvider.connect(mikrotik.getHost(), mikrotik.getLogin(), mikrotik.getPassword());
 
                 this.addItems(mikrotik.getId(), mikrotikProvider);
@@ -50,14 +53,14 @@ public class MikrotikService {
         System.out.println("getItems: " + this.mikrotikProviders);
     }
 
-    public Map<Integer, String> addAccount(String ip, String list, String comment) {
+    public Map<Integer, String> addAccount(Client client, String ip, String list, String comment) {
         this.load();
         Map<Integer, String> accounts = new HashMap<>();
 
         for(Map.Entry<Integer, MikrotikProvider> entry: this.mikrotikProviders.entrySet()) {
             String mikrotikId = null;
             try {
-                mikrotikId = entry.getValue().create(ip, list, comment);
+                mikrotikId = entry.getValue().create(client, ip, list, comment);
             } catch(Exception ex) {
                 System.out.println("error addAccount: " + ex);
             }
@@ -68,12 +71,12 @@ public class MikrotikService {
         return accounts;
     }
 
-    public void updateAccount(Set<ClientMikrotikUpdateDTO> clientMikrotikUpdateDTO) {
+    public void updateAccount(Client client, Set<ClientMikrotikUpdateDTO> clientMikrotikUpdateDTO) {
         this.load();
 
         for (ClientMikrotikUpdateDTO clientMikrotik : clientMikrotikUpdateDTO) {
             try {
-                this.mikrotikProviders.get(clientMikrotik.getMikrotikSettingId()).update(clientMikrotik.getNumber(), clientMikrotik.getIp(), clientMikrotik.getList(), clientMikrotik.getComment());
+                this.mikrotikProviders.get(clientMikrotik.getMikrotikSettingId()).update(client, clientMikrotik.getNumber(), clientMikrotik.getIp(), clientMikrotik.getList(), clientMikrotik.getComment());
             } catch (Exception ex) {
                 System.out.println("error update: " + ex);
             }
@@ -85,11 +88,11 @@ public class MikrotikService {
      * Удаление клиента из микротика
      * @param mikrotikDatas
      */
-    public void deleteAccount(Set<MikrotikData> mikrotikDatas) {
+    public void deleteAccount(Client client, Set<MikrotikData> mikrotikDatas) {
         this.load();
         for (MikrotikData mikrotikData : mikrotikDatas) {
             try {
-                this.mikrotikProviders.get(mikrotikData.getMikrotikSettingId()).delete(mikrotikData.getMikrotikId());
+                this.mikrotikProviders.get(mikrotikData.getMikrotikSettingId()).delete(client, mikrotikData.getMikrotikId());
             } catch (Exception ex) {
                 System.out.println("error delete: " + ex);
             }
@@ -97,11 +100,11 @@ public class MikrotikService {
         this.deleteItems();
     }
 
-    public List<Object> getAccounts() {
+    public List<Object> getAccounts(Client client) {
         List<Object> obj = new ArrayList<>();
 
         for(Map.Entry<Integer, MikrotikProvider> entry: this.mikrotikProviders.entrySet()) {
-            obj.add(entry.getValue().getAll());
+            obj.add(entry.getValue().getAll(client));
         }
         return obj;
     }
@@ -125,7 +128,7 @@ public class MikrotikService {
     }
 
     public Set<MikrotikData> createMikrotikData(Client client) {
-        Map<Integer, String> mikrotikIds = this.addAccount(client.getIp(), client.getInternet().getSpeed(), client.getLogin());
+        Map<Integer, String> mikrotikIds = this.addAccount(client, client.getIp(), client.getInternet().getSpeed(), client.getLogin());
 
         Set<MikrotikData> listMikrotikData = new HashSet();
         for(Map.Entry<Integer, String> mikrotikId: mikrotikIds.entrySet()) {

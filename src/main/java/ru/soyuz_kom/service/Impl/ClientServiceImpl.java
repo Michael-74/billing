@@ -132,7 +132,7 @@ public class ClientServiceImpl implements ClientService {
                 if(clientOld.get().getMikrotikDatas().size() != 0) {
                     Set<ClientMikrotikUpdateDTO> clientMikrotiks = mikrotikService.buildMikrotikData(clientNew, clientOld.get().getMikrotikDatas());
                     clientNew.setMikrotikDatas(clientOld.get().getMikrotikDatas());
-                    mikrotikService.updateAccount(clientMikrotiks);
+                    mikrotikService.updateAccount(clientOld.get(), clientMikrotiks);
                 } else { // Создаем записи для абонента в микротике
                     Set<MikrotikData> mikrotikDatas = mikrotikService.createMikrotikData(clientNew);
                     clientNew.setMikrotikDatas(mikrotikDatas);
@@ -143,7 +143,7 @@ public class ClientServiceImpl implements ClientService {
         } else {
             // Удаляем все записи в микротике
             if(clientOld.get().getMikrotikDatas().size() != 0) {
-                mikrotikService.deleteAccount(clientOld.get().getMikrotikDatas());
+                mikrotikService.deleteAccount(clientOld.get(), clientOld.get().getMikrotikDatas());
                 clientNew.removeMikrotikDatas(clientNew.getMikrotikDatas());
             }
         }
@@ -231,7 +231,7 @@ public class ClientServiceImpl implements ClientService {
             Optional<Client> client = clientRepository.findById(clientId);
             clientRepository.deleteById(clientId);
             if(client.get().getMikrotikDatas().size() != 0) {
-                mikrotikService.deleteAccount(client.get().getMikrotikDatas());
+                mikrotikService.deleteAccount(client.get(), client.get().getMikrotikDatas());
             }
             if(client.get().getSmotreshkaDatas().size() != 0) {
                 smotreshkaService.deleteAccount(client.get(), client.get().getSmotreshkaDatas());
