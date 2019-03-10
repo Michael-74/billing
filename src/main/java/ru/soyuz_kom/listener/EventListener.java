@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.soyuz_kom.entity.LogSmotreshka;
-import ru.soyuz_kom.repository.LogSmotreshkaRepository;
+import ru.soyuz_kom.entity.LogActionUser;
+import ru.soyuz_kom.repository.LogActionUserRepository;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -14,7 +14,7 @@ import java.util.concurrent.CountDownLatch;
 public class EventListener {
 
     @Autowired
-    LogSmotreshkaRepository logSmotreshkaRepository;
+    LogActionUserRepository logActionUserRepository;
 
     private CountDownLatch latch = new CountDownLatch(1);
 
@@ -28,9 +28,9 @@ public class EventListener {
     public void processLogAction(String log) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            LogSmotreshka logSmotreshka = objectMapper.readValue(log, LogSmotreshka.class);
+            LogActionUser logActionUser = objectMapper.readValue(log, LogActionUser.class);
             System.out.println("processLogAction pre-add");
-            logSmotreshkaRepository.save(logSmotreshka);
+            logActionUserRepository.save(logActionUser);
             System.out.println("processLogAction add");
         } catch (IOException e) {
             // TODO: поставить logger

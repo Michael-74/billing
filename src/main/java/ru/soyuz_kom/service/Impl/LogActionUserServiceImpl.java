@@ -9,19 +9,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.entity.LogSmotreshka;
+import ru.soyuz_kom.entity.LogActionUser;
 import ru.soyuz_kom.entity.User;
-import ru.soyuz_kom.repository.LogSmotreshkaRepository;
+import ru.soyuz_kom.repository.LogActionUserRepository;
 import ru.soyuz_kom.repository.UserRepository;
 
 @Service
-public class LogSmotreshkaServiceImpl {
+public class LogActionUserServiceImpl {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
 
     @Autowired
-    LogSmotreshkaRepository logSmotreshkaRepository;
+    LogActionUserRepository logActionUserRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -31,7 +31,7 @@ public class LogSmotreshkaServiceImpl {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
 
-        LogSmotreshka log = new LogSmotreshka();
+        LogActionUser log = new LogActionUser();
         log.setUrl(url);
         log.setTypeAction(typeAction);
         log.setUserId(user.getId());

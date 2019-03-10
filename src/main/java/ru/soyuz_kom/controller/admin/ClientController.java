@@ -8,8 +8,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +24,6 @@ import ru.soyuz_kom.service.Impl.ClientServiceImpl;
 import ru.soyuz_kom.service.Impl.MikrotikService;
 import ru.soyuz_kom.service.Impl.SmotreshkaService;
 import ru.soyuz_kom.service.Impl.TestServiceImpl;
-import ru.soyuz_kom.service.Impl.LogSmotreshkaServiceImpl;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -148,15 +145,6 @@ public class ClientController extends AdminController {
     @PostMapping({"v1/client/search"})
     @ResponseBody
     public Iterable<Client> search(@RequestBody HashMap<String, Object> preset) throws InterruptedException {
-
-        for(int i = 0; i < 10; i++) {
-            //rabbitTemplate.convertAndSend("task", "Hello from RabbitMQ = " + i);
-        }
-        Thread.sleep(2000);
-        for(int i = 0; i < 5; i++) {
-            //rabbitTemplate.convertAndSend("logAction", );
-            //logActionService.push("testClient", 0, true, "test1", "test2");
-        }
 
         /* ------------------------------ */
         // Смотрешка

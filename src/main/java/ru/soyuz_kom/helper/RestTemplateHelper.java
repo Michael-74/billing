@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ru.soyuz_kom.entity.Client;
-import ru.soyuz_kom.service.Impl.LogSmotreshkaServiceImpl;
+import ru.soyuz_kom.service.Impl.LogActionUserServiceImpl;
 
 @Component
 public class RestTemplateHelper {
@@ -16,9 +16,9 @@ public class RestTemplateHelper {
     @Autowired
     RestTemplate restTemplate;
 
-    private LogSmotreshkaServiceImpl logActionService;
+    private LogActionUserServiceImpl logActionService;
 
-    public RestTemplateHelper(LogSmotreshkaServiceImpl logActionService) {
+    public RestTemplateHelper(LogActionUserServiceImpl logActionService) {
         this.logActionService = logActionService;
     }
 
