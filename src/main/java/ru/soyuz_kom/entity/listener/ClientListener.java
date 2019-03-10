@@ -25,7 +25,7 @@ public class ClientListener {
         this.smotreshkaService = smotreshkaService;
     }
 
-    /*
+    /* TODO: перенес в clientService
     @PostRemove
     public void postRemove(Client client) {
         if(client.getMikrotikDatas().size() != 0) {
