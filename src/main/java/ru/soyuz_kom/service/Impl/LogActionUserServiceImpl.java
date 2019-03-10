@@ -26,7 +26,7 @@ public class LogActionUserServiceImpl {
     @Autowired
     UserRepository userRepository;
 
-    public void push(String url, String typeAction, String methodName, Client client, boolean isSuccess, Object request, Object response) {
+    public void push(String url, String typeAction, String serviceName, String methodName, Client client, boolean isSuccess, Object request, Object response) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
@@ -36,6 +36,7 @@ public class LogActionUserServiceImpl {
         log.setTypeAction(typeAction);
         log.setUserId(user.getId());
         log.setClientId(client.getId());
+        log.setService(serviceName);
         log.setMethod(methodName);
         log.setIsSuccess(isSuccess);
         log.setRequest(request);

@@ -27,6 +27,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
     private String password;
     private Client client = null;
 
+    private final String ServiceName = "Smotreshka";
+
     public SmotreshkaProvider(RestTemplateHelper restTemplateHelper) {
         this.restTemplateHelper = restTemplateHelper;
     }
@@ -64,6 +66,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         return (AccountNewResponseDTO) restTemplateHelper
             .exchange(
                     this.client,
+                    this.ServiceName,
                     "addAccount",
                     this.url + str,
                     HttpMethod.POST,
@@ -82,7 +85,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
             return (AccountListDTO) restTemplateHelper
                     .exchange(
                             this.client,
-                        "getAccounts",
+                            this.ServiceName,
+                            "getAccounts",
                         this.url + str,
                         HttpMethod.GET,
                         null,
@@ -106,7 +110,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         return (AccountDTO) restTemplateHelper
             .exchange(
                     this.client,
-                "getAccountById",
+                    this.ServiceName,
+                    "getAccountById",
                 this.url + str,
                 HttpMethod.GET,
                 null,
@@ -139,6 +144,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         return (AccountDTO) restTemplateHelper.exchange(
                 this.client,
+                this.ServiceName,
                 "setInfoOfAccount",
                 this.url + str,
                 HttpMethod.POST,
@@ -161,6 +167,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         return (AccountPasswordStatusDTO) restTemplateHelper.exchange(
                 this.client,
+                this.ServiceName,
                 "setResetPasswordOfAccount",
                 this.url + str,
                 HttpMethod.POST,
@@ -180,6 +187,7 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         return (AccountDeleteDTO) restTemplateHelper
             .exchange(
                     this.client,
+                    this.ServiceName,
                     "deleteAccountById",
                     this.url + str,
                     HttpMethod.DELETE,
@@ -198,7 +206,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         return (List<AccountSubscriptionsDTO>) restTemplateHelper
             .exchange(
                     this.client,
-                "getSubscriptionsOfAccount",
+                    this.ServiceName,
+                    "getSubscriptionsOfAccount",
                 this.url + str,
                 HttpMethod.GET,
                 null,
@@ -223,7 +232,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
        return (SubscriptionDTO) restTemplateHelper
             .exchange(
                     this.client,
-                "setSubscriptionOfAccount",
+                    this.ServiceName,
+                    "setSubscriptionOfAccount",
                 this.url + str,
                 HttpMethod.POST,
                 httpEntity,
@@ -243,7 +253,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         return (AccountDeleteDTO) restTemplateHelper
             .exchange(
                     this.client,
-                "deleteAllSubscriptionsOfAccount",
+                    this.ServiceName,
+                    "deleteAllSubscriptionsOfAccount",
                 this.url + str,
                 HttpMethod.DELETE,
                 null,
