@@ -28,7 +28,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Client extends Datetime {
+public class Client extends Datetime implements Serializable{
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

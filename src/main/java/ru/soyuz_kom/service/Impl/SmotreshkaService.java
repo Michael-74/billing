@@ -23,11 +23,11 @@ public class SmotreshkaService {
 
     private Map<Integer, SmotreshkaProvider> smotreshkaProviders = new HashMap<Integer, SmotreshkaProvider>();
 
-    public void load() {
+    public void load(Client client) {
 
         for(Smotreshka smotreshka: smotreshkaRepository.findAll()) {
             SmotreshkaProvider smotreshkaProvider = new SmotreshkaProvider(restTemplateHelper);
-            smotreshkaProvider.init(smotreshka.getUrl(), smotreshka.getLogin(), smotreshka.getPassword());
+            smotreshkaProvider.init(client, smotreshka.getUrl(), smotreshka.getLogin(), smotreshka.getPassword());
 
             this.addItems(smotreshka.getId(), smotreshkaProvider);
         }
@@ -48,8 +48,8 @@ public class SmotreshkaService {
         System.out.println("getItems: " + this.smotreshkaProviders);
     }
 
-    public Map<Integer, String> addAccount(String username, String email, String password, List subscriptions) {
-        this.load();
+    public Map<Integer, String> addAccount(Client client, String username, String email, String password, List subscriptions) {
+        this.load(client);
         Map<Integer, String> accounts = new HashMap<>();
 
         for(Map.Entry<Integer, SmotreshkaProvider> entry: this.smotreshkaProviders.entrySet()) {
@@ -73,7 +73,7 @@ public class SmotreshkaService {
             subTv.add(tv.getSmotreshkaId());
         }
 
-        Map<Integer, String> smotreshkaIds = this.addAccount(client.getLogin(), client.getEmail(), null, subTv);
+        Map<Integer, String> smotreshkaIds = this.addAccount(client, client.getLogin(), client.getEmail(), null, subTv);
 
         Set<SmotreshkaData> listSmotreshkaData = new HashSet();
         for(Map.Entry<Integer, String> mikrotikId: smotreshkaIds.entrySet()) {
@@ -89,8 +89,8 @@ public class SmotreshkaService {
         return listSmotreshkaData;
     }
 
-    public void deleteAccount(Set<SmotreshkaData> smotreshkaDatas) {
-        this.load();
+    public void deleteAccount(Client client, Set<SmotreshkaData> smotreshkaDatas) {
+        this.load(client);
         for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
             try {
                 System.out.println("delete smotreshka deleteAccount");
@@ -102,8 +102,8 @@ public class SmotreshkaService {
         this.deleteItems();
     }
 
-    public void deleteAllSubscriptionsOfAccount(Set<SmotreshkaData> smotreshkaDatas) {
-        this.load();
+    public void deleteAllSubscriptionsOfAccount(Client client, Set<SmotreshkaData> smotreshkaDatas) {
+        this.load(client);
         for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
             try {
                 System.out.println("delete all sub smotreshka deleteAccount");
@@ -115,8 +115,8 @@ public class SmotreshkaService {
         this.deleteItems();
     }
 
-    public void setSubscriptions(Set<SmotreshkaData> smotreshkaDatas, List<Integer> subscriptions, boolean isFlag) {
-        this.load();
+    public void setSubscriptions(Client client, Set<SmotreshkaData> smotreshkaDatas, List<Integer> subscriptions, boolean isFlag) {
+        this.load(client);
         System.out.println("setSubscriptions: ");
         for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
             for (Integer subscription : subscriptions) {

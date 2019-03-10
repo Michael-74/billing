@@ -31,7 +31,7 @@ public class ClientListener {
             mikrotikService.deleteAccount(client.getMikrotikDatas());
         }
         if(client.getSmotreshkaDatas().size() != 0) {
-            smotreshkaService.deleteAccount(client.getSmotreshkaDatas());
+            smotreshkaService.deleteAccount(client, client.getSmotreshkaDatas());
         }
     }
 }

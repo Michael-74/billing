@@ -187,11 +187,11 @@ public class ClientServiceImpl implements ClientService {
 
             if(newPurchases.size() != 0) {
                 System.out.println("newPurchases.size: " + newPurchases.size());
-                smotreshkaService.setSubscriptions(clientOld.get().getSmotreshkaDatas(), newPurchases, true);
+                smotreshkaService.setSubscriptions(clientOld.get(), clientOld.get().getSmotreshkaDatas(), newPurchases, true);
             }
             if(deletePurchases.size() != 0) {
                 System.out.println("deletePurchases.size: " + deletePurchases.size());
-                smotreshkaService.setSubscriptions(clientOld.get().getSmotreshkaDatas(), deletePurchases, false);
+                smotreshkaService.setSubscriptions(clientOld.get(), clientOld.get().getSmotreshkaDatas(), deletePurchases, false);
             }
 
             // Если логин или email были изменены
@@ -207,12 +207,12 @@ public class ClientServiceImpl implements ClientService {
             }
         } else {
             if(clientOld.get().getSmotreshkaDatas().size() != 0) {
-                smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get().getSmotreshkaDatas());
+                smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get(), clientOld.get().getSmotreshkaDatas());
             }
         }
 
         if(isNewCreate) {
-            smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get().getSmotreshkaDatas());
+            smotreshkaService.deleteAllSubscriptionsOfAccount(clientOld.get(), clientOld.get().getSmotreshkaDatas());
             Set<SmotreshkaData> listSmotreshka = smotreshkaService.createSmotreshkaData(clientNew);
             clientNew.setSmotreshkaDatas(listSmotreshka);
         } else {

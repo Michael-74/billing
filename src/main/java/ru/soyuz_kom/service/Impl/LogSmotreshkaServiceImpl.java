@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.entity.LogSmotreshka;
 import ru.soyuz_kom.entity.User;
 import ru.soyuz_kom.repository.LogSmotreshkaRepository;
@@ -25,7 +26,7 @@ public class LogSmotreshkaServiceImpl {
     @Autowired
     UserRepository userRepository;
 
-    public void push(String url, String typeAction, boolean isSuccess, Object request, Object response) {
+    public void push(String url, String typeAction, String methodName, Client client, boolean isSuccess, Object request, Object response) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(auth.getName());
@@ -34,6 +35,8 @@ public class LogSmotreshkaServiceImpl {
         log.setUrl(url);
         log.setTypeAction(typeAction);
         log.setUserId(user.getId());
+        log.setClientId(client.getId());
+        log.setMethod(methodName);
         log.setIsSuccess(isSuccess);
         log.setRequest(request);
         log.setResponse(response);

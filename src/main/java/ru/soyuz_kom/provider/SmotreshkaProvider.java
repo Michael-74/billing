@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.soyuz_kom.dto.smotreshka.*;
+import ru.soyuz_kom.entity.Client;
 import ru.soyuz_kom.helper.RestTemplateHelper;
 
 import java.util.ArrayList;
@@ -24,15 +25,17 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
     private String url;
     private String login;
     private String password;
+    private Client client = null;
 
     public SmotreshkaProvider(RestTemplateHelper restTemplateHelper) {
         this.restTemplateHelper = restTemplateHelper;
     }
 
-    public void init(String url, String login, String password) {
+    public void init(Client client, String url, String login, String password) {
         this.url = url;
         this.login = login;
         this.password = password;
+        this.client = client;
     }
 
     /**
@@ -59,7 +62,13 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(addAccount);
 
         return (AccountNewResponseDTO) restTemplateHelper
-            .exchange(this.url + str, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<AccountNewResponseDTO>() {}
+            .exchange(
+                    this.client,
+                    "addAccount",
+                    this.url + str,
+                    HttpMethod.POST,
+                    httpEntity,
+                    new ParameterizedTypeReference<AccountNewResponseDTO>() {}
             );
     }
 
@@ -72,6 +81,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         try {
             return (AccountListDTO) restTemplateHelper
                     .exchange(
+                            this.client,
+                        "getAccounts",
                         this.url + str,
                         HttpMethod.GET,
                         null,
@@ -94,6 +105,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         return (AccountDTO) restTemplateHelper
             .exchange(
+                    this.client,
+                "getAccountById",
                 this.url + str,
                 HttpMethod.GET,
                 null,
@@ -124,7 +137,10 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
 
-        return (AccountDTO) restTemplateHelper.exchange(this.url + str,
+        return (AccountDTO) restTemplateHelper.exchange(
+                this.client,
+                "setInfoOfAccount",
+                this.url + str,
                 HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<AccountDTO>() {}
@@ -144,6 +160,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(info);
 
         return (AccountPasswordStatusDTO) restTemplateHelper.exchange(
+                this.client,
+                "setResetPasswordOfAccount",
                 this.url + str,
                 HttpMethod.POST,
                 httpEntity,
@@ -161,6 +179,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         return (AccountDeleteDTO) restTemplateHelper
             .exchange(
+                    this.client,
+                    "deleteAccountById",
                     this.url + str,
                     HttpMethod.DELETE,
                     null,
@@ -177,6 +197,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         return (List<AccountSubscriptionsDTO>) restTemplateHelper
             .exchange(
+                    this.client,
+                "getSubscriptionsOfAccount",
                 this.url + str,
                 HttpMethod.GET,
                 null,
@@ -200,6 +222,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
        return (SubscriptionDTO) restTemplateHelper
             .exchange(
+                    this.client,
+                "setSubscriptionOfAccount",
                 this.url + str,
                 HttpMethod.POST,
                 httpEntity,
@@ -218,6 +242,8 @@ public class SmotreshkaProvider implements ProviderSmotreshka {
 
         return (AccountDeleteDTO) restTemplateHelper
             .exchange(
+                    this.client,
+                "deleteAllSubscriptionsOfAccount",
                 this.url + str,
                 HttpMethod.DELETE,
                 null,

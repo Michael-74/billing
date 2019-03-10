@@ -33,11 +33,8 @@ public class EventListener {
         } catch (IOException e) {
             // TODO: поставить logger
             System.out.println("processLogAction error");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
-
-
-
 
         latch.countDown();
     }

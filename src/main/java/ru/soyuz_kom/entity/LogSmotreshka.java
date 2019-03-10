@@ -30,9 +30,17 @@ public class LogSmotreshka extends Datetime implements Serializable {
     @NotNull
     private String url;
 
+    @Column(name = "method")
+    private String method;
+
     @Column(name = "id_user")
     @NotNull
     private Integer userId;
+
+    //@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    //@JoinColumn(name = "id_client", referencedColumnName = "id")
+    @Column(name = "id_client")
+    private Integer clientId;
 
     @Column(name = "is_success")
     private Boolean isSuccess;
@@ -50,6 +58,8 @@ public class LogSmotreshka extends Datetime implements Serializable {
         if (this.isSuccess == null)
             this.isSuccess = false;
         if (this.userId == null)
+            this.userId = 0;
+        if (this.clientId == null)
             this.userId = 0;
     }
 }
