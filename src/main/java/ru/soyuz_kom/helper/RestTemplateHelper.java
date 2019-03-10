@@ -16,8 +16,11 @@ public class RestTemplateHelper {
     @Autowired
     RestTemplate restTemplate;
 
-    @Autowired
-    LogSmotreshkaServiceImpl logActionService;
+    private LogSmotreshkaServiceImpl logActionService;
+
+    public RestTemplateHelper(LogSmotreshkaServiceImpl logActionService) {
+        this.logActionService = logActionService;
+    }
 
     public Object exchange(Client client, String methodName, String url, HttpMethod method, HttpEntity httpEntity, ParameterizedTypeReference object) {
 
@@ -30,13 +33,19 @@ public class RestTemplateHelper {
             );
 
             if(response.getStatusCode().value() == 200) {
-                logActionService.push(url, String.valueOf(method), methodName, client,true, httpEntity, response.getBody());
+                System.out.println("exchange pre-add");
+                this.logActionService.push(url, String.valueOf(method), methodName, client,true, httpEntity, response.getBody());
+                System.out.println("exchange add");
                 return response.getBody();
             }
-            logActionService.push(url, String.valueOf(method), methodName, client,false, httpEntity, null);
+            System.out.println("exchange pre-add null");
+            this.logActionService.push(url, String.valueOf(method), methodName, client,false, httpEntity, null);
+            System.out.println("exchange add null");
             return null;
         } catch(Exception ex) {
-            logActionService.push(url, String.valueOf(method), methodName, client,false, httpEntity, ex);
+            System.out.println("exchange pre-exception null");
+            this.logActionService.push(url, String.valueOf(method), methodName, client,false, httpEntity, ex);
+            System.out.println("exchange exception null");
             return null;
         }
     }

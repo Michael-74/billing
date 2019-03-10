@@ -228,7 +228,14 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public boolean deleteClient(Integer clientId) {
         try {
+            Optional<Client> client = clientRepository.findById(clientId);
             clientRepository.deleteById(clientId);
+            if(client.get().getMikrotikDatas().size() != 0) {
+                mikrotikService.deleteAccount(client.get().getMikrotikDatas());
+            }
+            if(client.get().getSmotreshkaDatas().size() != 0) {
+                smotreshkaService.deleteAccount(client.get(), client.get().getSmotreshkaDatas());
+            }
             System.out.println("deleteClient true");
             return true;
         } catch(Exception ex) {

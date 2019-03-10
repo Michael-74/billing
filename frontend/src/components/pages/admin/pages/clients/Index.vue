@@ -200,11 +200,13 @@ export default {
 
         deleteClient(data => {
             this.$store.commit('deleteClient', data);
+            /*
             this.$notify({
                 group: 'notify',
                 type: 'success ',
                 text: 'Абонент успешно удален'
             });
+            */
         });
     },
     methods: {
@@ -212,7 +214,8 @@ export default {
             this.$store.commit("setClient", item);
         },
         deleteItem(id) {
-            deleteSendClient(id);
+            this.$store.dispatch("deleteClientAsync", {id: id})
+            //deleteSendClient(id);
         }
     },
     computed: {

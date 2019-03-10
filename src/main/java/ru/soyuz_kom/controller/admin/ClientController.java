@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -91,6 +93,8 @@ public class ClientController extends AdminController {
     public ResponseEntity store(@Valid @RequestBody Client client, Errors errors) {
         System.out.println("v1/client/create");
         HashMap error = new HashMap<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("----------------- create client auth " + auth.getName());
 
         if (errors.hasErrors()) {
             List<org.springframework.validation.FieldError> fieldErrors = errors.getFieldErrors();
@@ -248,12 +252,19 @@ public class ClientController extends AdminController {
         }
     }
 
-    @MessageMapping("/deleteClient")
-    @SendTo("/client/deleteClient")
-    public Integer delete(Integer clientId) {
-        System.out.println("delete client " + clientId);
+    //@MessageMapping("/deleteClient")
+    //@SendTo("/client/deleteClient")
+    @PostMapping({"v1/client/{clientId}"})
+    @ResponseBody
+    public ResponseEntity delete(@PathVariable Integer clientId) {
         boolean isDelete = clientService.deleteClient(clientId);
 
-        return clientId;
+        if(isDelete){
+            // Имитируем запрос websocket
+            this.template.convertAndSend("/client/deleteClient", clientId);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 }

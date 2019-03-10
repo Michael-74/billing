@@ -95,7 +95,18 @@ export default {
             };
             http
                 .get('/admin/v1/client/', onMethod)
-        }
+        },
+        deleteClientAsync ({commit, state, rootGetters }, payload) {
+            let onMethod = () => {
+                Vue.prototype.$notify({
+                    group: 'notify',
+                    type: 'success',
+                    text: 'Абонент успешно удален'
+                });
+            };
+            http
+                .post('/admin/v1/client/' + payload.id, payload.id, {}, onMethod);
+        },
     },
     getters: {
         getClients (state) {

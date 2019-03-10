@@ -25,13 +25,15 @@ public class ClientListener {
         this.smotreshkaService = smotreshkaService;
     }
 
+    /*
     @PostRemove
     public void postRemove(Client client) {
         if(client.getMikrotikDatas().size() != 0) {
             mikrotikService.deleteAccount(client.getMikrotikDatas());
         }
         if(client.getSmotreshkaDatas().size() != 0) {
-            smotreshkaService.deleteAccount(client, client.getSmotreshkaDatas());
+            smotreshkaService.deleteAccount(client.getSmotreshkaDatas());
         }
     }
+    */
 }

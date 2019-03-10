@@ -93,8 +93,9 @@ public class SmotreshkaService {
         this.load(client);
         for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
             try {
-                System.out.println("delete smotreshka deleteAccount");
+                System.out.println("delete smotreshka deleteAccount 1");
                 this.smotreshkaProviders.get(smotreshkaData.getSmotreshkaSettingId()).deleteAccountById(smotreshkaData.getSmotreshkaId());
+                System.out.println("delete smotreshka deleteAccount 2");
             } catch (Exception ex) {
                 System.out.println("error delete smotreshka: " + ex);
             }

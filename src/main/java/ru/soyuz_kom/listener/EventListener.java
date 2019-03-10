@@ -29,7 +29,9 @@ public class EventListener {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             LogSmotreshka logSmotreshka = objectMapper.readValue(log, LogSmotreshka.class);
+            System.out.println("processLogAction pre-add");
             logSmotreshkaRepository.save(logSmotreshka);
+            System.out.println("processLogAction add");
         } catch (IOException e) {
             // TODO: поставить logger
             System.out.println("processLogAction error");
