@@ -22,69 +22,15 @@ export default {
     data () {
         return {
             columns: [
-                {
-                    field: 'id',
-                    name: 'ID',
-                    sort: 1,
-                    isShow: true,
-                    width: "50px",
-                },
-                {
-                    field: 'url',
-                    name: 'Строка запроса',
-                    sort: 2,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'service',
-                    name: 'Название услуги',
-                    sort: 3,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'method',
-                    name: 'Название метода',
-                    sort: 4,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'userId',
-                    name: 'Администратор',
-                    sort: 6,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'clientId',
-                    name: 'Абонент',
-                    sort: 7,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'request',
-                    name: 'Тело запроса',
-                    sort: 8,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'response',
-                    name: 'Тело ответа',
-                    sort: 9,
-                    isShow: true,
-                    width: "200px",
-                },
-                {
-                    field: 'createdAt',
-                    name: 'Дата создания',
-                    sort: 70,
-                    isShow: true,
-                    width: "300px",
-                },
+                { field: 'id', name: 'ID', sort: 1, isShow: true, width: "50px" },
+                { field: 'url', name: 'Строка запроса', sort: 2, isShow: true, width: "200px" },
+                { field: 'service', name: 'Название услуги', sort: 3, isShow: true, width: "200px" },
+                { field: 'method', name: 'Название метода', sort: 4, isShow: true, width: "200px" },
+                { field: 'userId', name: 'Администратор', sort: 6, isShow: true, width: "200px" },
+                { field: 'clientId', name: 'Абонент', sort: 7, isShow: true, width: "200px" },
+                { field: 'request', name: 'Тело запроса', sort: 8, isShow: true, width: "200px" },
+                { field: 'response', name: 'Тело ответа', sort: 9, isShow: true, width: "200px" },
+                { field: 'createdAt', name: 'Дата создания', sort: 70, isShow: true, width: "300px" },
             ]
         }
     },
