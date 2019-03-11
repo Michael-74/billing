@@ -118,7 +118,7 @@ public class SmotreshkaService {
 
     public void setSubscriptions(Client client, Set<SmotreshkaData> smotreshkaDatas, List<Integer> subscriptions, boolean isFlag) {
         this.load(client);
-        System.out.println("setSubscriptions: ");
+        System.out.println("setSubscriptions: " + smotreshkaDatas.size());
         for (SmotreshkaData smotreshkaData : smotreshkaDatas) {
             for (Integer subscription : subscriptions) {
                 System.out.println("set purchases: " + subscription + " flag: " + isFlag);
