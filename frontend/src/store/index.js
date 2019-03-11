@@ -14,6 +14,7 @@ import email from './email'
 import setting from './setting'
 import pack from './package'
 import message from './message'
+import log from './log'
 import error from './error'
 
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
         email,
         error,
         message,
+        log,
         setting
     }
 })

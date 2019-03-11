@@ -41,7 +41,9 @@
                             @click="sort(column.field)"
                             v-show="column.isShow"
                         >{{ column.name }}</th>
+                        <!--
                         <th class="items__th items__td_setting">Действие</th>
+                        -->
                     </tr>
                     </thead>
                     <tbody class="items__tbody">
@@ -154,11 +156,12 @@
                                                        }"
                             ></font-awesome-icon>
                         </td>
-
+                        <!--
                         <td class="items__td items__td_setting">
                             <font-awesome-icon class="items__icon" icon="cog" @click="edit(item)"></font-awesome-icon>
                             <font-awesome-icon class="items__icon" icon="times-circle" @click="del(item.id)"></font-awesome-icon>
                         </td>
+                        -->
                     </tr>
                     </tbody>
                 </table>
@@ -307,14 +310,16 @@ export default {
                  });
              }
 
-             options.push({
+            if(this.$route.name !== "Logs") {
+                options.push({
                     name: 'Отредактировать',
                     slug: 'edit'
                 });
-             options.push({
+                options.push({
                     name: 'Удалить',
                     slug: 'delete'
                 });
+            }
 
             return options;
         }

@@ -16,16 +16,10 @@ export default {
         searchLogAsync({commit, state, rootGetters}, payload) {
             let onMethod = (response) => {
                 commit('setLogs', response.data);
-
-                Vue.prototype.$notify({
-                    group: 'notify',
-                    type: 'success ',
-                    text: 'Поиск лога'
-                });
-                //payload.successFunction();
             };
             http
-                .post('/admin/v1/client/log', payload.obj, payload, onMethod);
+                //.post('/admin/v1/log/search', payload.obj, payload, onMethod);
+                .post('/admin/v1/log/search', {}, payload, onMethod);
         }
     },
     getters: {
