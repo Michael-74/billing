@@ -114,7 +114,7 @@ public class MikrotikProvider {
         map.put("value", value);
 
         //return this.exec(this.pathAdressList + "print" + " where " + type + "=" + value);
-        return this.exec(client, "print where", this.ServiceName, "print", map);
+        return this.exec(client, "print where", this.ServiceName, "search", map);
     }
 
     /**
